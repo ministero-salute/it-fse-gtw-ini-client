@@ -1,12 +1,11 @@
 package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
-import java.io.Serializable;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import brave.Tracer;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.Serializable;
 
 /**
  * 

@@ -67,8 +67,6 @@ public class IVLINT
      * <p>
      * You are getting this "catch-all" property because of the following reason: 
      * The field name "High" is used by two different parts of a schema. See: 
-     * line 797 of file:/mnt/c/Users/066070758/Desktop/Progetti/Sogei/SoapINI/GAZELLE/schema/HL7V3/NE2008/coreschemas/datatypes.xsd
-     * line 788 of file:/mnt/c/Users/066070758/Desktop/Progetti/Sogei/SoapINI/GAZELLE/schema/HL7V3/NE2008/coreschemas/datatypes.xsd
      * <p>
      * To get rid of this property, apply a property customization to one 
      * of both of the following declarations to change their names: 

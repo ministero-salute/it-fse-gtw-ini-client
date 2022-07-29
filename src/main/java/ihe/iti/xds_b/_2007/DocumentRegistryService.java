@@ -1,7 +1,6 @@
 
 package ihe.iti.xds_b._2007;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -17,8 +16,11 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "DocumentRegistry_Service", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "file:/mnt/c/Users/066070758/Desktop/Progetti/Sogei/SoapINI/GAZELLE/schema/XDS.b_DocumentRegistry.wsdl")
-public class DocumentRegistryService
+@WebServiceClient(
+        name = "DocumentRegistry_Service",
+        targetNamespace = "urn:ihe:iti:xds-b:2007",
+        wsdlLocation = "classpath:wsdl/XDS.b_DocumentRegistryNew.wsdl"
+)public class DocumentRegistryService
     extends Service
 {
 
@@ -30,8 +32,8 @@ public class DocumentRegistryService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/mnt/c/Users/066070758/Desktop/Progetti/Sogei/SoapINI/GAZELLE/schema/XDS.b_DocumentRegistry.wsdl");
-        } catch (MalformedURLException ex) {
+            url = DocumentRegistryService.class.getClassLoader().getResource("wsdl/XDS.b_DocumentRegistryNew.wsdl");
+        } catch (Exception ex) {
             e = new WebServiceException(ex);
         }
         DOCUMENTREGISTRYSERVICE_WSDL_LOCATION = url;

@@ -1,15 +1,18 @@
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JWTTokenDTO {
+public class JWTTokenDTO extends AbstractDTO {
     
-    private JWTHeaderDTO header;
-
-    private JWTPayloadDTO payload;
+    /**
+	 * Serial version uid.
+	 */
+	private static final long serialVersionUID = -1047169868136987347L;
+	
+	private JWTPayloadDTO payload;
 }

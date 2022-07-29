@@ -1,15 +1,15 @@
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JWTHeaderDTO {
+public class JWTHeaderDTO extends AbstractDTO {
 
 	/**
 	 * Algoritmo utilizzato per la firma del token. Valori ammessi: RS256, RS383, RS512.

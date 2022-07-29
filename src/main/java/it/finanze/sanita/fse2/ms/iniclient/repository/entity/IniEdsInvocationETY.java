@@ -1,19 +1,18 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
 
-import java.util.List;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
 
 
 /**
  * Model to save ini and eds invocation info.
  */
-@Document(collection = "ini_eds_invocation")
+@Document(collection = "#{@iniEdsInvocationBean}")
 @Data
 @NoArgsConstructor
 public class IniEdsInvocationETY {
@@ -23,12 +22,13 @@ public class IniEdsInvocationETY {
 	
 	@Field(name = "workflow_instance_id")
 	private String workflowInstanceId;
-	
+
+	@Field(name = "identificativo_doc_update")
+	private String identificativoDocUpdate;
+
 	@Field(name = "data")
 	private org.bson.Document data;
 	
 	@Field(name = "metadata")
 	private List<org.bson.Document> metadata;
-	
-	 
 }

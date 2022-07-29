@@ -1,11 +1,15 @@
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
-@Getter
-public class JWTPayloadDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class JWTPayloadDTO extends AbstractDTO {
 
 	/**
 	 * Identificativo dell’entità che ha generato il token.
@@ -44,6 +48,8 @@ public class JWTPayloadDTO {
 	 * Formato codifica conforme alle specifiche IHE (ITI TF-3).
 	 */
 	private String sub;
+
+	private String subject_organization;
 
 	/**
 	 * Identificativo del dominio dell’utente (vedi TABELLA ORGANIZZAZIONE).
@@ -97,6 +103,4 @@ public class JWTPayloadDTO {
 	private String action_id;
 
 	private String attachment_hash;
-
-	  
 }

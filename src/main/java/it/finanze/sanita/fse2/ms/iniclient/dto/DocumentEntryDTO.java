@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DocumentEntryDTO {
+public class DocumentEntryDTO extends AbstractDTO {
     private String mimeType;
     private String entryUUID;
     private String creationTime;

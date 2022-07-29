@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubmissionSetEntryDTO {
+public class SubmissionSetEntryDTO extends AbstractDTO {
     private String submissionTime;
     private String sourceId;
     private String contentTypeCode;

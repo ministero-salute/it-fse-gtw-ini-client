@@ -42,7 +42,15 @@ public final class Constants {
 		 * Configuration mongo repository path.
 		 */
 		public static final String REPOSITORY_MONGO = "it.finanze.sanita.fse2.ms.iniclient.repository";
-		 
+
+		public static final class Collections {
+
+			public static final String INI_EDS_INVOCATION = "ini_eds_invocation";
+
+			private Collections() {
+
+			}
+		}
 		
 		private ComponentScan() {
 			//This method is intentionally left blank.
@@ -52,7 +60,8 @@ public final class Constants {
  
 	public static final class Profile {
 		public static final String TEST = "test";
-		
+		public static final String TEST_PREFIX = "test_";
+
 		/**
 		 * Dev profile.
 		 */
@@ -67,14 +76,22 @@ public final class Constants {
 
 	}
 
-	public static final class AppConstants {
+	public static final class IniClientConstants {
 
-        private AppConstants(){}
+        private IniClientConstants(){}
 
-		public static final String AUTHOR_SSN_OID = "^^^^^^^^2.16.840.1.113883.2.9.4.3.2&ISO";
+		public static final String HEADER_READ_ACTION = "urn:ihe:iti:2007:RegistryStoredQuery";
+        public static final String HEADER_CREATE_ACTION = "urn:ihe:iti:2007:RegisterDocumentSet-b";
+		public static final String HEADER_DELETE_ACTION = "urn:ihe:iti:xds-b:2010:XDSDeletetWS:DocumentRegistry_DeleteDocumentSetRequest";
+		public static final String HEADER_AUTH_CONTEXT = "urn:oasis:names:tc:SAML:2.0:ac:classes:X509";
+        public static final String HEADER_ATTRNAME_URI = "urn:oasis:names:tc:SAML:2.0:attrname-format:uri";
+		public static final String GENERIC_SUBJECT_SSN_OID = "^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
+
+		public static final String GENERIC_SSN_OID = "^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
 		public static final String AUTHOR_IVA_OID = "^^^^^^^^&2.16.840.1.113883.2.9.6.3.2%ISO";
 		public static final String AUTHOR_INSTITUTION_OID = "^^^^^&2.16.840.1.113883.2.9.4.1.3&ISO^^^^";
 		public static final String VALID_SSN_OID = "^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
+		public static final String RECORD_NOT_FOUND = "Nessun record trovato";
 	}
   
 	/**

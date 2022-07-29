@@ -7,16 +7,14 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
-
-import org.hl7.v3.MCCIIN000002UV01;
-import org.hl7.v3.PRPAIN201301UV02;
-import org.hl7.v3.PRPAIN201302UV02;
-import org.hl7.v3.PRPAIN201304UV02;
-
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+import org.hl7.v3.MCCIIN000002UV01;
+import org.hl7.v3.PRPAIN201301UV02;
+import org.hl7.v3.PRPAIN201302UV02;
+import org.hl7.v3.PRPAIN201304UV02;
 
 
 /**

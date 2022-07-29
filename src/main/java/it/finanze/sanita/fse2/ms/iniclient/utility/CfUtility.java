@@ -12,7 +12,7 @@ public class CfUtility {
     public static int validaCF(String cfIn) {
         // gli esiti per cf16 sono gli stessi di cf11
         int esito = CF_NON_CORRETTO;
-        if (!Utilities.isNullOrEmpty(cfIn)) {
+        if (!StringUtility.isNullOrEmpty(cfIn)) {
             String cf = cfIn.toUpperCase();
 
             // Controllo lunghezza e formato

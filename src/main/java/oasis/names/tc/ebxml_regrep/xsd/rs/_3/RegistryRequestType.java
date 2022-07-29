@@ -48,6 +48,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotListType;
     "requestSlotList"
 })
 @XmlSeeAlso({
+    AdhocQueryRequest.class,
     SubmitObjectsRequest.class,
     DeprecateObjectsRequest.class,
     ApproveObjectsRequest.class,
@@ -55,8 +56,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotListType;
     RemoveObjectsRequest.class,
     AcceptObjectsRequest.class,
     RelocateObjectsRequest.class,
-    UpdateObjectsRequest.class,
-    AdhocQueryRequest.class
+    UpdateObjectsRequest.class
 })
 public class RegistryRequestType {
 
