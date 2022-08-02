@@ -74,7 +74,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			JWTPayloadDTO jwtPayloadDTO = this.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
 			if (checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				RegistryResponseType res = iniClient.sendDeleteData(
-						deleteRequestDTO.getIdentificativoDocUpdate(),
+						deleteRequestDTO.getIdentificativoDelete(),
 						jwtPayloadDTO
 				);
 				out.setEsito(true);
@@ -91,7 +91,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			}
 
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {}" , deleteRequestDTO.getIdentificativoDocUpdate());
+			log.error("Error while running find and send to ini by document id: {}" , deleteRequestDTO.getIdentificativoDelete());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
@@ -211,6 +211,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	private boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {
-		return deleteRequestDTO.getIdentificativoDocUpdate() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDocUpdate());
+		return deleteRequestDTO.getIdentificativoDelete() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDelete());
 	}
 }

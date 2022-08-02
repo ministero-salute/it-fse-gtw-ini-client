@@ -3,8 +3,6 @@ package it.finanze.sanita.fse2.ms.iniclient.utility;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
-import java.util.Optional;
-
 public class ResponseUtility {
     /**
      * Check if error response

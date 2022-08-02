@@ -63,7 +63,7 @@ public abstract class AbstractTest {
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
                 "/v1/ini-delete";
-        String requestString = "{\"identificativoDocUpdate\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"iss\":\"201123456\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"DELETE\"}";
+        String requestString = "{\"identificativoDelete\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"iss\":\"201123456\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"DELETE\"}";
         DeleteRequestDTO requestBody = JsonUtility.jsonToObject(requestString, DeleteRequestDTO.class);
         HttpEntity<Object> entity = new HttpEntity<>(requestBody, null);
 

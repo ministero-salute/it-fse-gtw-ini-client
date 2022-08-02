@@ -1,12 +1,9 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import lombok.extern.slf4j.Slf4j;
-import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +12,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 
-@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan(basePackages = {Constants.ComponentScan.BASE})
 @ActiveProfiles(Constants.Profile.TEST)
@@ -62,8 +62,8 @@ class IniClientTest extends AbstractTest {
     @Test
     @DisplayName("errorDeleteTest")
     void errorDeleteTest() {
-        String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDocUpdate);
+        String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getErrorMessage());
@@ -73,8 +73,8 @@ class IniClientTest extends AbstractTest {
     @Test
     @DisplayName("successDeleteTest")
     void successDeleteTest() {
-        String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDocUpdate);
+        String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         //assertNull(response.getBody().getErrorMessage());
