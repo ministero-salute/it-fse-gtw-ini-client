@@ -7,13 +7,12 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.ResponseOptionType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AdhocQueryType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
 
 import javax.xml.bind.JAXBElement;
 import java.math.BigInteger;
 import java.util.Collections;
-import java.util.List;
+
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 @Slf4j
 public final class ReadBodyBuilderUtility {
@@ -24,12 +23,12 @@ public final class ReadBodyBuilderUtility {
 
 	/**
 	 *
-	 * @param identificativoDocUpdate
+	 * @param searchId will be identificativoDocUpdate for get reference, or entryUUID for get metadata
 	 * @return
 	 */
-	public static AdhocQueryRequest buildAdHocQueryRequest(String identificativoDocUpdate, ActionEnumType actionType) {
+	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId, ActionEnumType actionType) {
 		try {
-			AdhocQueryType adhocQueryType = buildAdHocQuery(identificativoDocUpdate);
+			AdhocQueryType adhocQueryType = buildAdHocQuery(searchId, actionType);
 			ResponseOptionType responseOptionType = buildResponseOption(actionType);
 
 			AdhocQueryRequest adhocQueryRequest = new AdhocQueryRequest();
@@ -48,14 +47,17 @@ public final class ReadBodyBuilderUtility {
 
 	/**
 	 *
-	 * @param identificativoDocUpdate
+	 * @param searchId
 	 * @return
 	 */
-	private static AdhocQueryType buildAdHocQuery(String identificativoDocUpdate) {
+	private static AdhocQueryType buildAdHocQuery(String searchId, ActionEnumType actionType) {
 		try {
 			AdhocQueryType adhocQuery = new AdhocQueryType();
 			adhocQuery.setId("urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4");
-			adhocQuery.getSlot().add(buildSlotObject("$XDSDocumentEntryUniqueId", null, Collections.singletonList("('" + identificativoDocUpdate + "')")));
+			adhocQuery.getSlot().add(buildSlotObject(
+					actionType == ActionEnumType.READ_REFERENCE ? "$XDSDocumentEntryUniqueId" : "$XDSDocumentEntryEntryUUID",
+					null,
+					Collections.singletonList("('" + searchId + "')")));
 			JAXBElement<AdhocQueryType> jaxbAdhocQuery = objectFactory.createAdhocQuery(adhocQuery);
 			return jaxbAdhocQuery.getValue();
 		} catch(Exception ex) {
@@ -87,31 +89,6 @@ public final class ReadBodyBuilderUtility {
 		} catch (Exception e) {
 			log.error("Error while invoking buildResponseOption: {}", e.getMessage());
 			throw new BusinessException("Error while invoking buildResponseOption: " + e.getMessage());
-		}
-	}
-
-	/**
-	 *
-	 * @param name
-	 * @param type
-	 * @param values
-	 * @return
-	 */
-	private static SlotType1 buildSlotObject(String name, String type, List<String> values) {
-		SlotType1 slotObject = new SlotType1();
-		try {
-			slotObject.setName(name);
-			slotObject.setSlotType(type);
-			ValueListType valueList = new ValueListType();
-			for (String value : values) {
-				valueList.getValue().add(value);
-			}
-			slotObject.setValueList(valueList);
-
-			return slotObject;
-		} catch (Exception e) {
-			log.error("Error while invoking buildSlotObject: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildSlotObject: " + e.getMessage());
 		}
 	}
 }

@@ -1,9 +1,6 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
@@ -63,7 +60,7 @@ public abstract class AbstractTest {
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
                 "/v1/ini-delete";
-        String requestString = "{\"identificativoDelete\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"iss\":\"201123456\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"DELETE\"}";
+        String requestString = "{\"identificativoDocUpdate\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"iss\":\"201123456\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"DELETE\"}";
         DeleteRequestDTO requestBody = JsonUtility.jsonToObject(requestString, DeleteRequestDTO.class);
         HttpEntity<Object> entity = new HttpEntity<>(requestBody, null);
 
@@ -109,13 +106,28 @@ public abstract class AbstractTest {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
-                "/v1/ini-replace/" + identificativoDocUpdate;
+                "/v1/ini-replace";
 
         String stringObj = "{\"identificativoDocUpdate\":\"<ID_DOC>\",\"workflowInstanceId\":\"<WORKFLOW_ID>\"}";
-        stringObj.replace("<ID_DOC>", identificativoDocUpdate);
-        stringObj.replace("<WORKFLOW_ID>", workflowInstanceId);
+        stringObj = stringObj
+                .replace("<ID_DOC>", identificativoDocUpdate)
+                .replace("<WORKFLOW_ID>", workflowInstanceId);
         ReplaceRequestDTO requestDTO = JsonUtility.jsonToObject(stringObj, ReplaceRequestDTO.class);
         HttpEntity<Object> entity = new HttpEntity<>(requestDTO, null);
+
+        return restTemplate.exchange(url, HttpMethod.PUT, entity, IniTraceResponseDTO.class);
+    }
+
+    /**
+     * call update metadata on ini
+     */
+    ResponseEntity<IniTraceResponseDTO> callUpdateIniClient(UpdateRequestDTO updateRequestDTO) {
+        String url = "http://localhost:" +
+                webServerAppCtxt.getWebServer().getPort() +
+                webServerAppCtxt.getServletContext().getContextPath() +
+                "/v1/ini-update";
+
+        HttpEntity<Object> entity = new HttpEntity<>(updateRequestDTO, null);
 
         return restTemplate.exchange(url, HttpMethod.PUT, entity, IniTraceResponseDTO.class);
     }

@@ -8,6 +8,7 @@ import ihe.iti.xds_b._2007.*;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
 import ihe.iti.xds_b._2010.XDSDeletetWSService;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
@@ -16,17 +17,18 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.create.ReplaceBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishBodyBuilderUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.RemoveObjectsRequestType;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,13 +93,13 @@ public class IniClient implements IIniClient {
 
 				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
 				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
-				SubmitObjectsRequest submitObjectsRequest = PublishBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload());
+				SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), null);
 
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (Exception ex) {
-			log.error("Error while send data to ini: " + ex.getMessage());
-			throw new BusinessException("Error while send data to ini:" + ex.getMessage());
+			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 		return out;
 	}
@@ -144,14 +146,14 @@ public class IniClient implements IIniClient {
 				return holder.value;
 			}
 		} catch (Exception ex) {
-			log.error("Error while send data to ini: " + ex.getMessage());
-			throw new BusinessException("Error while send data to ini:" + ex.getMessage());
+			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 	}
 
 	@Override
-	public RegistryResponseType sendUpdateData(Document documentEntry, Document submissionSetEntry, Document jwtToken) {
-		log.info("Call to INI update");
+	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO) {
+		/*log.info("Call to INI update");
 		RegistryResponseType out = null;
 		try {
 			SSLContext sslContext = securitySRV.createSslCustomContext();
@@ -165,9 +167,15 @@ public class IniClient implements IIniClient {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
+			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
+			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
 			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.UPDATE);
+
+			// Get reference from INI UUID
+			String uuid = this.getReferenceUUID(updateRequestDTO.getIdDoc(), jwtTokenDTO);
+			AdhocQueryResponse queryResponse = this.getReferenceMetadata(uuid, jwtTokenDTO);
+			RegistryObjectListType metadata = queryResponse.getRegistryObjectList();
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				bp.setOutboundHeaders(headers);
@@ -179,16 +187,22 @@ public class IniClient implements IIniClient {
 					bindingProvider.setHandlerChain(handlerChain);
 				}
 
-				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
-				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
-				SubmitObjectsRequest submitObjectsRequest = PublishBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload());
+				///TODO: complete
+				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(
+						updateRequestDTO,
+						metadata,
+						uuid,
+						reconfiguredToken
+				);
 
 				//out = port.documentRegistryUpdateDocumentSet(submitObjectsRequest);
 			}
 		} catch (Exception ex) {
-			log.error("Error while send data to ini: " + ex.getMessage());
-			throw new BusinessException("Error while send data to ini:" + ex.getMessage());
-		}
+			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+		}*/
+		log.info("Call to INI update - MOCK client");
+		RegistryResponseType out = new RegistryResponseType();
 		return out;
 	}
 
@@ -229,13 +243,13 @@ public class IniClient implements IIniClient {
 
 				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
 				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
-				SubmitObjectsRequest submitObjectsRequest = ReplaceBodyBuilderUtility.buildSubmitObjectRequest(uuid, documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload());
+				SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid);
 
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (Exception ex) {
-			log.error("Error while send data to ini: " + ex.getMessage());
-			throw new BusinessException("Error while send data to ini:" + ex.getMessage());
+			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 		return out;
 	}
@@ -278,13 +292,13 @@ public class IniClient implements IIniClient {
 				return uuid;
 			}
 		} catch (Exception ex) {
-			log.error("Error while send data to ini: " + ex.getMessage());
-			throw new BusinessException("Error while send data to ini:" + ex.getMessage());
+			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 	}
 
 	@Override
-	public AdhocQueryResponse getReferenceMetadata(String identificativoDocUpdate, JWTTokenDTO jwtToken) {
+	public AdhocQueryResponse getReferenceMetadata(String uuid, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference metadata");
 		try {
 			SSLContext sslContext = securitySRV.createSslCustomContext();
@@ -311,7 +325,7 @@ public class IniClient implements IIniClient {
 					bindingProvider.setHandlerChain(handlerChain);
 				}
 
-				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(identificativoDocUpdate, ActionEnumType.READ_METADATA);
+				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
 					throw new NoRecordFoundException("Record non trovato su INI");
@@ -319,8 +333,8 @@ public class IniClient implements IIniClient {
 				return response;
 			}
 		} catch (Exception ex) {
-			log.error("Error while send data to ini: " + ex.getMessage());
-			throw new BusinessException("Error while send data to ini:" + ex.getMessage());
+			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 	}
 

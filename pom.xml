@@ -33,7 +33,7 @@
 			src/main/java/ihe/**/*.*,
 			src/main/java/oasis/**/*.*,
 			src/main/java/org/**/*.*
-		</sonar.exclusions>
+		</sonar.exclusions>		
 
 	</properties>
 
@@ -211,11 +211,8 @@
 						<exclude>src/main/java/ihe/**/*.*</exclude>
 						<exclude>src/main/java/oasis/**/*.*</exclude>
 						<exclude>src/main/java/org/**/*.*</exclude>
-						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/utility/CfUtility.java</exclude>
-						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/utility/FileUtility.java</exclude>
-						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/utility/JsonUtility.java</exclude>
-						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/utility/StringUtility.java</exclude>
-						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/client/impl/SOAPLoggingHandler.java</exclude>
+						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/utility/**/*.*</exclude>
+						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/client/**/*.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

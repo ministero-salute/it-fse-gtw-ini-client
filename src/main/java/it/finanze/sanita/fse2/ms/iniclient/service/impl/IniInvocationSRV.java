@@ -31,7 +31,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	private IniInvocationRepo iniInvocationRepo;
 
 	@Autowired
-	private IIniClient iniClient;
+	private transient IIniClient iniClient;
 
 	@Override
 	public IniResponseDTO publishByWorkflowInstanceId(final String workflowInstanceId) {
@@ -48,7 +48,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 					if (ResponseUtility.isErrorResponse(res)) {
 						out.setEsito(false);
 						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							errorMsg.append(" SEVERITY : ").append(error.getSeverity()).append(" ERROR_CODE : ").append(error.getErrorCode());
+							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 						}
 						out.setErrorMessage(errorMsg.toString());
 					}  
@@ -74,14 +74,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			JWTPayloadDTO jwtPayloadDTO = this.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
 			if (checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				RegistryResponseType res = iniClient.sendDeleteData(
-						deleteRequestDTO.getIdentificativoDelete(),
+						deleteRequestDTO.getIdentificativoDocUpdate(),
 						jwtPayloadDTO
 				);
 				out.setEsito(true);
 				if (ResponseUtility.isErrorResponse(res)) {
 					out.setEsito(false);
 					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-						errorMsg.append(" SEVERITY : ").append(error.getSeverity()).append(" ERROR_CODE : ").append(error.getErrorCode());
+						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 					}
 					out.setErrorMessage(errorMsg.toString());
 				}
@@ -91,7 +91,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			}
 
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {}" , deleteRequestDTO.getIdentificativoDelete());
+			log.error("Error while running find and send to ini by document id: {}" , deleteRequestDTO.getIdentificativoDocUpdate());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
@@ -121,32 +121,21 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	@Override
-	public IniResponseDTO updateByWorkflowInstanceId(String identificativoDocUpdate) {
+	public IniResponseDTO updateByRequestBody(UpdateRequestDTO updateRequestDTO) {
 		IniResponseDTO out = new IniResponseDTO();
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(identificativoDocUpdate);
-			if (iniInvocationETY != null) {
-				DocumentTreeDTO documentTreeDTO = extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
-
-				if (documentTreeDTO.checkIntegrity()) {
-					RegistryResponseType res = iniClient.sendUpdateData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
-					out.setEsito(true);
-					if (ResponseUtility.isErrorResponse(res)) {
-						out.setEsito(false);
-						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							errorMsg.append(" SEVERITY : ").append(error.getSeverity()).append(" ERROR_CODE : ").append(error.getErrorCode());
-						}
-						out.setErrorMessage(errorMsg.toString());
-					}
-				}
-			} else {
+			RegistryResponseType res = iniClient.sendUpdateData(updateRequestDTO);
+			out.setEsito(true);
+			if (ResponseUtility.isErrorResponse(res)) {
 				out.setEsito(false);
-				out.setErrorMessage(Constants.IniClientConstants.RECORD_NOT_FOUND);
+				for (RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+					errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+				}
+				out.setErrorMessage(errorMsg.toString());
 			}
-
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {}" , identificativoDocUpdate);
+			log.error("Error while running find and send to ini by document id: {}" , updateRequestDTO.getIdDoc());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
@@ -168,7 +157,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 					if (ResponseUtility.isErrorResponse(res)) {
 						out.setEsito(false);
 						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							errorMsg.append(" SEVERITY : ").append(error.getSeverity()).append(" ERROR_CODE : ").append(error.getErrorCode());
+							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 						}
 						out.setErrorMessage(errorMsg.toString());
 					}
@@ -211,6 +200,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	private boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {
-		return deleteRequestDTO.getIdentificativoDelete() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDelete());
+		return deleteRequestDTO.getIdentificativoDocUpdate() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDocUpdate());
 	}
 }

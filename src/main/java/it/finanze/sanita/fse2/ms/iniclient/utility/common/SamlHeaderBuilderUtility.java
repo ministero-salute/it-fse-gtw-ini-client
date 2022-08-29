@@ -482,6 +482,9 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	public JWTTokenDTO extractTokenEntry(Document jwtToken) {
-		return JsonUtility.clone(jwtToken, JWTTokenDTO.class);
+		JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
+		JWTPayloadDTO payloadDTO = JsonUtility.clone(jwtToken.get("payload"), JWTPayloadDTO.class);
+		jwtTokenDTO.setPayload(payloadDTO);
+		return jwtTokenDTO;
 	}
 }

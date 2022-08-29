@@ -4,8 +4,10 @@ import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,15 +40,15 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
     @Override
     public IniTraceResponseDTO delete(final DeleteRequestDTO requestBody, HttpServletRequest request) {
-        log.info("document id received: " + requestBody.getIdentificativoDelete() + ", calling ini delete client...");
+        log.info("document id received: " + requestBody.getIdentificativoDocUpdate() + ", calling ini delete client...");
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
-    public IniTraceResponseDTO update(final String workflowInstanceId, HttpServletRequest request) {
-        log.info("Workflow instance id received:" + workflowInstanceId +", calling ini update client...");
-        IniResponseDTO res = iniInvocationSRV.updateByWorkflowInstanceId(workflowInstanceId);
+    public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
+        log.info("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
+        IniResponseDTO res = iniInvocationSRV.updateByRequestBody(requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
