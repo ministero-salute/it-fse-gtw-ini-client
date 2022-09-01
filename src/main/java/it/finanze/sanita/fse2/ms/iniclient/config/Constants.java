@@ -79,13 +79,9 @@ public final class Constants {
 	public static final class IniClientConstants {
 		public static final String SEVERITY_HEAD_ERROR_MESSAGE = " SEVERITY : ";
 		public static final String DEFAULT_HEAD_ERROR_MESSAGE = "Error while send data to ini: ";
-		public static final String HEADER_READ_ACTION = "urn:ihe:iti:2007:RegistryStoredQuery";
-        public static final String HEADER_CREATE_ACTION = "urn:ihe:iti:2007:RegisterDocumentSet-b";
-		public static final String HEADER_DELETE_ACTION = "urn:ihe:iti:xds-b:2010:XDSDeletetWS:DocumentRegistry_DeleteDocumentSetRequest";
 		public static final String HEADER_AUTH_CONTEXT = "urn:oasis:names:tc:SAML:2.0:ac:classes:X509";
         public static final String HEADER_ATTRNAME_URI = "urn:oasis:names:tc:SAML:2.0:attrname-format:uri";
 		public static final String GENERIC_SUBJECT_SSN_OID = "^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
-
 		public static final String GENERIC_SSN_OID = "^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
 		public static final String AUTHOR_IVA_OID = "^^^^^^^^&2.16.840.1.113883.2.9.6.3.2%ISO";
 		public static final String AUTHOR_INSTITUTION_OID = "^^^^^&2.16.840.1.113883.2.9.4.1.3&ISO^^^^";

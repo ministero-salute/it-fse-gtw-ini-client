@@ -34,6 +34,7 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.xml.ws.Binding;
@@ -60,19 +61,40 @@ public class IniClient implements IIniClient {
 
 	@Autowired
 	private ISecuritySRV securitySRV;
+	
+	private SSLContext sslContext;
+	
+	private DocumentRegistryService documentRegistryService;
+	
+	private XDSDeletetWSService deletetWSService;
+	
+	@PostConstruct
+	void postConstruct() {
+		try {
+			sslContext = securitySRV.createSslCustomContext();
+			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			
+			documentRegistryService = new DocumentRegistryService();
+			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {
+				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlPublishLocation()));
+			}  
+			
+			deletetWSService = new XDSDeletetWSService();
+			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlDeleteLocation())) {
+				deletetWSService = new XDSDeletetWSService(new URL(iniCFG.getWsdlDeleteLocation()));
+			}
+		} catch(Exception ex) {
+			log.error("Error while initialiting INI context : " , ex);
+			throw new BusinessException(ex);
+		}
+	}
 
+	 
 	@Override
 	public RegistryResponseType sendPublicationData(final Document documentEntry, final Document submissionSetEntry, final Document jwtToken) {
 		log.info("Call to INI publication");
 		RegistryResponseType out = null;
-		try {
-			SSLContext sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-			
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {
-				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlPublishLocation()));
-			}  
+		try { 
 			
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
@@ -107,14 +129,7 @@ public class IniClient implements IIniClient {
 	@Override
 	public RegistryResponseType sendDeleteData(String identificativoDocUpdate, JWTPayloadDTO jwtPayloadDTO) {
 		log.info("Call to INI delete");
-		try {
-			SSLContext sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-			XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlDeleteLocation())) {
-				deletetWSService = new XDSDeletetWSService(new URL(iniCFG.getWsdlDeleteLocation()));
-			}
+		try { 
 
 			XDSDeletetWS port = deletetWSService.getXDSDeletetWSSPort();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
@@ -145,6 +160,8 @@ public class IniClient implements IIniClient {
 				port.documentRegistryDeleteDocumentSet(removeObjectsRequest, holder);
 				return holder.value;
 			}
+		} catch (NoRecordFoundException ne) {
+			throw ne;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -153,17 +170,9 @@ public class IniClient implements IIniClient {
 
 	@Override
 	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO) {
-		/*log.info("Call to INI update");
+		log.info("Call to INI update");
 		RegistryResponseType out = null;
-		try {
-			SSLContext sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {
-				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlPublishLocation()));
-			}
-
+		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
@@ -187,22 +196,16 @@ public class IniClient implements IIniClient {
 					bindingProvider.setHandlerChain(handlerChain);
 				}
 
-				///TODO: complete
-				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(
-						updateRequestDTO,
-						metadata,
-						uuid,
-						reconfiguredToken
-				);
-
-				//out = port.documentRegistryUpdateDocumentSet(submitObjectsRequest);
+				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata,
+						uuid,reconfiguredToken);
+				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
+		} catch (NoRecordFoundException ne) {
+			throw ne;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
-		}*/
-		log.info("Call to INI update - MOCK client");
-		RegistryResponseType out = new RegistryResponseType();
+		}
 		return out;
 	}
 
@@ -210,15 +213,7 @@ public class IniClient implements IIniClient {
 	public RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken) {
 		log.info("Call to INI replace");
 		RegistryResponseType out = null;
-		try {
-			SSLContext sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {
-				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlPublishLocation()));
-			}
-
+		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
@@ -257,15 +252,7 @@ public class IniClient implements IIniClient {
 	@Override
 	public String getReferenceUUID(String identificativoDocUpdate, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference");
-		try {
-			SSLContext sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlGetLocation())) {
-				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlGetLocation()));
-			}
-
+		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
@@ -291,6 +278,8 @@ public class IniClient implements IIniClient {
 				log.info("Found uuid: {}", uuid);
 				return uuid;
 			}
+		} catch(NoRecordFoundException ne) {
+			throw ne;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -300,15 +289,7 @@ public class IniClient implements IIniClient {
 	@Override
 	public AdhocQueryResponse getReferenceMetadata(String uuid, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference metadata");
-		try {
-			SSLContext sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlGetLocation())) {
-				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlGetLocation()));
-			}
-
+		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
@@ -341,28 +322,8 @@ public class IniClient implements IIniClient {
 	private JWTTokenDTO configureTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
 		log.info("Reconfiguring token per action");
 		JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
-		switch (actionType) {
-			case CREATE:
-			case REPLACE:
-				jwtPayloadDTO.setAction_id("CREATE");
-				jwtPayloadDTO.setPurpose_of_use("TREATMENT");
-				break;
-			case READ_REFERENCE:
-			case READ_METADATA:
-				jwtPayloadDTO.setAction_id("READ");
-				jwtPayloadDTO.setPurpose_of_use("TREATMENT");
-				break;
-			case UPDATE:
-				jwtPayloadDTO.setAction_id("UPDATE");
-				jwtPayloadDTO.setPurpose_of_use("TREATMENT");
-				break;
-			case DELETE:
-				jwtPayloadDTO.setAction_id("DELETE");
-				jwtPayloadDTO.setPurpose_of_use("SYSADMIN");
-				break;
-			default:
-				throw new BusinessException("Action not configured");
-		}
+		jwtPayloadDTO.setAction_id(actionType.getActionId());
+		jwtPayloadDTO.setPurpose_of_use(actionType.getPurposeOfUse()); 
 		jwtTokenDTO.setPayload(jwtPayloadDTO);
 		return jwtTokenDTO;
 	}

@@ -1,18 +1,23 @@
 package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 /**
  *
@@ -58,4 +63,28 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         IniResponseDTO res = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
+
+	@Override
+	public AdhocQueryResponse getMetadati(String oid,GetMetadatiReqDTO req, HttpServletRequest request) {
+		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
+		JWTTokenDTO token = new JWTTokenDTO();
+		token.setPayload(buildPayloadFromReq(req));
+		return iniInvocationSRV.getMetadati(oid, token);
+	}
+	
+	private JWTPayloadDTO buildPayloadFromReq(final GetMetadatiReqDTO req) {
+		return JWTPayloadDTO.builder().
+				action_id(req.getAction_id()).
+				iss(req.getIss()).
+				locality(req.getLocality()).
+				person_id(req.getPerson_id()).
+				purpose_of_use(req.getPurpose_of_use()).
+				resource_hl7_type(req.getResource_hl7_type()).
+				sub(req.getSub()).
+				subject_organization(req.getSubject_organization()).
+				subject_organization_id(req.getSubject_organization_id()).
+				subject_role(req.getSubject_role()).
+				patient_consent(req.isPatient_consent()).
+				build();
+	}
 }

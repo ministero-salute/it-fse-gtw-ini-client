@@ -43,7 +43,6 @@ public class SecuritySRV implements ISecuritySRV {
             KeyStore trustStore = this.loadTrustStore();
             trustManagerFactory.init(trustStore);
 
-
             sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
         } catch (Exception e) {
             log.error("Failed to create SSLContext:" + e.getMessage());

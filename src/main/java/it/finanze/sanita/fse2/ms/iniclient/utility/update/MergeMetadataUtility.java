@@ -2,8 +2,10 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
 
@@ -24,7 +26,17 @@ public class MergeMetadataUtility {
      * @param classificationObjectList
      */
     public static void mergeEventTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO, List<ClassificationType> classificationObjectList) {
-        ///TODO: complete
+        String requestUUID = StringUtility.generateUUID();
+        // Slots 8-N
+        for (String eventCode : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
+            SlotType1 classificationObjNSlot1 = buildSlotObject(Constants.IniClientConstants.CODING_SCHEME, null, Collections.singletonList("2.16.840.1.113883.2.9.3.3.6.1.3"));
+            List<SlotType1> classificationObjNSlots = new ArrayList<>();
+            classificationObjNSlots.add(classificationObjNSlot1);
+            InternationalStringType nameN = buildInternationalStringType(Collections.singletonList(EventCodeEnum.fromValue(eventCode).getDescription()));
+            ClassificationType classificationObjectN = buildClassificationObject(null, "urn:uuid:f0306f51-975f-434e-a61c-c59651d33983",
+                    Constants.IniClientConstants.URN_UUID + requestUUID, "IdEventCodeList", nameN, classificationObjNSlots, Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN, eventCode);
+            classificationObjectList.add(classificationObjectN);
+        }
     }
 
     /**
@@ -168,7 +180,9 @@ public class MergeMetadataUtility {
      */
     public static JAXBElement<ClassificationType> mergeAuthorClassificationObject(
             ObjectFactory objectFactory,
-            List<ClassificationType> classificationList) {
+            List<ClassificationType> classificationList,
+            String generatedUUID
+    ) {
         try {
             ClassificationType authorClassificationObject = classificationList.stream()
                     .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d"))
@@ -202,7 +216,7 @@ public class MergeMetadataUtility {
                     objectFactory,
                     null,
                     "urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
-                    Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,   ///TODO: verify: id of registry package object
+                    generatedUUID,
                     "SubmissionSet01_ClassificationAuthor",
                     null,
                     classificationObjAuthorSlots,
@@ -222,7 +236,8 @@ public class MergeMetadataUtility {
      */
     public static JAXBElement<ClassificationType> mergeContentTypeCodeClassificationObject(
             ObjectFactory objectFactory,
-            PublicationMetadataReqDTO updateRequestBodyDTO
+            PublicationMetadataReqDTO updateRequestBodyDTO,
+            String generatedUUID
     ) {
         try {
             InternationalStringType contentTypeCodeName = buildInternationalStringType(Collections.singletonList(updateRequestBodyDTO.getTipoAttivitaClinica().getDescription()));
@@ -238,7 +253,7 @@ public class MergeMetadataUtility {
                     objectFactory,
                     null,
                     "urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",
-                    Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,   ///TODO: verify: id of registry package object
+                    generatedUUID,
                     "SubmissionSet01_ClinicalActivity",
                     contentTypeCodeName,
                     classificationObjContentTypeCodeSlots,

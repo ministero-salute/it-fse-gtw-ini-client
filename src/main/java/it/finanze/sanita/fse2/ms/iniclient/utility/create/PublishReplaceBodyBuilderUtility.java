@@ -4,17 +4,20 @@ import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.CfUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
+import org.springframework.util.CollectionUtils;
 
 import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.*;
 
 @Slf4j
@@ -31,12 +34,8 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequest(
-			DocumentEntryDTO documentEntryDTO,
-			SubmissionSetEntryDTO submissionSetEntryDTO,
-			JWTPayloadDTO jwtPayloadDTO,
-			String uuid
-	) {
+	public static SubmitObjectsRequest buildSubmitObjectRequest(DocumentEntryDTO documentEntryDTO,
+			SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
 		try {
 			RegistryObjectListType registryObjectListType = buildRegistryObjectList(documentEntryDTO, submissionSetEntryDTO, jwtPayloadDTO, uuid);
@@ -55,11 +54,8 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	private static RegistryObjectListType buildRegistryObjectList(
-			DocumentEntryDTO documentEntryDTO,
-			SubmissionSetEntryDTO submissionSetEntryDTO,
-			JWTPayloadDTO jwtPayloadDTO,
-			String uuid) {
+	private static RegistryObjectListType buildRegistryObjectList(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,
+			JWTPayloadDTO jwtPayloadDTO,String uuid) {
 		RegistryObjectListType registryObjectListType = new RegistryObjectListType();
 
 		try {
@@ -72,21 +68,14 @@ public final class PublishReplaceBodyBuilderUtility {
 
 			//Registry package
 			JAXBElement<RegistryPackageType> registryPackageObject = buildRegistryPackageObject(
-					documentEntryDTO,
-					submissionSetEntryDTO,
-					jwtPayloadDTO
-			);
+					documentEntryDTO,submissionSetEntryDTO,jwtPayloadDTO);
 			registryObjectListType.getIdentifiable().add(registryPackageObject);
 
 			//Classification Object
 			JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax(
-					objectFactory,
-					"urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",
-					null,
-					Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-					"SubmissionSet01_Submission",
-					null, null, null, null
-			);
+					objectFactory,"urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",
+					null,Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,"SubmissionSet01_Submission",
+					null, null, null, null);
 			registryObjectListType.getIdentifiable().add(classificationObject);
 
 			//Association object
@@ -96,23 +85,14 @@ public final class PublishReplaceBodyBuilderUtility {
 
 			JAXBElement<AssociationType1> associationObject = null;
 			if (uuid == null) {
-				associationObject = buildAssociationObject(
-						objectFactory,
-						"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
-						"SubmissionSet01_Association_1",
+				associationObject = buildAssociationObject(objectFactory,
+						"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember","SubmissionSet01_Association_1",
 						Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-						Constants.IniClientConstants.URN_UUID + requestUUID,
-						associationObjectSlots
-				);
+						Constants.IniClientConstants.URN_UUID + requestUUID,associationObjectSlots);
 			} else {
-				associationObject = buildAssociationObject(
-						objectFactory,
-						"urn:ihe:iti:2007:AssociationType:RPLC",
-						"SubmissionSet01_Association_1",
-						documentEntryDTO.getEntryUUID(),
-						uuid,
-						associationObjectSlots
-				);
+				associationObject = buildAssociationObject(objectFactory,
+						"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet01_Association_1",
+						documentEntryDTO.getEntryUUID(),uuid,associationObjectSlots);
 			}
 			registryObjectListType.getIdentifiable().add(associationObject);
 		} catch(Exception ex) {
@@ -135,13 +115,8 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	private static JAXBElement<ExtrinsicObjectType> buildExtrinsicObject(
-			String id,
-			String mimeType,
-			DocumentEntryDTO documentEntryDTO,
-			String requestUUID,
-			JWTPayloadDTO jwtPayloadDTO
-	) {
+	private static JAXBElement<ExtrinsicObjectType> buildExtrinsicObject(String id,String mimeType,
+			DocumentEntryDTO documentEntryDTO,String requestUUID,JWTPayloadDTO jwtPayloadDTO) {
 
 		JAXBElement<ExtrinsicObjectType> output = null;
 		try {
@@ -283,14 +258,9 @@ public final class PublishReplaceBodyBuilderUtility {
 			InternationalStringType name5 = buildInternationalStringType(
 					new ArrayList<>(Collections.singleton(documentEntryDTO.getHealthcareFacilityTypeCodeName())));
 			ClassificationType classificationObject5 = buildClassificationObject(
-					null,
-					"urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1",
-					Constants.IniClientConstants.URN_UUID + requestUUID,
-					"healthcareFacilityTypeCode_1",
-					name5,
-					classificationObj5Slots,
-					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,
-					documentEntryDTO.getHealthcareFacilityTypeCode()
+					null,"urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1",Constants.IniClientConstants.URN_UUID + requestUUID,
+					"healthcareFacilityTypeCode_1",name5,
+					classificationObj5Slots,Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,documentEntryDTO.getHealthcareFacilityTypeCode()
 			);
 			out.add(classificationObject5);
 
@@ -312,6 +282,19 @@ public final class PublishReplaceBodyBuilderUtility {
 			ClassificationType classificationObject7 = buildClassificationObject(null,"urn:uuid:f0306f51-975f-434e-a61c-c59651d33983",
 					Constants.IniClientConstants.URN_UUID + requestUUID,"typeCode_1",name7,classificationObj7Slots,Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,documentEntryDTO.getTypeCode());
 			out.add(classificationObject7);
+
+			// Slots 8-N
+			if (!CollectionUtils.isEmpty(documentEntryDTO.getEventCodeList())) {
+				for (String eventCode : documentEntryDTO.getEventCodeList()) {
+					SlotType1 classificationObjNSlot1 = buildSlotObject(Constants.IniClientConstants.CODING_SCHEME, null, Collections.singletonList("2.16.840.1.113883.2.9.3.3.6.1.3"));
+					List<SlotType1> classificationObjNSlots = new ArrayList<>();
+					classificationObjNSlots.add(classificationObjNSlot1);
+					InternationalStringType nameN = buildInternationalStringType(Collections.singletonList(EventCodeEnum.fromValue(eventCode).getDescription()));
+					ClassificationType classificationObjectN = buildClassificationObject(null, "urn:uuid:f0306f51-975f-434e-a61c-c59651d33983",
+							Constants.IniClientConstants.URN_UUID + requestUUID, "IdEventCodeList", nameN, classificationObjNSlots, Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN, eventCode);
+					out.add(classificationObjectN);
+				}
+			}
 		} catch(Exception ex) {
 			log.error("Error while perform buildExtrinsicClassificationObjects : " , ex);
 			throw new BusinessException("Error while perform buildExtrinsicClassificationObjects : " , ex);
@@ -327,10 +310,8 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	private static JAXBElement<RegistryPackageType> buildRegistryPackageObject(
-			DocumentEntryDTO documentEntryDTO,
-			SubmissionSetEntryDTO submissionSetEntryDTO,
-			JWTPayloadDTO jwtPayloadDTO) {
+	private static JAXBElement<RegistryPackageType> buildRegistryPackageObject(DocumentEntryDTO documentEntryDTO,
+			SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
 
 		RegistryPackageType registryPackageObject = new RegistryPackageType();
 
@@ -342,12 +323,7 @@ public final class PublishReplaceBodyBuilderUtility {
 			registryPackageObject.setDescription(null);
 			
 			List<String> slotValues = new ArrayList<>(Collections.singletonList(submissionSetEntryDTO.getSubmissionTime()));
-			JAXBElement<SlotType1> slotObject = buildSlotObjectJax(
-					objectFactory,
-					"submissionTime",
-					null,
-					slotValues
-			);
+			JAXBElement<SlotType1> slotObject = buildSlotObjectJax(objectFactory,"submissionTime",null,slotValues);
 			registryPackageObject.getSlot().add(slotObject.getValue());
 
 			String authorInstitution = documentEntryDTO.getRepresentedOrganizationName() + Constants.IniClientConstants.AUTHOR_INSTITUTION_OID + documentEntryDTO.getRepresentedOrganizationCode();
@@ -367,17 +343,9 @@ public final class PublishReplaceBodyBuilderUtility {
 			classificationObj1Slots.add(classificationObj1Slot2);
 			classificationObj1Slots.add(classificationObj1Slot3);
 
-			JAXBElement<ClassificationType> classificationObject1 = buildClassificationObjectJax(
-					objectFactory,
-					null,
-					"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
-					Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-					"SubmissionSet01_ClassificationAuthor",
-					null,
-					classificationObj1Slots,
-					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,
-					""
-			);
+			JAXBElement<ClassificationType> classificationObject1 = buildClassificationObjectJax(objectFactory,
+					null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
+					"SubmissionSet01_ClassificationAuthor",null,classificationObj1Slots,Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,"");
 			registryPackageObject.getClassification().add(classificationObject1.getValue());
 
 			InternationalStringType name2 = buildInternationalStringType(Collections.singletonList(submissionSetEntryDTO.getContentTypeCodeName()));
@@ -389,24 +357,16 @@ public final class PublishReplaceBodyBuilderUtility {
 			List<SlotType1> classificationObj2Slots = new ArrayList<>();
 			classificationObj2Slots.add(classificationObj2Slot1);
 
-			JAXBElement<ClassificationType> classificationObject2 = buildClassificationObjectJax(
-					objectFactory,
-					null,
-					"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",
-					Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-					"SubmissionSet01_ClinicalActivity",
-					name2,
-					classificationObj2Slots,
-					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,
-					submissionSetEntryDTO.getContentTypeCode()
+			JAXBElement<ClassificationType> classificationObject2 = buildClassificationObjectJax(objectFactory,
+					null,"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
+					"SubmissionSet01_ClinicalActivity",name2,classificationObj2Slots,
+					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,submissionSetEntryDTO.getContentTypeCode()
 			);
 			registryPackageObject.getClassification().add(classificationObject2.getValue());
 
 			// Build external identifiers
 			JAXBElement<ExternalIdentifierType> externalIdentifierObject1 = buildExternalIdentifierObjectJax(
-					objectFactory,
-					"XDSSubmissionSet.sourceId",
-					"SubmissionSet01_SourceId",
+					objectFactory,"XDSSubmissionSet.sourceId","SubmissionSet01_SourceId",
 					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
 					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
 					Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
@@ -414,8 +374,7 @@ public final class PublishReplaceBodyBuilderUtility {
 			registryPackageObject.getExternalIdentifier().add(externalIdentifierObject1.getValue());
 
 			JAXBElement<ExternalIdentifierType> externalIdentifierObject2 = buildExternalIdentifierObjectJax(
-					objectFactory,
-					"XDSSubmissionSet.uniqueId",
+					objectFactory,"XDSSubmissionSet.uniqueId",
 					"SubmissionSet01_UniqueId",
 					"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
 					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
