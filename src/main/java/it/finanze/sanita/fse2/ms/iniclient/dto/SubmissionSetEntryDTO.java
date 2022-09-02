@@ -3,12 +3,14 @@ package it.finanze.sanita.fse2.ms.iniclient.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@EqualsAndHashCode(callSuper = true)
 public class SubmissionSetEntryDTO extends AbstractDTO {
     private String submissionTime;
     private String sourceId;

@@ -91,6 +91,7 @@ public class IniClient implements IIniClient {
 
 	 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendPublicationData(final Document documentEntry, final Document submissionSetEntry, final Document jwtToken) {
 		log.info("Call to INI publication");
 		RegistryResponseType out = null;
@@ -127,6 +128,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendDeleteData(String identificativoDocUpdate, JWTPayloadDTO jwtPayloadDTO) {
 		log.info("Call to INI delete");
 		try { 
@@ -169,6 +171,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO) {
 		log.info("Call to INI update");
 		RegistryResponseType out = null;
@@ -210,6 +213,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken) {
 		log.info("Call to INI replace");
 		RegistryResponseType out = null;
@@ -250,6 +254,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public String getReferenceUUID(String identificativoDocUpdate, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference");
 		try { 
@@ -287,6 +292,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public AdhocQueryResponse getReferenceMetadata(String uuid, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference metadata");
 		try { 
