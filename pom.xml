@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.finanze.sanita.fse2</groupId>
 	<artifactId>gtw-ini-client-ms</artifactId>
@@ -12,8 +11,9 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.7</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>2.7.3</version>
+		<relativePath />
+		<!-- lookup parent from repository -->
 	</parent>
 
 
@@ -70,27 +70,6 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk15on</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.security</groupId>
-					<artifactId>spring-security-crypto</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
-			<version>5.7.3</version>
-		</dependency>
-
 		<!-- ACTUATOR -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -106,7 +85,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.5</version>
+			<version>1.6.11</version>
 		</dependency>
 
 		<!-- LOGBACK JSON -->
@@ -131,7 +110,7 @@
 		<dependency>
 			<groupId>org.codehaus.janino</groupId>
 			<artifactId>janino</artifactId>
-			<version>3.1.7</version>
+			<version>3.1.8</version>
 		</dependency>
 
 		<!-- DEVTOOL -->
@@ -145,7 +124,7 @@
 		<dependency>
 			<groupId>org.modelmapper.extensions</groupId>
 			<artifactId>modelmapper-spring</artifactId>
-			<version>2.4.2</version>
+			<version>3.1.0</version>
 		</dependency>
 
 		<!-- TEST -->
@@ -177,6 +156,19 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.31</version>
 		</dependency>
 
 		<!-- Open SAML -->
@@ -189,7 +181,28 @@
 					<groupId>org.bouncycastle</groupId>
 					<artifactId>bcpkix-jdk15on</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.owasp.esapi</groupId>
+					<artifactId>esapi</artifactId>
+				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.owasp.esapi</groupId>
+			<artifactId>esapi</artifactId>
+			<version>2.5.0.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on -->
@@ -312,27 +325,21 @@
 						</goals>
 						<configuration>
 							<target>
-								<taskdef
-									resource="net/sf/antcontrib/antcontrib.properties" />
+								<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
 								<if>
 									<available file="infrastructure" />
 									<then>
 										<!-- copy common resources of server runtime to project build directory -->
-										<copy todir="${container.output.runtime}"
-											  overwrite="true" failonerror="false">
+										<copy todir="${container.output.runtime}" overwrite="true" failonerror="false">
 											<fileset dir="${config.infra}/runtime" includes="**" />
 										</copy>
 										<!-- copy common resources of server runtime to project build directory -->
-										<copy todir="${container.output}" overwrite="true"
-											failonerror="false">
-											<fileset dir="${project.basedir}"
-												includes="Dockerfile" />
+										<copy todir="${container.output}" overwrite="true" failonerror="false">
+											<fileset dir="${project.basedir}" includes="Dockerfile" />
 										</copy>
 										<!-- copy common resources of server runtime to project build directory -->
-										<copy todir="${container.output}" overwrite="true"
-											failonerror="false">
-											<fileset dir="${project.basedir}/target"
-												includes="${project.artifactId}.jar" />
+										<copy todir="${container.output}" overwrite="true" failonerror="false">
+											<fileset dir="${project.basedir}/target" includes="${project.artifactId}.jar" />
 										</copy>
 									</then>
 								</if>
