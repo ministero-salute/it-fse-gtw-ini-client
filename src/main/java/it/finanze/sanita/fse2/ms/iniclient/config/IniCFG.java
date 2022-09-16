@@ -20,9 +20,6 @@ public class IniCFG {
 	@Value("${ini.client.get-wsdl}")
 	private String wsdlGetLocation;
 	
-	@Value("${ini.client.publish-local-part}")
-	private String publishLocalPart;
-	
 	@Value("${ini.client.enable-log}")
 	private boolean enableLog;
 

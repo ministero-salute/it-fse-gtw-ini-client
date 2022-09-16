@@ -1,0 +1,8 @@
+Legenda: 
+R - Removed
+A - Add
+
+
+16/09/2022
+R: 
+ini.client.publish-local-part
