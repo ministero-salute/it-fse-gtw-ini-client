@@ -1,35 +1,23 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-
-
-import java.util.List;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.enums.INIErrorEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRepo;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
@@ -53,7 +41,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			StringBuilder errorMsg = new StringBuilder();
 			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
 			if (iniInvocationETY != null) {
-				DocumentTreeDTO documentTreeDTO = extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
+				DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 				if (documentTreeDTO.checkIntegrity()) {
 					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
@@ -85,7 +73,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		try {
 			StringBuilder errorMsg = new StringBuilder();
 			JWTPayloadDTO jwtPayloadDTO = this.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
-			if (checkDeleteRequestIntegrity(deleteRequestDTO)) {
+			if (RequestUtility.checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				RegistryResponseType res = iniClient.sendDeleteData(
 						deleteRequestDTO.getIdentificativoDocUpdate(),
 						jwtPayloadDTO
@@ -168,7 +156,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			StringBuilder errorMsg = new StringBuilder();
 			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(requestDTO.getWorkflowInstanceId());
 			if (iniInvocationETY != null) {
-				DocumentTreeDTO documentTreeDTO = extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
+				DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 				if (documentTreeDTO.checkIntegrity()) {
 					RegistryResponseType res = iniClient.sendReplaceData(requestDTO, documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
@@ -192,34 +180,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setEsito(false);
 		}
 		return out;
-	}
-
-	/**
-	 * Extract metadata from entity
-	 * @param metadata
-	 * @return
-	 */
-	private DocumentTreeDTO extractDocumentsFromMetadata(List<Document> metadata) {
-		DocumentTreeDTO documentTreeDTO = new DocumentTreeDTO();
-		for (Document meta : metadata) {
-			if (meta.get("documentEntry") != null) {
-				documentTreeDTO.setDocumentEntry((Document) meta.get("documentEntry"));
-			}
-
-			if (meta.get("tokenEntry") != null) {
-				documentTreeDTO.setTokenEntry((Document) meta.get("tokenEntry"));
-			}
-
-			if (meta.get("submissionSetEntry") != null) {
-				documentTreeDTO.setSubmissionSetEntry((Document) meta.get("submissionSetEntry"));
-			}
-		}
-
-		return documentTreeDTO;
-	}
-
-	private boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {
-		return deleteRequestDTO.getIdentificativoDocUpdate() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDocUpdate());
 	}
 
 	@Override

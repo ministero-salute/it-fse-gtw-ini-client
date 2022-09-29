@@ -1,0 +1,66 @@
+package it.finanze.sanita.fse2.ms.iniclient.utility;
+
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
+
+import java.util.List;
+
+@Slf4j
+public class RequestUtility {
+
+    private RequestUtility() {}
+    /**
+     * Extract metadata from entity
+     * @param metadata
+     * @return
+     */
+    public static DocumentTreeDTO extractDocumentsFromMetadata(List<Document> metadata) {
+        DocumentTreeDTO documentTreeDTO = new DocumentTreeDTO();
+        for (Document meta : metadata) {
+            if (meta.get("documentEntry") != null) {
+                documentTreeDTO.setDocumentEntry((Document) meta.get("documentEntry"));
+            }
+
+            if (meta.get("tokenEntry") != null) {
+                documentTreeDTO.setTokenEntry((Document) meta.get("tokenEntry"));
+            }
+
+            if (meta.get("submissionSetEntry") != null) {
+                documentTreeDTO.setSubmissionSetEntry((Document) meta.get("submissionSetEntry"));
+            }
+        }
+
+        return documentTreeDTO;
+    }
+
+    public static boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {
+        return deleteRequestDTO.getIdentificativoDocUpdate() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDocUpdate());
+    }
+
+    public static JWTTokenDTO configureTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
+        log.info("Reconfiguring token per action");
+        JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
+        jwtPayloadDTO.setAction_id(actionType.getActionId());
+        jwtPayloadDTO.setPurpose_of_use(actionType.getPurposeOfUse());
+        jwtTokenDTO.setPayload(jwtPayloadDTO);
+        return jwtTokenDTO;
+    }
+
+    public static JWTPayloadDTO buildPayloadFromReq(final GetMetadatiReqDTO req) {
+        return JWTPayloadDTO.builder().
+                action_id(req.getAction_id()).
+                iss(req.getIss()).
+                locality(req.getLocality()).
+                person_id(req.getPerson_id()).
+                purpose_of_use(req.getPurpose_of_use()).
+                resource_hl7_type(req.getResource_hl7_type()).
+                sub(req.getSub()).
+                subject_organization(req.getSubject_organization()).
+                subject_organization_id(req.getSubject_organization_id()).
+                subject_role(req.getSubject_role()).
+                patient_consent(req.isPatient_consent()).
+                build();
+    }
+}

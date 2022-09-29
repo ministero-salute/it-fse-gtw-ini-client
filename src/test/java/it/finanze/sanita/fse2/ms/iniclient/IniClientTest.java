@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import org.springframework.web.client.HttpServerErrorException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan(basePackages = {Constants.ComponentScan.BASE})
@@ -106,19 +108,17 @@ class IniClientTest extends AbstractTest {
     @DisplayName("errorGetMetadataReferenceTest")
     void errorGetMetadataReferenceTest() {
         String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceMetadata(identificativoDocUpdate, jwtToken));
+        assertThrows(HttpServerErrorException.InternalServerError.class, () -> callGetMetadata(identificativoDocUpdate));
     }
 
     @Test
+    @Disabled("To launch manually")
     @DisplayName("successGetMetadataReferenceTest")
     void successGetMetadataReferenceTest() {
         String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceMetadata(identificativoDocUpdate, jwtToken));
-        //assertNotNull(uuid);
-        //assertNull(response.getBody().getErrorMessage());
-        //assertEquals(true, response.getBody().getEsito());
+        ResponseEntity<IniTraceResponseDTO> response = callGetMetadata(identificativoDocUpdate);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
     }
 
     @Test

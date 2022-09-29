@@ -24,6 +24,8 @@ import java.util.Enumeration;
 @Slf4j
 public class SecuritySRV implements ISecuritySRV {
 
+    public static final String PKCS12_STRING = "PKCS12";
+
     @Autowired
     private IniCFG iniCFG;
 
@@ -52,7 +54,7 @@ public class SecuritySRV implements ISecuritySRV {
     }
 
     private KeyStore loadKeyStore() throws KeyStoreException {
-        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        KeyStore keyStore = KeyStore.getInstance(PKCS12_STRING);
         try (InputStream authInStreamCrt = FileUtility.getFileFromExternalResources(iniCFG.getKeyStoreLocation())) {
             keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
         } catch (Exception e) {
@@ -62,7 +64,7 @@ public class SecuritySRV implements ISecuritySRV {
     }
 
     private KeyStore loadTrustStore() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException {
-        KeyStore trustStore = KeyStore.getInstance("PKCS12");
+        KeyStore trustStore = KeyStore.getInstance(PKCS12_STRING);
         trustStore.load(null, null);
         try  {
             X509Certificate authCert = this.loadAuthCertificate(iniCFG.getTrustStoreLocation());
@@ -75,7 +77,7 @@ public class SecuritySRV implements ISecuritySRV {
     }
 
     private X509Certificate loadAuthCertificate(String path) throws KeyStoreException {
-        KeyStore keystore = KeyStore.getInstance("PKCS12");
+        KeyStore keystore = KeyStore.getInstance(PKCS12_STRING);
         try (InputStream inputStream = FileUtility.getFileFromExternalResources(path)) {
             keystore.load(inputStream, iniCFG.getTrustStorePassword().toCharArray());
             Enumeration<String> en = keystore.aliases();

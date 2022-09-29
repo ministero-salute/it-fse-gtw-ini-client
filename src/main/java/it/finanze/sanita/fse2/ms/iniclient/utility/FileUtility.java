@@ -48,7 +48,7 @@ public final class FileUtility {
 				try {
 					is.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					log.error("Error: {}", e.getMessage());
 				}
 			}
 		}

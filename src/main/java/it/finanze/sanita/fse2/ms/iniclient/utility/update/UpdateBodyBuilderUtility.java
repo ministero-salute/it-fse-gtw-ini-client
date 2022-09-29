@@ -1,7 +1,9 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.LowLevelDocEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
@@ -70,7 +72,7 @@ public final class UpdateBodyBuilderUtility {
 		String generatedUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		try {
-			List<JAXBElement<? extends IdentifiableType>> list = oldMetadata.getIdentifiable();
+			List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>(oldMetadata.getIdentifiable());
 			ExtrinsicObjectType oldExtrinsicObject = (ExtrinsicObjectType) list.stream()
 					.filter(e -> e.getValue() instanceof ExtrinsicObjectType)
 					.findFirst().orElseThrow(() -> new NoRecordFoundException("ExtrinsicObject non trovato nei metadati di INI"))
@@ -277,7 +279,7 @@ public final class UpdateBodyBuilderUtility {
 	private static ExtrinsicObjectType rebuildExtrinsicObjectMetadata(ExtrinsicObjectType oldExtrinsicObject, PublicationMetadataReqDTO updateRequestBodyDTO) {
 		try {
 			// 1. Classification Objects
-			List<ClassificationType> classificationObjectList = oldExtrinsicObject.getClassification();
+			List<ClassificationType> classificationObjectList = new ArrayList<>(oldExtrinsicObject.getClassification());
 
 			// 1.1 merge HealthcareFacilityTypeCode
 			mergeHealthcareFacilityTypeCode(updateRequestBodyDTO, classificationObjectList);
@@ -298,7 +300,7 @@ public final class UpdateBodyBuilderUtility {
 			oldExtrinsicObject.getClassification().addAll(classificationObjectList);
 
 			// 2. Slot objects
-			List<SlotType1> slotList = oldExtrinsicObject.getSlot();
+			List<SlotType1> slotList = new ArrayList<>(oldExtrinsicObject.getSlot());
 
 			// 2.1 Reset slots in extrinsic object
 			oldExtrinsicObject.getSlot().clear();
@@ -310,12 +312,6 @@ public final class UpdateBodyBuilderUtility {
 			if (StringUtils.hasText(updateRequestBodyDTO.getConservazioneANorma())) {
 				mergeRepositoryType(updateRequestBodyDTO, slotList);
 			}
-
-			///TODO: 2.5 merge referenceId list with urn urn:ihe:iti:xds:2013:referenceIdList da chiarire (paragrafo 2.14 affinity domain)
-			// ONLY with UpdateDocumentSet
-
-			///TODO: 2.6 merge sourcePatientInfo
-			// Not mandatory from Dataset
 
 			// 2.4 add all slot objects
 			oldExtrinsicObject.getSlot().addAll(slotList);

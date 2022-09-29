@@ -1,10 +1,10 @@
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
-
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.developer.JAXWSProperties;
 import com.sun.xml.ws.developer.WSBindingProvider;
-import ihe.iti.xds_b._2007.*;
+import ihe.iti.xds_b._2007.DocumentRegistryPortType;
+import ihe.iti.xds_b._2007.DocumentRegistryService;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
 import ihe.iti.xds_b._2010.XDSDeletetWSService;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
@@ -15,12 +15,13 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -101,7 +102,7 @@ public class IniClient implements IIniClient {
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtTokenDTO, ActionEnumType.CREATE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.CREATE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.CREATE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -143,7 +144,7 @@ public class IniClient implements IIniClient {
 			String uuid = this.getReferenceUUID(identificativoDocUpdate, jwtTokenDTO);
 
 			// Reconfigure token and build request
-			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtTokenDTO, ActionEnumType.DELETE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.DELETE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.DELETE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -175,13 +176,13 @@ public class IniClient implements IIniClient {
 	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO) {
 		log.info("Call to INI update");
 		RegistryResponseType out = null;
-		try { 
+		try {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
 			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
-			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.UPDATE);
 
 			// Get reference from INI UUID
@@ -227,7 +228,7 @@ public class IniClient implements IIniClient {
 			// Get reference from INI UUID
 			String uuid = this.getReferenceUUID(requestDTO.getIdentificativoDocUpdate(), jwtTokenDTO);
 
-			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtTokenDTO, ActionEnumType.REPLACE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.REPLACE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -261,7 +262,7 @@ public class IniClient implements IIniClient {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_REFERENCE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -299,7 +300,7 @@ public class IniClient implements IIniClient {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO reconfiguredToken = this.configureTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_METADATA);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -323,14 +324,5 @@ public class IniClient implements IIniClient {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
-	}
-
-	private JWTTokenDTO configureTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
-		log.info("Reconfiguring token per action");
-		JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
-		jwtPayloadDTO.setAction_id(actionType.getActionId());
-		jwtPayloadDTO.setPurpose_of_use(actionType.getPurposeOfUse()); 
-		jwtTokenDTO.setPayload(jwtPayloadDTO);
-		return jwtTokenDTO;
 	}
 }

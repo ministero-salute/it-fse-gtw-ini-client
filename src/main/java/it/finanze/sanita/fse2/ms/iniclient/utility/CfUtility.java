@@ -1,13 +1,14 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility;
 
 public class CfUtility {
-    public final static int CF_NON_CORRETTO = 0;
-    public final static int CF_OK_16 = 1;
-    public final static int CF_CHECK_DIGIT_16 = 2;
-    public final static int CF_OK_11 = 1;
-    public final static int CF_CHECK_DIGIT_11 = 2;
-    public final static int CF_ENI_OK = 3;
-    public final static int CF_STP_OK = 4;
+    private CfUtility() {}
+    public static final int CF_NON_CORRETTO = 0;
+    public static final int CF_OK_16 = 1;
+    public static final int CF_CHECK_DIGIT_16 = 2;
+    public static final int CF_OK_11 = 1;
+    public static final int CF_CHECK_DIGIT_11 = 2;
+    public static final int CF_ENI_OK = 3;
+    public static final int CF_STP_OK = 4;
 
     public static int validaCF(String cfIn) {
         // gli esiti per cf16 sono gli stessi di cf11
@@ -40,7 +41,7 @@ public class CfUtility {
         int i, c, s;
         if (cfIn.length() == 0)
             return CF_NON_CORRETTO;
-        ;
+
         if (cfIn.length() != 11)
             return CF_NON_CORRETTO;
         for (i = 0; i < 11; i++) {
@@ -113,9 +114,6 @@ public class CfUtility {
             cifre[i] = convertiDispari(cf.charAt(i));
             // converti pari
             cifre[i + 1] = convertiPari(cf.charAt(i + 1));
-
-            // System.out.println(cifre[i]);
-            // System.out.println(cifre[i+1]);
         }
         // somma di tutte le cifre
         for (i = 0; i < 15; i++) {

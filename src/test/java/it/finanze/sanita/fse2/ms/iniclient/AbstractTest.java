@@ -132,4 +132,19 @@ public abstract class AbstractTest {
 
         return restTemplate.exchange(url, HttpMethod.PUT, entity, IniTraceResponseDTO.class);
     }
+
+    /**
+     * call publish ini client
+     * @param workflowInstanceId of the transaction
+     */
+    ResponseEntity<IniTraceResponseDTO> callGetMetadata(String oid) {
+        String url = "http://localhost:" +
+                webServerAppCtxt.getWebServer().getPort() +
+                webServerAppCtxt.getServletContext().getContextPath() +
+                "/v1/get-metadati/" + oid;
+
+        GetMetadatiReqDTO getMetadatiReqDTO = JsonUtility.jsonToObject(TestConstants.TEST_GET_META_REQ, GetMetadatiReqDTO.class);
+        HttpEntity<?> entity = new HttpEntity<>(getMetadatiReqDTO, null);
+        return restTemplate.exchange(url, HttpMethod.POST, entity, IniTraceResponseDTO.class);
+    }
 }
