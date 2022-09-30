@@ -12,9 +12,6 @@ public class IniTraceResponseDTO extends ResponseDTO {
 	 */
 	private static final long serialVersionUID = 5457503502983726876L;
 
-
-	//	private IniPublicationDTO iniPublicationDTO;
-
 	private Boolean esito;
 
 	private String errorMessage;

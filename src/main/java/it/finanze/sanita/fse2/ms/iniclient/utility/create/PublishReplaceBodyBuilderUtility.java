@@ -8,6 +8,8 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.CfUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
@@ -25,6 +27,8 @@ public final class PublishReplaceBodyBuilderUtility {
 
 	private PublishReplaceBodyBuilderUtility() {}
 
+	@Getter
+	@Setter
 	private static ObjectFactory objectFactory = new ObjectFactory();
 
 	/**

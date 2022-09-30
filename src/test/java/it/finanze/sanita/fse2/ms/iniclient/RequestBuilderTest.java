@@ -15,9 +15,12 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtili
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
 import org.bson.Document;
 import org.junit.jupiter.api.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,6 +32,9 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan(basePackages = {Constants.ComponentScan.BASE})
@@ -76,6 +82,62 @@ class RequestBuilderTest {
         documentTreeDTO.setDocumentEntry(new Document());
         documentTreeDTO.setTokenEntry(new Document());
         documentTreeDTO.setSubmissionSetEntry(new Document());
+        assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+                CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
+                CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
+                samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
+                null
+        ));
+    }
+
+    @Test
+    @DisplayName("Publish - Exception test when failed to create objectFactory")
+    void createBodyBuilderGenericExceptionTest() {
+        IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
+        DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        PublishReplaceBodyBuilderUtility.setObjectFactory(Mockito.mock(ObjectFactory.class));
+        ObjectFactory objectFactory = PublishReplaceBodyBuilderUtility.getObjectFactory();
+        when(objectFactory.createRegistryPackage(any(RegistryPackageType.class))).thenThrow(new BusinessException("Error creating object"));
+        assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+                CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
+                CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
+                samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
+                null
+        ));
+
+        when(objectFactory.createClassification(any(ClassificationType.class))).thenThrow(new BusinessException("Error creating object"));
+        assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+                CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
+                CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
+                samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
+                null
+        ));
+
+        when(objectFactory.createSlot(any(SlotType1.class))).thenThrow(new BusinessException("Error creating object"));
+        assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+                CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
+                CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
+                samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
+                null
+        ));
+
+        when(objectFactory.createAssociation(any(AssociationType1.class))).thenThrow(new BusinessException("Error creating object"));
+        assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+                CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
+                CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
+                samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
+                null
+        ));
+
+        when(objectFactory.createExternalIdentifier(any(ExternalIdentifierType.class))).thenThrow(new BusinessException("Error creating object"));
+        assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+                CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
+                CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
+                samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
+                null
+        ));
+
+        when(objectFactory.createExtrinsicObject(any(ExtrinsicObjectType.class))).thenThrow(new BusinessException("Error creating object"));
         assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),

@@ -27,5 +27,11 @@ class CfUtilityTest {
 
         String validRandomCF11 = "29259870359";
         Assertions.assertTrue(CfUtility.isValidCf(validRandomCF11));
+
+        String eniInvalidRandomCF16 = "ENIDMA80A01A883I";
+        Assertions.assertFalse(CfUtility.isValidCf(eniInvalidRandomCF16));
+
+        String stpInvalidRandomCF16 = "STPDMA80A01A883I";
+        Assertions.assertFalse(CfUtility.isValidCf(stpInvalidRandomCF16));
     }
 }
