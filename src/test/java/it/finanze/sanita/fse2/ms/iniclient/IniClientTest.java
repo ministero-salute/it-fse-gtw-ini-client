@@ -88,17 +88,17 @@ class IniClientTest extends AbstractTest {
     @Test
     @DisplayName("errorGetReferenceTest")
     void errorGetReferenceTest() {
-        String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(identificativoDocUpdate, jwtToken));
+        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, jwtToken));
     }
 
     @Test
     @DisplayName("successGetReferenceTest")
     void successGetReferenceTest() {
-        String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(identificativoDocUpdate, jwtToken));
+        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, jwtToken));
         //assertNotNull(uuid);
         //assertNull(response.getBody().getErrorMessage());
         //assertEquals(true, response.getBody().getEsito());
@@ -107,16 +107,16 @@ class IniClientTest extends AbstractTest {
     @Test
     @DisplayName("errorGetMetadataReferenceTest")
     void errorGetMetadataReferenceTest() {
-        String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        assertThrows(HttpServerErrorException.InternalServerError.class, () -> callGetMetadata(identificativoDocUpdate));
+        String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        assertThrows(HttpServerErrorException.InternalServerError.class, () -> callGetMetadata(idDoc));
     }
 
     @Test
     @Disabled("To launch manually")
     @DisplayName("successGetMetadataReferenceTest")
     void successGetMetadataReferenceTest() {
-        String identificativoDocUpdate = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        ResponseEntity<IniTraceResponseDTO> response = callGetMetadata(identificativoDocUpdate);
+        String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        ResponseEntity<IniTraceResponseDTO> response = callGetMetadata(idDoc);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
     }

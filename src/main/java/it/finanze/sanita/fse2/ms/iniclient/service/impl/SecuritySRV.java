@@ -55,7 +55,7 @@ public class SecuritySRV implements ISecuritySRV {
 
     private KeyStore loadKeyStore() throws KeyStoreException {
         KeyStore keyStore = KeyStore.getInstance(PKCS12_STRING);
-        try (InputStream authInStreamCrt = FileUtility.getFileFromExternalResources(iniCFG.getKeyStoreLocation())) {
+        try (InputStream authInStreamCrt = FileUtility.getFileFromGenericResource(iniCFG.getKeyStoreLocation())) {
             keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
         } catch (Exception e) {
             log.error("Exception in loadKeyStore: " + e.getMessage());
@@ -78,7 +78,7 @@ public class SecuritySRV implements ISecuritySRV {
 
     private X509Certificate loadAuthCertificate(String path) throws KeyStoreException {
         KeyStore keystore = KeyStore.getInstance(PKCS12_STRING);
-        try (InputStream inputStream = FileUtility.getFileFromExternalResources(path)) {
+        try (InputStream inputStream = FileUtility.getFileFromGenericResource(path)) {
             keystore.load(inputStream, iniCFG.getTrustStorePassword().toCharArray());
             Enumeration<String> en = keystore.aliases();
             String keyAlias = "";

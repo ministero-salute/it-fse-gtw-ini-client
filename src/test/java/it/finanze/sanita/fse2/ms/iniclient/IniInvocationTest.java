@@ -92,7 +92,7 @@ class IniInvocationTest {
         Mockito.when(iniClient.sendReplaceData(any(ReplaceRequestDTO.class), any(Document.class), any(Document.class), any(Document.class)))
                 .thenReturn(new RegistryResponseType());
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setIdentificativoDocUpdate("identificativoDoc");
+        requestDTO.setIdDoc("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
         IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
         assertTrue(response.getEsito());
@@ -105,7 +105,7 @@ class IniInvocationTest {
         Mockito.when(iniClient.sendReplaceData(any(ReplaceRequestDTO.class), any(Document.class), any(Document.class), any(Document.class)))
                 .thenThrow(new BusinessException(""));
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setIdentificativoDocUpdate("identificativoDoc");
+        requestDTO.setIdDoc("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
         IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
         assertFalse(response.getEsito());
@@ -119,7 +119,7 @@ class IniInvocationTest {
         Mockito.when(iniClient.sendReplaceData(any(ReplaceRequestDTO.class), any(Document.class), any(Document.class), any(Document.class)))
                 .thenReturn(registryResponseType);
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setIdentificativoDocUpdate("identificativoDoc");
+        requestDTO.setIdDoc("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
         IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
         assertFalse(response.getEsito());

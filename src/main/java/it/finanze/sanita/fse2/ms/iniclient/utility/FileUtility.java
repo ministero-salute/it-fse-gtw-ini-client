@@ -31,7 +31,7 @@ public final class FileUtility {
 	private FileUtility() {
 	}
 
-	public static ByteArrayInputStream getFileFromExternalResources(final String path) {
+	public static ByteArrayInputStream getFileFromGenericResource(final String path) {
 		InputStream is = null;
 		try {
 			if (path.contains("classpath:")) {
@@ -79,21 +79,4 @@ public final class FileUtility {
 		}
 		return b;
 	}
-	
-	/**
-	 * Metodo per il recupero del contenuto di un file dalla folder interna "/src/main/resources".
-	 *
-	 * @param filename	nome del file
-	 * @return			contenuto del file
-	 */
-	public static byte[] getFileFromInternalResources(final String filename) {
-		byte[] b = null;
-		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
-			b = getByteFromInputStream(is);
-		} catch (Exception e) {
-			log.error("FILE UTILS getFileFromInternalResources(): Errore in fase di recupero del contenuto di un file dalla folder '/src/main/resources'. ", e);
-		}
-		return b;
-	}
-
 }

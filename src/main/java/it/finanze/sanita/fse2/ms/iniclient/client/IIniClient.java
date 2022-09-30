@@ -17,13 +17,13 @@ public interface IIniClient {
 
     RegistryResponseType sendPublicationData(Document documentEntry, Document submissionSetEntry, Document jwtToken);
 
-    RegistryResponseType sendDeleteData(String identificativoDocUpdate, JWTPayloadDTO jwtToken);
+    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken);
 
     RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO);
 
     RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken);
 
-    String getReferenceUUID(String identificativoDocUpdate, JWTTokenDTO jwtToken);
+    String getReferenceUUID(String idDoc, JWTTokenDTO jwtToken);
 
-    AdhocQueryResponse getReferenceMetadata(String identificativoDocUpdate, JWTTokenDTO jwtToken);
+    AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken);
 }

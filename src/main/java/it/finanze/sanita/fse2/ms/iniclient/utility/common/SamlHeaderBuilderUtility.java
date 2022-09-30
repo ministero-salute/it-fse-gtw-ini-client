@@ -134,9 +134,7 @@ public class SamlHeaderBuilderUtility {
 			SecurityBuilder securityBuilder = new SecurityBuilder();
 			Security sec = securityBuilder.buildObject();
 			Assertion assertion1 = generateSamlHeader(tokenDTO, actionType);
-			//Assertion assertion2 = new AssertionBuilder().buildObject();
 			sec.getUnknownXMLObjects().add(assertion1);
-			//sec.getUnknownXMLObjects().add(assertion2);
 			SecurityMarshaller securityMarsh = new SecurityMarshaller();
 			output = securityMarsh.marshall(sec);
 		} catch (Exception ex) {
@@ -262,7 +260,7 @@ public class SamlHeaderBuilderUtility {
 		BasicX509Credential credential = null;
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-			try (InputStream authInStreamCrt = FileUtility.getFileFromExternalResources(iniCFG.getKeyStoreLocation())) {
+			try (InputStream authInStreamCrt = FileUtility.getFileFromGenericResource(iniCFG.getKeyStoreLocation())) {
 				keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
 			}
 			Enumeration<String> en = keyStore.aliases();

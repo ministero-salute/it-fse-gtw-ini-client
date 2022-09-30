@@ -75,7 +75,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			JWTPayloadDTO jwtPayloadDTO = this.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
 			if (RequestUtility.checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				RegistryResponseType res = iniClient.sendDeleteData(
-						deleteRequestDTO.getIdentificativoDocUpdate(),
+						deleteRequestDTO.getIdDoc(),
 						jwtPayloadDTO
 				);
 				out.setEsito(true);
@@ -95,7 +95,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setEsito(false);
 			out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {}" , deleteRequestDTO.getIdentificativoDocUpdate());
+			log.error("Error while running find and send to ini by document id: {}" , deleteRequestDTO.getIdDoc());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
@@ -175,7 +175,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			}
 
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {} and workflowInstanceId: {}" , requestDTO.getIdentificativoDocUpdate(), requestDTO.getWorkflowInstanceId());
+			log.error("Error while running find and send to ini by document id: {} and workflowInstanceId: {}" , requestDTO.getIdDoc(), requestDTO.getWorkflowInstanceId());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}

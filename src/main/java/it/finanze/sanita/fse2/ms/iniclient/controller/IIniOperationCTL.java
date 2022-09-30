@@ -65,12 +65,12 @@ public interface IIniOperationCTL {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))) })
 	IniTraceResponseDTO replace(@RequestBody ReplaceRequestDTO requestDTO, HttpServletRequest request);
 	
-	@PostMapping("/get-metadati/{oid}")
+	@PostMapping("/get-metadati/{idDoc}")
 	@Operation(summary = "Get metadati INI", description = "Get dei metadati dato un oid in input.")
 	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class)))
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = void.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))) })
-	AdhocQueryResponse getMetadati(@PathVariable(required = true)String oid,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
+	AdhocQueryResponse getMetadati(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
 }

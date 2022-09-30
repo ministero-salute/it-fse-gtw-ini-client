@@ -60,7 +60,7 @@ public abstract class AbstractTest {
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
                 "/v1/ini-delete";
-        String requestString = "{\"identificativoDocUpdate\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"iss\":\"201123456\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"DELETE\"}";
+        String requestString = "{\"idDoc\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"iss\":\"201123456\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"DELETE\"}";
         DeleteRequestDTO requestBody = JsonUtility.jsonToObject(requestString, DeleteRequestDTO.class);
         HttpEntity<Object> entity = new HttpEntity<>(requestBody, null);
 
@@ -101,17 +101,17 @@ public abstract class AbstractTest {
 
     /**
      * call replace on ini
-     * @param identificativoDocUpdate of the transaction
+     * @param idDoc of the transaction
      */
-    ResponseEntity<IniTraceResponseDTO> callReplaceIniClient(String identificativoDocUpdate, String workflowInstanceId) {
+    ResponseEntity<IniTraceResponseDTO> callReplaceIniClient(String idDoc, String workflowInstanceId) {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
                 "/v1/ini-replace";
 
-        String stringObj = "{\"identificativoDocUpdate\":\"<ID_DOC>\",\"workflowInstanceId\":\"<WORKFLOW_ID>\"}";
+        String stringObj = "{\"idDoc\":\"<ID_DOC>\",\"workflowInstanceId\":\"<WORKFLOW_ID>\"}";
         stringObj = stringObj
-                .replace("<ID_DOC>", identificativoDocUpdate)
+                .replace("<ID_DOC>", idDoc)
                 .replace("<WORKFLOW_ID>", workflowInstanceId);
         ReplaceRequestDTO requestDTO = JsonUtility.jsonToObject(stringObj, ReplaceRequestDTO.class);
         HttpEntity<Object> entity = new HttpEntity<>(requestDTO, null);
@@ -135,7 +135,7 @@ public abstract class AbstractTest {
 
     /**
      * call publish ini client
-     * @param workflowInstanceId of the transaction
+     * @param oid of the transaction
      */
     ResponseEntity<IniTraceResponseDTO> callGetMetadata(String oid) {
         String url = "http://localhost:" +

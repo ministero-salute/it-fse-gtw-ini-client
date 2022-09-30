@@ -130,7 +130,7 @@ public class IniClient implements IIniClient {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public RegistryResponseType sendDeleteData(String identificativoDocUpdate, JWTPayloadDTO jwtPayloadDTO) {
+	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO) {
 		log.info("Call to INI delete");
 		try { 
 
@@ -141,7 +141,7 @@ public class IniClient implements IIniClient {
 			jwtTokenDTO.setPayload(jwtPayloadDTO);
 
 			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(identificativoDocUpdate, jwtTokenDTO);
+			String uuid = this.getReferenceUUID(idDoc, jwtTokenDTO);
 
 			// Reconfigure token and build request
 			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.DELETE);
@@ -226,7 +226,7 @@ public class IniClient implements IIniClient {
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
 
 			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(requestDTO.getIdentificativoDocUpdate(), jwtTokenDTO);
+			String uuid = this.getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
 
 			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.REPLACE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.REPLACE);
@@ -256,7 +256,7 @@ public class IniClient implements IIniClient {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public String getReferenceUUID(String identificativoDocUpdate, JWTTokenDTO jwtToken) {
+	public String getReferenceUUID(String idDoc, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
@@ -275,7 +275,7 @@ public class IniClient implements IIniClient {
 					bindingProvider.setHandlerChain(handlerChain);
 				}
 
-				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(identificativoDocUpdate, ActionEnumType.READ_REFERENCE);
+				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
 					throw new NoRecordFoundException("Record non trovato su INI");
@@ -294,7 +294,7 @@ public class IniClient implements IIniClient {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public AdhocQueryResponse getReferenceMetadata(String uuid, JWTTokenDTO jwtToken) {
+	public AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken) {
 		log.info("Call to INI get reference metadata");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
@@ -313,7 +313,7 @@ public class IniClient implements IIniClient {
 					bindingProvider.setHandlerChain(handlerChain);
 				}
 
-				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid, ActionEnumType.READ_METADATA);
+				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
 					throw new NoRecordFoundException("Record non trovato su INI");

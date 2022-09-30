@@ -23,7 +23,7 @@ public final class ReadBodyBuilderUtility {
 
 	/**
 	 *
-	 * @param searchId will be identificativoDocUpdate for get reference, or entryUUID for get metadata
+	 * @param searchId will be idDoc for get reference, or entryUUID for get metadata
 	 * @return
 	 */
 	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId, ActionEnumType actionType) {

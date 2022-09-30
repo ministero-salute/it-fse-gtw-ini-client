@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReplaceRequestDTO {
-    private String identificativoDocUpdate;
+    private String idDoc;
     private String workflowInstanceId;
 }

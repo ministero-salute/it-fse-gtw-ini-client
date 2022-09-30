@@ -39,7 +39,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
     @Override
     public IniTraceResponseDTO delete(final DeleteRequestDTO requestBody, HttpServletRequest request) {
-        log.info("document id received: " + requestBody.getIdentificativoDocUpdate() + ", calling ini delete client...");
+        log.info("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
@@ -53,7 +53,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
     @Override
     public IniTraceResponseDTO replace(final ReplaceRequestDTO requestDTO, HttpServletRequest request) {
-        log.info("identificativoDocUpdate received: " + requestDTO.getIdentificativoDocUpdate() + " - workflowInstanceId: " + requestDTO.getWorkflowInstanceId() + ", calling ini replace client...");
+        log.info("idDoc received: " + requestDTO.getIdDoc() + " - workflowInstanceId: " + requestDTO.getWorkflowInstanceId() + ", calling ini replace client...");
         IniResponseDTO res = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }

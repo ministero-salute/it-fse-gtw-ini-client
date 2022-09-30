@@ -36,7 +36,7 @@ public class RequestUtility {
     }
 
     public static boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {
-        return deleteRequestDTO.getIdentificativoDocUpdate() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdentificativoDocUpdate());
+        return deleteRequestDTO.getIdDoc() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdDoc());
     }
 
     public static JWTTokenDTO configureTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {

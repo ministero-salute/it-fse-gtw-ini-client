@@ -281,6 +281,7 @@
 						<exclude>src/main/java/ihe/**/*.*</exclude>
 						<exclude>src/main/java/oasis/**/*.*</exclude>
 						<exclude>src/main/java/org/**/*.*</exclude>
+						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
