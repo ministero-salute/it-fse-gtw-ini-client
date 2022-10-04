@@ -59,10 +59,10 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     }
 
 	@Override
-	public AdhocQueryResponse getMetadati(String oid,GetMetadatiReqDTO req, HttpServletRequest request) {
+	public AdhocQueryResponse getMetadati(String idDoc,GetMetadatiReqDTO req, HttpServletRequest request) {
 		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-		return iniInvocationSRV.getMetadata(oid, token);
+		return iniInvocationSRV.getMetadata(idDoc, token);
 	}
 }
