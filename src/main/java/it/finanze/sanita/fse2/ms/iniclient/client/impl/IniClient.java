@@ -94,7 +94,7 @@ public class IniClient implements IIniClient {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendPublicationData(final Document documentEntry, final Document submissionSetEntry, final Document jwtToken) {
-		log.info("Call to INI publication");
+		log.debug("Call to INI publication");
 		RegistryResponseType out = null;
 		try { 
 			
@@ -124,7 +124,7 @@ public class IniClient implements IIniClient {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO) {
-		log.info("Call to INI delete");
+		log.debug("Call to INI delete");
 		try { 
 
 			XDSDeletetWS port = deletetWSService.getXDSDeletetWSSPort();
@@ -160,7 +160,7 @@ public class IniClient implements IIniClient {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO) {
-		log.info("Call to INI update");
+		log.debug("Call to INI update");
 		RegistryResponseType out = null;
 		UpdateResponseDTO updateResponseDTO = new UpdateResponseDTO();
 		AdhocQueryResponse queryResponse = null;
@@ -201,7 +201,7 @@ public class IniClient implements IIniClient {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken) {
-		log.info("Call to INI replace");
+		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
@@ -235,7 +235,7 @@ public class IniClient implements IIniClient {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public String getReferenceUUID(String idDoc, JWTTokenDTO jwtToken) {
-		log.info("Call to INI get reference");
+		log.debug("Call to INI get reference");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
@@ -252,7 +252,7 @@ public class IniClient implements IIniClient {
 					throw new NoRecordFoundException("Record non trovato su INI");
 				}
 				String uuid = response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
-				log.info("Found uuid: {}", uuid);
+				log.debug("Found uuid: {}", uuid);
 				return uuid;
 			}
 		} catch(NoRecordFoundException ne) {
@@ -266,7 +266,7 @@ public class IniClient implements IIniClient {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken) {
-		log.info("Call to INI get reference metadata");
+		log.debug("Call to INI get reference metadata");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());

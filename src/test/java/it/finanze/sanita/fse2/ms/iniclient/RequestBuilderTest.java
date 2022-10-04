@@ -1,5 +1,27 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+
+import javax.xml.bind.JAXBException;
+
+import org.bson.Document;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ActiveProfiles;
+
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
@@ -15,26 +37,14 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtili
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
-import org.bson.Document;
-import org.junit.jupiter.api.*;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ActiveProfiles;
-
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExternalIdentifierType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan(basePackages = {Constants.ComponentScan.BASE})

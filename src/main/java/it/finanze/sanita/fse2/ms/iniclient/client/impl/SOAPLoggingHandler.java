@@ -64,7 +64,7 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();  
 			message.writeTo(bout);  
 			String msg = bout.toString("UTF-8");  
-			log.info(header + "\n" + msg);
+			log.debug(header + "\n" + msg);
 		} catch (Exception e) {
 			log.error("Exception in handler: " + e);
 		}

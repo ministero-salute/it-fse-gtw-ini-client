@@ -40,7 +40,7 @@ public class RequestUtility {
     }
 
     public static JWTTokenDTO configureTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
-        log.info("Reconfiguring token per action");
+        log.debug("Reconfiguring token per action");
         JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
         jwtPayloadDTO.setAction_id(actionType.getActionId());
         jwtPayloadDTO.setPurpose_of_use(actionType.getPurposeOfUse());

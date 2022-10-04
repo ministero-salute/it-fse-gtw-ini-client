@@ -3,6 +3,7 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class CommonUtility {
 
     private CommonUtility() {}
@@ -44,25 +46,26 @@ public class CommonUtility {
      * @return
      */
     public static JWTPayloadDTO buildJwtPayloadFromDeleteRequest(DeleteRequestDTO deleteRequestDTO) {
-        return JWTPayloadDTO.builder()
-                .attachment_hash(null)
-                .aud(null)
-                .exp(0)
-                .iat(0)
-                .jti(null)
-                .action_id(deleteRequestDTO.getAction_id())
-                .patient_consent(deleteRequestDTO.getPatient_consent())
-                .iss(deleteRequestDTO.getIss())
-                .locality(deleteRequestDTO.getLocality())
-                .person_id(deleteRequestDTO.getPerson_id())
-                .purpose_of_use(deleteRequestDTO.getPurpose_of_use())
-                .resource_hl7_type(deleteRequestDTO.getResource_hl7_type())
-                .sub(deleteRequestDTO.getSub())
-                .subject_organization(deleteRequestDTO.getSubject_organization())
-                .subject_organization_id(deleteRequestDTO.getSubject_organization_id())
-                .subject_role(deleteRequestDTO.getSubject_role())
-                .build();
-    }
+		log.debug("Build payload information");
+		return JWTPayloadDTO.builder()
+				.attachment_hash(null)
+				.aud(null)
+				.exp(0)
+				.iat(0)
+				.jti(null)
+				.action_id(deleteRequestDTO.getAction_id())
+				.patient_consent(deleteRequestDTO.getPatient_consent())
+				.iss(deleteRequestDTO.getIss())
+				.locality(deleteRequestDTO.getLocality())
+				.person_id(deleteRequestDTO.getPerson_id())
+				.purpose_of_use(deleteRequestDTO.getPurpose_of_use())
+				.resource_hl7_type(deleteRequestDTO.getResource_hl7_type())
+				.sub(deleteRequestDTO.getSub())
+				.subject_organization(deleteRequestDTO.getSubject_organization())
+				.subject_organization_id(deleteRequestDTO.getSubject_organization_id())
+				.subject_role(deleteRequestDTO.getSubject_role())
+				.build();
+	}
 
     /**
      * Extract issuer from token
