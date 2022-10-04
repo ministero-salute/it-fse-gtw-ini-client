@@ -104,6 +104,10 @@ public final class Constants {
 		public static final String UPDATE_ACTION = "UPDATE";
 		public static final String DELETE_ACTION = "DELETE";
 
+		public static final String MISSING_DOC_TYPE_PLACEHOLDER = "UNKNOWN_DOCUMENT_TYPE";
+
+		public static final String JWT_MISSING_ISSUER_PLACEHOLDER = "UNDEFINED_JWT_ISSUER";
+
 		private IniClientConstants(){}
 	}
   

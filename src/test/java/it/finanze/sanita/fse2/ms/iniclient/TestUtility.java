@@ -45,6 +45,12 @@ public class TestUtility {
         return registryResponseType;
     }
 
+    public static RegistryResponseType mockRegistrySuccess() {
+        RegistryResponseType registryResponseType = new RegistryResponseType();
+        registryResponseType.setStatus("OK");
+        return registryResponseType;
+    }
+
     public static JWTTokenDTO mockBasicToken() {
         JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
         jwtTokenDTO.setPayload(new JWTPayloadDTO());

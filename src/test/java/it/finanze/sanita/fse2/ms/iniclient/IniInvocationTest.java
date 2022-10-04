@@ -129,8 +129,11 @@ class IniInvocationTest {
     @Test
     @DisplayName("Update - success test")
     void updateSuccessTest() {
+        RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
+        UpdateResponseDTO responseDTO = new UpdateResponseDTO();
+        responseDTO.setRegistryResponse(registryResponseType);
         Mockito.when(iniClient.sendUpdateData(any(UpdateRequestDTO.class)))
-                .thenReturn(new RegistryResponseType());
+                .thenReturn(responseDTO);
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
         IniResponseDTO response = iniInvocationSRV.updateByRequestBody(updateRequestDTO);
         assertTrue(response.getEsito());
@@ -152,8 +155,11 @@ class IniInvocationTest {
     @DisplayName("Update - error response test")
     void updateErrorResponseTest() {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
+        UpdateResponseDTO responseDTO = new UpdateResponseDTO();
+        responseDTO.setRegistryResponse(registryResponseType);
+        responseDTO.setOldMetadata(new AdhocQueryResponse());
         Mockito.when(iniClient.sendUpdateData(any(UpdateRequestDTO.class)))
-                .thenReturn(registryResponseType);
+                .thenReturn(responseDTO);
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
         IniResponseDTO response = iniInvocationSRV.updateByRequestBody(updateRequestDTO);
         assertFalse(response.getEsito());
@@ -202,7 +208,7 @@ class IniInvocationTest {
                 .thenReturn("uuid");
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        AdhocQueryResponse apiResponse = iniInvocationSRV.getMetadati("oid", TestUtility.mockBasicToken());
+        AdhocQueryResponse apiResponse = iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken());
         assertEquals(response, apiResponse);
         assertNotNull(apiResponse);
         assertNotNull(apiResponse.getRegistryObjectList());
@@ -214,7 +220,7 @@ class IniInvocationTest {
     void getMetadatiErrorWhenGetReferenceErrorTest() {
         Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
                 .thenThrow(new BusinessException(""));
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadati("oid", TestUtility.mockBasicToken()));
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken()));
     }
 
     @Test
@@ -224,6 +230,6 @@ class IniInvocationTest {
                 .thenReturn("uuid");
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenThrow(new BusinessException(""));
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadati("oid", TestUtility.mockBasicToken()));
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken()));
     }
 }

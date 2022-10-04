@@ -63,6 +63,6 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-		return iniInvocationSRV.getMetadati(oid, token);
+		return iniInvocationSRV.getMetadata(oid, token);
 	}
 }

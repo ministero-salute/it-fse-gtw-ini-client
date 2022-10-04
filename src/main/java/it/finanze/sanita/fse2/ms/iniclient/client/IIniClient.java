@@ -1,9 +1,6 @@
 package it.finanze.sanita.fse2.ms.iniclient.client;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 import org.bson.Document;
@@ -19,7 +16,7 @@ public interface IIniClient {
 
     RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken);
 
-    RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO);
+    UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO);
 
     RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken);
 

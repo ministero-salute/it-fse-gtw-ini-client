@@ -106,14 +106,7 @@ public class IniClient implements IIniClient {
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.CREATE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				bp.setOutboundHeaders(headers);
-
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					Binding bindingProvider = ((BindingProvider) port).getBinding();
-					List<Handler> handlerChain = bindingProvider.getHandlerChain();
-					handlerChain.add(new SOAPLoggingHandler());
-					bindingProvider.setHandlerChain(handlerChain);
-				}
+				initHeaders(bp, headers, (BindingProvider) port);
 
 				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
 				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
@@ -148,14 +141,7 @@ public class IniClient implements IIniClient {
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.DELETE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				bp.setOutboundHeaders(headers);
-
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					Binding bindingProvider = ((BindingProvider) port).getBinding();
-					List<Handler> handlerChain = bindingProvider.getHandlerChain();
-					handlerChain.add(new SOAPLoggingHandler());
-					bindingProvider.setHandlerChain(handlerChain);
-				}
+				initHeaders(bp, headers, (BindingProvider) port);
 
 				RemoveObjectsRequestType removeObjectsRequest = DeleteBodyBuilderUtility.buildRemoveObjectsRequest(uuid);
 				Holder<RegistryResponseType> holder = new Holder<>();
@@ -173,9 +159,11 @@ public class IniClient implements IIniClient {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO) {
+	public UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO) {
 		log.info("Call to INI update");
 		RegistryResponseType out = null;
+		UpdateResponseDTO updateResponseDTO = new UpdateResponseDTO();
+		AdhocQueryResponse queryResponse = null;
 		try {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
@@ -187,18 +175,11 @@ public class IniClient implements IIniClient {
 
 			// Get reference from INI UUID
 			String uuid = this.getReferenceUUID(updateRequestDTO.getIdDoc(), jwtTokenDTO);
-			AdhocQueryResponse queryResponse = this.getReferenceMetadata(uuid, jwtTokenDTO);
+			queryResponse = this.getReferenceMetadata(uuid, jwtTokenDTO);
 			RegistryObjectListType metadata = queryResponse.getRegistryObjectList();
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				bp.setOutboundHeaders(headers);
-
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					Binding bindingProvider = ((BindingProvider) port).getBinding();
-					List<Handler> handlerChain = bindingProvider.getHandlerChain();
-					handlerChain.add(new SOAPLoggingHandler());
-					bindingProvider.setHandlerChain(handlerChain);
-				}
+				initHeaders(bp, headers, (BindingProvider) port);
 
 				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata,
 						uuid,reconfiguredToken);
@@ -210,7 +191,11 @@ public class IniClient implements IIniClient {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
-		return out;
+
+		updateResponseDTO.setRegistryResponse(out);
+		updateResponseDTO.setOldMetadata(queryResponse);
+
+		return updateResponseDTO;
 	}
 
 	@Override
@@ -232,14 +217,7 @@ public class IniClient implements IIniClient {
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				bp.setOutboundHeaders(headers);
-
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					Binding bindingProvider = ((BindingProvider) port).getBinding();
-					List<Handler> handlerChain = bindingProvider.getHandlerChain();
-					handlerChain.add(new SOAPLoggingHandler());
-					bindingProvider.setHandlerChain(handlerChain);
-				}
+				initHeaders(bp, headers, (BindingProvider) port);
 
 				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
 				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
@@ -266,14 +244,7 @@ public class IniClient implements IIniClient {
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_REFERENCE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				bp.setOutboundHeaders(headers);
-
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					Binding bindingProvider = ((BindingProvider) port).getBinding();
-					List<Handler> handlerChain = bindingProvider.getHandlerChain();
-					handlerChain.add(new SOAPLoggingHandler());
-					bindingProvider.setHandlerChain(handlerChain);
-				}
+				initHeaders(bp, headers, (BindingProvider) port);
 
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
@@ -304,14 +275,7 @@ public class IniClient implements IIniClient {
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_METADATA);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				bp.setOutboundHeaders(headers);
-
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					Binding bindingProvider = ((BindingProvider) port).getBinding();
-					List<Handler> handlerChain = bindingProvider.getHandlerChain();
-					handlerChain.add(new SOAPLoggingHandler());
-					bindingProvider.setHandlerChain(handlerChain);
-				}
+				initHeaders(bp, headers, (BindingProvider) port);
 
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
@@ -323,6 +287,17 @@ public class IniClient implements IIniClient {
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+		}
+	}
+
+	private void initHeaders(WSBindingProvider bp, List<Header> headers, BindingProvider port) {
+		bp.setOutboundHeaders(headers);
+
+		if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
+			Binding bindingProvider = port.getBinding();
+			List<Handler> handlerChain = bindingProvider.getHandlerChain();
+			handlerChain.add(new SOAPLoggingHandler());
+			bindingProvider.setHandlerChain(handlerChain);
 		}
 	}
 }

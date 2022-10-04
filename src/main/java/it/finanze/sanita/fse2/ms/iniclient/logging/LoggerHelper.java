@@ -38,12 +38,13 @@ public class LoggerHelper {
 	 * Implements structured logs, at all logging levels
 	 */
 	public void trace(String message, ILogEnum operation, 
-			   ResultLogEnum result, Date startDateOperation, String issuer) {
+			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType) {
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
+				documentType(documentType).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
@@ -58,12 +59,13 @@ public class LoggerHelper {
 	} 
 	
 	public void debug(String message,  ILogEnum operation,  
-			   ResultLogEnum result, Date startDateOperation, String issuer) {
+			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType) {
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
+				documentType(documentType).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
@@ -78,12 +80,13 @@ public class LoggerHelper {
 	} 
 	 
 	public void info(String message, ILogEnum operation,  
-			ResultLogEnum result, Date startDateOperation, String issuer) {
+			ResultLogEnum result, Date startDateOperation, String issuer, String documentType) {
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
+				documentType(documentType).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
@@ -97,12 +100,13 @@ public class LoggerHelper {
 	} 
 	
 	public void warn(String message, ILogEnum operation,  
-			   ResultLogEnum result, Date startDateOperation, String issuer) {
+			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType) {
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
+				documentType(documentType).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
@@ -119,12 +123,13 @@ public class LoggerHelper {
 	
 	public void error(String message, ILogEnum operation,  
 			   ResultLogEnum result, Date startDateOperation,
-			   ILogEnum error, String issuer) {
+			   ILogEnum error, String issuer, String documentType) {
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
+				documentType(documentType).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).

@@ -19,6 +19,6 @@ public interface IIniInvocationSRV extends Serializable {
 
     IniResponseDTO replaceByWorkflowInstanceId(ReplaceRequestDTO requestDTO);
     
-    AdhocQueryResponse getMetadati(String oid, JWTTokenDTO tokenDTO);
+    AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
 }
