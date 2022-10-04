@@ -103,7 +103,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	private JWTPayloadDTO buildJwtPayloadFromDeleteRequest(DeleteRequestDTO deleteRequestDTO) {
-		log.info("Build payload information");
+		log.debug("Build payload information");
 		return JWTPayloadDTO.builder()
 				.attachment_hash(null)
 				.aud(null)

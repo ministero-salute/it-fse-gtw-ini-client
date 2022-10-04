@@ -32,28 +32,28 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     
     @Override
     public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
-        log.info("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
+        log.debug("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
         IniResponseDTO res = iniInvocationSRV.publishByWorkflowInstanceId(workflowInstanceId);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
     public IniTraceResponseDTO delete(final DeleteRequestDTO requestBody, HttpServletRequest request) {
-        log.info("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
+        log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
     public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
-        log.info("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
+        log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
         IniResponseDTO res = iniInvocationSRV.updateByRequestBody(requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
     public IniTraceResponseDTO replace(final ReplaceRequestDTO requestDTO, HttpServletRequest request) {
-        log.info("idDoc received: " + requestDTO.getIdDoc() + " - workflowInstanceId: " + requestDTO.getWorkflowInstanceId() + ", calling ini replace client...");
+        log.debug("idDoc received: " + requestDTO.getIdDoc() + " - workflowInstanceId: " + requestDTO.getWorkflowInstanceId() + ", calling ini replace client...");
         IniResponseDTO res = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }

@@ -1,17 +1,23 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
-import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
-import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
-import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
-import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+
+import javax.xml.bind.JAXBException;
+
 import org.bson.Document;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,11 +26,20 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.xml.bind.JAXBException;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan(basePackages = {Constants.ComponentScan.BASE})
@@ -37,9 +52,6 @@ class IniInvocationTest {
 
     @Autowired
     private MongoTemplate mongoTemplate;
-
-    @Autowired
-    private IIniInvocationRepo iniInvocationRepo;
 
     @MockBean
     private IIniClient iniClient;
