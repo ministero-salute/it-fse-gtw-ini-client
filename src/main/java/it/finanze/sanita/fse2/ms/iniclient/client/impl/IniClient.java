@@ -1,8 +1,24 @@
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
+import java.net.URL;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.xml.ws.Binding;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Holder;
+import javax.xml.ws.handler.Handler;
+
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.developer.JAXWSProperties;
 import com.sun.xml.ws.developer.WSBindingProvider;
+
 import ihe.iti.xds_b._2007.DocumentRegistryPortType;
 import ihe.iti.xds_b._2007.DocumentRegistryService;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
@@ -10,7 +26,13 @@ import ihe.iti.xds_b._2010.XDSDeletetWSService;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
@@ -31,19 +53,6 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.xml.ws.Binding;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Holder;
-import javax.xml.ws.handler.Handler;
-import java.net.URL;
-import java.util.List;
 
 /**
  * Production implemention of Ini Client.
@@ -92,7 +101,6 @@ public class IniClient implements IIniClient {
 
 	 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendPublicationData(final Document documentEntry, final Document submissionSetEntry, final Document jwtToken) {
 		log.debug("Call to INI publication");
 		RegistryResponseType out = null;
@@ -122,7 +130,6 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO) {
 		log.debug("Call to INI delete");
 		try { 
@@ -158,7 +165,6 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO) {
 		log.debug("Call to INI update");
 		RegistryResponseType out = null;
@@ -199,7 +205,6 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken) {
 		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
@@ -233,7 +238,6 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public String getReferenceUUID(String idDoc, JWTTokenDTO jwtToken) {
 		log.debug("Call to INI get reference");
 		try { 
@@ -264,7 +268,6 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken) {
 		log.debug("Call to INI get reference metadata");
 		try { 
@@ -290,6 +293,7 @@ public class IniClient implements IIniClient {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void initHeaders(WSBindingProvider bp, List<Header> headers, BindingProvider port) {
 		bp.setOutboundHeaders(headers);
 
