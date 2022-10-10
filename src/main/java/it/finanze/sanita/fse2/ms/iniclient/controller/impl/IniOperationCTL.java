@@ -2,13 +2,19 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,10 +65,22 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     }
 
 	@Override
-	public AdhocQueryResponse getMetadati(String idDoc,GetMetadatiReqDTO req, HttpServletRequest request) {
+	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc,GetMetadatiReqDTO req, HttpServletRequest request) {
 		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-		return iniInvocationSRV.getMetadata(idDoc, token);
+		
+		GetMetadatiResponseDTO out = new GetMetadatiResponseDTO();
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		out.setTraceID(traceInfo.getTraceID());
+		out.setSpanID(traceInfo.getSpanID());
+		try {
+			out.setResponse(iniInvocationSRV.getMetadata(idDoc, token)); 
+			return new ResponseEntity<>(out, HttpStatus.OK);
+		} catch(Exception ex) {
+			log.error("Error while perform get metadati :" , ex);
+			out.setErrorMessage(ExceptionUtils.getMessage(ex));
+			return new ResponseEntity<>(out, HttpStatus.FORBIDDEN);
+		}
 	}
 }

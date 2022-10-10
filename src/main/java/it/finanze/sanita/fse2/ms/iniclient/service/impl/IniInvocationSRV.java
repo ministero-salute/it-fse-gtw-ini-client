@@ -198,7 +198,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out = iniClient.getReferenceMetadata(uuid, tokenDTO);
 		} catch(Exception ex) {
 			log.error("Error while execute getMetadati : " , ex);
-			throw new BusinessException(ex);
+			throw ex;
 		}
 		return out;
 	}

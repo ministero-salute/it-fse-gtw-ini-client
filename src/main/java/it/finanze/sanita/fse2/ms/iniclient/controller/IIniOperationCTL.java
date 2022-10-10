@@ -3,6 +3,7 @@ package it.finanze.sanita.fse2.ms.iniclient.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
@@ -66,10 +68,10 @@ public interface IIniOperationCTL {
 	
 	@PostMapping("/get-metadati/{idDoc}")
 	@Operation(summary = "Get metadati INI", description = "Get dei metadati dato un oid in input.")
-	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class)))
+	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiResponseDTO.class)))
 	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = void.class))),
+			@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiResponseDTO.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
-	AdhocQueryResponse getMetadati(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
+	ResponseEntity<GetMetadatiResponseDTO> getMetadati(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
 }
