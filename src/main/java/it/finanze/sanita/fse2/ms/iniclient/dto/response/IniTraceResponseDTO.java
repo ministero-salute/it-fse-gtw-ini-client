@@ -21,12 +21,10 @@ public class IniTraceResponseDTO extends ResponseDTO {
 		super();
 	}
 
-	public IniTraceResponseDTO(final LogTraceInfoDTO traceInfo, final Boolean inEsito,
-							   final String inErrorMessage) {
+	public IniTraceResponseDTO(final LogTraceInfoDTO traceInfo, final Boolean inEsito, final String inErrorMessage) {
 		super(traceInfo);
 		esito = inEsito;
 		errorMessage = inErrorMessage;
 	}
 
 }
-
