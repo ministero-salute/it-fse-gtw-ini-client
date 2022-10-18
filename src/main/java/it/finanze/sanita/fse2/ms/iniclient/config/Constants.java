@@ -108,6 +108,9 @@ public final class Constants {
 
 		public static final String JWT_MISSING_ISSUER_PLACEHOLDER = "UNDEFINED_JWT_ISSUER";
 
+		public static final String JWT_MISSING_ROLE_PLACEHOLDER = "UNDEFINED_JWT_ROLE";
+
+
 		private IniClientConstants(){}
 	}
   

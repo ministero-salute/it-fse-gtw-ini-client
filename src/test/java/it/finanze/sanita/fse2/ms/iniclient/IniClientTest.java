@@ -20,6 +20,8 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -108,7 +110,7 @@ class IniClientTest extends AbstractTest {
     @DisplayName("errorGetMetadataReferenceTest")
     void errorGetMetadataReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        assertThrows(HttpServerErrorException.InternalServerError.class, () -> callGetMetadata(idDoc));
+        assertThrows(HttpClientErrorException.Forbidden.class, () -> callGetMetadata(idDoc));
     }
 
     @Test

@@ -2,6 +2,7 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.enums.DocumentTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
@@ -9,6 +10,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.LocalizedStringType;
+
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.util.CollectionUtils;
 
@@ -70,7 +73,7 @@ public class CommonUtility {
     /**
      * Extract issuer from token
      * @param documentTreeDTO
-     * @return
+     * @return Issuer of JWT
      */
     public static String extractIssuer(DocumentTreeDTO documentTreeDTO) {
         if (documentTreeDTO == null) {
@@ -81,16 +84,46 @@ public class CommonUtility {
     }
 
     /**
+     * Extract subject Role from token
+     * 
+     * @param documentTreeDTO
+     * @return subject Role of JWT
+     */
+    public static String extractSubjectRole(DocumentTreeDTO documentTreeDTO) {
+        String subjectRole = Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
+        if (documentTreeDTO != null) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            if (payload != null) {
+                subjectRole = payload.getString("subject_role");
+            }
+        }
+
+        return subjectRole;
+    }
+
+    /**
      * Extract document type from db entity
      * @param documentTreeDTO
      * @return
      */
     public static String extractDocumentType(DocumentTreeDTO documentTreeDTO) {
-        if (documentTreeDTO == null) {
-            return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+        String documentType = Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+        
+        if (documentTreeDTO != null) {
+            Optional<Document> documentEntry = Optional.of(documentTreeDTO.getDocumentEntry());
+            if (documentEntry.isPresent()) {
+                if (documentEntry.get().getString("formatCode") != null) {
+                    DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByTemplateId(documentEntry.get().getString("formatCode"));
+                    if (normalizedDocumentType != null) {
+                        documentType = normalizedDocumentType.getDocumentType();
+                    } else {
+                        documentType = documentEntry.get().getString("typeCodeName");
+                    }
+                }
+            } 
         }
-        Document documentEntry = Optional.of(documentTreeDTO.getDocumentEntry()).orElse(null);
-        return documentEntry.containsKey("typeCodeName") ? (String) documentEntry.get("typeCodeName") : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+        
+        return documentType;
     }
 
     /**
