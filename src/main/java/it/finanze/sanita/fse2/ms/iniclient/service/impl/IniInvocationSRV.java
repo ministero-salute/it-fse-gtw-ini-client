@@ -44,6 +44,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	private static final String WARNING = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
 	
+	
 	@Autowired
 	private IniInvocationRepo iniInvocationRepo;
 
@@ -67,9 +68,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				if (documentTreeDTO.checkIntegrity()) {
 					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
 					out.setEsito(true);
-					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-						if(!WARNING.equals(error.getSeverity())) {
-							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					if(res.getRegistryErrorList()!=null) {
+						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+							if(!WARNING.equals(error.getSeverity())) {
+								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+							}
 						}
 					}
 					
