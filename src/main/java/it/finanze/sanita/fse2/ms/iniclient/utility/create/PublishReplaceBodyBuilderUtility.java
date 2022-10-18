@@ -294,7 +294,7 @@ public final class PublishReplaceBodyBuilderUtility {
 					List<SlotType1> classificationObjNSlots = new ArrayList<>();
 					classificationObjNSlots.add(classificationObjNSlot1);
 					InternationalStringType nameN = buildInternationalStringType(Collections.singletonList(EventCodeEnum.fromValue(eventCode).getDescription()));
-					ClassificationType classificationObjectN = buildClassificationObject(null, "urn:uuid:f0306f51-975f-434e-a61c-c59651d33983",
+					ClassificationType classificationObjectN = buildClassificationObject(null, "urn:uuid:2c6b8cb7-8b2a-4051-b291-b1ae6a575ef4",
 							Constants.IniClientConstants.URN_UUID + requestUUID, "IdEventCodeList", nameN, classificationObjNSlots, Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN, eventCode);
 					out.add(classificationObjectN);
 				}
