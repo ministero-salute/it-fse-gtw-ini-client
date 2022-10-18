@@ -19,7 +19,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.INIErrorEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -27,6 +26,7 @@ import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRe
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
@@ -42,6 +42,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	 */
 	private static final long serialVersionUID = -8674806764400269288L;
 
+	private static final String WARNING = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
+	
 	@Autowired
 	private IniInvocationRepo iniInvocationRepo;
 
@@ -65,13 +67,16 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				if (documentTreeDTO.checkIntegrity()) {
 					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
 					out.setEsito(true);
-					if (ResponseUtility.isErrorResponse(res)) {
-						out.setEsito(false);
-						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+						if(!WARNING.equals(error.getSeverity())) {
 							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 						}
+					}
+					
+					if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+						out.setEsito(false);						
 						out.setErrorMessage(errorMsg.toString());
-					}  
+					}
 				}
 			} else {
 				out.setEsito(false);
