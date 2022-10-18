@@ -7,6 +7,7 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.ResponseOptionType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AdhocQueryType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.xml.bind.JAXBElement;
 import java.math.BigInteger;
@@ -57,7 +58,7 @@ public final class ReadBodyBuilderUtility {
 			adhocQuery.getSlot().add(buildSlotObject(
 					actionType == ActionEnumType.READ_REFERENCE ? "$XDSDocumentEntryUniqueId" : "$XDSDocumentEntryEntryUUID",
 					null,
-					Collections.singletonList("('" + searchId + "')")));
+					Collections.singletonList("(" + StringEscapeUtils.escapeXml("'") + searchId + StringEscapeUtils.escapeXml("'") + ")")));
 			JAXBElement<AdhocQueryType> jaxbAdhocQuery = objectFactory.createAdhocQuery(adhocQuery);
 			return jaxbAdhocQuery.getValue();
 		} catch(Exception ex) {
