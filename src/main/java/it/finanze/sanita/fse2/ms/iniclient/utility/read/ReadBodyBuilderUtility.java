@@ -58,7 +58,7 @@ public final class ReadBodyBuilderUtility {
 			adhocQuery.getSlot().add(buildSlotObject(
 					actionType == ActionEnumType.READ_REFERENCE ? "$XDSDocumentEntryUniqueId" : "$XDSDocumentEntryEntryUUID",
 					null,
-					Collections.singletonList("(" + StringEscapeUtils.escapeXml("'") + searchId + StringEscapeUtils.escapeXml("'") + ")")));
+					Collections.singletonList("('" + searchId + "')")));
 			JAXBElement<AdhocQueryType> jaxbAdhocQuery = objectFactory.createAdhocQuery(adhocQuery);
 			return jaxbAdhocQuery.getValue();
 		} catch(Exception ex) {

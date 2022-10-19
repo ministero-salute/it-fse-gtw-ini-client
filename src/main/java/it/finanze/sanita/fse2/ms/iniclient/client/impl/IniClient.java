@@ -257,7 +257,7 @@ public class IniClient implements IIniClient {
 
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
+				if (response.getRegistryErrorList()!=null) {
 					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 						if (error.getCodeContext().equals("No results from the query")) {
 							throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
@@ -293,7 +293,7 @@ public class IniClient implements IIniClient {
 
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
+				if (response.getRegistryErrorList()!=null) {
 					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 						if (error.getCodeContext().equals("No results from the query")) {
 							throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
