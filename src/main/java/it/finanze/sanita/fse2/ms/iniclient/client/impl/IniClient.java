@@ -41,6 +41,7 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -138,6 +139,8 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI delete");
 		try { 
 
+			JWTPayloadDTO clonePayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
+			
 			XDSDeletetWS port = deletetWSService.getXDSDeletetWSSPort();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
@@ -146,10 +149,10 @@ public class IniClient implements IIniClient {
 
 			// Get reference from INI UUID
 			String uuid = this.getReferenceUUID(idDoc, jwtTokenDTO);
-
 			// Reconfigure token and build request
-			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.DELETE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.DELETE);
+//			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.DELETE);
+			JWTTokenDTO newToken = new JWTTokenDTO(clonePayload);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(newToken, ActionEnumType.DELETE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -181,7 +184,6 @@ public class IniClient implements IIniClient {
 			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
 			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
 
-			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.UPDATE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
 
 			// Get reference from INI UUID
