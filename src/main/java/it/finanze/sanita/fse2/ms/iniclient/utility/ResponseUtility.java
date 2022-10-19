@@ -13,7 +13,7 @@ public class ResponseUtility {
      * @return
      */
     public static boolean isErrorResponse(RegistryResponseType res) {
-        return res.getRegistryErrorList() != null && res.getRegistryErrorList().getRegistryError() != null &&
+        return res != null && res.getRegistryErrorList() != null && res.getRegistryErrorList().getRegistryError() != null &&
                 !res.getRegistryErrorList().getRegistryError().isEmpty();
     }
 

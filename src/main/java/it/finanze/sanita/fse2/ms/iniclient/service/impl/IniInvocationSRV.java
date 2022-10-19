@@ -2,6 +2,7 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import java.util.Date;
 
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.INIErrorEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
@@ -100,13 +100,18 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		JWTPayloadDTO jwtPayloadDTO = CommonUtility.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
-
+		AdhocQueryResponse currentMetadata = null;
 		try {
 			StringBuilder errorMsg = new StringBuilder();
 			if (RequestUtility.checkDeleteRequestIntegrity(deleteRequestDTO)) {
+				JWTPayloadDTO readJwtPayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
+				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
+				String uuid = this.getUUID(deleteRequestDTO.getIdDoc(), readJwtToken);
+				currentMetadata = this.getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
 				RegistryResponseType res = iniClient.sendDeleteData(
 						deleteRequestDTO.getIdDoc(),
-						jwtPayloadDTO
+						jwtPayloadDTO,
+						uuid
 				);
 				out.setEsito(true);
 				if (ResponseUtility.isErrorResponse(res)) {
@@ -129,7 +134,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		this.logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, deleteRequestDTO.getIss(), this.extractDocumentTypeFromMetadata(null, deleteRequestDTO.getIdDoc(), jwtPayloadDTO), deleteRequestDTO.getSubject_role());
+		this.logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, deleteRequestDTO.getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), deleteRequestDTO.getSubject_role());
 		return out;
 	}
 
@@ -137,14 +142,21 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	public IniResponseDTO updateByRequestBody(UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
-		UpdateResponseDTO updateResponseDTO = null;
+		AdhocQueryResponse currentMetadata = null;
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			updateResponseDTO = iniClient.sendUpdateData(updateRequestDTO);
+
+			// Get reference from INI UUID
+			JWTPayloadDTO readJwtPayload = JsonUtility.clone(updateRequestDTO.getToken(), JWTPayloadDTO.class);
+			JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
+			String uuid = this.getUUID(updateRequestDTO.getIdDoc(), readJwtToken);
+			currentMetadata = this.getMetadata(uuid, readJwtToken);
+
+			RegistryResponseType registryResponse = iniClient.sendUpdateData(updateRequestDTO, currentMetadata, uuid);
 			out.setEsito(true);
-			if (ResponseUtility.isErrorResponse(updateResponseDTO.getRegistryResponse())) {
+			if (ResponseUtility.isErrorResponse(registryResponse)) {
 				out.setEsito(false);
-				for (RegistryError error : updateResponseDTO.getRegistryResponse().getRegistryErrorList().getRegistryError()) {
+				for (RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
 					errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 				}
 				out.setErrorMessage(errorMsg.toString());
@@ -157,8 +169,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		AdhocQueryResponse metadata = updateResponseDTO != null && updateResponseDTO.getOldMetadata() != null ? updateResponseDTO.getOldMetadata() : null;
-		this.logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), this.extractDocumentTypeFromMetadata(metadata, null, null), updateRequestDTO.getToken().getSubject_role());
+		this.logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), updateRequestDTO.getToken().getSubject_role());
 		return out;
 	}
 
@@ -211,6 +222,15 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return out;
 	}
 
+	private String getUUID(String oid, JWTTokenDTO tokenDTO) {
+		try {
+			return iniClient.getReferenceUUID(oid, tokenDTO);
+		} catch(Exception ex) {
+			log.error("Error while execute getMetadati : " , ex);
+			throw ex;
+		}
+	}
+
 
 	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole) {
 		if (isSuccess) {
@@ -224,26 +244,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	 * Compute type code name basing on passed metadata object
 	 * If metadata does not exist, an attempt will be performed to get them from INI
 	 * @param queryResponse
-	 * @param idDoc
-	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	public String extractDocumentTypeFromMetadata(AdhocQueryResponse queryResponse, String idDoc, JWTPayloadDTO jwtPayloadDTO) {
+	public String extractDocumentTypeFromMetadata(AdhocQueryResponse queryResponse) {
 		log.debug("Extract document type from metadata");
-		boolean isIniCallable = idDoc != null && jwtPayloadDTO != null;
 		if (CommonUtility.checkMetadata(queryResponse)) {
 			return CommonUtility.extractDocumentTypeFromQueryResponse(queryResponse);
-		} else if (isIniCallable) {
-			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
-			jwtTokenDTO.setPayload(jwtPayloadDTO);
-			try {
-				queryResponse = this.getMetadata(idDoc, jwtTokenDTO);
-				return CommonUtility.extractDocumentTypeFromQueryResponse(queryResponse);
-			} catch (Exception e) {
-				return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
-			}
-		} else {
-			return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
 		}
+
+		return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
 	}
 }

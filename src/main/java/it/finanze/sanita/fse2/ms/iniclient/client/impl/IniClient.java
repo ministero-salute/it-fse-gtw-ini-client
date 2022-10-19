@@ -35,15 +35,12 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
@@ -135,24 +132,15 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO) {
+	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO, String uuid) {
 		log.debug("Call to INI delete");
 		try { 
 
-			JWTPayloadDTO clonePayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
-			
 			XDSDeletetWS port = deletetWSService.getXDSDeletetWSSPort();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
-			jwtTokenDTO.setPayload(jwtPayloadDTO);
-
-			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(idDoc, jwtTokenDTO);
-			// Reconfigure token and build request
-//			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.DELETE);
-			JWTTokenDTO newToken = new JWTTokenDTO(clonePayload);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(newToken, ActionEnumType.DELETE);
+			JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(deleteToken, ActionEnumType.DELETE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -172,11 +160,9 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO) {
+	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO, AdhocQueryResponse queryResponse, String uuid) {
 		log.debug("Call to INI update");
 		RegistryResponseType out = null;
-		UpdateResponseDTO updateResponseDTO = new UpdateResponseDTO();
-		AdhocQueryResponse queryResponse = null;
 		try {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
@@ -185,10 +171,6 @@ public class IniClient implements IIniClient {
 			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
 
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
-
-			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(updateRequestDTO.getIdDoc(), jwtTokenDTO);
-			queryResponse = this.getReferenceMetadata(uuid, jwtTokenDTO);
 			RegistryObjectListType metadata = queryResponse.getRegistryObjectList();
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -205,10 +187,7 @@ public class IniClient implements IIniClient {
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 
-		updateResponseDTO.setRegistryResponse(out);
-		updateResponseDTO.setOldMetadata(queryResponse);
-
-		return updateResponseDTO;
+		return out;
 	}
 
 	@Override

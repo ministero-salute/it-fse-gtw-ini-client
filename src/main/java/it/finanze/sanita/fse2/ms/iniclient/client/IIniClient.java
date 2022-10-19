@@ -14,9 +14,9 @@ public interface IIniClient {
 
     RegistryResponseType sendPublicationData(Document documentEntry, Document submissionSetEntry, Document jwtToken);
 
-    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken);
+    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, String uuid);
 
-    UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO);
+    RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO, AdhocQueryResponse queryResponse, String uuid);
 
     RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken);
 
