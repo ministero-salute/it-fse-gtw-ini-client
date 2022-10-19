@@ -2,6 +2,7 @@ package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
@@ -11,6 +12,8 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.handler.Handler;
 
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
+import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -253,14 +256,20 @@ public class IniClient implements IIniClient {
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
-					throw new NoRecordFoundException("Record non trovato su INI");
+					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+						if (error.getCodeContext().equals("No results from the query")) {
+							throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
+						}
+					}
+					throw new BusinessException("Errore riscontrato su INI");
 				}
-				String uuid = response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
+				String uuid = Optional.of(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId()).orElse("");
+				if (StringUtils.isEmpty(uuid)) {
+					throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
+				}
 				log.debug("Found uuid: {}", uuid);
 				return uuid;
 			}
-		} catch(NoRecordFoundException ne) {
-			throw ne;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -283,7 +292,12 @@ public class IniClient implements IIniClient {
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
-					throw new NoRecordFoundException("Record non trovato su INI");
+					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+						if (error.getCodeContext().equals("No results from the query")) {
+							throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
+						}
+					}
+					throw new BusinessException("Errore riscontrato su INI");
 				}
 				return response;
 			}

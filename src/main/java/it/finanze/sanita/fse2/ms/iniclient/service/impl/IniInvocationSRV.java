@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
@@ -68,9 +69,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				if (documentTreeDTO.checkIntegrity()) {
 					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
 					out.setEsito(true);
-					if(res.getRegistryErrorList()!=null) {
+					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							if(!WARNING.equals(error.getSeverity())) {
+							if (!WARNING.equals(error.getSeverity())) {
 								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 							}
 						}
