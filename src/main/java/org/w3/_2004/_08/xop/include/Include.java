@@ -1,3 +1,6 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 package org.w3._2004._08.xop.include;
 
