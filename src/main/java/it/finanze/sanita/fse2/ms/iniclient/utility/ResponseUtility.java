@@ -4,6 +4,9 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 public class ResponseUtility {
+
+    private ResponseUtility() {}
+
     /**
      * Check if error response
      * @param res

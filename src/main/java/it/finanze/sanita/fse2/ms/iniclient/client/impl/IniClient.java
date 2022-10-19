@@ -39,6 +39,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
@@ -113,8 +114,8 @@ public class IniClient implements IIniClient {
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.CREATE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.CREATE);
+			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.CREATE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -147,8 +148,8 @@ public class IniClient implements IIniClient {
 			String uuid = this.getReferenceUUID(idDoc, jwtTokenDTO);
 
 			// Reconfigure token and build request
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.DELETE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.DELETE);
+			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.DELETE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.DELETE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -179,8 +180,9 @@ public class IniClient implements IIniClient {
 
 			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
 			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.UPDATE);
+
+			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.UPDATE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
 
 			// Get reference from INI UUID
 			String uuid = this.getReferenceUUID(updateRequestDTO.getIdDoc(), jwtTokenDTO);
@@ -191,7 +193,7 @@ public class IniClient implements IIniClient {
 				initHeaders(bp, headers, (BindingProvider) port);
 
 				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata,
-						uuid,reconfiguredToken);
+						uuid, jwtTokenDTO);
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (NoRecordFoundException ne) {
@@ -221,8 +223,8 @@ public class IniClient implements IIniClient {
 			// Get reference from INI UUID
 			String uuid = this.getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.REPLACE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.REPLACE);
+			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.REPLACE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -247,7 +249,7 @@ public class IniClient implements IIniClient {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_REFERENCE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -283,7 +285,7 @@ public class IniClient implements IIniClient {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_METADATA);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -316,6 +318,14 @@ public class IniClient implements IIniClient {
 			List<Handler> handlerChain = bindingProvider.getHandlerChain();
 			handlerChain.add(new SOAPLoggingHandler());
 			bindingProvider.setHandlerChain(handlerChain);
+		}
+	}
+
+	private void checkTokenIntegrity(JWTTokenDTO jwtTokenDTO, ActionEnumType actionEnum) {
+		JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
+		if (!jwtPayloadDTO.getAction_id().equals(actionEnum.getActionId()) || !jwtPayloadDTO.getPurpose_of_use().equals(actionEnum.getPurposeOfUse())) {
+			log.error(Constants.IniClientConstants.ERR_TOKEN_INTEGRITY);
+			throw new TokenIntegrityException(Constants.IniClientConstants.ERR_TOKEN_INTEGRITY);
 		}
 	}
 }

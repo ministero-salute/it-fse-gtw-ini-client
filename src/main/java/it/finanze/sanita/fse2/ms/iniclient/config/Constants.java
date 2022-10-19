@@ -109,6 +109,7 @@ public final class Constants {
 		public static final String JWT_MISSING_ISSUER_PLACEHOLDER = "UNDEFINED_JWT_ISSUER";
 
 		public static final String JWT_MISSING_ROLE_PLACEHOLDER = "UNDEFINED_JWT_ROLE";
+		public static final String ERR_TOKEN_INTEGRITY = "Request token is not allowed to perform the operation";
 
 
 		private IniClientConstants(){}

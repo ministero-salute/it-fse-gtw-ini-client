@@ -14,11 +14,7 @@ import javax.xml.bind.JAXBException;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import org.bson.Document;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,13 +47,13 @@ class IniInvocationTest {
     @MockBean
     private IIniClient iniClient;
 
-    @BeforeAll
+    @BeforeEach
     void dataInit() {
         Document entity = JsonUtility.jsonToObject(TestConstants.TEST_INI_EDS_ENTRY, Document.class);
         mongoTemplate.save(entity, Constants.Profile.TEST_PREFIX + Constants.ComponentScan.Collections.INI_EDS_INVOCATION);
     }
 
-    @AfterAll
+    @AfterEach
     void dropCollection() {
         mongoTemplate.dropCollection(IniEdsInvocationETY.class);
     }

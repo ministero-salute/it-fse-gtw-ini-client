@@ -45,7 +45,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	private static final String WARNING = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
 	
-	
 	@Autowired
 	private IniInvocationRepo iniInvocationRepo;
 
