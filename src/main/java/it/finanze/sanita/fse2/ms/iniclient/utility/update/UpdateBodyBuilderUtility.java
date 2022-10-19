@@ -1,5 +1,32 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildExternalIdentifierObjectJax;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObjectJax;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeAuthorClassificationObject;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeClassCode;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeContentTypeCodeClassificationObject;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeHealthcareFacilityTypeCode;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergePracticeSettingCode;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeRepositoryType;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeServiceStartStopTime;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
@@ -10,15 +37,16 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import javax.xml.bind.JAXBElement;
-import java.util.*;
-
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.*;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.*;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExternalIdentifierType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @Slf4j
 public final class UpdateBodyBuilderUtility {
@@ -213,18 +241,18 @@ public final class UpdateBodyBuilderUtility {
 			registryPackageObject.getClassification().add(classificationObjectContentTypeCode.getValue());
 
 
-			// External Identifiers
-			// 1. merge sourceId
-			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
-					objectFactory,
-					"XDSSubmissionSet.sourceId",
-					"ExampleSourceIdId_0001",
-					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
-					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-					generatedUUID,
-					Constants.IniClientConstants.SOURCE_ID_OID + jwtTokenDTO.getPayload().getSubject_organization_id().replace("0", "")
-			);
-			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectSourceId.getValue());
+//			// External Identifiers
+//			// 1. merge sourceId
+//			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
+//					objectFactory,
+//					"XDSSubmissionSet.sourceId",
+//					"ExampleSourceIdId_0001",
+//					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
+//					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
+//					generatedUUID,
+//					Constants.IniClientConstants.SOURCE_ID_OID + jwtTokenDTO.getPayload().getSubject_organization_id().replace("0", "")
+//			);
+//			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectSourceId.getValue());
 
 			// 2. merge patientId
 			SlotType1 sourcePatientIdSlot = oldExtrinsicObject.getSlot().stream()
@@ -338,8 +366,8 @@ public final class UpdateBodyBuilderUtility {
 			registryPackageObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
 			registryPackageObject.setName(null);
 			registryPackageObject.setDescription(null);
-
-			List<String> slotValues = new ArrayList<>(Collections.singletonList(new Date().toString()));
+			String submissionSetTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+			List<String> slotValues = new ArrayList<>(Collections.singletonList(submissionSetTime));
 			JAXBElement<SlotType1> slotObject = buildSlotObjectJax(
 					objectFactory,
 					"submissionTime",
