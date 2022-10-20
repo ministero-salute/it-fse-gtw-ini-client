@@ -91,7 +91,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		this.logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO));
+		logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage());
 		return out;
 	}
 
@@ -106,15 +106,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (RequestUtility.checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				JWTPayloadDTO readJwtPayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
 				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
-				String uuid = this.getUUID(deleteRequestDTO.getIdDoc(), readJwtToken);
-				currentMetadata = this.getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
-				RegistryResponseType res = iniClient.sendDeleteData(
-						deleteRequestDTO.getIdDoc(),
-						jwtPayloadDTO,
-						uuid
-				);
+				String uuid = getUUID(deleteRequestDTO.getIdDoc(), readJwtToken);
+				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
+				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO,uuid);
 				out.setEsito(true);
-				if (ResponseUtility.isErrorResponse(res)) {
+				if (res.getRegistryErrorList()!=null) {
 					out.setEsito(false);
 					for (RegistryError error : res.getRegistryErrorList().getRegistryError()) {
 						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
@@ -134,12 +130,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		this.logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, deleteRequestDTO.getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), deleteRequestDTO.getSubject_role());
+		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, deleteRequestDTO.getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), deleteRequestDTO.getSubject_role(),out.getErrorMessage());
 		return out;
 	}
 
 	@Override
-	public IniResponseDTO updateByRequestBody(UpdateRequestDTO updateRequestDTO) {
+	public IniResponseDTO updateByRequestBody(final UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		AdhocQueryResponse currentMetadata = null;
@@ -149,8 +145,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			// Get reference from INI UUID
 			JWTPayloadDTO readJwtPayload = JsonUtility.clone(updateRequestDTO.getToken(), JWTPayloadDTO.class);
 			JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
-			String uuid = this.getUUID(updateRequestDTO.getIdDoc(), readJwtToken);
-			currentMetadata = this.getMetadata(uuid, readJwtToken);
+			String uuid = getUUID(updateRequestDTO.getIdDoc(), readJwtToken);
+			currentMetadata = getMetadata(uuid, readJwtToken);
 
 			RegistryResponseType registryResponse = iniClient.sendUpdateData(updateRequestDTO, currentMetadata, uuid);
 			out.setEsito(true);
@@ -169,7 +165,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		this.logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), updateRequestDTO.getToken().getSubject_role());
+		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), updateRequestDTO.getToken().getSubject_role(),out.getErrorMessage());
 		return out;
 	}
 
@@ -205,7 +201,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		this.logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO));
+		logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO),out.getErrorMessage());
 		return out;
 	}
 
@@ -232,11 +228,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 
-	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole) {
+	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole,
+			String errorMessage) {
 		if (isSuccess) {
 			logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole);
 		} else {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI", operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole);
+			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole);
 		}
 	}
 
