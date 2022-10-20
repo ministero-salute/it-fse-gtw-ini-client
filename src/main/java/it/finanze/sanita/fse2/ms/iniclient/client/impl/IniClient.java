@@ -260,7 +260,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken) {
+	public AdhocQueryResponse getReferenceMetadata(String uuid, JWTTokenDTO jwtToken) {
 		log.debug("Call to INI get reference metadata");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
@@ -272,7 +272,7 @@ public class IniClient implements IIniClient {
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
 
-				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_METADATA);
+				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 				if (response.getRegistryErrorList()!=null) {
 					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
