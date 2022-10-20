@@ -52,9 +52,9 @@ public class MergeMetadataUtility {
                     .findFirst()
                     .orElseThrow(() -> new NoRecordFoundException("PracticeSettingCodeEnum non trovato nei metadati di INI"));
             classificationObjectList.remove(practiceSettingCodeClassificationObject);
-            practiceSettingCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode());
+            practiceSettingCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
             InternationalStringType practiceSettingCodeName = buildInternationalStringType(
-                    new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription())));
+                    new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getAssettoOrganizzativo().getDescription())));
             practiceSettingCodeClassificationObject.setName(practiceSettingCodeName);
             classificationObjectList.add(practiceSettingCodeClassificationObject);
         } catch (Exception ex) {
