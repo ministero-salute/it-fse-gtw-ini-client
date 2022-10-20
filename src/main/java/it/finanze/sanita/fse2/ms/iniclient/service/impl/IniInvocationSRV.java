@@ -145,8 +145,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			// Get reference from INI UUID
 			JWTPayloadDTO readJwtPayload = JsonUtility.clone(updateRequestDTO.getToken(), JWTPayloadDTO.class);
 			JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
-			String uuid = getUUID(updateRequestDTO.getIdDoc(), readJwtToken);
-			currentMetadata = getMetadata(uuid, readJwtToken);
+			String uuid = iniClient.getReferenceUUID(updateRequestDTO.getIdDoc(), readJwtToken);
+			currentMetadata = iniClient.getReferenceMetadata(uuid, readJwtToken);
 
 			RegistryResponseType registryResponse = iniClient.sendUpdateData(updateRequestDTO, currentMetadata, uuid);
 			out.setEsito(true);
