@@ -26,6 +26,7 @@ import ihe.iti.xds_b._2007.DocumentRegistryPortType;
 import ihe.iti.xds_b._2007.DocumentRegistryService;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
 import ihe.iti.xds_b._2010.XDSDeletetWSService;
+import io.swagger.v3.core.util.Json;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
@@ -40,6 +41,7 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
@@ -172,12 +174,12 @@ public class IniClient implements IIniClient {
 
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
 			RegistryObjectListType metadata = queryResponse.getRegistryObjectList();
-
+			
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
 
-				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata,
-						uuid, jwtTokenDTO);
+				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata, uuid, jwtTokenDTO);
+				
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (NoRecordFoundException ne) {
@@ -195,17 +197,19 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
 		try { 
+			
+			
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			// Reconfigure token and build request
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-
+			JWTTokenDTO clonePayload = JsonUtility.clone(jwtTokenDTO, JWTTokenDTO.class);
+			
 			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
+			String uuid = getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
 
-			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.REPLACE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(clonePayload, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
