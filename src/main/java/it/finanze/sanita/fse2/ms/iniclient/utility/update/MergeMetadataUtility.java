@@ -1,20 +1,27 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObject;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
-
-import javax.xml.bind.JAXBElement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.*;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
 
 @Slf4j
 public class MergeMetadataUtility {
@@ -25,16 +32,16 @@ public class MergeMetadataUtility {
      * @param updateRequestBodyDTO
      * @param classificationObjectList
      */
-    public static void mergeEventTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO, List<ClassificationType> classificationObjectList) {
-        String requestUUID = StringUtility.generateUUID();
+    public static void mergeEventTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO, List<ClassificationType> classificationObjectList,
+    		String uuid) {
         // Slots 8-N
         for (String eventCode : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
             SlotType1 classificationObjNSlot1 = buildSlotObject(Constants.IniClientConstants.CODING_SCHEME, null, Collections.singletonList("2.16.840.1.113883.2.9.3.3.6.1.3"));
             List<SlotType1> classificationObjNSlots = new ArrayList<>();
             classificationObjNSlots.add(classificationObjNSlot1);
             InternationalStringType nameN = buildInternationalStringType(Collections.singletonList(EventCodeEnum.fromValue(eventCode).getDescription()));
-            ClassificationType classificationObjectN = buildClassificationObject(null, "urn:uuid:2c6b8cb7-8b2a-4051-b291-b1ae6a575ef4",
-                    Constants.IniClientConstants.URN_UUID + requestUUID, "IdEventCodeList", nameN, classificationObjNSlots, Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN, eventCode);
+            ClassificationType classificationObjectN = buildClassificationObject(null,uuid, "urn:uuid:2c6b8cb7-8b2a-4051-b291-b1ae6a575ef4",
+                     "IdEventCodeList", nameN, classificationObjNSlots, Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN, eventCode);
             classificationObjectList.add(classificationObjectN);
         }
     }

@@ -12,7 +12,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUt
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeHealthcareFacilityTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergePracticeSettingCode;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeRepositoryType;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeServiceStartStopTime;
 
 import java.text.SimpleDateFormat;
@@ -24,8 +23,8 @@ import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
@@ -97,7 +96,7 @@ public final class UpdateBodyBuilderUtility {
 			RegistryPackageType registryPackageObject = buildBasicRegistryPackageObject(generatedUUID);
 
 			// 1. extrinsic object
-			ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody());
+			ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody(),requestUUID);
 			JAXBElement<ExtrinsicObjectType> jaxbEditedExtrinsicObject = objectFactory.createExtrinsicObject(editedExtrinsicObject);
 
 			// 2. registry package object
@@ -140,17 +139,18 @@ public final class UpdateBodyBuilderUtility {
 					objectFactory,"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
 					requestUUID,generatedUUID,uuid,associationObject1Slots);
 
-			// 5. Association2 object
 			JAXBElement<AssociationType1> jaxbAssociationObject2 = buildAssociationObject(
 					objectFactory,"urn:ihe:iti:2007:AssociationType:RPLC",
-					"SubmissionSet01_Association_1",uuid,Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID(),null);
+					"SubmissionSet01_Association_1",uuid,uuid,null);
 
+		 
 			// 6. merge metadata
 			oldMetadata.getIdentifiable().clear();
 			oldMetadata.getIdentifiable().add(jaxbEditedExtrinsicObject);
 			oldMetadata.getIdentifiable().add(jaxbEditedRegistryPackageObject);
 			oldMetadata.getIdentifiable().add(jaxbAssociationObject1);
 			oldMetadata.getIdentifiable().add(jaxbAssociationObject2);
+			
 			return oldMetadata;
 
 		} catch(Exception ex) {
@@ -259,7 +259,8 @@ public final class UpdateBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	private static ExtrinsicObjectType rebuildExtrinsicObjectMetadata(ExtrinsicObjectType oldExtrinsicObject, PublicationMetadataReqDTO updateRequestBodyDTO) {
+	private static ExtrinsicObjectType rebuildExtrinsicObjectMetadata(ExtrinsicObjectType oldExtrinsicObject, PublicationMetadataReqDTO updateRequestBodyDTO,
+			String uuid) {
 		try {
 			// 1. Classification Objects
 			List<ClassificationType> classificationObjectList = new ArrayList<>(oldExtrinsicObject.getClassification());
@@ -269,7 +270,7 @@ public final class UpdateBodyBuilderUtility {
 
 			// 1.2 merge eventTypeCodeList -> suspended since attiCliniciRegoleAccesso not used in publication
 			if (!CollectionUtils.isEmpty(updateRequestBodyDTO.getAttiCliniciRegoleAccesso())) {
-				mergeEventTypeCode(updateRequestBodyDTO, classificationObjectList);
+				mergeEventTypeCode(updateRequestBodyDTO, classificationObjectList,uuid);
 			}
 
 			// 1.3 merge classCode
@@ -291,11 +292,13 @@ public final class UpdateBodyBuilderUtility {
 			// 2.2 merge service start / stop time
 			mergeServiceStartStopTime(updateRequestBodyDTO, slotList);
 
-//			// 2.3 merge repository-type
-//			if (StringUtils.hasText(updateRequestBodyDTO.getConservazioneANorma())) {
-//				mergeRepositoryType(updateRequestBodyDTO, slotList);
-//			}
+			// 2.3 merge repository-type
+			if (updateRequestBodyDTO.getConservazioneANorma()!=null) {
+				MergeMetadataUtility.mergeRepositoryType(updateRequestBodyDTO, slotList);
+			}
 
+//			mergeRefType(updateRequestBodyDTO, slotList);
+			
 			// 2.4 add all slot objects
 			oldExtrinsicObject.getSlot().addAll(slotList);
 
