@@ -62,20 +62,11 @@ public final class UpdateBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequest(
-			UpdateRequestDTO updateRequestDTO,
-			RegistryObjectListType oldMetadata,
-			String uuid,
-			JWTTokenDTO jwtTokenDTO
-	) {
+	public static SubmitObjectsRequest buildSubmitObjectRequest(UpdateRequestDTO updateRequestDTO,RegistryObjectListType oldMetadata,
+			String uuid,JWTTokenDTO jwtTokenDTO) {
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
 		try {
-			RegistryObjectListType registryObjectListType = buildRegistryObjectList(
-					oldMetadata,
-					updateRequestDTO,
-					uuid,
-					jwtTokenDTO
-			);
+			RegistryObjectListType registryObjectListType = buildRegistryObjectList(oldMetadata,updateRequestDTO,uuid,jwtTokenDTO);
 			submitObjectsRequest.setRegistryObjectList(registryObjectListType);
 		} catch(Exception ex) {
 			log.error("Error while perform build submit object request : {}" , ex.getMessage());
@@ -91,12 +82,9 @@ public final class UpdateBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	private static RegistryObjectListType buildRegistryObjectList(
-			RegistryObjectListType oldMetadata,
-			UpdateRequestDTO updateRequestDTO,
-			String uuid,
-			JWTTokenDTO jwtTokenDTO
-	) {
+	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata,
+			UpdateRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO) {
+		
 		String generatedUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		try {
@@ -128,7 +116,7 @@ public final class UpdateBodyBuilderUtility {
 					"urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",
 					null,
 					generatedUUID,
-					requestUUID,
+					uuid,
 					null, null, null, null
 			);
 			oldMetadata.getIdentifiable().add(classificationObject);
@@ -149,23 +137,13 @@ public final class UpdateBodyBuilderUtility {
 			associationObject1Slots.add(associationObj1SlotPreviousVersion);
 
 			JAXBElement<AssociationType1> jaxbAssociationObject1 = buildAssociationObject(
-					objectFactory,
-					"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
-					requestUUID,
-					generatedUUID,
-					uuid,
-					associationObject1Slots
-			);
+					objectFactory,"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
+					requestUUID,generatedUUID,uuid,associationObject1Slots);
 
 			// 5. Association2 object
 			JAXBElement<AssociationType1> jaxbAssociationObject2 = buildAssociationObject(
-					objectFactory,
-					"urn:ihe:iti:2007:AssociationType:RPLC",
-					"SubmissionSet01_Association_1",
-					uuid,
-					Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID(),
-					null
-			);
+					objectFactory,"urn:ihe:iti:2007:AssociationType:RPLC",
+					"SubmissionSet01_Association_1",uuid,Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID(),null);
 
 			// 6. merge metadata
 			oldMetadata.getIdentifiable().clear();
@@ -173,7 +151,6 @@ public final class UpdateBodyBuilderUtility {
 			oldMetadata.getIdentifiable().add(jaxbEditedRegistryPackageObject);
 			oldMetadata.getIdentifiable().add(jaxbAssociationObject1);
 			oldMetadata.getIdentifiable().add(jaxbAssociationObject2);
-
 			return oldMetadata;
 
 		} catch(Exception ex) {
@@ -205,7 +182,7 @@ public final class UpdateBodyBuilderUtility {
 					jwtTokenDTO.getPayload().getSubject_organization() +
 							"^^^^^^^^^" +
 							Constants.IniClientConstants.SOURCE_ID_OID +
-							jwtTokenDTO.getPayload().getSubject_organization_id().replace("0", "")));
+							jwtTokenDTO.getPayload().getSubject_organization_id()));
 			JAXBElement<SlotType1> slotObject = buildSlotObjectJax(
 					objectFactory,
 					"intendedRecipient",
@@ -239,55 +216,33 @@ public final class UpdateBodyBuilderUtility {
 			// 2. merge contentTypeCode
 			JAXBElement<ClassificationType> classificationObjectContentTypeCode = mergeContentTypeCodeClassificationObject(objectFactory, updateRequestBodyDTO, generatedUUID);
 			registryPackageObject.getClassification().add(classificationObjectContentTypeCode.getValue());
-
-
-//			// External Identifiers
-//			// 1. merge sourceId
-//			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
-//					objectFactory,
-//					"XDSSubmissionSet.sourceId",
-//					"ExampleSourceIdId_0001",
-//					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
-//					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-//					generatedUUID,
-//					Constants.IniClientConstants.SOURCE_ID_OID + jwtTokenDTO.getPayload().getSubject_organization_id().replace("0", "")
-//			);
-//			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectSourceId.getValue());
-
-			// 2. merge patientId
-			SlotType1 sourcePatientIdSlot = oldExtrinsicObject.getSlot().stream()
-					.filter(slot -> slot.getName().equals("sourcePatientId"))
-					.findFirst()
-					.orElse(null);
-			String patientId = "";
-			if (sourcePatientIdSlot != null && sourcePatientIdSlot.getValueList() != null && !CollectionUtils.isEmpty(sourcePatientIdSlot.getValueList().getValue())) {
-				patientId = sourcePatientIdSlot.getValueList().getValue().get(0);
-			} else {
-				patientId = jwtTokenDTO.getPayload().getPerson_id();
-			}
-			JAXBElement<ExternalIdentifierType> externalIdentifierObjectPatientIdd = buildExternalIdentifierObjectJax(
-					objectFactory,
-					"XDSSubmissionSet.patientId",
-					"ExamplePatientIdId_0001",
-					"urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
-					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-					generatedUUID,
-					patientId
-			);
-			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectPatientIdd.getValue());
-
+ 
+			
 			// 3. merge uniqueId
 			JAXBElement<ExternalIdentifierType> externalIdentifierObjectUniqueId = buildExternalIdentifierObjectJax(
 					objectFactory,
 					"XDSSubmissionSet.uniqueId",
-					"ExampleUniqueIdId_0001",
+					"SubmissionSet01_UniqueId",
 					"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
 					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
 					"registryObject",
 					updateRequestBodyDTO.getIdentificativoSottomissione()
 			);
 			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectUniqueId.getValue());
-
+			 
+//			// 1. merge sourceId
+			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
+					objectFactory,
+					"XDSSubmissionSet.sourceId",
+					"SubmissionSet01_SourceId",
+					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
+					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
+					generatedUUID,
+					Constants.IniClientConstants.SOURCE_ID_OID + jwtTokenDTO.getPayload().getSubject_organization_id()
+			);
+			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectSourceId.getValue());
+			
+			
 			return registryPackageObject;
 		} catch (Exception ex) {
 			log.error("Error while perform merge registry package object metadata : {}" , ex.getMessage());
@@ -336,10 +291,10 @@ public final class UpdateBodyBuilderUtility {
 			// 2.2 merge service start / stop time
 			mergeServiceStartStopTime(updateRequestBodyDTO, slotList);
 
-			// 2.3 merge repository-type
-			if (StringUtils.hasText(updateRequestBodyDTO.getConservazioneANorma())) {
-				mergeRepositoryType(updateRequestBodyDTO, slotList);
-			}
+//			// 2.3 merge repository-type
+//			if (StringUtils.hasText(updateRequestBodyDTO.getConservazioneANorma())) {
+//				mergeRepositoryType(updateRequestBodyDTO, slotList);
+//			}
 
 			// 2.4 add all slot objects
 			oldExtrinsicObject.getSlot().addAll(slotList);

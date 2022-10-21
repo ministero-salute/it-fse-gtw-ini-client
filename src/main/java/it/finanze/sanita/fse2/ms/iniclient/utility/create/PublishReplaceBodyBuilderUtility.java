@@ -96,7 +96,7 @@ public final class PublishReplaceBodyBuilderUtility {
 			} else {
 				associationObject = buildAssociationObject(objectFactory,
 						"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet01_Association_1",
-						documentEntryDTO.getEntryUUID(),uuid,associationObjectSlots);
+						Constants.IniClientConstants.URN_UUID + requestUUID,uuid,associationObjectSlots);
 			}
 			registryObjectListType.getIdentifiable().add(associationObject);
 		} catch(Exception ex) {
