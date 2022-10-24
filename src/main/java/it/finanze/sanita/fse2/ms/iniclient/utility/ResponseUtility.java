@@ -7,13 +7,16 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 public class ResponseUtility {
+
+    private ResponseUtility() {}
+
     /**
      * Check if error response
      * @param res
      * @return
      */
     public static boolean isErrorResponse(RegistryResponseType res) {
-        return res.getRegistryErrorList() != null && res.getRegistryErrorList().getRegistryError() != null &&
+        return res != null && res.getRegistryErrorList() != null && res.getRegistryErrorList().getRegistryError() != null &&
                 !res.getRegistryErrorList().getRegistryError().isEmpty();
     }
 

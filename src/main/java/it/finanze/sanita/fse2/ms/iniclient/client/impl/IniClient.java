@@ -5,6 +5,7 @@ package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
@@ -14,6 +15,8 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.handler.Handler;
 
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
+import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +29,7 @@ import ihe.iti.xds_b._2007.DocumentRegistryPortType;
 import ihe.iti.xds_b._2007.DocumentRegistryService;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
 import ihe.iti.xds_b._2010.XDSDeletetWSService;
+import io.swagger.v3.core.util.Json;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
@@ -35,13 +39,13 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
@@ -113,8 +117,8 @@ public class IniClient implements IIniClient {
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.CREATE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.CREATE);
+			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.CREATE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -133,22 +137,15 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO) {
+	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO, String uuid) {
 		log.debug("Call to INI delete");
 		try { 
 
 			XDSDeletetWS port = deletetWSService.getXDSDeletetWSSPort();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
-			jwtTokenDTO.setPayload(jwtPayloadDTO);
-
-			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(idDoc, jwtTokenDTO);
-
-			// Reconfigure token and build request
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.DELETE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.DELETE);
+			JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(deleteToken, ActionEnumType.DELETE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -168,30 +165,24 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public UpdateResponseDTO sendUpdateData(UpdateRequestDTO updateRequestDTO) {
+	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO, AdhocQueryResponse queryResponse, String uuid) {
 		log.debug("Call to INI update");
 		RegistryResponseType out = null;
-		UpdateResponseDTO updateResponseDTO = new UpdateResponseDTO();
-		AdhocQueryResponse queryResponse = null;
 		try {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
 			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.UPDATE);
 
-			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(updateRequestDTO.getIdDoc(), jwtTokenDTO);
-			queryResponse = this.getReferenceMetadata(uuid, jwtTokenDTO);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
 			RegistryObjectListType metadata = queryResponse.getRegistryObjectList();
-
+			
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
 
-				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata,
-						uuid,reconfiguredToken);
+				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata, uuid, jwtTokenDTO);
+				
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (NoRecordFoundException ne) {
@@ -201,10 +192,7 @@ public class IniClient implements IIniClient {
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 		}
 
-		updateResponseDTO.setRegistryResponse(out);
-		updateResponseDTO.setOldMetadata(queryResponse);
-
-		return updateResponseDTO;
+		return out;
 	}
 
 	@Override
@@ -212,17 +200,19 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
 		try { 
+			
+			
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
 			// Reconfigure token and build request
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-
+			JWTTokenDTO clonePayload = JsonUtility.clone(jwtTokenDTO, JWTTokenDTO.class);
+			
 			// Get reference from INI UUID
-			String uuid = this.getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
+			String uuid = getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtTokenDTO, ActionEnumType.REPLACE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.REPLACE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(clonePayload, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
@@ -247,7 +237,7 @@ public class IniClient implements IIniClient {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_REFERENCE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -255,15 +245,23 @@ public class IniClient implements IIniClient {
 
 				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
-					throw new NoRecordFoundException("Record non trovato su INI");
+				if (response.getRegistryErrorList()!=null) {
+					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+						if (error.getCodeContext().equals("No results from the query")) {
+							throw new NoRecordFoundException(error.getCodeContext());
+						}
+					}
+					throw new BusinessException("Errore riscontrato su INI");
 				}
-				String uuid = response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
+				String uuid = Optional.of(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId()).orElse("");
+				if (StringUtils.isEmpty(uuid)) {
+					throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
+				}
 				log.debug("Found uuid: {}", uuid);
 				return uuid;
 			}
-		} catch(NoRecordFoundException ne) {
-			throw ne;
+		} catch (NoRecordFoundException ex) {
+			throw ex;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -271,25 +269,32 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken) {
+	public AdhocQueryResponse getReferenceMetadata(String uuid, JWTTokenDTO jwtToken) {
 		log.debug("Call to INI get reference metadata");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
+			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_METADATA);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
 
-				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_METADATA);
+				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid, ActionEnumType.READ_METADATA);
 				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-				if (ResponseUtility.isErrorResponse(response) || ResponseUtility.doesRecordGetResponseExist(response)) {
-					throw new NoRecordFoundException("Record non trovato su INI");
+				if (response.getRegistryErrorList()!=null) {
+					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+						if (error.getCodeContext().equals("No results from the query")) {
+							throw new NoRecordFoundException(error.getCodeContext());
+						}
+					}
+					throw new BusinessException("Errore riscontrato su INI");
 				}
 				return response;
 			}
+		} catch (NoRecordFoundException ex) {
+			throw ex;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -305,6 +310,14 @@ public class IniClient implements IIniClient {
 			List<Handler> handlerChain = bindingProvider.getHandlerChain();
 			handlerChain.add(new SOAPLoggingHandler());
 			bindingProvider.setHandlerChain(handlerChain);
+		}
+	}
+
+	private void checkTokenIntegrity(JWTTokenDTO jwtTokenDTO, ActionEnumType actionEnum) {
+		JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
+		if (!jwtPayloadDTO.getAction_id().equals(actionEnum.getActionId()) || !jwtPayloadDTO.getPurpose_of_use().equals(actionEnum.getPurposeOfUse())) {
+			log.error(Constants.IniClientConstants.ERR_TOKEN_INTEGRITY);
+			throw new TokenIntegrityException(Constants.IniClientConstants.ERR_TOKEN_INTEGRITY);
 		}
 	}
 }

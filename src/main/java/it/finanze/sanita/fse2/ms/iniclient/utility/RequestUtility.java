@@ -42,12 +42,13 @@ public class RequestUtility {
         return deleteRequestDTO.getIdDoc() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdDoc());
     }
 
-    public static JWTTokenDTO configureTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
+    public static JWTTokenDTO configureReadTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
         log.debug("Reconfiguring token per action");
+        JWTTokenDTO reconfiguredToken = new JWTTokenDTO();
         JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
         jwtPayloadDTO.setAction_id(actionType.getActionId());
         jwtPayloadDTO.setPurpose_of_use(actionType.getPurposeOfUse());
-        jwtTokenDTO.setPayload(jwtPayloadDTO);
+        reconfiguredToken.setPayload(jwtPayloadDTO);
         return jwtTokenDTO;
     }
 

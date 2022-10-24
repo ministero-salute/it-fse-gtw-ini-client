@@ -131,8 +131,10 @@ public class SamlBodyBuilderCommonUtility {
             slotObject.setName(name);
             slotObject.setSlotType(type);
             ValueListType valueList = new ValueListType();
-            for (String value : values) {
-                valueList.getValue().add(value);
+            if(values!=null) {
+            	for (String value : values) {
+            		valueList.getValue().add(value);
+            	}
             }
             slotObject.setValueList(valueList);
 
