@@ -5,6 +5,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
@@ -76,6 +77,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		try {
 			out.setResponse(iniInvocationSRV.getMetadata(idDoc, token)); 
 			return new ResponseEntity<>(out, HttpStatus.OK);
+		} catch(NoRecordFoundException ex) {
+			out.setErrorMessage(ExceptionUtils.getMessage(ex));
+			return new ResponseEntity<>(out, HttpStatus.NOT_FOUND);
 		} catch(Exception ex) {
 			log.error("Error while perform get metadati :" , ex);
 			out.setErrorMessage(ExceptionUtils.getMessage(ex));

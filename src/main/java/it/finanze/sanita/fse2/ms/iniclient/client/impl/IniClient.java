@@ -245,7 +245,7 @@ public class IniClient implements IIniClient {
 				if (response.getRegistryErrorList()!=null) {
 					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 						if (error.getCodeContext().equals("No results from the query")) {
-							throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
+							throw new NoRecordFoundException(error.getCodeContext());
 						}
 					}
 					throw new BusinessException("Errore riscontrato su INI");
@@ -257,6 +257,8 @@ public class IniClient implements IIniClient {
 				log.debug("Found uuid: {}", uuid);
 				return uuid;
 			}
+		} catch (NoRecordFoundException ex) {
+			throw ex;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -281,13 +283,15 @@ public class IniClient implements IIniClient {
 				if (response.getRegistryErrorList()!=null) {
 					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 						if (error.getCodeContext().equals("No results from the query")) {
-							throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
+							throw new NoRecordFoundException(error.getCodeContext());
 						}
 					}
 					throw new BusinessException("Errore riscontrato su INI");
 				}
 				return response;
 			}
+		} catch (NoRecordFoundException ex) {
+			throw ex;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());

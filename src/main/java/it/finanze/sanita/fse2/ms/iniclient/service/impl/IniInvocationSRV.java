@@ -110,11 +110,16 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
 				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO,uuid);
 				out.setEsito(true);
-				if (res.getRegistryErrorList()!=null) {
-					out.setEsito(false);
-					for (RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+						if (!WARNING.equals(error.getSeverity())) {
+							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+						}
 					}
+				}
+				
+				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+					out.setEsito(false);						
 					out.setErrorMessage(errorMsg.toString());
 				}
 			} else {
@@ -150,11 +155,17 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 			RegistryResponseType registryResponse = iniClient.sendUpdateData(updateRequestDTO, currentMetadata, uuid);
 			out.setEsito(true);
-			if (ResponseUtility.isErrorResponse(registryResponse)) {
-				out.setEsito(false);
-				for (RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
-					errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+			
+			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
+				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
+					if (!WARNING.equals(error.getSeverity())) {
+						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					}
 				}
+			}
+			
+			if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+				out.setEsito(false);						
 				out.setErrorMessage(errorMsg.toString());
 			}
 		} catch (NoRecordFoundException ne){
@@ -211,6 +222,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		try {
 			String uuid = iniClient.getReferenceUUID(oid, tokenDTO);
 			out = iniClient.getReferenceMetadata(uuid, tokenDTO);
+		} catch (NoRecordFoundException ex) {
+			throw ex;
 		} catch(Exception ex) {
 			log.error("Error while execute getMetadati : " , ex);
 			throw ex;
