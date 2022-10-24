@@ -23,7 +23,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
@@ -46,6 +45,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
 
 @Slf4j
 public final class UpdateBodyBuilderUtility {
@@ -96,7 +96,8 @@ public final class UpdateBodyBuilderUtility {
 			RegistryPackageType registryPackageObject = buildBasicRegistryPackageObject(generatedUUID);
 
 			// 1. extrinsic object
-			ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody(),requestUUID);
+			ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody(),requestUUID,
+					uuid);
 			JAXBElement<ExtrinsicObjectType> jaxbEditedExtrinsicObject = objectFactory.createExtrinsicObject(editedExtrinsicObject);
 
 			// 2. registry package object
@@ -127,9 +128,7 @@ public final class UpdateBodyBuilderUtility {
 					null,
 					Collections.singletonList("Original")
 			);
-			SlotType1 associationObj1SlotPreviousVersion = buildSlotObject(
-					"PreviousVersion",
-					null,
+			SlotType1 associationObj1SlotPreviousVersion = buildSlotObject("PreviousVersion",null,
 					Collections.singletonList(oldExtrinsicObject.getVersionInfo().getVersionName())
 			);
 			associationObject1Slots.add(associationObj1SlotSubmissionSetStatus);
@@ -260,7 +259,7 @@ public final class UpdateBodyBuilderUtility {
 	 * @return
 	 */
 	private static ExtrinsicObjectType rebuildExtrinsicObjectMetadata(ExtrinsicObjectType oldExtrinsicObject, PublicationMetadataReqDTO updateRequestBodyDTO,
-			String uuid) {
+			String uuid, String olduuid) {
 		try {
 			// 1. Classification Objects
 			List<ClassificationType> classificationObjectList = new ArrayList<>(oldExtrinsicObject.getClassification());
@@ -297,7 +296,7 @@ public final class UpdateBodyBuilderUtility {
 				MergeMetadataUtility.mergeRepositoryType(updateRequestBodyDTO, slotList);
 			}
 
-//			mergeRefType(updateRequestBodyDTO, slotList);
+			mergeRefType(updateRequestBodyDTO, slotList, olduuid);
 			
 			// 2.4 add all slot objects
 			oldExtrinsicObject.getSlot().addAll(slotList);
@@ -309,6 +308,36 @@ public final class UpdateBodyBuilderUtility {
 		}
 	}
 
+	  /**
+     * Merge repository-type metadata
+     * @param updateRequestBodyDTO
+     * @param slotList
+     */
+    public static void mergeRefType(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList,
+    		String uuid) {
+        try {
+        	List<SlotType1> temp = new ArrayList<>(slotList);
+        	for(SlotType1 slot : temp) {
+        		if(slot.getName().contains("referenceIdList")) {
+        			slotList.remove(slot);
+        			break;
+        		}
+        	}
+
+//        		SlotType1 repositoryTypeSlot = buildSlotObject(
+//        				"urn:ihe:iti:xds:2013:referenceIdList",
+//        				null,
+//        				Collections.singletonList(uuid+"^^^&2.16.840.1.113883.2.9.2.190&ISO^urn:ihe:iti:2007:AssociationType:RPLC")
+////                    Collections.singletonList(slotList.get(5).getValueList().getValue().get(0))
+//        				);
+//        		slotList.add(repositoryTypeSlot);
+        } catch (Exception ex) {
+            log.error("Error while perform merge repository type : {}" , ex.getMessage());
+            throw new BusinessException("Error while perform merge repository type : ", ex);
+        }
+    }
+	
+	
 	/**
 	 *
 	 * @param documentEntryDTO
