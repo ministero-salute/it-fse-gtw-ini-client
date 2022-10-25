@@ -14,7 +14,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.LocalizedStringType;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.springframework.util.CollectionUtils;
 

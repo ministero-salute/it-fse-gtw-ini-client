@@ -10,7 +10,6 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.ResponseOptionType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AdhocQueryType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.xml.bind.JAXBElement;
 import java.math.BigInteger;
