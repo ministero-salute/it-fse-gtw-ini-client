@@ -70,6 +70,11 @@ public final class Constants {
 		 */
 		public static final String DEV = "dev";
 
+		/**
+		 * Dev profile.
+		 */
+		public static final String DOCKER = "docker";
+
 		/** 
 		 * Constructor.
 		 */
@@ -116,6 +121,11 @@ public final class Constants {
 
 
 		private IniClientConstants(){}
+	}
+
+	public static final class AppConstants  {
+
+		public static final String MOCKED_GATEWAY_NAME = "mocked-gateway";
 	}
   
 	/**

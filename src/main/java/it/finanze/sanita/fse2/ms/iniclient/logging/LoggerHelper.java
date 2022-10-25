@@ -9,9 +9,11 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.dto.LogDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ILogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
@@ -30,6 +32,14 @@ public class LoggerHelper {
 	
 	@Value("${log.kafka-log.enable}")
 	private boolean kafkaLogEnable;
+
+	@Autowired
+	private IConfigClient configClient;
+	
+	private String gatewayName;
+	
+	@Value("${spring.application.name}")
+	private String msName;
 	
 	/* 
 	 * Specify here the format for the dates 
@@ -43,6 +53,8 @@ public class LoggerHelper {
 	public void trace(String message, ILogEnum operation, 
 			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
 		
+		final String gatewayName = getGatewayName();
+		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
@@ -52,6 +64,8 @@ public class LoggerHelper {
 				op_role(subjectRole).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
+				gateway_name(gatewayName).
+				microservice_name(msName).
 				build();
 
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -65,6 +79,7 @@ public class LoggerHelper {
 	public void debug(String message,  ILogEnum operation,  
 			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
 		
+		final String gatewayName = getGatewayName();
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
@@ -74,6 +89,8 @@ public class LoggerHelper {
 				op_role(subjectRole).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
+				gateway_name(gatewayName).
+				microservice_name(msName).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -87,6 +104,8 @@ public class LoggerHelper {
 	public void info(String message, ILogEnum operation,  
 			ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
 		
+		final String gatewayName = getGatewayName();
+		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
@@ -96,6 +115,8 @@ public class LoggerHelper {
 				op_role(subjectRole).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
+				gateway_name(gatewayName).
+				microservice_name(msName).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -108,6 +129,8 @@ public class LoggerHelper {
 	public void warn(String message, ILogEnum operation,  
 			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
 		
+		final String gatewayName = getGatewayName();
+		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
@@ -117,6 +140,8 @@ public class LoggerHelper {
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
+				gateway_name(gatewayName).
+				microservice_name(msName).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -132,6 +157,8 @@ public class LoggerHelper {
 			   ResultLogEnum result, Date startDateOperation,
 			   ILogEnum error, String issuer, String documentType, String subjectRole) {
 		
+		final String gatewayName = getGatewayName();
+		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				message(message).
@@ -143,6 +170,8 @@ public class LoggerHelper {
 				op_timestamp_end(dateFormat.format(new Date())).
 				op_error(error.getCode()).
 				op_error_description(error.getDescription()).
+				gateway_name(gatewayName).
+				microservice_name(msName).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -153,6 +182,17 @@ public class LoggerHelper {
 		}
 		
 	}
-    	
+	    
+	/**
+	 * Returns the gateway name.
+	 * 
+	 * @return The GatewayName of the ecosystem.
+	 */
+	private String getGatewayName() {
+		if (gatewayName == null) {
+			gatewayName = configClient.getGatewayName();
+		}
+		return gatewayName;
+	}
     
 }
