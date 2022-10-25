@@ -46,20 +46,21 @@ public final class Constants {
 		 */
 		public static final String REPOSITORY_MONGO = "it.finanze.sanita.fse2.ms.iniclient.repository";
 
-		public static final class Collections {
-
-			public static final String INI_EDS_INVOCATION = "ini_eds_invocation";
-
-			private Collections() {
-
-			}
-		}
-		
 		private ComponentScan() {
 			//This method is intentionally left blank.
 		}
 
 	}
+	
+	public static final class Collections {
+
+		public static final String INI_EDS_INVOCATION = "ini_eds_invocation";
+
+		private Collections() {
+
+		}
+	}
+
  
 	public static final class Profile {
 		public static final String TEST = "test";
