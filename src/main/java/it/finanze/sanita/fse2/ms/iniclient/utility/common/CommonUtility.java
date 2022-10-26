@@ -109,23 +109,21 @@ public class CommonUtility {
      * @return
      */
     public static String extractDocumentType(DocumentTreeDTO documentTreeDTO) {
-        String documentType = Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
-        
-        if (documentTreeDTO != null) {
-            Optional<Document> documentEntry = Optional.of(documentTreeDTO.getDocumentEntry());
-            if (documentEntry.isPresent()) {
-                if (documentEntry.get().getString("formatCode") != null) {
-                    DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByTemplateId(documentEntry.get().getString("formatCode"));
-                    if (normalizedDocumentType != null) {
-                        documentType = normalizedDocumentType.getDocumentType();
-                    } else {
-                        documentType = documentEntry.get().getString("typeCodeName");
-                    }
-                }
-            } 
-        }
-        
-        return documentType;
+    	String documentType = Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+
+    	if (documentTreeDTO != null) {
+    		Optional<Document> documentEntry = Optional.of(documentTreeDTO.getDocumentEntry());
+    		if (documentEntry.get().getString("formatCode") != null) {
+    			DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByTemplateId(documentEntry.get().getString("formatCode"));
+    			if (normalizedDocumentType != null) {
+    				documentType = normalizedDocumentType.getDocumentType();
+    			} else {
+    				documentType = documentEntry.get().getString("typeCodeName");
+    			}
+    		}
+    	}
+
+    	return documentType;
     }
 
     /**

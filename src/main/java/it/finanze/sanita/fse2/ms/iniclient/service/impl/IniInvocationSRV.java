@@ -68,22 +68,21 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (iniInvocationETY != null) {
 				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
-				if (documentTreeDTO.checkIntegrity()) {
-					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
-					out.setEsito(true);
-					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							if (!WARNING.equals(error.getSeverity())) {
-								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
-							}
+				RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
+				out.setEsito(true);
+				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+						if (!WARNING.equals(error.getSeverity())) {
+							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 						}
 					}
-					
-					if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-						out.setEsito(false);						
-						out.setErrorMessage(errorMsg.toString());
-					}
 				}
+
+				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+					out.setEsito(false);						
+					out.setErrorMessage(errorMsg.toString());
+				}
+				
 			} else {
 				out.setEsito(false);
 				out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
@@ -138,7 +137,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, deleteRequestDTO.getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), deleteRequestDTO.getSubject_role(),out.getErrorMessage());
+		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), extractDocumentTypeFromMetadata(currentMetadata), jwtPayloadDTO.getSubject_role(),out.getErrorMessage());
 		return out;
 	}
 

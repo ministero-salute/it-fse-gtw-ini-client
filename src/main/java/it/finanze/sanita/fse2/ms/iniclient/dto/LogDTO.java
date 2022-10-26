@@ -16,7 +16,7 @@ public class LogDTO {
 	
 	private String operation;
 
-	private String documentType;
+	private String op_document_type;
 	
 	private String op_result;
 	

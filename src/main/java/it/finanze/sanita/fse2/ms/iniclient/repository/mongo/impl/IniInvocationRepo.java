@@ -33,8 +33,8 @@ public class IniInvocationRepo implements IIniInvocationRepo {
 			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
 			out = mongoTemplate.findOne(query, IniEdsInvocationETY.class);
 		} catch(Exception ex) {
-			log.error("Error while running find by transaction id query : " , ex);
-			throw new BusinessException("Error while running find by transaction id query : " , ex);
+			log.error("Error while running find by workflow instance id query : " , ex);
+			throw new BusinessException("Error while running find by workflow instance id query : " , ex);
 		}
 		return out;
 	}

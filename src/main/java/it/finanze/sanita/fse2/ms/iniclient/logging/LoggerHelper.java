@@ -59,7 +59,7 @@ public class LoggerHelper {
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
-				documentType(documentType).
+				op_document_type(documentType).
 				op_result(result.getCode()).
 				op_role(subjectRole).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
@@ -84,7 +84,7 @@ public class LoggerHelper {
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
-				documentType(documentType).
+				op_document_type(documentType).
 				op_result(result.getCode()).
 				op_role(subjectRole).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
@@ -110,7 +110,7 @@ public class LoggerHelper {
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
-				documentType(documentType).
+				op_document_type(documentType).
 				op_result(result.getCode()).
 				op_role(subjectRole).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
@@ -135,7 +135,7 @@ public class LoggerHelper {
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
-				documentType(documentType).
+				op_document_type(documentType).
 				op_role(subjectRole).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
@@ -163,7 +163,7 @@ public class LoggerHelper {
 				op_issuer(issuer).
 				message(message).
 				operation(operation.getCode()).
-				documentType(documentType).
+				op_document_type(documentType).
 				op_role(subjectRole).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
