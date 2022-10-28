@@ -3,51 +3,25 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildExternalIdentifierObjectJax;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObjectJax;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeAuthorClassificationObject;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeClassCode;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeContentTypeCodeClassificationObject;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeHealthcareFacilityTypeCode;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergePracticeSettingCode;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeServiceStartStopTime;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
-import org.springframework.util.CollectionUtils;
-
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.LowLevelDocEnum;
+import it.finanze.sanita.fse2.ms.iniclient.enums.DocumentTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExternalIdentifierType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
+import org.springframework.util.CollectionUtils;
+
+import javax.xml.bind.JAXBElement;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.*;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.*;
 
 @Slf4j
 public final class UpdateBodyBuilderUtility {
@@ -58,9 +32,10 @@ public final class UpdateBodyBuilderUtility {
 
 	/**
 	 *
-	 * @param documentEntryDTO
-	 * @param submissionSetEntryDTO
-	 * @param jwtPayloadDTO
+	 * @param updateRequestDTO
+	 * @param oldMetadata
+	 * @param uuid
+	 * @param jwtTokenDTO
 	 * @return
 	 */
 	public static SubmitObjectsRequest buildSubmitObjectRequest(UpdateRequestDTO updateRequestDTO,RegistryObjectListType oldMetadata,
@@ -78,9 +53,10 @@ public final class UpdateBodyBuilderUtility {
 
 	/**
 	 *
-	 * @param documentEntryDTO
-	 * @param submissionSetEntryDTO
-	 * @param jwtPayloadDTO
+	 * @param oldMetadata
+	 * @param updateRequestDTO
+	 * @param uuid
+	 * @param jwtTokenDTO
 	 * @return
 	 */
 	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata,
@@ -162,11 +138,11 @@ public final class UpdateBodyBuilderUtility {
 
 	/**
 	 * Merge old registry package object metadata with the ones received in the request
+	 * @param oldExtrinsicObject
 	 * @param registryPackageObject
 	 * @param updateRequestBodyDTO
-	 * @param documentEntryDTO
-	 * @param submissionSetEntryDTO
-	 * @param jwtPayloadDTO
+	 * @param jwtTokenDTO
+	 * @param generatedUUID
 	 * @return
 	 */
 	private static RegistryPackageType rebuildRegistryPackageObjectMetadata(
@@ -198,12 +174,12 @@ public final class UpdateBodyBuilderUtility {
 					.findFirst()
 					.orElseThrow(() -> new NoRecordFoundException("Format code non trovato nei metadati di INI"));
 			String nodeRepresentation = formatCodeClassification.getNodeRepresentation();
-			LowLevelDocEnum lowLevelDocumentName = Arrays.stream(LowLevelDocEnum.values())
-					.filter(lowLevelDocEnum -> lowLevelDocEnum.getCode().equals(nodeRepresentation))
+			DocumentTypeEnum documentTypeEnum = Arrays.stream(DocumentTypeEnum.values())
+					.filter(document -> document.getTemplateId().equals(nodeRepresentation))
 					.findFirst()
 					.orElse(null);
-			InternationalStringType formatCodeName = lowLevelDocumentName != null ? buildInternationalStringType(
-					new ArrayList<>(Collections.singleton(lowLevelDocumentName.getDescription()))) : null;
+			InternationalStringType formatCodeName = documentTypeEnum != null ? buildInternationalStringType(
+					new ArrayList<>(Collections.singleton(documentTypeEnum.getDocumentType()))) : null;
 			registryPackageObject.setName(formatCodeName);
 			registryPackageObject.setDescription(formatCodeName);
 
@@ -255,9 +231,8 @@ public final class UpdateBodyBuilderUtility {
 	 * Rebuild old extrinsic object metadata with the ones received in the request
 	 * @param oldExtrinsicObject
 	 * @param updateRequestBodyDTO
-	 * @param documentEntryDTO
-	 * @param submissionSetEntryDTO
-	 * @param jwtPayloadDTO
+	 * @param uuid
+	 * @param olduuid
 	 * @return
 	 */
 	private static ExtrinsicObjectType rebuildExtrinsicObjectMetadata(ExtrinsicObjectType oldExtrinsicObject, PublicationMetadataReqDTO updateRequestBodyDTO,
@@ -338,13 +313,11 @@ public final class UpdateBodyBuilderUtility {
             throw new BusinessException("Error while perform merge repository type : ", ex);
         }
     }
-	
-	
+
+
 	/**
 	 *
-	 * @param documentEntryDTO
-	 * @param submissionSetEntryDTO
-	 * @param jwtPayloadDTO
+	 * @param generatedUUID
 	 * @return
 	 */
 	private static RegistryPackageType buildBasicRegistryPackageObject(String generatedUUID) {

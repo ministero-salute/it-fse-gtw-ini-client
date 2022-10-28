@@ -137,7 +137,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), extractDocumentTypeFromMetadata(currentMetadata), jwtPayloadDTO.getSubject_role(),out.getErrorMessage());
+		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), jwtPayloadDTO.getSubject_role(),out.getErrorMessage());
 		return out;
 	}
 
@@ -178,7 +178,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), this.extractDocumentTypeFromMetadata(currentMetadata), updateRequestDTO.getToken().getSubject_role(),out.getErrorMessage());
+		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), updateRequestDTO.getToken().getSubject_role(),out.getErrorMessage());
 		return out;
 	}
 
@@ -250,20 +250,5 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		} else {
 			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole);
 		}
-	}
-
-	/**
-	 * Compute type code name basing on passed metadata object
-	 * If metadata does not exist, an attempt will be performed to get them from INI
-	 * @param queryResponse
-	 * @return
-	 */
-	public String extractDocumentTypeFromMetadata(AdhocQueryResponse queryResponse) {
-		log.debug("Extract document type from metadata");
-		if (CommonUtility.checkMetadata(queryResponse)) {
-			return CommonUtility.extractDocumentTypeFromQueryResponse(queryResponse);
-		}
-
-		return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
 	}
 }

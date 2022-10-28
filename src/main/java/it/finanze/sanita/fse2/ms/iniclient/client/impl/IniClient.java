@@ -198,9 +198,8 @@ public class IniClient implements IIniClient {
 	public RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken) {
 		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
-		try { 
-			
-			
+		try {
+
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 

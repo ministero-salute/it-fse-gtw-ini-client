@@ -149,14 +149,14 @@ public class CommonUtility {
             if (optExtrinsicObject.isPresent()) {
                 ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
                 List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
-                Optional<ClassificationType> optTypeCodeClassificationObject = classificationObjectList
+                Optional<ClassificationType> optFormatCodeClassificationObject = classificationObjectList
                         .stream()
-                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f0306f51-975f-434e-a61c-c59651d33983"))
+                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d"))
                         .findFirst();
-                if (optTypeCodeClassificationObject.isPresent()) {
-                    Optional<LocalizedStringType> typeCodeName = optTypeCodeClassificationObject.get()
+                if (optFormatCodeClassificationObject.isPresent()) {
+                    Optional<LocalizedStringType> formatCodeName = optFormatCodeClassificationObject.get()
                             .getName().getLocalizedString().stream().findFirst();
-                    return typeCodeName.isPresent()? typeCodeName.get().getValue() : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+                    return formatCodeName.isPresent()? formatCodeName.get().getValue() : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
                 }
             }
         }

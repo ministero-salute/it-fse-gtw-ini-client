@@ -17,6 +17,8 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+
 /**
  * Implementation of gtw-config Client.
  * 
@@ -36,11 +38,11 @@ public class ConfigClient implements IConfigClient {
     private transient RestTemplate restTemplate;
 
     @Autowired
-    private ProfileUtility profileUtility;
+    private transient ProfileUtility profileUtility;
 
     @Override
     public String getGatewayName() {
-        String gatewayName = null;
+        String gatewayName;
         try {
             log.debug("Config Client - Calling Config Client to get Gateway Name");
             final String endpoint = configHost + "/v1/whois";
@@ -55,8 +57,9 @@ public class ConfigClient implements IConfigClient {
 
             final ResponseEntity<WhoIsResponseDTO> response = restTemplate.getForEntity(endpoint, WhoIsResponseDTO.class);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                gatewayName = response.getBody().getGatewayName();
+            if (response.getStatusCode().is2xxSuccessful() && response.hasBody()) {
+                WhoIsResponseDTO body = response.getBody();
+                gatewayName = body != null && body.getGatewayName() != null ? body.getGatewayName() : null;
             } else {
                 log.error("Config Client - Error calling Config Client to get Gateway Name");
                 throw new BusinessException("The Config Client has returned an error");
