@@ -108,7 +108,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (RequestUtility.checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				JWTPayloadDTO readJwtPayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
 				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
-				String uuid = getUUID(deleteRequestDTO.getIdDoc(), readJwtToken);
+				String uuid = getReference(deleteRequestDTO.getIdDoc(), readJwtToken);
 				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
 				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO,uuid);
 				out.setEsito(true);
@@ -233,7 +233,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return out;
 	}
 
-	private String getUUID(String oid, JWTTokenDTO tokenDTO) {
+	@Override
+	public String getReference(String oid, JWTTokenDTO tokenDTO) {
 		try {
 			return iniClient.getReferenceUUID(oid, tokenDTO);
 		} catch(Exception ex) {
