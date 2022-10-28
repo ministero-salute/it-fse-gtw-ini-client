@@ -108,9 +108,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (RequestUtility.checkDeleteRequestIntegrity(deleteRequestDTO)) {
 				JWTPayloadDTO readJwtPayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
 				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
-				String uuid = getReference(deleteRequestDTO.getIdDoc(), readJwtToken);
 				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
-				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO,uuid);
+				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
 				out.setEsito(true);
 				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
