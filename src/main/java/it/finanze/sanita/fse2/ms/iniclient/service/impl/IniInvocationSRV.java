@@ -234,12 +234,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Override
 	public String getReference(String oid, JWTTokenDTO tokenDTO) {
-		try {
-			return iniClient.getReferenceUUID(oid, tokenDTO);
-		} catch(Exception ex) {
-			log.error("Error while execute getMetadati : " , ex);
-			throw ex;
-		}
+		return iniClient.getReferenceUUID(oid, tokenDTO);
 	}
 
 
