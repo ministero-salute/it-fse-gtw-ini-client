@@ -69,18 +69,19 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 				RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
-				out.setEsito(true);
+				
 				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
 						if (!WARNING.equals(error.getSeverity())) {
 							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 						}
 					}
-				}
-
-				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-					out.setEsito(false);						
-					out.setErrorMessage(errorMsg.toString());
+					
+					if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+						out.setErrorMessage(errorMsg.toString());
+					}
+				} else {
+					out.setEsito(true);
 				}
 				
 			} else {
