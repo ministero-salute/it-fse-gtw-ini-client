@@ -24,4 +24,6 @@ public interface IIniInvocationSRV extends Serializable {
     
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
+	String getReference(String oid, JWTTokenDTO tokenDTO);
+
 }

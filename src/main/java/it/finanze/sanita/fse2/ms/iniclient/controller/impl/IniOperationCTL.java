@@ -6,6 +6,7 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
@@ -85,6 +86,30 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			return new ResponseEntity<>(out, HttpStatus.NOT_FOUND);
 		} catch(Exception ex) {
 			log.error("Error while perform get metadati :" , ex);
+			out.setErrorMessage(ExceptionUtils.getMessage(ex));
+			return new ResponseEntity<>(out, HttpStatus.FORBIDDEN);
+		}
+	}
+
+	@Override
+	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO req, HttpServletRequest request) {
+		log.warn("Get reference - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
+		JWTTokenDTO token = new JWTTokenDTO();
+		token.setPayload(RequestUtility.buildPayloadFromReq(req));
+
+		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		out.setTraceID(traceInfo.getTraceID());
+		out.setSpanID(traceInfo.getSpanID());
+
+		try {
+			out.setUuid(iniInvocationSRV.getReference(idDoc, token));
+			return new ResponseEntity<>(out, HttpStatus.OK);
+		} catch(NoRecordFoundException ex) {
+			out.setErrorMessage(ExceptionUtils.getMessage(ex));
+			return new ResponseEntity<>(out, HttpStatus.NOT_FOUND);
+		} catch(Exception ex) {
+			log.error("Error while perform get reference :" , ex);
 			out.setErrorMessage(ExceptionUtils.getMessage(ex));
 			return new ResponseEntity<>(out, HttpStatus.FORBIDDEN);
 		}
