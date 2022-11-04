@@ -5,7 +5,6 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import java.util.Date;
 
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,7 @@ import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRepo;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -93,7 +93,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage());
+		logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO));
 		return out;
 	}
 
@@ -137,7 +137,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), jwtPayloadDTO.getSubject_role(),out.getErrorMessage());
+		
+		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), jwtPayloadDTO.getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(deleteRequestDTO.getSub()));
 		return out;
 	}
 
@@ -178,7 +179,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), updateRequestDTO.getToken().getSubject_role(),out.getErrorMessage());
+		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), updateRequestDTO.getToken().getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(updateRequestDTO.getToken().getSub()));
 		return out;
 	}
 
@@ -214,7 +215,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO),out.getErrorMessage());
+		logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO));
 		return out;
 	}
 
@@ -244,11 +245,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 
 	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole,
-			String errorMessage) {
+			String errorMessage, String subjectFiscalCode) {
 		if (isSuccess) {
-			logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole);
+			logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
 		} else {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole);
+			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole, subjectFiscalCode);
 		}
 	}
+	
 }

@@ -46,12 +46,11 @@ public class LoggerHelper {
 	 */
 	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS"); 
 	
-	
 	/* 
 	 * Implements structured logs, at all logging levels
 	 */
-	public void trace(String message, ILogEnum operation, 
-			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
+	public void trace(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
+		String documentType, String subjectRole, String subjectFiscalCode) {
 		
 		final String gatewayName = getGatewayName();
 		
@@ -62,6 +61,7 @@ public class LoggerHelper {
 				op_document_type(documentType).
 				op_result(result.getCode()).
 				op_role(subjectRole).
+				op_fiscal_code(subjectFiscalCode).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
 				gateway_name(gatewayName).
@@ -77,7 +77,7 @@ public class LoggerHelper {
 	} 
 	
 	public void debug(String message,  ILogEnum operation,  
-			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
+			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole, String subjectFiscalCode) {
 		
 		final String gatewayName = getGatewayName();
 		LogDTO logDTO = LogDTO.builder().
@@ -87,6 +87,7 @@ public class LoggerHelper {
 				op_document_type(documentType).
 				op_result(result.getCode()).
 				op_role(subjectRole).
+				op_fiscal_code(subjectFiscalCode).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
 				gateway_name(gatewayName).
@@ -102,7 +103,7 @@ public class LoggerHelper {
 	} 
 	 
 	public void info(String message, ILogEnum operation,  
-			ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
+			ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole, String subjectFiscalCode) {
 		
 		final String gatewayName = getGatewayName();
 		
@@ -113,6 +114,7 @@ public class LoggerHelper {
 				op_document_type(documentType).
 				op_result(result.getCode()).
 				op_role(subjectRole).
+				op_fiscal_code(subjectFiscalCode).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
 				gateway_name(gatewayName).
@@ -127,7 +129,7 @@ public class LoggerHelper {
 	} 
 	
 	public void warn(String message, ILogEnum operation,  
-			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole) {
+			   ResultLogEnum result, Date startDateOperation, String issuer, String documentType, String subjectRole, String subjectFiscalCode) {
 		
 		final String gatewayName = getGatewayName();
 		
@@ -137,6 +139,7 @@ public class LoggerHelper {
 				operation(operation.getCode()).
 				op_document_type(documentType).
 				op_role(subjectRole).
+				op_fiscal_code(subjectFiscalCode).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
@@ -153,9 +156,8 @@ public class LoggerHelper {
  
 	} 
 	
-	public void error(String message, ILogEnum operation,  
-			   ResultLogEnum result, Date startDateOperation,
-			   ILogEnum error, String issuer, String documentType, String subjectRole) {
+	public void error(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation,
+			   ILogEnum error, String issuer, String documentType, String subjectRole, String subjectFiscalCode) {
 		
 		final String gatewayName = getGatewayName();
 		
@@ -165,6 +167,7 @@ public class LoggerHelper {
 				operation(operation.getCode()).
 				op_document_type(documentType).
 				op_role(subjectRole).
+				op_fiscal_code(subjectFiscalCode).
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
@@ -182,7 +185,7 @@ public class LoggerHelper {
 		}
 		
 	}
-	    
+
 	/**
 	 * Returns the gateway name.
 	 * 

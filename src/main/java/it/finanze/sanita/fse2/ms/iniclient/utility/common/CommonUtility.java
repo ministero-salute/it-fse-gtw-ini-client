@@ -104,6 +104,40 @@ public class CommonUtility {
     }
 
     /**
+     * Extract subject Role from token
+     * 
+     * @param documentTreeDTO
+     * @return subject fiscal code of JWT
+     */
+    public static String extractFiscalCodeFromDocumentTree(DocumentTreeDTO documentTreeDTO) {
+        String subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
+        if (documentTreeDTO != null) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            if (payload != null) {
+                subjectFiscalCode = extractFiscalCodeFromJwtSub(payload.getString("sub"));
+            }
+        }
+
+        return subjectFiscalCode;
+    }
+
+    public static String extractFiscalCodeFromJwtSub(final String sub) {
+		String subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
+        try {
+            final String [] chunks = sub.split("\\^\\^\\^");
+    
+            // Checking if the system is MEF, in that case the fiscal code is the first element of the array
+            if (chunks.length > 1 && Constants.OIDS.OID_MEF.equals(chunks[1])) {
+                subjectFiscalCode = chunks[0];
+            }
+        } catch (Exception e) {
+            log.warn("Error extracting fiscal code from JWT sub: {}", e.getMessage());
+            subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
+        }
+		return subjectFiscalCode;
+	}
+
+    /**
      * Extract document type from db entity
      * @param documentTreeDTO
      * @return
