@@ -15,7 +15,6 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.handler.Handler;
 
-import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +34,12 @@ import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
@@ -51,13 +47,12 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtili
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.RemoveObjectsRequestType;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 /**
@@ -164,24 +159,18 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO, AdhocQueryResponse queryResponse, String uuid) {
+	public RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO) {
 		log.debug("Call to INI update");
 		RegistryResponseType out = null;
 		try {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 
-			JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
-			jwtTokenDTO.setPayload(updateRequestDTO.getToken());
-
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
-			RegistryObjectListType metadata = queryResponse.getRegistryObjectList();
 			
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
 
-				SubmitObjectsRequest submitObjectsRequest = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,metadata, uuid, jwtTokenDTO);
-				
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (NoRecordFoundException ne) {

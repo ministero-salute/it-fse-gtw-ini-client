@@ -3,8 +3,27 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
+import java.io.StringReader;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXB;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
@@ -14,14 +33,7 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import lombok.extern.slf4j.Slf4j;
-
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 
 /**
  *
@@ -53,11 +65,13 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
-
+ 
+    
     @Override
     public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
         log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
-        IniResponseDTO res = iniInvocationSRV.updateByRequestBody(requestBody);
+        SubmitObjectsRequest req =  JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
+        IniResponseDTO res = iniInvocationSRV.updateByRequestBody(req, requestBody);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
@@ -113,5 +127,12 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			out.setErrorMessage(ExceptionUtils.getMessage(ex));
 			return new ResponseEntity<>(out, HttpStatus.FORBIDDEN);
 		}
+	}
+	
+	@Override
+	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody, HttpServletRequest request) {
+		log.debug("Call merged metadati");
+		GetMergedMetadatiDTO mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);
+		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati);
 	}
 }

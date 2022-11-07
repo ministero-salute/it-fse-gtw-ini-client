@@ -6,7 +6,7 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.DocumentTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
@@ -38,7 +38,7 @@ public final class UpdateBodyBuilderUtility {
 	 * @param jwtTokenDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequest(UpdateRequestDTO updateRequestDTO,RegistryObjectListType oldMetadata,
+	public static SubmitObjectsRequest buildSubmitObjectRequest(MergedMetadatiRequestDTO updateRequestDTO,RegistryObjectListType oldMetadata,
 			String uuid,JWTTokenDTO jwtTokenDTO) {
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
 		try {
@@ -60,7 +60,7 @@ public final class UpdateBodyBuilderUtility {
 	 * @return
 	 */
 	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata,
-			UpdateRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO) {
+			MergedMetadatiRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO) {
 		
 		String generatedUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();

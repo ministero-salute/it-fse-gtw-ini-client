@@ -12,9 +12,12 @@ import static org.mockito.ArgumentMatchers.anyString;
 
 import javax.xml.bind.JAXBException;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import org.bson.Document;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +28,12 @@ import org.springframework.test.context.ActiveProfiles;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
@@ -138,10 +147,11 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
-        Mockito.when(iniClient.sendUpdateData(any(UpdateRequestDTO.class), any(), any()))
+        Mockito.when(iniClient.sendUpdateData(any(), any()))
                 .thenReturn(registryResponseType);
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(updateRequestDTO);
+        //TODO - Add submit object request
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
         assertTrue(iniResponse.getEsito());
         assertNull(iniResponse.getErrorMessage());
     }
@@ -154,10 +164,11 @@ class IniInvocationTest {
                 .thenReturn("uuid");
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.sendUpdateData(any(UpdateRequestDTO.class), any(), any()))
+        Mockito.when(iniClient.sendUpdateData(any(), any()))
                 .thenThrow(new BusinessException(""));
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(updateRequestDTO);
+        //TODO - Add submit object request
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
         assertFalse(iniResponse.getEsito());
         assertNotNull(iniResponse.getErrorMessage());
     }
@@ -171,10 +182,10 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendUpdateData(any(UpdateRequestDTO.class), any(), any()))
+        Mockito.when(iniClient.sendUpdateData(any(), any()))
                 .thenReturn(registryResponseType);
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(updateRequestDTO);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
         assertFalse(iniResponse.getEsito());
         assertNotNull(iniResponse.getErrorMessage());
     }

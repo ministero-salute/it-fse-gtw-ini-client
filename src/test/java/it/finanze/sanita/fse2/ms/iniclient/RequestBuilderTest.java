@@ -25,7 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -178,7 +178,7 @@ class RequestBuilderTest {
     @Test
     @DisplayName("Update - Extrinsic object not found")
     void errorUpdateBodyBuilderTest() {
-        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
+        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, MergedMetadatiRequestDTO.class);
         JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
         jwtTokenDTO.setPayload(updateRequestDTO.getToken());
         JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
@@ -194,7 +194,7 @@ class RequestBuilderTest {
     @Test
     @DisplayName("Update - success test")
     void successUpdateBodyBuilderTest() throws JAXBException, IOException {
-        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
+        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, MergedMetadatiRequestDTO.class);
         JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
         jwtTokenDTO.setPayload(updateRequestDTO.getToken());
         JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);

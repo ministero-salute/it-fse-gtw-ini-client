@@ -3,7 +3,10 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import java.io.StringWriter;
 import java.util.Date;
+
+import javax.xml.bind.JAXB;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +17,16 @@ import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.INIErrorEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -32,7 +37,9 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
 import lombok.extern.slf4j.Slf4j;
+import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
@@ -143,7 +150,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	@Override
-	public IniResponseDTO updateByRequestBody(final UpdateRequestDTO updateRequestDTO) {
+	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		AdhocQueryResponse currentMetadata = null;
@@ -151,12 +158,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			StringBuilder errorMsg = new StringBuilder();
 
 			// Get reference from INI UUID
-			JWTPayloadDTO readJwtPayload = JsonUtility.clone(updateRequestDTO.getToken(), JWTPayloadDTO.class);
-			JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
-			String uuid = iniClient.getReferenceUUID(updateRequestDTO.getIdDoc(), readJwtToken);
-			currentMetadata = iniClient.getReferenceMetadata(uuid, readJwtToken);
-
-			RegistryResponseType registryResponse = iniClient.sendUpdateData(updateRequestDTO, currentMetadata, uuid);
+			JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
+			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
 			out.setEsito(true);
 			
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
@@ -175,7 +178,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setEsito(false);
 			out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {}" , updateRequestDTO.getIdDoc());
+//			log.error("Error while running find and send to ini by document id: {}" , updateRequestDTO.getIdDoc());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
@@ -249,4 +252,44 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		}
 	}
 	
+	@Override
+	public GetMergedMetadatiDTO getMergedMetadati(final String oidToUpdate,final MergedMetadatiRequestDTO updateRequestDTO) {
+		GetMergedMetadatiDTO out = new GetMergedMetadatiDTO();
+		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
+		String uuid = "";
+		try {
+			uuid = iniClient.getReferenceUUID(oidToUpdate, token);
+		} catch(Exception ex) {
+			out.setErrorMessage("Error while perform getReferenceUuid:" + ExceptionUtils.getMessage(ex));
+			log.error("Error while perform get reference uuid", ex);
+		}
+		
+		AdhocQueryResponse oldMetadata = null;
+		if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
+			try {
+				oldMetadata = iniClient.getReferenceMetadata(uuid, token);
+				if(oldMetadata==null) {
+					throw new BusinessException("Nessun metadato trovato");
+				}
+			} catch(Exception ex) {
+				out.setErrorMessage("Error while perform getReferenceMetadata:" + ExceptionUtils.getMessage(ex));
+				log.error("Error while perform getReferenceMetadata", ex);
+			}
+			
+			if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
+				try {
+					SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
+					StringWriter sw = new StringWriter();
+					JAXB.marshal(req, sw);
+					out.setMarshallResponse(sw.toString());
+				} catch(Exception ex) {
+					out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
+					log.error("Error while merge metadati", ex);
+				}
+			}
+		}
+		return out;
+	}
+	
+	 
 }

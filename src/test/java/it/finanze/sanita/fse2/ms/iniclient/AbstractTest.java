@@ -122,7 +122,7 @@ public abstract class AbstractTest {
     /**
      * call update metadata on ini
      */
-    ResponseEntity<IniTraceResponseDTO> callUpdateIniClient(UpdateRequestDTO updateRequestDTO) {
+    ResponseEntity<IniTraceResponseDTO> callUpdateIniClient(MergedMetadatiRequestDTO updateRequestDTO) {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +

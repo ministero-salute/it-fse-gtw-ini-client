@@ -7,7 +7,8 @@ import lombok.Data;
 
 @Data
 public class UpdateRequestDTO {
-    private String idDoc;
+	
     private JWTPayloadDTO token;
-    private PublicationMetadataReqDTO body;
+    
+    private String marshallData;
 }

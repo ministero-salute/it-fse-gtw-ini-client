@@ -37,9 +37,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryRequestType;
     "registryObjectList"
 })
 @XmlRootElement(name = "SubmitObjectsRequest")
-public class SubmitObjectsRequest
-    extends RegistryRequestType
-{
+public class SubmitObjectsRequest extends RegistryRequestType {
 
     @XmlElement(name = "RegistryObjectList", namespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0", required = true)
     protected RegistryObjectListType registryObjectList;
