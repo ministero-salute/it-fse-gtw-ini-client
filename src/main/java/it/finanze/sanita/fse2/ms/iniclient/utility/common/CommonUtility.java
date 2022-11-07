@@ -124,11 +124,11 @@ public class CommonUtility {
     public static String extractFiscalCodeFromJwtSub(final String sub) {
 		String subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
         try {
-            final String [] chunks = sub.split("\\^\\^\\^");
+            final String [] chunks = sub.split("&amp;");
     
             // Checking if the system is MEF, in that case the fiscal code is the first element of the array
             if (chunks.length > 1 && Constants.OIDS.OID_MEF.equals(chunks[1])) {
-                subjectFiscalCode = chunks[0];
+                subjectFiscalCode = chunks[0].split("\\^\\^\\^")[0];
             }
         } catch (Exception e) {
             log.warn("Error extracting fiscal code from JWT sub: {}", e.getMessage());
