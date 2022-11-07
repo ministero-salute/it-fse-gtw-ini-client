@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReplaceRequestDTO {
-    private String idDoc;
+    private String riferimentoIni;
     private String workflowInstanceId;
 }

@@ -21,8 +21,8 @@ public interface IIniClient {
 
     RegistryResponseType sendUpdateData(UpdateRequestDTO updateRequestDTO, AdhocQueryResponse queryResponse, String uuid);
 
-    RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken);
-
+    RegistryResponseType sendReplaceData(Document documentEntry, Document submissionSetEntry, Document jwtToken, String uuid);
+    
     String getReferenceUUID(String idDoc, JWTTokenDTO jwtToken);
 
     AdhocQueryResponse getReferenceMetadata(String idDoc, JWTTokenDTO jwtToken);

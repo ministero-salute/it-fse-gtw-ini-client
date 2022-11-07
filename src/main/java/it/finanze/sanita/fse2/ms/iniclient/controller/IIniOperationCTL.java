@@ -59,7 +59,7 @@ public interface IIniOperationCTL {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Aggiornamento eseguito con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
-	IniTraceResponseDTO replace(@RequestBody ReplaceRequestDTO requestDTO, HttpServletRequest request);
+	IniTraceResponseDTO replace(@RequestBody String workflowInstanceId, HttpServletRequest request);
 	
 	@PostMapping("/get-metadati/{idDoc}")
 	@Operation(summary = "Get metadati INI", description = "Get dei metadati dato un oid in input.")

@@ -184,18 +184,18 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	@Override
-	public IniResponseDTO replaceByWorkflowInstanceId(ReplaceRequestDTO requestDTO) {
+	public IniResponseDTO replaceByWorkflowInstanceId(final String workflowInstanceId) {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentTreeDTO documentTreeDTO = null;
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(requestDTO.getWorkflowInstanceId());
+			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
 			if (iniInvocationETY != null) {
 				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 				if (documentTreeDTO.checkIntegrity()) {
-					RegistryResponseType res = iniClient.sendReplaceData(requestDTO, documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
+					RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
 					out.setEsito(true);
 					if (ResponseUtility.isErrorResponse(res)) {
 						out.setEsito(false);
@@ -211,7 +211,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			}
 
 		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by document id: {} and workflowInstanceId: {}" , requestDTO.getIdDoc(), requestDTO.getWorkflowInstanceId());
+			log.error("Error while running find and send to ini by workflowInstanceId: {} (replace)" , workflowInstanceId);
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}

@@ -92,12 +92,12 @@ class IniInvocationTest {
     @Test
     @DisplayName("Replace - success test")
     void replaceSuccessTest() {
-        Mockito.when(iniClient.sendReplaceData(any(ReplaceRequestDTO.class), any(Document.class), any(Document.class), any(Document.class)))
+        Mockito.when(iniClient.sendReplaceData(any(Document.class), any(Document.class), any(Document.class), anyString()))
                 .thenReturn(new RegistryResponseType());
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setIdDoc("identificativoDoc");
+        requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
+        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(TestConstants.TEST_WII);
         assertTrue(response.getEsito());
         assertNull(response.getErrorMessage());
     }
@@ -105,12 +105,12 @@ class IniInvocationTest {
     @Test
     @DisplayName("Replace - error test")
     void replaceErrorTest() {
-        Mockito.when(iniClient.sendReplaceData(any(ReplaceRequestDTO.class), any(Document.class), any(Document.class), any(Document.class)))
+        Mockito.when(iniClient.sendReplaceData(any(Document.class), any(Document.class), any(Document.class), anyString()))
                 .thenThrow(new BusinessException(""));
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setIdDoc("identificativoDoc");
+        requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
+        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(TestConstants.TEST_WII);
         assertFalse(response.getEsito());
         assertNotNull(response.getErrorMessage());
     }
@@ -119,12 +119,12 @@ class IniInvocationTest {
     @DisplayName("Replace - error response test")
     void replaceErrorResponseTest() {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendReplaceData(any(ReplaceRequestDTO.class), any(Document.class), any(Document.class), any(Document.class)))
+        Mockito.when(iniClient.sendReplaceData(any(Document.class), any(Document.class), any(Document.class),anyString()))
                 .thenReturn(registryResponseType);
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setIdDoc("identificativoDoc");
+        requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
+        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(TestConstants.TEST_WII);
         assertFalse(response.getEsito());
         assertNotNull(response.getErrorMessage());
     }

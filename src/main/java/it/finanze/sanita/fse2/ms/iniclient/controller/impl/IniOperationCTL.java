@@ -62,9 +62,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     }
 
     @Override
-    public IniTraceResponseDTO replace(final ReplaceRequestDTO requestDTO, HttpServletRequest request) {
-        log.debug("idDoc received: " + requestDTO.getIdDoc() + " - workflowInstanceId: " + requestDTO.getWorkflowInstanceId() + ", calling ini replace client...");
-        IniResponseDTO res = iniInvocationSRV.replaceByWorkflowInstanceId(requestDTO);
+    public IniTraceResponseDTO replace(final String workflowInstanceId, HttpServletRequest request) {
+    	log.debug("Workflow instance id received replace:" + workflowInstanceId +", calling ini invocation client...");
+        IniResponseDTO res = iniInvocationSRV.replaceByWorkflowInstanceId(workflowInstanceId);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 

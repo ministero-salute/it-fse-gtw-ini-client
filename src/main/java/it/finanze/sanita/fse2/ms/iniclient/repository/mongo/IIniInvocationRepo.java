@@ -10,4 +10,5 @@ import java.io.Serializable;
 public interface IIniInvocationRepo extends Serializable {
 
 	IniEdsInvocationETY findByWorkflowInstanceId(String workflowInstanceId);
+	
 }

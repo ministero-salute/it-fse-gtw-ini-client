@@ -195,7 +195,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public RegistryResponseType sendReplaceData(ReplaceRequestDTO requestDTO, Document documentEntry, Document submissionSetEntry, Document jwtToken) {
+	public RegistryResponseType sendReplaceData(Document documentEntry, Document submissionSetEntry, Document jwtToken, String uuid) {
 		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
 		try {
@@ -205,12 +205,7 @@ public class IniClient implements IIniClient {
 
 			// Reconfigure token and build request
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-			JWTTokenDTO clonePayload = JsonUtility.clone(jwtTokenDTO, JWTTokenDTO.class);
-			
-			// Get reference from INI UUID
-			String uuid = getReferenceUUID(requestDTO.getIdDoc(), jwtTokenDTO);
-
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(clonePayload, ActionEnumType.REPLACE);
+			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
