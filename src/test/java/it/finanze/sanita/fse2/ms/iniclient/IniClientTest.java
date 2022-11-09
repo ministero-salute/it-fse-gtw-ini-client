@@ -143,31 +143,7 @@ class IniClientTest extends AbstractTest {
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        //assertNull(response.getBody().getErrorMessage());
-        //assertEquals(true, response.getBody().getEsito());
     }
-
-    @Test
-    @DisplayName("errorUpdateTest")
-    void errorUpdateMetadataTest() {
-        String request = "{\"idDoc\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"token\":{\"iss\":\"201123456\",\"iat\":1540890704,\"exp\":1540918800,\"jti\":\"1540918800\",\"aud\":\"fse-gateway\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"UPDATE\",\"attachment_hash\":\"ccd1a23b4a73c838e4dfc2a1948aaec8389ebd331cbaebc1b3144c74fca17da5\"},\"body\":{\"tipologiaStruttura\":\"Ospedale\",\"attiCliniciRegoleAccesso\":[\"P99\"],\"tipoDocumentoLivAlto\":\"WOR\",\"assettoOrganizzativo\":\"AD_PSC001\",\"dataInizioPrestazione\":\"1661246473\",\"dataFinePrestazione\":\"1661246473\",\"conservazioneANorma\":\"string\",\"tipoAttivitaClinica\":\"PHR\",\"identificativoSottomissione\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\"}}";
-        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(request, MergedMetadatiRequestDTO.class);
-        ResponseEntity<IniTraceResponseDTO> response = callUpdateIniClient(updateRequestDTO);
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getErrorMessage());
-        assertEquals(false, response.getBody().getEsito());
-    }
-
-    @Test
-    @DisplayName("successUpdateTest")
-    void successUpdateMetadataTest() {
-        String request = "{\"idDoc\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\",\"token\":{\"iss\":\"201123456\",\"iat\":1540890704,\"exp\":1540918800,\"jti\":\"1540918800\",\"aud\":\"fse-gateway\",\"sub\":\"RSSMRA22A01A399Z\",\"subject_organization_id\":\"110\",\"subject_organization\":\"Regione Marche\",\"locality\":\"201123456\",\"subject_role\":\"AAS\",\"person_id\":\"BMTBTS01A01I526W\",\"patient_consent\":true,\"purpose_of_use\":\"SYSADMIN\",\"action_id\":\"UPDATE\",\"attachment_hash\":\"ccd1a23b4a73c838e4dfc2a1948aaec8389ebd331cbaebc1b3144c74fca17da5\"},\"body\":{\"tipologiaStruttura\":\"Ospedale\",\"attiCliniciRegoleAccesso\":[\"P99\"],\"tipoDocumentoLivAlto\":\"WOR\",\"assettoOrganizzativo\":\"AD_PSC001\",\"dataInizioPrestazione\":\"1661246473\",\"dataFinePrestazione\":\"1661246473\",\"conservazioneANorma\":\"string\",\"tipoAttivitaClinica\":\"PHR\",\"identificativoSottomissione\":\"2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC\"}}";
-        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(request, MergedMetadatiRequestDTO.class);
-        ResponseEntity<IniTraceResponseDTO> response = callUpdateIniClient(updateRequestDTO);
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-        //assertNull(response.getBody().getErrorMessage());
-        //assertEquals(true, response.getBody().getEsito());
-    }
+ 
+ 
 }

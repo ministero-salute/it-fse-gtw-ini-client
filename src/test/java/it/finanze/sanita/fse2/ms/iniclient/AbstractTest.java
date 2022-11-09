@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -117,7 +118,12 @@ public abstract class AbstractTest {
                 .replace("<ID_DOC>", idDoc)
                 .replace("<WORKFLOW_ID>", workflowInstanceId);
         ReplaceRequestDTO requestDTO = JsonUtility.jsonToObject(stringObj, ReplaceRequestDTO.class);
-        HttpEntity<Object> entity = new HttpEntity<>(requestDTO, null);
+//        HttpEntity<Object> entity = new HttpEntity<>(requestDTO, null);
+        
+        HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/json");
+
+		HttpEntity<?> entity = new HttpEntity<>(workflowInstanceId, headers);
 
         return restTemplate.exchange(url, HttpMethod.PUT, entity, IniTraceResponseDTO.class);
     }

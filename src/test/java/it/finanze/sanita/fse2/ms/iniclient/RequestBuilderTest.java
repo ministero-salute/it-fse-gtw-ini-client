@@ -181,7 +181,7 @@ class RequestBuilderTest {
     @Test
     @DisplayName("Update - Extrinsic object not found")
     void errorUpdateBodyBuilderTest() {
-        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, MergedMetadatiRequestDTO.class);
+        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, MergedMetadatiRequestDTO.class);
         JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
         jwtTokenDTO.setPayload(updateRequestDTO.getToken());
         JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
@@ -194,19 +194,4 @@ class RequestBuilderTest {
         ));
     }
 
-    @Test
-    @DisplayName("Update - success test")
-    void successUpdateBodyBuilderTest() throws JAXBException, IOException {
-        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, MergedMetadatiRequestDTO.class);
-        JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
-        jwtTokenDTO.setPayload(updateRequestDTO.getToken());
-        JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
-
-        assertDoesNotThrow(() -> UpdateBodyBuilderUtility.buildSubmitObjectRequest(
-                updateRequestDTO,
-                TestUtility.mockQueryResponse().getRegistryObjectList(),
-                TestConstants.TEST_UUID,
-                reconfiguredToken
-        ));
-    }
 }

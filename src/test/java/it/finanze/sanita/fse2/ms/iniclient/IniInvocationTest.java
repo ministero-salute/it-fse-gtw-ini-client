@@ -41,6 +41,7 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
@@ -117,8 +118,7 @@ class IniInvocationTest {
     @Test
     @DisplayName("Replace - error test")
     void replaceErrorTest() {
-        Mockito.when(iniClient.sendReplaceData(any(Document.class), any(Document.class), any(Document.class), anyString()))
-                .thenThrow(new BusinessException(""));
+        Mockito.when(iniClient.sendReplaceData(any(), any(), any(), any())).thenThrow(new BusinessException(""));
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
@@ -131,7 +131,7 @@ class IniInvocationTest {
     @DisplayName("Replace - error response test")
     void replaceErrorResponseTest() {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendReplaceData(any(Document.class), any(Document.class), any(Document.class),anyString()))
+        Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any()))
                 .thenReturn(registryResponseType);
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
@@ -150,11 +150,11 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
-        Mockito.when(iniClient.sendUpdateData(any(), any()))
-                .thenReturn(registryResponseType);
-        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
-        //TODO - Add submit object request
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
+        Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
+        
+        String json = TestConstants.TEST_UPDATE_REQ_NEW ;
+        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(json, UpdateRequestDTO.class);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
         assertTrue(iniResponse.getEsito());
         assertNull(iniResponse.getErrorMessage());
     }
@@ -169,9 +169,8 @@ class IniInvocationTest {
                 .thenReturn(response);
         Mockito.when(iniClient.sendUpdateData(any(), any()))
                 .thenThrow(new BusinessException(""));
-        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
-        //TODO - Add submit object request
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
+        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
         assertFalse(iniResponse.getEsito());
         assertNotNull(iniResponse.getErrorMessage());
     }
@@ -185,9 +184,8 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendUpdateData(any(), any()))
-                .thenReturn(registryResponseType);
-        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ, UpdateRequestDTO.class);
+        Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
+        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
         assertFalse(iniResponse.getEsito());
         assertNotNull(iniResponse.getErrorMessage());
@@ -201,7 +199,7 @@ class IniInvocationTest {
                 .thenReturn("uuid");
         Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.sendDeleteData(anyString(), any(JWTPayloadDTO.class), anyString()))
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
                 .thenReturn(new RegistryResponseType());
         DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
