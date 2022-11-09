@@ -12,7 +12,6 @@ import org.bson.Document;
 /**
  * Interface of Ini client.
  * 
- * @author vincenzoingenito
  */
 public interface IIniClient {
 

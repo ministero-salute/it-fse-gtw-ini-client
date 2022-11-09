@@ -16,7 +16,6 @@ import java.nio.file.Paths;
 /**
  * The Class FileUtils.
  *
- * @author vincenzoingenito
  *
  * Utility to manager file.
  */

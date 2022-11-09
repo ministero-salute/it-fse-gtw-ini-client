@@ -58,7 +58,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 /**
  * Production implemention of Ini Client.
  *
- * @author vincenzoingenito
  */
 @Slf4j
 @Component

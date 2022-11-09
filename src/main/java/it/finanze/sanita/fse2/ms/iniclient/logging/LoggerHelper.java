@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 
 /** 
  * 
- * @author vincenzoingenito 
  */ 
 @Service
 @Slf4j

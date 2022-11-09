@@ -4,7 +4,6 @@
 package it.finanze.sanita.fse2.ms.iniclient.exceptions;
 
 /**
- * @author vincenzoingenito
  * 
  * Generic business exception.
  */

@@ -22,7 +22,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 /**
  * 
- * @author vincenzoingenito
  *
  *	Configuration for MongoDB.
  */

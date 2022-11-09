@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * Interface of gtw-config Client.
  * 
- * @author Simone Lungarella
  */
 public interface IConfigClient extends Serializable {
 	

@@ -22,7 +22,6 @@ import java.util.Optional;
 /**
  * Implementation of gtw-config Client.
  * 
- * @author Simone Lungarella
  */
 @Slf4j
 @Component
