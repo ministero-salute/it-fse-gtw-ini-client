@@ -89,7 +89,7 @@ public interface IIniOperationCTL {
 	})
 	ResponseEntity<GetReferenceResponseDTO> getReference(@PathVariable String idDoc, @RequestBody GetReferenceReqDTO jwtPayload, HttpServletRequest request);
 	
-	@PutMapping("/getMergedMetadati")
+	@PutMapping("/get-merged-metadati")
 	@Operation(summary = "Aggiornamento metadati ad INI", description = "Invia i metadati di una risorsa FHIR ad INI.")
 	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMergedMetadatiResponseDTO.class)))
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Aggiornamento eseguito con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
