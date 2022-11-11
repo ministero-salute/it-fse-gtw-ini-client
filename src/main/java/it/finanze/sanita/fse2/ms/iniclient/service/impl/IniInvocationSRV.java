@@ -278,6 +278,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			
 			if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
 				try {
+					if(oldMetadata==null) {
+						throw new BusinessException("Nessun metadato trovato");
+					}
 					SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
 					StringWriter sw = new StringWriter();
 					JAXB.marshal(req, sw);
