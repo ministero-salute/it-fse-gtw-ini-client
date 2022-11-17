@@ -3,6 +3,7 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
 
@@ -277,17 +278,23 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			}
 			
 			if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
+				StringWriter sw = new StringWriter();;
 				try {
 					if(oldMetadata==null) {
 						throw new BusinessException("Nessun metadato trovato");
 					}
 					SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
-					StringWriter sw = new StringWriter();
 					JAXB.marshal(req, sw);
 					out.setMarshallResponse(sw.toString());
 				} catch(Exception ex) {
 					out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
 					log.error("Error while merge metadati", ex);
+				} finally {
+					try {
+						sw.close();
+					} catch (IOException e) {
+						log.error("Error while close stream");
+					}
 				}
 			}
 		}
