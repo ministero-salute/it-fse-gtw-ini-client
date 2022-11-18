@@ -133,6 +133,6 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody, HttpServletRequest request) {
 		log.debug("Call merged metadati");
 		GetMergedMetadatiDTO mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);
-		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati);
+		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse());
 	}
 }

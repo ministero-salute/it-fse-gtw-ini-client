@@ -3,7 +3,6 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto.response;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,15 +15,18 @@ public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 	 */
 	private static final long serialVersionUID = 5457503502983726876L;
 	
-	private GetMergedMetadatiDTO response;
+	private String errorMessage;
+	
+	private String marshallResponse;
 
 	public GetMergedMetadatiResponseDTO() {
 		super();
 	}
 
-	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final GetMergedMetadatiDTO inResponse) {
+	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final String inErrorMessage, String inMarshallResponse) {
 		super(traceInfo);
-		response = inResponse;
+		errorMessage = inErrorMessage;
+		marshallResponse = inMarshallResponse;
 	}
 
 }
