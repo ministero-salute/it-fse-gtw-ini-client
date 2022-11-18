@@ -148,7 +148,7 @@ public class CommonUtility {
     	if (documentTreeDTO != null) {
     		Optional<Document> documentEntry = Optional.of(documentTreeDTO.getDocumentEntry());
     		if (documentEntry.get().getString("formatCode") != null) {
-    			DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByTemplateId(documentEntry.get().getString("formatCode"));
+    			DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByCode(documentEntry.get().getString("typeCode"));
     			if (normalizedDocumentType != null) {
     				documentType = normalizedDocumentType.getDocumentType();
     			} else {
@@ -183,14 +183,14 @@ public class CommonUtility {
             if (optExtrinsicObject.isPresent()) {
                 ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
                 List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
-                Optional<ClassificationType> optFormatCodeClassificationObject = classificationObjectList
+                Optional<ClassificationType> optTypeCodeClassificationObject = classificationObjectList
                         .stream()
-                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d"))
+                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f0306f51-975f-434e-a61c-c59651d33983"))
                         .findFirst();
-                if (optFormatCodeClassificationObject.isPresent()) {
-                    Optional<LocalizedStringType> formatCodeName = optFormatCodeClassificationObject.get()
+                if (optTypeCodeClassificationObject.isPresent()) {
+                    Optional<LocalizedStringType> typeCodeName = optTypeCodeClassificationObject.get()
                             .getName().getLocalizedString().stream().findFirst();
-                    return formatCodeName.isPresent()? formatCodeName.get().getValue() : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+                    return typeCodeName.isPresent()? typeCodeName.get().getValue() : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
                 }
             }
         }

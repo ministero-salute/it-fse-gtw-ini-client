@@ -175,7 +175,7 @@ public final class UpdateBodyBuilderUtility {
 					.orElseThrow(() -> new NoRecordFoundException("Format code non trovato nei metadati di INI"));
 			String nodeRepresentation = formatCodeClassification.getNodeRepresentation();
 			DocumentTypeEnum documentTypeEnum = Arrays.stream(DocumentTypeEnum.values())
-					.filter(document -> document.getTemplateId().equals(nodeRepresentation))
+					.filter(document -> document.getDocumentType().equals(nodeRepresentation))
 					.findFirst()
 					.orElse(null);
 			InternationalStringType formatCodeName = documentTypeEnum != null ? buildInternationalStringType(
