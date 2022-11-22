@@ -5,9 +5,9 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.DocumentTypeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.FormatCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -174,12 +174,12 @@ public final class UpdateBodyBuilderUtility {
 					.findFirst()
 					.orElseThrow(() -> new NoRecordFoundException("Format code non trovato nei metadati di INI"));
 			String nodeRepresentation = formatCodeClassification.getNodeRepresentation();
-			DocumentTypeEnum documentTypeEnum = Arrays.stream(DocumentTypeEnum.values())
-					.filter(document -> document.getDocumentType().equals(nodeRepresentation))
+			FormatCodeEnum formatCodeEnum = Arrays.stream(FormatCodeEnum.values())
+					.filter(formatCode -> formatCode.getDocumentType().equals(nodeRepresentation))
 					.findFirst()
 					.orElse(null);
-			InternationalStringType formatCodeName = documentTypeEnum != null ? buildInternationalStringType(
-					new ArrayList<>(Collections.singleton(documentTypeEnum.getDocumentType()))) : null;
+			InternationalStringType formatCodeName = formatCodeEnum != null ? buildInternationalStringType(
+					new ArrayList<>(Collections.singleton(formatCodeEnum.getDocumentType()))) : null;
 			registryPackageObject.setName(formatCodeName);
 			registryPackageObject.setDescription(formatCodeName);
 

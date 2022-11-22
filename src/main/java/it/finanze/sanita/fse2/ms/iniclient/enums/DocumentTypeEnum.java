@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Accepted document types defined by the affinity domain: {@link http://www.hl7italia.it/hl7italia_D7/node/2359}.
+ * Accepted document types defined by the affinity domain: {@link <a href="http://www.hl7italia.it/hl7italia_D7/node/2359">...</a>}.
  */
 @Getter
 @AllArgsConstructor
