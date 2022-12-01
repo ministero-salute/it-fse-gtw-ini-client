@@ -81,8 +81,10 @@ public class IniClient implements IIniClient {
 	@PostConstruct
 	void postConstruct() {
 		try {
-			sslContext = securitySRV.createSslCustomContext();
-			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				sslContext = securitySRV.createSslCustomContext();
+				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			}
 			
 			documentRegistryService = new DocumentRegistryService();
 			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {

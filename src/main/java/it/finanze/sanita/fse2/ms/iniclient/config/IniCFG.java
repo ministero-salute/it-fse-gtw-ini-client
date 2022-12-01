@@ -43,4 +43,7 @@ public class IniCFG {
 
 	@Value("${ini.client.ds-cert.alias}")
 	private String keyStoreAlias;
+	
+	@Value("${ini.client.enable-ssl}")
+	private boolean enableSSL;
 }
