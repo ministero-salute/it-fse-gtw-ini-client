@@ -109,7 +109,9 @@ public class IniClient implements IIniClient {
 		try { 
 			
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
-			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
 
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
 			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.CREATE);
@@ -137,7 +139,9 @@ public class IniClient implements IIniClient {
 		try { 
 
 			XDSDeletetWS port = deletetWSService.getXDSDeletetWSSPort();
-			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
 
 			JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(deleteToken, ActionEnumType.DELETE);
@@ -165,7 +169,9 @@ public class IniClient implements IIniClient {
 		RegistryResponseType out = null;
 		try {
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
-			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
 
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
 			
@@ -191,7 +197,9 @@ public class IniClient implements IIniClient {
 		try {
 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
-			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
 
 			// Reconfigure token and build request
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
@@ -218,7 +226,9 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI get reference");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
-			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
 
 			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_REFERENCE);
@@ -256,7 +266,9 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI get reference metadata");
 		try { 
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
-			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
 
 			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_METADATA);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_METADATA);

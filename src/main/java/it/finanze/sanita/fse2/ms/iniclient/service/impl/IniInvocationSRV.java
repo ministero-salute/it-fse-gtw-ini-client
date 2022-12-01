@@ -11,6 +11,7 @@ import javax.xml.bind.JAXB;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -64,6 +65,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Autowired
 	private transient LoggerHelper logger;
+	
+	@Value("${ini.client.mock-enable}")
+	private boolean mockEnable;
 
 	@Override
 	public IniResponseDTO publishByWorkflowInstanceId(final String workflowInstanceId) {
@@ -76,20 +80,25 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (iniInvocationETY != null) {
 				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
-				RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
-				
-				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-						if (!WARNING.equals(error.getSeverity())) {
-							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
-						}
-					}
+				if(!mockEnable) {
+					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
 					
-					if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-						out.setErrorMessage(errorMsg.toString());
+					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+							if (!WARNING.equals(error.getSeverity())) {
+								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+							}
+						}
+						
+						if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+							out.setErrorMessage(errorMsg.toString());
+						}
+					} else {
+						out.setEsito(true);
 					}
 				} else {
 					out.setEsito(true);
+					out.setErrorMessage("Siamo in regime di mock");
 				}
 				
 			} else {
@@ -118,19 +127,24 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				JWTPayloadDTO readJwtPayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
 				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
 				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
-				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
-				out.setEsito(true);
-				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-						if (!WARNING.equals(error.getSeverity())) {
-							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+				
+				if(!mockEnable) {
+					RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
+					out.setEsito(true);
+					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+							if (!WARNING.equals(error.getSeverity())) {
+								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+							}
 						}
 					}
-				}
-				
-				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-					out.setEsito(false);						
-					out.setErrorMessage(errorMsg.toString());
+					
+					if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+						out.setEsito(false);						
+						out.setErrorMessage(errorMsg.toString());
+					}
+				} else {
+					out.setEsito(true);
 				}
 			} else {
 				out.setEsito(false);
@@ -160,21 +174,26 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 			// Get reference from INI UUID
 			JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
-			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
-			out.setEsito(true);
-			
-			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
-				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
-					if (!WARNING.equals(error.getSeverity())) {
-						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+			if(!mockEnable) {
+				RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
+				out.setEsito(true);
+				
+				if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
+					for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
+						if (!WARNING.equals(error.getSeverity())) {
+							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+						}
 					}
 				}
+				
+				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+					out.setEsito(false);						
+					out.setErrorMessage(errorMsg.toString());
+				}
+			} else {
+				out.setEsito(true);
 			}
 			
-			if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-				out.setEsito(false);						
-				out.setErrorMessage(errorMsg.toString());
-			}
 		} catch (NoRecordFoundException ne){
 			out.setEsito(false);
 			out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
@@ -199,14 +218,18 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 				if (documentTreeDTO.checkIntegrity()) {
-					RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
-					out.setEsito(true);
-					if (ResponseUtility.isErrorResponse(res)) {
-						out.setEsito(false);
-						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					if(!mockEnable) {
+						RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
+						out.setEsito(true);
+						if (ResponseUtility.isErrorResponse(res)) {
+							out.setEsito(false);
+							for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+							}
+							out.setErrorMessage(errorMsg.toString());
 						}
-						out.setErrorMessage(errorMsg.toString());
+					} else {
+						out.setEsito(true);
 					}
 				}
 			} else {
@@ -225,10 +248,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Override
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {
-		AdhocQueryResponse out = null;
+		AdhocQueryResponse out = new AdhocQueryResponse();
 		try {
-			String uuid = iniClient.getReferenceUUID(oid, tokenDTO);
-			out = iniClient.getReferenceMetadata(uuid, tokenDTO);
+			if(!mockEnable) {
+				String uuid = iniClient.getReferenceUUID(oid, tokenDTO);
+				out = iniClient.getReferenceMetadata(uuid, tokenDTO);
+			} else {
+				out.setRequestId("Attenzione chiamata in regime di mock");
+			}
 		} catch (NoRecordFoundException ex) {
 			throw ex;
 		} catch(Exception ex) {
@@ -240,14 +267,24 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Override
 	public String getReference(String oid, JWTTokenDTO tokenDTO) {
-		return iniClient.getReferenceUUID(oid, tokenDTO);
+		String out = "";
+		if(!mockEnable) {
+			out = iniClient.getReferenceUUID(oid, tokenDTO);
+		} else {
+			out = "UUID_MOCKATO";
+		}
+		return out; 
 	}
 
 
 	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole,
 			String errorMessage, String subjectFiscalCode) {
 		if (isSuccess) {
-			logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
+			if(!mockEnable) {
+				logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
+			} else {
+				logger.info("Operazione eseguita su INI in regime di MOCK assicurarsi che sia voluto", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
+			}
 		} else {
 			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole, subjectFiscalCode);
 		}
@@ -259,41 +296,45 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
 		String uuid = "";
 		try {
-			uuid = iniClient.getReferenceUUID(oidToUpdate, token);
+			if(!mockEnable) {
+				uuid = iniClient.getReferenceUUID(oidToUpdate, token);
+			}
 		} catch(Exception ex) {
 			out.setErrorMessage("Error while perform getReferenceUuid:" + ExceptionUtils.getMessage(ex));
 			log.error("Error while perform get reference uuid", ex);
 		}
 		
-		AdhocQueryResponse oldMetadata = null;
-		if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
-			try {
-				oldMetadata = iniClient.getReferenceMetadata(uuid, token);
-				if(oldMetadata==null) {
-					throw new BusinessException("Nessun metadato trovato");
-				}
-			} catch(Exception ex) {
-				out.setErrorMessage("Error while perform getReferenceMetadata:" + ExceptionUtils.getMessage(ex));
-				log.error("Error while perform getReferenceMetadata", ex);
-			}
-			
+		if(!mockEnable) {
+			AdhocQueryResponse oldMetadata = null;
 			if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
-				StringWriter sw = new StringWriter();;
 				try {
+					oldMetadata = iniClient.getReferenceMetadata(uuid, token);
 					if(oldMetadata==null) {
 						throw new BusinessException("Nessun metadato trovato");
 					}
-					SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
-					JAXB.marshal(req, sw);
-					out.setMarshallResponse(sw.toString());
 				} catch(Exception ex) {
-					out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
-					log.error("Error while merge metadati", ex);
-				} finally {
+					out.setErrorMessage("Error while perform getReferenceMetadata:" + ExceptionUtils.getMessage(ex));
+					log.error("Error while perform getReferenceMetadata", ex);
+				}
+				
+				if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
+					StringWriter sw = new StringWriter();;
 					try {
-						sw.close();
-					} catch (IOException e) {
-						log.error("Error while close stream");
+						if(oldMetadata==null) {
+							throw new BusinessException("Nessun metadato trovato");
+						}
+						SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
+						JAXB.marshal(req, sw);
+						out.setMarshallResponse(sw.toString());
+					} catch(Exception ex) {
+						out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
+						log.error("Error while merge metadati", ex);
+					} finally {
+						try {
+							sw.close();
+						} catch (IOException e) {
+							log.error("Error while close stream");
+						}
 					}
 				}
 			}
