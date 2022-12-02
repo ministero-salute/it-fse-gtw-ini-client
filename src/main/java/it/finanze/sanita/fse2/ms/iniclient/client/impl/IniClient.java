@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.xml.ws.Binding;
@@ -18,6 +17,9 @@ import javax.xml.ws.handler.Handler;
 import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.sun.xml.ws.api.message.Header;
@@ -78,8 +80,9 @@ public class IniClient implements IIniClient {
 	
 	private XDSDeletetWSService deletetWSService;
 	
-	@PostConstruct
-	void postConstruct() {
+	@Async
+	@EventListener(ApplicationStartedEvent.class)
+	void initialize() {
 		try {
 			if(!Boolean.TRUE.equals(iniCFG.isMockEnable())) {
 				if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
