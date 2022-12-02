@@ -81,19 +81,21 @@ public class IniClient implements IIniClient {
 	@PostConstruct
 	void postConstruct() {
 		try {
-			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-				sslContext = securitySRV.createSslCustomContext();
-				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-			}
-			
-			documentRegistryService = new DocumentRegistryService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {
-				documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlPublishLocation()));
-			}  
-			
-			deletetWSService = new XDSDeletetWSService();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlDeleteLocation())) {
-				deletetWSService = new XDSDeletetWSService(new URL(iniCFG.getWsdlDeleteLocation()));
+			if(!Boolean.TRUE.equals(iniCFG.isMockEnable())) {
+				if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+					sslContext = securitySRV.createSslCustomContext();
+					HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+				}
+
+				documentRegistryService = new DocumentRegistryService();
+				if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlPublishLocation())) {
+					documentRegistryService = new DocumentRegistryService(new URL(iniCFG.getWsdlPublishLocation()));
+				}  
+
+				deletetWSService = new XDSDeletetWSService();
+				if (!StringUtility.isNullOrEmpty(iniCFG.getWsdlDeleteLocation())) {
+					deletetWSService = new XDSDeletetWSService(new URL(iniCFG.getWsdlDeleteLocation()));
+				}
 			}
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);

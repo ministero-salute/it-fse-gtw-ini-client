@@ -46,4 +46,7 @@ public class IniCFG {
 	
 	@Value("${ini.client.enable-ssl}")
 	private boolean enableSSL;
+
+	@Value("${ini.client.mock-enable}")
+	private boolean mockEnable;
 }

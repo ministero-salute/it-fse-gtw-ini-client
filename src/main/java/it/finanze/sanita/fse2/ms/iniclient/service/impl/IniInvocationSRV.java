@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
@@ -66,8 +67,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	@Autowired
 	private transient LoggerHelper logger;
 	
-	@Value("${ini.client.mock-enable}")
-	private boolean mockEnable;
+	@Autowired
+	private IniCFG iniCFG;
 
 	@Override
 	public IniResponseDTO publishByWorkflowInstanceId(final String workflowInstanceId) {
@@ -75,35 +76,35 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentTreeDTO documentTreeDTO = null;
 		try { 
-			StringBuilder errorMsg = new StringBuilder();
-			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
-			if (iniInvocationETY != null) {
-				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
+			if(!iniCFG.isMockEnable()) {
+				StringBuilder errorMsg = new StringBuilder();
+				IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
+				if (iniInvocationETY != null) {
+					documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
-				if(!mockEnable) {
 					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
-					
+
 					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
 							if (!WARNING.equals(error.getSeverity())) {
 								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 							}
 						}
-						
+
 						if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
 							out.setErrorMessage(errorMsg.toString());
 						}
 					} else {
 						out.setEsito(true);
 					}
+
 				} else {
-					out.setEsito(true);
-					out.setErrorMessage("Siamo in regime di mock");
+					out.setEsito(false);
+					out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
 				}
-				
 			} else {
-				out.setEsito(false);
-				out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
+				out.setEsito(true);
+				out.setErrorMessage("Siamo in regime di mock");
 			}
 
 		} catch(Exception ex) {
@@ -128,7 +129,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
 				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
 				
-				if(!mockEnable) {
+				if(!iniCFG.isMockEnable()) {
 					RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
 					out.setEsito(true);
 					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -174,7 +175,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 			// Get reference from INI UUID
 			JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
-			if(!mockEnable) {
+			if(!iniCFG.isMockEnable()) {
 				RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
 				out.setEsito(true);
 				
@@ -218,7 +219,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 				if (documentTreeDTO.checkIntegrity()) {
-					if(!mockEnable) {
+					if(!iniCFG.isMockEnable()) {
 						RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
 						out.setEsito(true);
 						if (ResponseUtility.isErrorResponse(res)) {
@@ -250,7 +251,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {
 		AdhocQueryResponse out = new AdhocQueryResponse();
 		try {
-			if(!mockEnable) {
+			if(!iniCFG.isMockEnable()) {
 				String uuid = iniClient.getReferenceUUID(oid, tokenDTO);
 				out = iniClient.getReferenceMetadata(uuid, tokenDTO);
 			} else {
@@ -268,7 +269,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	@Override
 	public String getReference(String oid, JWTTokenDTO tokenDTO) {
 		String out = "";
-		if(!mockEnable) {
+		if(!iniCFG.isMockEnable()) {
 			out = iniClient.getReferenceUUID(oid, tokenDTO);
 		} else {
 			out = "UUID_MOCKATO";
@@ -280,7 +281,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole,
 			String errorMessage, String subjectFiscalCode) {
 		if (isSuccess) {
-			if(!mockEnable) {
+			if(!iniCFG.isMockEnable()) {
 				logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
 			} else {
 				logger.info("Operazione eseguita su INI in regime di MOCK assicurarsi che sia voluto", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
@@ -296,7 +297,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
 		String uuid = "";
 		try {
-			if(!mockEnable) {
+			if(!iniCFG.isMockEnable()) {
 				uuid = iniClient.getReferenceUUID(oidToUpdate, token);
 			}
 		} catch(Exception ex) {
@@ -304,7 +305,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			log.error("Error while perform get reference uuid", ex);
 		}
 		
-		if(!mockEnable) {
+		if(!iniCFG.isMockEnable()) {
 			AdhocQueryResponse oldMetadata = null;
 			if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
 				try {
