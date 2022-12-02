@@ -85,6 +85,7 @@ public class IniClient implements IIniClient {
 	void initialize() {
 		try {
 			if(!Boolean.TRUE.equals(iniCFG.isMockEnable())) {
+				samlHeaderBuilderUtility.initialize();
 				if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
 					sslContext = securitySRV.createSslCustomContext();
 					HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
