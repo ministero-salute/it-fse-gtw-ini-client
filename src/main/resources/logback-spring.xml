@@ -16,11 +16,11 @@
 		<property resource="application-test.properties" />
 	</springProfile>
 
-	<springProperty scope="context" name="springAppName" source="spring.application.name" />
+	<springProperty scope="context" name="springAppName"
+		source="spring.application.name" />
 
-	<!-- You can override this to have a custom pattern -->
 	<property name="CONSOLE_LOG_PATTERN"
-		value=" %d{yyyy-MM-dd HH:mm:ss.SSS} %5p [${springAppName},trace: %X{X-B3-TraceId:-} span: %X{X-B3-SpanId:-}, parent: %X{X-B3-ParentSpanId:-} exportable: %X{X-Span-Export:-},] %m%n%throwable" />
+		value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [${springAppName},trace: %X{X-B3-TraceId:-} span: %X{X-B3-SpanId:-}, parent: %X{X-B3-ParentSpanId:-} exportable: %X{X-Span-Export:-},] %m%n%throwable" />
 
 	<appender name="console"
 		class="ch.qos.logback.core.ConsoleAppender">
@@ -49,11 +49,12 @@
 		</encoder>
 	</appender>
 
-
-	<logger name="kafka-logger" level="${log.level}"
+	<logger name="kafka-logger" level="${log.elastic.level}"
 		additivity="false">
-		<appender name="kafka-appender" class="it.finanze.sanita.fse2.ms.iniclient.logging.KafkaAppender">
-			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+		<appender name="kafka-appender"
+			class="it.finanze.sanita.fse2.ms.iniclient.logging.KafkaAppender">
+			<encoder
+				class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 				<pattern>%msg%n</pattern>
 			</encoder>
 
@@ -64,17 +65,21 @@
 			</deliveryStrategy>
 
 			<producerConfig>bootstrap.servers=${kafka.bootstrap-servers}</producerConfig>
-
 			<producerConfig>metadata.fetch.timeout.ms=99999999999</producerConfig>
-			<producerConfig>metadata.fetch.timeout.ms=0</producerConfig>
 			<producerConfig>client.id=${kafka.producer.client-id}</producerConfig>
+			<springProfile name="default">
+				<producerConfig>security.protocol=${kafka.properties.security.protocol}</producerConfig>
+				<producerConfig>sasl.mechanism=${kafka.properties.sasl.mechanism}</producerConfig>
+				<producerConfig>sasl.jaas.config=${kafka.properties.sasl.jaas.config}</producerConfig>
+				<producerConfig>ssl.truststore.location=${kafka.properties.ssl.truststore.location}</producerConfig>
+				<producerConfig>ssl.truststore.password=${kafka.properties.ssl.truststore.password}</producerConfig>
+			</springProfile>
 		</appender>
 	</logger>
 
- 
+
 	<!-- LOG everything at INFO level -->
 	<root level="${APP_LOGGING_ROOT_LEVEL:-INFO}">
-		<!--<appender-ref ref="RollingFile" /> -->
 		<appender-ref ref="${log.output.format}" />
 	</root>
 
