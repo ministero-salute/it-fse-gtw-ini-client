@@ -112,15 +112,12 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		out.setTraceID(traceInfo.getTraceID());
-		out.setSpanID(traceInfo.getSpanID());
 
 		try {
 			out.setUuid(iniInvocationSRV.getReference(idDoc, token));
 			return new ResponseEntity<>(out, HttpStatus.OK);
 		} catch(NoRecordFoundException ex) {
-			out.setErrorMessage(ExceptionUtils.getMessage(ex));
+			out.setErrorMessage(ex.getMessage());
 			return new ResponseEntity<>(out, HttpStatus.NOT_FOUND);
 		} catch(Exception ex) {
 			log.error("Error while perform get reference :" , ex);

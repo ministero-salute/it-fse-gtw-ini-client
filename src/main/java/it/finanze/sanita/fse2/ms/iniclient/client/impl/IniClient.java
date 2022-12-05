@@ -247,7 +247,7 @@ public class IniClient implements IIniClient {
 				if (response.getRegistryErrorList()!=null) {
 					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 						if (error.getCodeContext().equals("No results from the query")) {
-							throw new NoRecordFoundException(error.getCodeContext());
+							throw new NoRecordFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
 						}
 					}
 					throw new BusinessException("Errore riscontrato su INI");

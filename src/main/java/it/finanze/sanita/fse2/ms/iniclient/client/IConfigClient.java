@@ -3,13 +3,10 @@
 */
 package it.finanze.sanita.fse2.ms.iniclient.client;
 
-import java.io.Serializable;
-
 /**
  * Interface of gtw-config Client.
- * 
  */
-public interface IConfigClient extends Serializable {
+public interface IConfigClient {
 	
 	String getGatewayName();
 

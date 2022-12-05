@@ -17,11 +17,8 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Optional;
-
 /**
  * Implementation of gtw-config Client.
- * 
  */
 @Slf4j
 @Component
@@ -34,10 +31,10 @@ public class ConfigClient implements IConfigClient {
     private String configHost;
 
     @Autowired
-    private transient RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Autowired
-    private transient ProfileUtility profileUtility;
+    private ProfileUtility profileUtility;
 
     @Override
     public String getGatewayName() {
