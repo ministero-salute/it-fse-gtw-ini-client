@@ -30,6 +30,8 @@ public class LogDTO {
 
 	private String op_issuer;
 
+	private String op_locality;
+
 	private String op_role;
 
 	private String op_fiscal_code;

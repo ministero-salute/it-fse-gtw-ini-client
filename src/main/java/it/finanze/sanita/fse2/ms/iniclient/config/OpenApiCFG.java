@@ -13,13 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 
 /**
@@ -83,26 +77,4 @@ public class OpenApiCFG {
             forEach( s -> s.setAdditionalProperties(false));
     }
 
-    private Schema<?> getFileSchema(PathItem item) {
-		MediaType mediaType = getMultipartFile(item);
-		if (mediaType == null) return null;
-		return mediaType.getSchema();
-	}
-
-    private MediaType getMultipartFile(PathItem item) {
-		Operation operation = getOperation(item);
-		if (operation == null) return null;
-		RequestBody body = operation.getRequestBody();
-		if (body == null) return null;
-		Content content = body.getContent();
-		if (content == null) return null;
-        return content.get(org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE);
-	}
-
-    private Operation getOperation(PathItem item) {
-		if (item.getPost() != null) return item.getPost();
-		if (item.getPatch() != null) return item.getPatch();
-		if (item.getPut() != null) return item.getPut();
-		return null;
-	}
 }

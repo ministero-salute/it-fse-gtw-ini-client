@@ -78,11 +78,25 @@ public class CommonUtility {
      * @return Issuer of JWT
      */
     public static String extractIssuer(DocumentTreeDTO documentTreeDTO) {
-        if (documentTreeDTO == null) {
-            return Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
+        
+        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry()!= null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            return payload.containsKey("iss") ? (String) payload.get("iss") : Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
         }
-        Document payload = (Document) Optional.of(documentTreeDTO.getTokenEntry().get("payload")).orElse(null);
-        return payload.containsKey("iss") ? (String) payload.get("iss") : Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
+        return Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
+    }
+
+    /**
+     * Extract locality from token
+     * @param documentTreeDTO
+     * @return locality of JWT
+     */
+    public static String extractLocality(DocumentTreeDTO documentTreeDTO) {
+        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            return payload != null && payload.containsKey("locality") ? (String) payload.get("locality") : Constants.IniClientConstants.JWT_MISSING_LOCALITY;
+        }
+        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
     }
 
     /**
