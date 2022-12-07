@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.xml.ws.Binding;
@@ -79,9 +80,8 @@ public class IniClient implements IIniClient {
 	private DocumentRegistryService documentRegistryService;
 	
 	private XDSDeletetWSService deletetWSService;
-	
-	@Async
-	@EventListener(ApplicationStartedEvent.class)
+
+	@PostConstruct
 	void initialize() {
 		try {
 			if(!Boolean.TRUE.equals(iniCFG.isMockEnable())) {
