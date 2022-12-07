@@ -11,7 +11,6 @@ import javax.xml.bind.JAXB;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -112,7 +111,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO));
+		logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO), CommonUtility.extractLocality(documentTreeDTO));
 		return out;
 	}
 
@@ -161,7 +160,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setEsito(false);
 		}
 		
-		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), jwtPayloadDTO.getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(deleteRequestDTO.getSub()));
+		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), jwtPayloadDTO.getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(deleteRequestDTO.getSub()), jwtPayloadDTO.getLocality());
 		return out;
 	}
 
@@ -203,7 +202,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), updateRequestDTO.getToken().getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(updateRequestDTO.getToken().getSub()));
+		logResult(out.getEsito(), ProcessorOperationEnum.UPDATE, startingDate, updateRequestDTO.getToken().getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), updateRequestDTO.getToken().getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(updateRequestDTO.getToken().getSub()), updateRequestDTO.getToken().getLocality());
 		return out;
 	}
 
@@ -243,7 +242,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO));
+		logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO), CommonUtility.extractLocality(documentTreeDTO));
 		return out;
 	}
 
@@ -279,15 +278,15 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 
 	private void logResult(boolean isSuccess, ProcessorOperationEnum operationType, Date startingDate, String issuer, String documentType, String subjectRole,
-			String errorMessage, String subjectFiscalCode) {
+			String errorMessage, String subjectFiscalCode, String locality) {
 		if (isSuccess) {
 			if(!iniCFG.isMockEnable()) {
-				logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
+				logger.info("Operazione eseguita su INI", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode, locality);
 			} else {
-				logger.info("Operazione eseguita su INI in regime di MOCK assicurarsi che sia voluto", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode);
+				logger.info("Operazione eseguita su INI in regime di MOCK assicurarsi che sia voluto", operationType.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole, subjectFiscalCode, locality);
 			}
 		} else {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole, subjectFiscalCode);
+			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + errorMessage, operationType.getOperation(), ResultLogEnum.KO, startingDate, operationType.getErrorType(), issuer, documentType, subjectRole, subjectFiscalCode, locality);
 		}
 	}
 	
