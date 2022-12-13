@@ -35,29 +35,8 @@
 
 ---
 
-_it-fse-gtw-ini-client_ duty description
-- duty description item
-- duty description item
-- duty description item with ✨Magic ✨
+Il microservizio in oggetto ha la responsabilità di gestire la comunicazione con INI.
 
-## Features
-- Features1
-- Features2
-- Features3
-- ....
-- Featuresn
-
-#### Feature1
-TODO --> Feature1 description
-
-#### Feature2
-TODO --> Feature2 description
-
-#### Feature3
-TODO --> Feature3 description
-
-#### Featuren
-TODO --> Featuren description
 
 ## Repos
 - [ministero-salute-git-repo-url] - Repos Git Ministero della Salute
