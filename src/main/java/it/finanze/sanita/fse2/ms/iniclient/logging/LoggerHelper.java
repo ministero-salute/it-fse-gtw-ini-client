@@ -162,8 +162,6 @@ public class LoggerHelper {
 	public void error(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, ILogEnum error, 
 		String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
-		final String gatewayName = getGatewayName();
-		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				op_locality(locality).
@@ -177,7 +175,7 @@ public class LoggerHelper {
 				op_timestamp_end(dateFormat.format(new Date())).
 				op_error(error.getCode()).
 				op_error_description(error.getDescription()).
-				gateway_name(gatewayName).
+				gateway_name(getGatewayName()).
 				microservice_name(msName).
 				build();
 		

@@ -18,9 +18,6 @@ import javax.xml.ws.handler.Handler;
 import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.sun.xml.ws.api.message.Header;
@@ -41,7 +38,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.TokenIntegrityException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -60,7 +56,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 /**
  * Production implemention of Ini Client.
- *
  */
 @Slf4j
 @Component
@@ -113,14 +108,12 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI publication");
 		RegistryResponseType out = null;
 		try { 
-			
 			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
 			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
 				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
 
 			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
-			checkTokenIntegrity(jwtTokenDTO, ActionEnumType.CREATE);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
@@ -313,12 +306,5 @@ public class IniClient implements IIniClient {
 			bindingProvider.setHandlerChain(handlerChain);
 		}
 	}
-
-	private void checkTokenIntegrity(JWTTokenDTO jwtTokenDTO, ActionEnumType actionEnum) {
-		JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
-		if (!jwtPayloadDTO.getAction_id().equals(actionEnum.getActionId()) || !jwtPayloadDTO.getPurpose_of_use().equals(actionEnum.getPurposeOfUse())) {
-			log.error(Constants.IniClientConstants.ERR_TOKEN_INTEGRITY);
-			throw new TokenIntegrityException(Constants.IniClientConstants.ERR_TOKEN_INTEGRITY);
-		}
-	}
+ 
 }

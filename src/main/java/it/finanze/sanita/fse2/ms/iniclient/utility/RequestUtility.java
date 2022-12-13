@@ -20,22 +20,22 @@ public class RequestUtility {
      * @return
      */
     public static DocumentTreeDTO extractDocumentsFromMetadata(List<Document> metadata) {
-        DocumentTreeDTO documentTreeDTO = new DocumentTreeDTO();
-        for (Document meta : metadata) {
-            if (meta.get("documentEntry") != null) {
-                documentTreeDTO.setDocumentEntry((Document) meta.get("documentEntry"));
-            }
+    	DocumentTreeDTO documentTreeDTO = new DocumentTreeDTO();
+    	for (Document meta : metadata) {
+    		if (meta.get("documentEntry") != null) {
+    			documentTreeDTO.setDocumentEntry((Document) meta.get("documentEntry"));
+    		}
 
-            if (meta.get("tokenEntry") != null) {
-                documentTreeDTO.setTokenEntry((Document) meta.get("tokenEntry"));
-            }
+    		if (meta.get("tokenEntry") != null) {
+    			documentTreeDTO.setTokenEntry((Document) meta.get("tokenEntry"));
+    		}
 
-            if (meta.get("submissionSetEntry") != null) {
-                documentTreeDTO.setSubmissionSetEntry((Document) meta.get("submissionSetEntry"));
-            }
-        }
+    		if (meta.get("submissionSetEntry") != null) {
+    			documentTreeDTO.setSubmissionSetEntry((Document) meta.get("submissionSetEntry"));
+    		}
+    	}
 
-        return documentTreeDTO;
+    	return documentTreeDTO;
     }
 
     public static boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {

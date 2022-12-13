@@ -17,11 +17,6 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 public class IniInvocationRepo implements IIniInvocationRepo {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 7040678303037387997L;
-
 	@Autowired
 	private MongoTemplate mongoTemplate;
 

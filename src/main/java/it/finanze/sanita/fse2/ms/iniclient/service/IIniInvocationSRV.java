@@ -3,27 +3,24 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service;
 
-import java.io.Serializable;
-
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
-public interface IIniInvocationSRV extends Serializable {
+public interface IIniInvocationSRV {
 
-	IniResponseDTO publishByWorkflowInstanceId(String workflowInstanceId);
-
+	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation);
+	
 	IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO);
 
 	IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO);
 	
-	IniResponseDTO replaceByWorkflowInstanceId(String workflowInstanceId);
-    
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
 	String getReference(String oid, JWTTokenDTO tokenDTO);

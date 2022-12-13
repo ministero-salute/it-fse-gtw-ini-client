@@ -37,6 +37,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
@@ -76,7 +77,7 @@ class IniInvocationTest {
     void publishSuccessTest() {
         Mockito.when(iniClient.sendPublicationData(any(Document.class), any(Document.class), any(Document.class)))
                 .thenReturn(new RegistryResponseType());
-        IniResponseDTO response = iniInvocationSRV.publishByWorkflowInstanceId(TestConstants.TEST_WII);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH);
         assertTrue(response.getEsito());
         assertNull(response.getErrorMessage());
     }
@@ -86,7 +87,7 @@ class IniInvocationTest {
     void publishErrorTest() {
         Mockito.when(iniClient.sendPublicationData(any(Document.class), any(Document.class), any(Document.class)))
                 .thenThrow(new BusinessException(""));
-        IniResponseDTO response = iniInvocationSRV.publishByWorkflowInstanceId(TestConstants.TEST_WII);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH);
         assertFalse(response.getEsito());
         assertNotNull(response.getErrorMessage());
     }
@@ -97,7 +98,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendPublicationData(any(Document.class), any(Document.class), any(Document.class)))
                 .thenReturn(registryResponseType);
-        IniResponseDTO response = iniInvocationSRV.publishByWorkflowInstanceId(TestConstants.TEST_WII);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH);
         assertFalse(response.getEsito());
         assertNotNull(response.getErrorMessage());
     }
@@ -110,7 +111,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(TestConstants.TEST_WII);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
         assertTrue(response.getEsito());
         assertNull(response.getErrorMessage());
     }
@@ -122,7 +123,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(TestConstants.TEST_WII);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
         assertFalse(response.getEsito());
         assertNotNull(response.getErrorMessage());
     }
@@ -136,7 +137,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.replaceByWorkflowInstanceId(TestConstants.TEST_WII);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
         assertFalse(response.getEsito());
         assertNotNull(response.getErrorMessage());
     }

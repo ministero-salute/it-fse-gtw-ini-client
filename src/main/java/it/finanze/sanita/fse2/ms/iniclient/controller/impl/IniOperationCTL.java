@@ -28,6 +28,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
@@ -43,10 +44,6 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 @RestController
 public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
-    /**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 8414558048109050743L;
 	
 	@Autowired
 	private IIniInvocationSRV iniInvocationSRV;
@@ -55,7 +52,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     @Override
     public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
         log.debug("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
-        IniResponseDTO res = iniInvocationSRV.publishByWorkflowInstanceId(workflowInstanceId);
+        IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
@@ -78,7 +75,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     @Override
     public IniTraceResponseDTO replace(final String workflowInstanceId, HttpServletRequest request) {
     	log.debug("Workflow instance id received replace:" + workflowInstanceId +", calling ini invocation client...");
-        IniResponseDTO res = iniInvocationSRV.replaceByWorkflowInstanceId(workflowInstanceId);
+        IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 

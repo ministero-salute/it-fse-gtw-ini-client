@@ -11,8 +11,10 @@ import javax.xml.bind.JAXB;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.webjars.NotFoundException;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
@@ -36,7 +38,6 @@ import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRe
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.ResponseUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
@@ -48,12 +49,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 @Service
 @Slf4j
+@ConditionalOnProperty(name="ini.client.mock-enable", havingValue="false")
 public class IniInvocationSRV implements IIniInvocationSRV {
-
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = -8674806764400269288L;
 
 	private static final String WARNING = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
 	
@@ -61,59 +58,123 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	private IniInvocationRepo iniInvocationRepo;
 
 	@Autowired
-	private transient IIniClient iniClient;
+	private IIniClient iniClient;
 
 	@Autowired
-	private transient LoggerHelper logger;
+	private LoggerHelper logger;
 	
 	@Autowired
 	private IniCFG iniCFG;
 
+	
 	@Override
-	public IniResponseDTO publishByWorkflowInstanceId(final String workflowInstanceId) {
+	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, ProcessorOperationEnum operation) {
 		final Date startingDate = new Date();
-		IniResponseDTO out = new IniResponseDTO();
-		DocumentTreeDTO documentTreeDTO = null;
-		try { 
-			if(!iniCFG.isMockEnable()) {
-				StringBuilder errorMsg = new StringBuilder();
-				IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
-				if (iniInvocationETY != null) {
-					documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
-					RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
-
-					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							if (!WARNING.equals(error.getSeverity())) {
-								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
-							}
-						}
-
-						if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-							out.setErrorMessage(errorMsg.toString());
-						}
-					} else {
-						out.setEsito(true);
-					}
-
-				} else {
-					out.setEsito(false);
-					out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
-				}
-			} else {
-				out.setEsito(true);
-				out.setErrorMessage("Siamo in regime di mock");
-			}
-
-		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by workflow instance id: {}" , workflowInstanceId);
-			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
-			out.setEsito(false);
+		IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
+		if(iniInvocationETY==null) {
+			logger.error(INIErrorEnum.RECORD_NOT_FOUND.toString(), ProcessorOperationEnum.PUBLISH.getOperation(), 
+					ResultLogEnum.KO, startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), 
+					Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER, 
+					Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER, 
+					Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER, 
+					Constants.IniClientConstants.JWT_MISSING_SUBJECT, 
+					Constants.IniClientConstants.JWT_MISSING_LOCALITY);
+			throw new NotFoundException(INIErrorEnum.RECORD_NOT_FOUND.toString());
 		}
-		logResult(out.getEsito(), ProcessorOperationEnum.PUBLISH, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO), CommonUtility.extractLocality(documentTreeDTO));
+
+		IniResponseDTO out = null;
+		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
+			out = publishByWorkflowInstanceId(iniInvocationETY,startingDate);
+		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
+			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate);
+		}
 		return out;
 	}
+
+	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
+		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
+
+		String issuer = CommonUtility.extractIssuer(documentTreeDTO);
+		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
+		String subjectRole = CommonUtility.extractSubjectRole(documentTreeDTO);
+		String fiscalCode = CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO);
+		String locality =  CommonUtility.extractLocality(documentTreeDTO);
+		IniResponseDTO out = new IniResponseDTO();
+		try { 
+			RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
+			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+				StringBuilder errorMsg = new StringBuilder();
+				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+					if (!WARNING.equals(error.getSeverity())) {
+						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					}
+				}
+
+				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+					out.setErrorMessage(errorMsg.toString());
+					out.setEsito(false);
+				}
+			} 
+
+			String message = "Operazione eseguita su INI";
+			if(Boolean.FALSE.equals(out.getEsito())) {
+				message += ": " + out.getErrorMessage();
+				logger.error(message, ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), issuer, documentType, subjectRole, fiscalCode, locality);
+			} else {
+				logger.info(message, ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole,fiscalCode,locality);
+			}
+		} catch(Exception ex) {
+			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
+					ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), issuer, documentType, subjectRole,
+					fiscalCode, locality);
+			throw new BusinessException(ex);
+		}
+
+		return out;
+	}
+	
+	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
+		IniResponseDTO out = new IniResponseDTO();
+		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
+
+		String issuer = CommonUtility.extractIssuer(documentTreeDTO);
+		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
+		String subjectRole = CommonUtility.extractSubjectRole(documentTreeDTO);
+		String fiscalCode = CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO);
+		String locality =  CommonUtility.extractLocality(documentTreeDTO);
+
+		try {
+			RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
+			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+				StringBuilder errorMsg = new StringBuilder();
+				out.setEsito(false);
+				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+					errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+				}
+				
+				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+					out.setErrorMessage(errorMsg.toString());
+					out.setEsito(false);
+				}
+			}
+
+			String message = "Operazione eseguita su INI";
+			if(Boolean.FALSE.equals(out.getEsito())) {
+				message += ": " + out.getErrorMessage();
+				logger.error(message, ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.REPLACE.getErrorType(), issuer, documentType, subjectRole, fiscalCode, locality);
+			} else {
+				logger.info(message, ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole,fiscalCode,locality);
+			}
+		} catch(Exception ex) {
+			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
+					ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.REPLACE.getErrorType(), issuer, documentType, subjectRole,
+					fiscalCode, locality);
+			throw new BusinessException(ex);
+		}
+		return out;
+	}
+	
 
 	@Override
 	public IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO) {
@@ -127,24 +188,20 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				JWTPayloadDTO readJwtPayload = JsonUtility.clone(jwtPayloadDTO, JWTPayloadDTO.class);
 				JWTTokenDTO readJwtToken = new JWTTokenDTO(readJwtPayload);
 				currentMetadata = getMetadata(deleteRequestDTO.getIdDoc(), readJwtToken);
-				
-				if(!iniCFG.isMockEnable()) {
-					RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
-					out.setEsito(true);
-					if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-						for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-							if (!WARNING.equals(error.getSeverity())) {
-								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
-							}
+
+				RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
+				out.setEsito(true);
+				if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+					for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+						if (!WARNING.equals(error.getSeverity())) {
+							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 						}
 					}
-					
-					if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-						out.setEsito(false);						
-						out.setErrorMessage(errorMsg.toString());
-					}
-				} else {
-					out.setEsito(true);
+				}
+
+				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+					out.setEsito(false);						
+					out.setErrorMessage(errorMsg.toString());
 				}
 			} else {
 				out.setEsito(false);
@@ -159,7 +216,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
-		
+
 		logResult(out.getEsito(), ProcessorOperationEnum.DELETE, startingDate, jwtPayloadDTO.getIss(), CommonUtility.extractDocumentTypeFromQueryResponse(currentMetadata), jwtPayloadDTO.getSubject_role(), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromJwtSub(deleteRequestDTO.getSub()), jwtPayloadDTO.getLocality());
 		return out;
 	}
@@ -174,31 +231,26 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 			// Get reference from INI UUID
 			JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
-			if(!iniCFG.isMockEnable()) {
-				RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
-				out.setEsito(true);
-				
-				if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
-					for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
-						if (!WARNING.equals(error.getSeverity())) {
-							errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
-						}
+			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
+			out.setEsito(true);
+
+			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
+				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
+					if (!WARNING.equals(error.getSeverity())) {
+						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
 					}
 				}
-				
-				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-					out.setEsito(false);						
-					out.setErrorMessage(errorMsg.toString());
-				}
-			} else {
-				out.setEsito(true);
 			}
-			
+
+			if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+				out.setEsito(false);						
+				out.setErrorMessage(errorMsg.toString());
+			}
 		} catch (NoRecordFoundException ne){
 			out.setEsito(false);
 			out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
 		} catch(Exception ex) {
-//			log.error("Error while running find and send to ini by document id: {}" , updateRequestDTO.getIdDoc());
+			//			log.error("Error while running find and send to ini by document id: {}" , updateRequestDTO.getIdDoc());
 			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
 			out.setEsito(false);
 		}
@@ -206,56 +258,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return out;
 	}
 
-	@Override
-	public IniResponseDTO replaceByWorkflowInstanceId(final String workflowInstanceId) {
-		final Date startingDate = new Date();
-		IniResponseDTO out = new IniResponseDTO();
-		DocumentTreeDTO documentTreeDTO = null;
-		try {
-			StringBuilder errorMsg = new StringBuilder();
-			IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
-			if (iniInvocationETY != null) {
-				documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
-
-				if (documentTreeDTO.checkIntegrity()) {
-					if(!iniCFG.isMockEnable()) {
-						RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
-						out.setEsito(true);
-						if (ResponseUtility.isErrorResponse(res)) {
-							out.setEsito(false);
-							for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-								errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
-							}
-							out.setErrorMessage(errorMsg.toString());
-						}
-					} else {
-						out.setEsito(true);
-					}
-				}
-			} else {
-				out.setEsito(false);
-				out.setErrorMessage(INIErrorEnum.RECORD_NOT_FOUND.toString());
-			}
-
-		} catch(Exception ex) {
-			log.error("Error while running find and send to ini by workflowInstanceId: {} (replace)" , workflowInstanceId);
-			out.setErrorMessage(ExceptionUtils.getRootCauseMessage(ex));
-			out.setEsito(false);
-		}
-		logResult(out.getEsito(), ProcessorOperationEnum.REPLACE, startingDate, CommonUtility.extractIssuer(documentTreeDTO), CommonUtility.extractDocumentType(documentTreeDTO), CommonUtility.extractSubjectRole(documentTreeDTO), out.getErrorMessage(), CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO), CommonUtility.extractLocality(documentTreeDTO));
-		return out;
-	}
 
 	@Override
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {
 		AdhocQueryResponse out = new AdhocQueryResponse();
 		try {
-			if(!iniCFG.isMockEnable()) {
-				String uuid = iniClient.getReferenceUUID(oid, tokenDTO);
-				out = iniClient.getReferenceMetadata(uuid, tokenDTO);
-			} else {
-				out.setRequestId("Attenzione chiamata in regime di mock");
-			}
+			String uuid = iniClient.getReferenceUUID(oid, tokenDTO);
+			out = iniClient.getReferenceMetadata(uuid, tokenDTO);
 		} catch (NoRecordFoundException ex) {
 			throw ex;
 		} catch(Exception ex) {
@@ -267,13 +276,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Override
 	public String getReference(String oid, JWTTokenDTO tokenDTO) {
-		String out = "";
-		if(!iniCFG.isMockEnable()) {
-			out = iniClient.getReferenceUUID(oid, tokenDTO);
-		} else {
-			out = "UUID_MOCKATO";
-		}
-		return out; 
+		return iniClient.getReferenceUUID(oid, tokenDTO);
 	}
 
 
@@ -296,45 +299,41 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
 		String uuid = "";
 		try {
-			if(!iniCFG.isMockEnable()) {
-				uuid = iniClient.getReferenceUUID(oidToUpdate, token);
-			}
+			uuid = iniClient.getReferenceUUID(oidToUpdate, token);
 		} catch(Exception ex) {
 			out.setErrorMessage("Error while perform getReferenceUuid:" + ExceptionUtils.getMessage(ex));
 			log.error("Error while perform get reference uuid", ex);
 		}
-		
-		if(!iniCFG.isMockEnable()) {
-			AdhocQueryResponse oldMetadata = null;
+
+		AdhocQueryResponse oldMetadata = null;
+		if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
+			try {
+				oldMetadata = iniClient.getReferenceMetadata(uuid, token);
+				if(oldMetadata==null) {
+					throw new BusinessException("Nessun metadato trovato");
+				}
+			} catch(Exception ex) {
+				out.setErrorMessage("Error while perform getReferenceMetadata:" + ExceptionUtils.getMessage(ex));
+				log.error("Error while perform getReferenceMetadata", ex);
+			}
+
 			if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
+				StringWriter sw = new StringWriter();;
 				try {
-					oldMetadata = iniClient.getReferenceMetadata(uuid, token);
 					if(oldMetadata==null) {
 						throw new BusinessException("Nessun metadato trovato");
 					}
+					SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
+					JAXB.marshal(req, sw);
+					out.setMarshallResponse(sw.toString());
 				} catch(Exception ex) {
-					out.setErrorMessage("Error while perform getReferenceMetadata:" + ExceptionUtils.getMessage(ex));
-					log.error("Error while perform getReferenceMetadata", ex);
-				}
-				
-				if(StringUtility.isNullOrEmpty(out.getErrorMessage())) {
-					StringWriter sw = new StringWriter();;
+					out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
+					log.error("Error while merge metadati", ex);
+				} finally {
 					try {
-						if(oldMetadata==null) {
-							throw new BusinessException("Nessun metadato trovato");
-						}
-						SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
-						JAXB.marshal(req, sw);
-						out.setMarshallResponse(sw.toString());
-					} catch(Exception ex) {
-						out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
-						log.error("Error while merge metadati", ex);
-					} finally {
-						try {
-							sw.close();
-						} catch (IOException e) {
-							log.error("Error while close stream");
-						}
+						sw.close();
+					} catch (IOException e) {
+						log.error("Error while close stream");
 					}
 				}
 			}

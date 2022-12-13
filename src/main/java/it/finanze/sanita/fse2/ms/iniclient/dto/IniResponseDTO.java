@@ -13,6 +13,7 @@ public class IniResponseDTO {
 	private String errorMessage;
 
 	public IniResponseDTO() {
-		this.esito = false;
+		esito = true;
 	}
+	 
 }
