@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.LogDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ILogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
@@ -103,28 +104,24 @@ public class LoggerHelper {
 		}
 	} 
 	 
-	public void info(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
-		String documentType, String subjectRole, String subjectFiscalCode, String locality,
-		String applicationId, String applicationVendor, String applicationVersion) {
-		
-		final String gatewayName = getGatewayName();
+	public void info(String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
 		
 		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
+				op_issuer(payloadDTO.getIss()).
+				op_locality(payloadDTO.getLocality()).
 				message(message).
 				operation(operation.getCode()).
 				op_document_type(documentType).
-				op_result(result.getCode()).
-				op_role(subjectRole).
+				op_result(ResultLogEnum.OK.getCode()).
+				op_role(payloadDTO.getSubject_role()).
 				op_fiscal_code(subjectFiscalCode).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(gatewayName).
+				gateway_name(getGatewayName()).
 				microservice_name(msName).
-				op_application_id(applicationId).
-				op_application_vendor(applicationVendor).
-				op_application_version(applicationVersion).
+				op_application_id(payloadDTO.getSubject_application_id()).
+				op_application_vendor(payloadDTO.getSubject_application_vendor()).
+				op_application_version(payloadDTO.getSubject_application_version()).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -167,37 +164,35 @@ public class LoggerHelper {
  
 	} 
 	
-	public void error(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, ILogEnum error, 
-		String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality,
-		String applicationId, String applicationVendor, String applicationVersion) {
-		
+	public void error(String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
+			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
+
 		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
+				op_issuer(jwtPayloadDTO.getIss()).
+				op_locality(jwtPayloadDTO.getLocality()).
 				message(message).
 				operation(operation.getCode()).
 				op_document_type(documentType).
-				op_role(subjectRole).
+				op_role(jwtPayloadDTO.getSubject_role()).
 				op_fiscal_code(subjectFiscalCode).
-				op_result(result.getCode()).
+				op_result(ResultLogEnum.KO.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
 				op_error(error.getCode()).
 				op_error_description(error.getDescription()).
 				gateway_name(getGatewayName()).
 				microservice_name(msName).
-				op_application_id(applicationId).
-				op_application_vendor(applicationVendor).
-				op_application_version(applicationVersion).
+				op_application_id(jwtPayloadDTO.getSubject_application_id()).
+				op_application_vendor(jwtPayloadDTO.getSubject_application_vendor()).
+				op_application_version(jwtPayloadDTO.getSubject_application_version()).
 				build();
-		
+
 		final String logMessage = StringUtility.toJSON(logDTO);
 		log.error(logMessage);
 
 		if (Boolean.TRUE.equals(kafkaLogEnable)) {
 			kafkaLog.error(logMessage);
 		}
-		
 	}
 
 	/**

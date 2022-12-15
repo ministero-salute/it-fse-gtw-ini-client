@@ -6,16 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
@@ -33,24 +32,33 @@ public class IniInovactionMockedSRV implements IIniInvocationSRV  {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		out.setErrorMessage("Regime di mock abilitato");
-		logger.info("Regime di mock abilitato", ProcessorOperationEnum.PUBLISH.getOperation(), 
-				ResultLogEnum.OK, startingDate, 
-				Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER, 
-				Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER,  
-				Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER,
-				Constants.IniClientConstants.JWT_MISSING_SUBJECT,  
-				Constants.IniClientConstants.JWT_MISSING_LOCALITY,
-				null, null, null);
+		logger.info("Regime di mock abilitato", operation.getOperation(), 
+				startingDate, 
+				"Mocked Doc Type Ini", 
+				"Mocked fiscal code Ini",  
+				new JWTPayloadDTO());
 		return out;
 	}
 
 	@Override
 	public IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO) {
+		final Date startingDate = new Date();
+		logger.info("Regime di mock abilitato", ProcessorOperationEnum.DELETE.getOperation(), 
+				startingDate, 
+				"Mocked Doc Type Ini", 
+				"Mocked fiscal code Ini",  
+				new JWTPayloadDTO());
 		return new IniResponseDTO();
 	}
 
 	@Override
 	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO) {
+		final Date startingDate = new Date();
+		logger.info("Regime di mock abilitato", ProcessorOperationEnum.UPDATE.getOperation(), 
+				startingDate, 
+				"Mocked Doc Type Ini", 
+				"Mocked fiscal code Ini",  
+				new JWTPayloadDTO());
 		return new IniResponseDTO();
 	}
 

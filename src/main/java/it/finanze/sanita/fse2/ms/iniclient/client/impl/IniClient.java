@@ -102,7 +102,8 @@ public class IniClient implements IIniClient {
 
 	 
 	@Override
-	public RegistryResponseType sendPublicationData(final Document documentEntry, final Document submissionSetEntry, final Document jwtToken) {
+	public RegistryResponseType sendPublicationData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO,
+			final JWTTokenDTO jwtTokenDTO) {
 		log.debug("Call to INI publication");
 		RegistryResponseType out = null;
 		try { 
@@ -110,17 +111,12 @@ public class IniClient implements IIniClient {
 			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
 				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
-
-			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
+			
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
-
-				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
-				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
 				SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), null);
-
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
 		} catch (Exception ex) {
@@ -186,7 +182,8 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public RegistryResponseType sendReplaceData(Document documentEntry, Document submissionSetEntry, Document jwtToken, String uuid) {
+	public RegistryResponseType sendReplaceData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO,
+			final JWTTokenDTO jwtTokenDTO, final String uuid) {
 		log.debug("Call to INI replace");
 		RegistryResponseType out = null;
 		try {
@@ -197,14 +194,10 @@ public class IniClient implements IIniClient {
 			}
 
 			// Reconfigure token and build request
-			JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(jwtToken);
 			List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
 
 			try (WSBindingProvider bp = (WSBindingProvider)port) {
 				initHeaders(bp, headers, (BindingProvider) port);
-
-				DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentEntry);
-				SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(submissionSetEntry);
 				SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid);
 
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
