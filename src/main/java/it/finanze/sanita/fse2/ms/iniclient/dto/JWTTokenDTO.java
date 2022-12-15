@@ -14,10 +14,5 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class JWTTokenDTO extends AbstractDTO {
     
-    /**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = -1047169868136987347L;
-	
 	private JWTPayloadDTO payload;
 }

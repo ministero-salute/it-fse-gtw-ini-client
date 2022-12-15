@@ -4,52 +4,10 @@
 package it.finanze.sanita.fse2.ms.iniclient.config;
 
 /**
- * 
- *
- *         Constants application.
+ * Constants application.
  */
 public final class Constants {
 
-	/**
-	 * Path scan.
-	 */
-	public static final class ComponentScan {
-
-		/**
-		 * Base path.
-		 */
-		public static final String BASE = "it.finanze.sanita.fse2.ms.iniclient";
-
-		/**
-		 * Controller path.
-		 */
-		public static final String CONTROLLER = "it.finanze.sanita.fse2.ms.iniclient.controller";
-
-		/**
-		 * Service path.
-		 */
-		public static final String SERVICE = "it.finanze.sanita.fse2.ms.iniclient.service";
-
-		/**
-		 * Configuration path.
-		 */
-		public static final String CONFIG = "it.finanze.sanita.fse2.ms.iniclient.config";
-
-		/**
-		 * Configuration mongo path.
-		 */
-		public static final String CONFIG_MONGO = "it.finanze.sanita.fse2.ms.iniclient.config.mongo";
-
-		/**
-		 * Configuration mongo repository path.
-		 */
-		public static final String REPOSITORY_MONGO = "it.finanze.sanita.fse2.ms.iniclient.repository";
-
-		private ComponentScan() {
-			// This method is intentionally left blank.
-		}
-
-	}
 
 	public static final class OIDS {
 

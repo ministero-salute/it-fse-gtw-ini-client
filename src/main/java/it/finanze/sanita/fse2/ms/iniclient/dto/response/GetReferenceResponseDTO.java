@@ -10,12 +10,9 @@ import lombok.Setter;
 @Setter
 public class GetReferenceResponseDTO extends ResponseDTO {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 5457503502983726876L;
-
 	private String uuid;
+	
+	private String documentType;
 
 	private String errorMessage;
 

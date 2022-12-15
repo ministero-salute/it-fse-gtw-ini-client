@@ -32,7 +32,7 @@ public final class ReadBodyBuilderUtility {
 	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId, ActionEnumType actionType) {
 		try {
 			AdhocQueryType adhocQueryType = buildAdHocQuery(searchId, actionType);
-			ResponseOptionType responseOptionType = buildResponseOption(actionType);
+			ResponseOptionType responseOptionType = buildResponseOption();
 
 			AdhocQueryRequest adhocQueryRequest = new AdhocQueryRequest();
 			adhocQueryRequest.setResponseOption(responseOptionType);
@@ -68,30 +68,12 @@ public final class ReadBodyBuilderUtility {
 			throw new BusinessException("Error while perform buildAdHocQuery : ", ex);
 		}
 	}
-
-	/**
-	 *
-	 * @return
-	 */
-	private static ResponseOptionType buildResponseOption(ActionEnumType actionType) {
-		try {
-			ResponseOptionType responseOptionType = new ResponseOptionType();
-			switch (actionType) {
-				case READ_REFERENCE:
-					responseOptionType.setReturnType("ObjectRef");
-					responseOptionType.setReturnComposedObjects(false);
-					break;
-				case READ_METADATA:
-					responseOptionType.setReturnType("LeafClass");
-					responseOptionType.setReturnComposedObjects(true);
-					break;
-				default:
-					break;
-			}
-			return responseOptionType;
-		} catch (Exception e) {
-			log.error("Error while invoking buildResponseOption: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildResponseOption: " + e.getMessage());
-		}
+ 
+	
+	private static ResponseOptionType buildResponseOption() {
+		ResponseOptionType responseOptionType = new ResponseOptionType();
+		responseOptionType.setReturnType("LeafClass");
+		responseOptionType.setReturnComposedObjects(true);
+		return responseOptionType;
 	}
 }

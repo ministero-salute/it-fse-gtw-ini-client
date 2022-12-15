@@ -11,4 +11,6 @@ public class UpdateRequestDTO {
     private JWTPayloadDTO token;
     
     private String marshallData;
+    
+    private String documentType;
 }

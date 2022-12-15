@@ -11,10 +11,6 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 @Setter
 public class GetMetadatiResponseDTO extends ResponseDTO {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 5457503502983726876L;
 
 	private AdhocQueryResponse response;
 

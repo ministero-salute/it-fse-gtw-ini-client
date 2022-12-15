@@ -10,23 +10,22 @@ import lombok.Setter;
 @Setter
 public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 5457503502983726876L;
-	
 	private String errorMessage;
 	
 	private String marshallResponse;
+	
+	private String documentType;
 
 	public GetMergedMetadatiResponseDTO() {
 		super();
 	}
 
-	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final String inErrorMessage, String inMarshallResponse) {
+	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final String inErrorMessage, String inMarshallResponse,
+			String inDocumentType) {
 		super(traceInfo);
 		errorMessage = inErrorMessage;
 		marshallResponse = inMarshallResponse;
+		documentType = inDocumentType;
 	}
 
 }

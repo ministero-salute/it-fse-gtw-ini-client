@@ -5,7 +5,6 @@ package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
@@ -15,7 +14,6 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.handler.Handler;
 
-import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -179,8 +177,6 @@ public class IniClient implements IIniClient {
 
 				out = port.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 			}
-		} catch (NoRecordFoundException ne) {
-			throw ne;
 		} catch (Exception ex) {
 			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
 			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
@@ -219,45 +215,30 @@ public class IniClient implements IIniClient {
 		}
 		return out;
 	}
-
+ 
 	@Override
-	public String getReferenceUUID(String idDoc, JWTTokenDTO jwtToken) {
+	public AdhocQueryResponse getReferenceUUID(String idDoc, JWTTokenDTO tokenDTO) {
 		log.debug("Call to INI get reference");
-		try { 
-			DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
-			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-				((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-			}
 
-			JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, ActionEnumType.READ_REFERENCE);
-			List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, ActionEnumType.READ_REFERENCE);
-
-			try (WSBindingProvider bp = (WSBindingProvider)port) {
-				initHeaders(bp, headers, (BindingProvider) port);
-
-				AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
-				AdhocQueryResponse response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-				if (response.getRegistryErrorList()!=null) {
-					for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-						if (error.getCodeContext().equals("No results from the query")) {
-							throw new NoRecordFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
-						}
-					}
-					throw new BusinessException("Errore riscontrato su INI");
-				}
-				String uuid = Optional.of(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId()).orElse("");
-				if (StringUtils.isEmpty(uuid)) {
-					throw new NoRecordFoundException(Constants.IniClientConstants.RECORD_NOT_FOUND);
-				}
-				log.debug("Found uuid: {}", uuid);
-				return uuid;
-			}
-		} catch (NoRecordFoundException ex) {
-			throw ex;
-		} catch (Exception ex) {
-			log.error(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
-			throw new BusinessException(Constants.IniClientConstants.DEFAULT_HEAD_ERROR_MESSAGE + ex.getMessage());
+		AdhocQueryResponse response = null;
+		DocumentRegistryPortType port = documentRegistryService.getDocumentRegistryPortSoap12();
+		if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+			((BindingProvider) port).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 		}
+
+		List<Header> headers = samlHeaderBuilderUtility.buildHeader(tokenDTO, ActionEnumType.READ_REFERENCE);
+		try (WSBindingProvider bp = (WSBindingProvider)port) {
+			initHeaders(bp, headers, (BindingProvider) port);
+
+			AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, ActionEnumType.READ_REFERENCE);
+			response = port.documentRegistryRegistryStoredQuery(adhocQueryRequest);
+			
+		} catch (Exception ex) {
+			log.error("Error while perform getReferenceUUID : " , ex);
+			throw new BusinessException(ex);
+		}
+		
+		return response;
 	}
 
 	@Override

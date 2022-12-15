@@ -13,6 +13,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
@@ -61,8 +62,11 @@ public class IniInovactionMockedSRV implements IIniInvocationSRV  {
 	}
 
 	@Override
-	public String getReference(String oid, JWTTokenDTO tokenDTO) {
-		return "UUID_MOCKATO";
+	public GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO) {
+		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
+		out.setUuid("UUID_MOCKATO");
+		out.setDocumentType("DOCUMENT_TYPE MOCKATO");
+		return out;
 	}
 
 	@Override

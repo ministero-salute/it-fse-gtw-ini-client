@@ -8,7 +8,6 @@ import java.io.StringReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
@@ -37,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 
 /**
- *
  *	INI Publication controller.
  */
 @Slf4j
@@ -79,54 +76,33 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
-	@Override
-	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc,GetMetadatiReqDTO req, HttpServletRequest request) {
-		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
-		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-		
-		GetMetadatiResponseDTO out = new GetMetadatiResponseDTO();
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		out.setTraceID(traceInfo.getTraceID());
-		out.setSpanID(traceInfo.getSpanID());
-		try {
-			out.setResponse(iniInvocationSRV.getMetadata(idDoc, token)); 
-			return new ResponseEntity<>(out, HttpStatus.OK);
-		} catch(NoRecordFoundException ex) {
-			out.setErrorMessage(ExceptionUtils.getMessage(ex));
-			return new ResponseEntity<>(out, HttpStatus.NOT_FOUND);
-		} catch(Exception ex) {
-			log.error("Error while perform get metadati :" , ex);
-			out.setErrorMessage(ExceptionUtils.getMessage(ex));
-			return new ResponseEntity<>(out, HttpStatus.FORBIDDEN);
-		}
-	}
+    @Override
+    public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc,GetMetadatiReqDTO req, HttpServletRequest request) {
+    	log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
+    	JWTTokenDTO token = new JWTTokenDTO();
+    	token.setPayload(RequestUtility.buildPayloadFromReq(req));
 
+    	GetMetadatiResponseDTO out = new GetMetadatiResponseDTO();
+    	LogTraceInfoDTO traceInfo = getLogTraceInfo();
+    	out.setTraceID(traceInfo.getTraceID());
+    	out.setSpanID(traceInfo.getSpanID());
+    	out.setResponse(iniInvocationSRV.getMetadata(idDoc, token)); 
+    	return new ResponseEntity<>(out, HttpStatus.OK);
+    }
+ 
+	
 	@Override
 	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO req, HttpServletRequest request) {
-		log.warn("Get reference - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-
-		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
-
-		try {
-			out.setUuid(iniInvocationSRV.getReference(idDoc, token));
-			return new ResponseEntity<>(out, HttpStatus.OK);
-		} catch(NoRecordFoundException ex) {
-			out.setErrorMessage(ex.getMessage());
-			return new ResponseEntity<>(out, HttpStatus.NOT_FOUND);
-		} catch(Exception ex) {
-			log.error("Error while perform get reference :" , ex);
-			out.setErrorMessage(ExceptionUtils.getMessage(ex));
-			return new ResponseEntity<>(out, HttpStatus.FORBIDDEN);
-		}
+		return new ResponseEntity<>(iniInvocationSRV.getReference(idDoc, token), HttpStatus.OK);
 	}
 	
 	@Override
 	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody, HttpServletRequest request) {
 		log.debug("Call merged metadati");
 		GetMergedMetadatiDTO mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);
-		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse());
+		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse(),
+				mergedMetadati.getDocumentType());
 	}
 }

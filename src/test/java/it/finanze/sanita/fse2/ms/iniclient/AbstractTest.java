@@ -3,10 +3,10 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -19,9 +19,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class AbstractTest {

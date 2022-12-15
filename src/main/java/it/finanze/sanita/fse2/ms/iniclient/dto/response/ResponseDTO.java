@@ -3,23 +3,15 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto.response;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.AbstractDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
- *
  *	Base response.
  */
 @Getter
 @Setter
-public class ResponseDTO extends AbstractDTO {
-
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 3473312771318529328L;
+public class ResponseDTO {
 
 	/**
 	 * Trace id log.

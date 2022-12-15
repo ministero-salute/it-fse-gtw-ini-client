@@ -32,7 +32,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 
 
 /**
- *
  *	Controller INI publication.
  */
 @RequestMapping(path = "/v1")
