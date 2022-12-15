@@ -38,10 +38,6 @@ public class RequestUtility {
     	return documentTreeDTO;
     }
 
-    public static boolean checkDeleteRequestIntegrity(DeleteRequestDTO deleteRequestDTO) {
-        return deleteRequestDTO.getIdDoc() != null && !StringUtility.isNullOrEmpty(deleteRequestDTO.getIdDoc());
-    }
-
     public static JWTTokenDTO configureReadTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
         log.debug("Reconfiguring token per action");
         JWTTokenDTO reconfiguredToken = new JWTTokenDTO();

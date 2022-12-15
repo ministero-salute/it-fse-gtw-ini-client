@@ -74,78 +74,8 @@ public class CommonUtility {
 				.subject_application_version(deleteRequestDTO.getSubject_application_version())
 				.build();
 	}
-
-    /**
-     * Extract issuer from token
-     * @param documentTreeDTO
-     * @return Issuer of JWT
-     */
-    public static String extractIssuer(DocumentTreeDTO documentTreeDTO) {
-        
-        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry()!= null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
-            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
-            return payload.containsKey("iss") ? (String) payload.get("iss") : Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
-        }
-        return Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
-    }
-
-    /**
-     * Extract locality from token
-     * @param documentTreeDTO
-     * @return locality of JWT
-     */
-    public static String extractLocality(DocumentTreeDTO documentTreeDTO) {
-        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
-            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
-            return payload != null && payload.containsKey("locality") ? (String) payload.get("locality") : Constants.IniClientConstants.JWT_MISSING_LOCALITY;
-        }
-        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
-    }
-    
-    public static String extractSubjID(DocumentTreeDTO documentTreeDTO) {
-        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
-            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
-            return payload != null && payload.containsKey("subject_application_id") ? (String) payload.get("subject_application_id") : null;
-        }
-        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
-    }
-
-    
-    public static String extractSubjVendor(DocumentTreeDTO documentTreeDTO) {
-        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
-            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
-            return payload != null && payload.containsKey("subject_application_vendor") ? (String) payload.get("subject_application_vendor") : null;
-        }
-        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
-    }
-
-    public static String extractSubjVersion(DocumentTreeDTO documentTreeDTO) {
-        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
-            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
-            return payload != null && payload.containsKey("subject_application_version") ? (String) payload.get("subject_application_version") : null;
-        }
-        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
-    }
-
-
-    /**
-     * Extract subject Role from token
-     * 
-     * @param documentTreeDTO
-     * @return subject Role of JWT
-     */
-    public static String extractSubjectRole(DocumentTreeDTO documentTreeDTO) {
-        String subjectRole = Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER;
-        if (documentTreeDTO != null) {
-            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
-            if (payload != null) {
-                subjectRole = payload.getString("subject_role");
-            }
-        }
-
-        return subjectRole;
-    }
-
+ 
+  
     /**
      * Extract subject Role from token
      * 
