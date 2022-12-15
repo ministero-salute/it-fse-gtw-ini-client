@@ -12,13 +12,15 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class INIClientApplication {
 
+	
+	public static void main(String[] args) {
+		SpringApplication.run(INIClientApplication.class, args);
+	}
+	
 	@Bean
 	@Qualifier("restTemplate")
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
-	}
-	public static void main(String[] args) {
-		SpringApplication.run(INIClientApplication.class, args);
 	}
 
 }

@@ -69,6 +69,9 @@ public class CommonUtility {
 				.subject_organization(deleteRequestDTO.getSubject_organization())
 				.subject_organization_id(deleteRequestDTO.getSubject_organization_id())
 				.subject_role(deleteRequestDTO.getSubject_role())
+				.subject_application_id(deleteRequestDTO.getSubject_application_id())
+				.subject_application_vendor(deleteRequestDTO.getSubject_application_vendor())
+				.subject_application_version(deleteRequestDTO.getSubject_application_version())
 				.build();
 	}
 
@@ -98,6 +101,32 @@ public class CommonUtility {
         }
         return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
     }
+    
+    public static String extractSubjID(DocumentTreeDTO documentTreeDTO) {
+        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            return payload != null && payload.containsKey("subject_application_id") ? (String) payload.get("subject_application_id") : null;
+        }
+        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
+    }
+
+    
+    public static String extractSubjVendor(DocumentTreeDTO documentTreeDTO) {
+        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            return payload != null && payload.containsKey("subject_application_vendor") ? (String) payload.get("subject_application_vendor") : null;
+        }
+        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
+    }
+
+    public static String extractSubjVersion(DocumentTreeDTO documentTreeDTO) {
+        if (documentTreeDTO != null && documentTreeDTO.getTokenEntry() != null && documentTreeDTO.getTokenEntry().containsKey("payload")) {
+            Document payload = (Document) documentTreeDTO.getTokenEntry().get("payload");
+            return payload != null && payload.containsKey("subject_application_version") ? (String) payload.get("subject_application_version") : null;
+        }
+        return Constants.IniClientConstants.JWT_MISSING_LOCALITY;
+    }
+
 
     /**
      * Extract subject Role from token

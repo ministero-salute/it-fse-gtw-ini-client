@@ -74,7 +74,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 					Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER, 
 					Constants.IniClientConstants.JWT_MISSING_ISSUER_PLACEHOLDER, 
 					Constants.IniClientConstants.JWT_MISSING_SUBJECT, 
-					Constants.IniClientConstants.JWT_MISSING_LOCALITY);
+					Constants.IniClientConstants.JWT_MISSING_LOCALITY,
+					null,
+					null,
+					null);
 			throw new NotFoundException("Record non trovato");
 		}
 
@@ -95,6 +98,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		String subjectRole = CommonUtility.extractSubjectRole(documentTreeDTO);
 		String fiscalCode = CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO);
 		String locality =  CommonUtility.extractLocality(documentTreeDTO);
+		
+		String applicationId = CommonUtility.extractSubjID(documentTreeDTO);
+		String applicationVendor = CommonUtility.extractSubjVendor(documentTreeDTO);
+		String applicationVersion = CommonUtility.extractSubjVersion(documentTreeDTO);
+		
 		IniResponseDTO out = new IniResponseDTO();
 		try { 
 			RegistryResponseType res = iniClient.sendPublicationData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry());
@@ -115,14 +123,16 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getErrorMessage();
-				logger.error(message, ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), issuer, documentType, subjectRole, fiscalCode, locality);
+				logger.error(message, ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), issuer, documentType, subjectRole, fiscalCode, locality,
+						applicationId, applicationVendor, applicationVersion);
 			} else {
-				logger.info(message, ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole,fiscalCode,locality);
+				logger.info(message, ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole,fiscalCode,locality,
+						applicationId, applicationVendor, applicationVersion);
 			}
 		} catch(Exception ex) {
 			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.PUBLISH.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), issuer, documentType, subjectRole,
-					fiscalCode, locality);
+					fiscalCode, locality,applicationId, applicationVendor, applicationVersion);
 			throw new BusinessException(ex);
 		}
 
@@ -139,6 +149,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		String fiscalCode = CommonUtility.extractFiscalCodeFromDocumentTree(documentTreeDTO);
 		String locality =  CommonUtility.extractLocality(documentTreeDTO);
 
+		String applicationId = CommonUtility.extractSubjID(documentTreeDTO);
+		String applicationVendor = CommonUtility.extractSubjVendor(documentTreeDTO);
+		String applicationVersion = CommonUtility.extractSubjVersion(documentTreeDTO);
+		
 		try {
 			RegistryResponseType res = iniClient.sendReplaceData(documentTreeDTO.getDocumentEntry(), documentTreeDTO.getSubmissionSetEntry(), documentTreeDTO.getTokenEntry(), iniInvocationETY.getRiferimentoIni());
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -157,14 +171,16 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getErrorMessage();
-				logger.error(message, ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.REPLACE.getErrorType(), issuer, documentType, subjectRole, fiscalCode, locality);
+				logger.error(message, ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.REPLACE.getErrorType(), issuer, documentType, subjectRole, fiscalCode, locality,
+						applicationId, applicationVendor, applicationVersion);
 			} else {
-				logger.info(message, ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole,fiscalCode,locality);
+				logger.info(message, ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.OK, startingDate, issuer, documentType, subjectRole,fiscalCode,locality,
+						applicationId, applicationVendor, applicationVersion);
 			}
 		} catch(Exception ex) {
 			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.REPLACE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.REPLACE.getErrorType(), issuer, documentType, subjectRole,
-					fiscalCode, locality);
+					fiscalCode, locality,applicationId, applicationVendor, applicationVersion);
 			throw new BusinessException(ex);
 		}
 		return out;
@@ -178,6 +194,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		String fiscalCode = CommonUtility.extractFiscalCodeFromJwtSub(deleteRequestDTO.getSub());
 		JWTPayloadDTO jwtPayloadDTO = CommonUtility.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
+		
+		String applicationId = jwtPayloadDTO.getSubject_application_id();
+		String applicationVendor = jwtPayloadDTO.getSubject_application_vendor();
+		String applicationVersion = jwtPayloadDTO.getSubject_application_version();
+		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
 			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
@@ -202,15 +223,15 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				message += ": " + out.getErrorMessage();
 				logger.error(message, ProcessorOperationEnum.DELETE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.DELETE.getErrorType(), 
 						jwtPayloadDTO.getIss(), deleteRequestDTO.getDocumentType(), jwtPayloadDTO.getSubject_role(), 
-						fiscalCode, jwtPayloadDTO.getLocality());
+						fiscalCode, jwtPayloadDTO.getLocality(),applicationId,applicationVendor ,applicationVersion);
 			} else {
 				logger.info(message, ProcessorOperationEnum.DELETE.getOperation(), ResultLogEnum.OK, startingDate, jwtPayloadDTO.getIss(), deleteRequestDTO.getDocumentType(), jwtPayloadDTO.getSubject_role(),
-						fiscalCode,jwtPayloadDTO.getLocality());
+						fiscalCode,jwtPayloadDTO.getLocality(),applicationId,applicationVendor ,applicationVersion);
 			}
 		} catch (Exception ex) {
 			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.DELETE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.DELETE.getErrorType(), jwtPayloadDTO.getIss(), deleteRequestDTO.getDocumentType(), jwtPayloadDTO.getSubject_role(),
-					fiscalCode, jwtPayloadDTO.getLocality());
+					fiscalCode, jwtPayloadDTO.getLocality(),applicationId,applicationVendor ,applicationVersion);
 			throw new BusinessException(ex);
 		}
 		return out;
@@ -226,6 +247,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		String locality = token.getPayload().getLocality();
 		String issuer = token.getPayload().getIss();
 		String subjectRole = token.getPayload().getSubject_role();
+		
+		String applicationId = token.getPayload().getSubject_application_id();
+		String applicationVendor = token.getPayload().getSubject_application_vendor();
+		String applicationVersion = token.getPayload().getSubject_application_version();
 		try {
 			StringBuilder errorMsg = new StringBuilder();
 			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
@@ -247,16 +272,17 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				message += ": " + out.getErrorMessage();
 				logger.error(message, ProcessorOperationEnum.UPDATE.getOperation(), ResultLogEnum.KO, startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), 
 						issuer, updateRequestDTO.getDocumentType(),subjectRole ,  
-						fiscalCode, locality);
+						fiscalCode, locality,applicationId,applicationVendor,applicationVersion);
 			} else {
 				logger.info(message, ProcessorOperationEnum.UPDATE.getOperation(), ResultLogEnum.OK, startingDate, issuer, 
-						updateRequestDTO.getDocumentType(), subjectRole, fiscalCode,token.getPayload().getLocality());
+						updateRequestDTO.getDocumentType(), subjectRole, fiscalCode,token.getPayload().getLocality(),
+						applicationId,applicationVendor,applicationVersion);
 			}
 		} catch(Exception ex) {
 			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.UPDATE.getOperation(), ResultLogEnum.KO, startingDate, 
 					ProcessorOperationEnum.UPDATE.getErrorType(), issuer,updateRequestDTO.getDocumentType(), subjectRole,
-					fiscalCode, locality);
+					fiscalCode, locality,applicationId,applicationVendor,applicationVersion);
 			throw new BusinessException(ex);
 		}
 		return out;

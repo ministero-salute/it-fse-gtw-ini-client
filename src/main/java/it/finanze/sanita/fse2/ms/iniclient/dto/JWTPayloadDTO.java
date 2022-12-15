@@ -109,4 +109,10 @@ public class JWTPayloadDTO extends AbstractDTO {
 	private String action_id;
 
 	private String attachment_hash;
+	
+	private String subject_application_id;
+
+	private String subject_application_vendor;
+
+	private String subject_application_version;
 }
