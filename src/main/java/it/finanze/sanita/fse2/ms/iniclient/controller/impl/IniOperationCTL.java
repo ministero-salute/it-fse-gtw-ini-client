@@ -48,15 +48,39 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     
     @Override
     public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
-        log.debug("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
+    	log.debug("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
+    	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+    	
+        log.info("[START] {}() with arguments {}={}, {}={}", "create",
+    			"traceId", traceInfoDTO.getTraceID(),
+        		"wif", workflowInstanceId );
+        
         IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+        
+        log.info("[EXIT] {}() with arguments {}={}, {}={}", "create",
+    			"traceId", traceInfoDTO.getTraceID(),
+        		"wif", workflowInstanceId );
+        
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
     public IniTraceResponseDTO delete(final DeleteRequestDTO requestBody, HttpServletRequest request) {
-        log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
+    	log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
+    	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+        
+        log.info("[START] {}() with arguments {}={}, {}={}", "delete",
+    			"traceId", traceInfoDTO.getTraceID(),
+    			"idDoc", requestBody.getIdDoc()
+    			);
+        
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
+        
+        log.info("[EXIT] {}() with arguments {}={}, {}={}", "delete",
+    			"traceId", traceInfoDTO.getTraceID(),
+    			"idDoc", requestBody.getIdDoc()
+    			);
+        
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
  
@@ -64,16 +88,40 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     @Override
     public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
         log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
+        final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+        
+        log.info("[START] {}() with arguments {}={}", "update",
+    			"traceId", traceInfoDTO.getTraceID()
+    			);
+        
         SubmitObjectsRequest req =  JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
         IniResponseDTO res = iniInvocationSRV.updateByRequestBody(req, requestBody);
+        
+        log.info("[EXIT] {}() with arguments {}={}", "update",
+    			"traceId", traceInfoDTO.getTraceID()
+    			);
+        
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
     public IniTraceResponseDTO replace(final String workflowInstanceId, HttpServletRequest request) {
     	log.debug("Workflow instance id received replace:" + workflowInstanceId +", calling ini invocation client...");
-        IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
-        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
+    	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+    	
+    	log.info("[START] {}() with arguments {}={}, {}={}", "delete",
+    			"traceId", traceInfoDTO.getTraceID(),
+    			"wif", workflowInstanceId
+    			);
+    	
+    	IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+        
+    	log.info("[EXIT] {}() with arguments {}={}, {}={}", "delete",
+    			"traceId", traceInfoDTO.getTraceID(),
+    			"wif", workflowInstanceId
+    			);
+    	
+    	return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
 
     @Override
