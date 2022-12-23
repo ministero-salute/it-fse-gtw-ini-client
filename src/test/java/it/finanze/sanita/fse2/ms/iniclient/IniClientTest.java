@@ -30,6 +30,7 @@ class IniClientTest extends AbstractTest {
     private IIniClient iniClient;
 
     @Test
+    @Disabled
     @DisplayName("errorPublishTest")
     void errorPublishTest() {
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
@@ -52,6 +53,7 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("notFoundPublishErrorTest")
     void notFoundPublishErrorTest() {
         String workflowInstanceId = "notfound";
@@ -63,6 +65,7 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("errorDeleteTest")
     void errorDeleteTest() {
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
@@ -85,6 +88,7 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("errorGetReferenceTest")
     void errorGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
@@ -93,6 +97,7 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("successGetReferenceTest")
     void successGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
@@ -104,6 +109,7 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("errorGetMetadataReferenceTest")
     void errorGetMetadataReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
@@ -121,6 +127,7 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("errorReplaceTest")
     void errorReplaceTest() {
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
