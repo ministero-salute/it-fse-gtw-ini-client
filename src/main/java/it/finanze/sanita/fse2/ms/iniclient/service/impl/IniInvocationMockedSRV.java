@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
@@ -22,7 +23,7 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 @Service
 @ConditionalOnProperty(name="ini.client.mock-enable", havingValue="true")
-public class IniInovactionMockedSRV implements IIniInvocationSRV  {
+public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 
 	@Autowired
 	private LoggerHelper logger;
@@ -32,7 +33,7 @@ public class IniInovactionMockedSRV implements IIniInvocationSRV  {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		out.setErrorMessage("Regime di mock abilitato");
-		logger.info("Regime di mock abilitato", operation.getOperation(), 
+		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,"Regime di mock abilitato", operation.getOperation(), 
 				startingDate, 
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
@@ -43,7 +44,7 @@ public class IniInovactionMockedSRV implements IIniInvocationSRV  {
 	@Override
 	public IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO) {
 		final Date startingDate = new Date();
-		logger.info("Regime di mock abilitato", ProcessorOperationEnum.DELETE.getOperation(), 
+		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, deleteRequestDTO.getWorkflow_instance_id() ,"Regime di mock abilitato", ProcessorOperationEnum.DELETE.getOperation(), 
 				startingDate, 
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
@@ -54,7 +55,7 @@ public class IniInovactionMockedSRV implements IIniInvocationSRV  {
 	@Override
 	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
-		logger.info("Regime di mock abilitato", ProcessorOperationEnum.UPDATE.getOperation(), 
+		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, updateRequestDTO.getWorkflow_instance_id(),"Regime di mock abilitato", ProcessorOperationEnum.UPDATE.getOperation(), 
 				startingDate, 
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  

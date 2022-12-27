@@ -73,7 +73,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 		IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
 		if(iniInvocationETY==null) {
-			logger.error("Record non trovato", ProcessorOperationEnum.PUBLISH.getOperation(), 
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,"Record non trovato", ProcessorOperationEnum.PUBLISH.getOperation(), 
 					startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), 
 					null,null, new JWTPayloadDTO());
 			throw new NotFoundException("Record non trovato");
@@ -120,12 +120,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getErrorMessage();
-				logger.error(message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, iniInvocationETY.getWorkflowInstanceId(), message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
 			} else {
-				logger.info(message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(), message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
 			}
 		} catch(Exception ex) {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
 			throw new BusinessException(ex);
 		}
 
@@ -162,13 +163,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getErrorMessage();
-				logger.error(message, ProcessorOperationEnum.REPLACE.getOperation(), startingDate, 
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, iniInvocationETY.getWorkflowInstanceId(),message, ProcessorOperationEnum.REPLACE.getOperation(), startingDate, 
 						ProcessorOperationEnum.REPLACE.getErrorType(), documentType, fiscalCode,tokenPayloadDTO);
 			} else {
-				logger.info(message, ProcessorOperationEnum.REPLACE.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, iniInvocationETY.getWorkflowInstanceId(),message, ProcessorOperationEnum.REPLACE.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_KPI, null,message, ProcessorOperationEnum.REPLACE.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
 			}
 		} catch(Exception ex) {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(),"Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.REPLACE.getOperation(), startingDate, ProcessorOperationEnum.REPLACE.getErrorType(), documentType, 
 					fiscalCode, tokenPayloadDTO);
 			throw new BusinessException(ex);
@@ -207,12 +209,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getErrorMessage();
-				logger.error(message, ProcessorOperationEnum.DELETE.getOperation(), startingDate, ProcessorOperationEnum.DELETE.getErrorType(), deleteRequestDTO.getDocumentType(), fiscalCode, jwtPayloadDTO);
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, deleteRequestDTO.getWorkflow_instance_id(),message, ProcessorOperationEnum.DELETE.getOperation(), startingDate, ProcessorOperationEnum.DELETE.getErrorType(), deleteRequestDTO.getDocumentType(), fiscalCode, jwtPayloadDTO);
 			} else {
-				logger.info(message, ProcessorOperationEnum.DELETE.getOperation(), startingDate, deleteRequestDTO.getDocumentType(),  fiscalCode,jwtPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, deleteRequestDTO.getWorkflow_instance_id() ,message, ProcessorOperationEnum.DELETE.getOperation(), startingDate, deleteRequestDTO.getDocumentType(),  fiscalCode,jwtPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_KPI, null,message, ProcessorOperationEnum.DELETE.getOperation(), startingDate, deleteRequestDTO.getDocumentType(),  fiscalCode,jwtPayloadDTO);
 			}
 		} catch (Exception ex) {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,deleteRequestDTO.getWorkflow_instance_id(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.DELETE.getOperation(), startingDate, ProcessorOperationEnum.DELETE.getErrorType(), deleteRequestDTO.getDocumentType(),
 					fiscalCode, jwtPayloadDTO);
 			throw new BusinessException(ex);
@@ -248,12 +251,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getErrorMessage();
-				logger.error(message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken);
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id() , message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken);
 			} else {
-				logger.info(message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
+				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
+				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
 			}
 		} catch(Exception ex) {
-			logger.error("Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,"", "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getErrorMessage(), 
 					ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), 
 					fiscalCode, payloadToken);
 			throw new BusinessException(ex);

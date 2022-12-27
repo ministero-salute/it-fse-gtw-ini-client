@@ -94,6 +94,10 @@ public final class Constants {
 	public static final class AppConstants {
 
 		public static final String MOCKED_GATEWAY_NAME = "mocked-gateway";
+		
+		public static final String LOG_TYPE_KPI = "gateway-structured-log";
+		
+		public static final String LOG_TYPE_CONTROL = "gateway-control-structured-log";
 	}
 
 	/**

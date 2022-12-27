@@ -49,10 +49,8 @@ public class LoggerHelper {
 	/* 
 	 * Implements structured logs, at all logging levels
 	 */
-	public void trace(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
+	public void trace(String log_type, String workflowInstanceId, String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
 		String documentType, String subjectRole, String subjectFiscalCode, String locality) {
-		
-		final String gatewayName = getGatewayName();
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
@@ -65,8 +63,10 @@ public class LoggerHelper {
 				op_fiscal_code(subjectFiscalCode).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(gatewayName).
+				gateway_name(getGatewayName()).
 				microservice_name(msName).
+				log_type(log_type).
+				workflow_instance_id(workflowInstanceId).
 				build();
 
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -77,10 +77,9 @@ public class LoggerHelper {
 		}
 	} 
 	
-	public void debug(String message,  ILogEnum operation, ResultLogEnum result, Date startDateOperation, 
+	public void debug(String log_type, String workflowInstanceId,String message,  ILogEnum operation, ResultLogEnum result, Date startDateOperation, 
 			String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
-		final String gatewayName = getGatewayName();
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
 				op_locality(locality).
@@ -92,7 +91,7 @@ public class LoggerHelper {
 				op_fiscal_code(subjectFiscalCode).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(gatewayName).
+				gateway_name(getGatewayName()).
 				microservice_name(msName).
 				build();
 		
@@ -104,7 +103,7 @@ public class LoggerHelper {
 		}
 	} 
 	 
-	public void info(String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
+	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(payloadDTO.getIss()).
@@ -122,6 +121,8 @@ public class LoggerHelper {
 				op_application_id(payloadDTO.getSubject_application_id()).
 				op_application_vendor(payloadDTO.getSubject_application_vendor()).
 				op_application_version(payloadDTO.getSubject_application_version()).
+				log_type(log_type).
+				workflow_instance_id(workflowInstanceId).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -131,11 +132,9 @@ public class LoggerHelper {
 		}
 	} 
 	
-	public void warn(String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
+	public void warn(String log_type, String workflowInstanceId,String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
 		String documentType, String subjectRole, String subjectFiscalCode, String locality,
 		String applicationId, String applicationVendor, String applicationVersion) {
-		
-		final String gatewayName = getGatewayName();
 		
 		LogDTO logDTO = LogDTO.builder().
 				op_issuer(issuer).
@@ -148,11 +147,13 @@ public class LoggerHelper {
 				op_result(result.getCode()).
 				op_timestamp_start(dateFormat.format(startDateOperation)).
 				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(gatewayName).
+				gateway_name(getGatewayName()).
 				microservice_name(msName).
 				op_application_id(applicationId).
 				op_application_vendor(applicationVendor).
 				op_application_version(applicationVersion).
+				log_type(log_type).
+				workflow_instance_id(workflowInstanceId).
 				build();
 		
 		final String logMessage = StringUtility.toJSON(logDTO);
@@ -164,7 +165,7 @@ public class LoggerHelper {
  
 	} 
 	
-	public void error(String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
+	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
 			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
 
 		LogDTO logDTO = LogDTO.builder().
@@ -185,6 +186,8 @@ public class LoggerHelper {
 				op_application_id(jwtPayloadDTO.getSubject_application_id()).
 				op_application_vendor(jwtPayloadDTO.getSubject_application_vendor()).
 				op_application_version(jwtPayloadDTO.getSubject_application_version()).
+				log_type(log_type).
+				workflow_instance_id(workflowInstanceId).
 				build();
 
 		final String logMessage = StringUtility.toJSON(logDTO);

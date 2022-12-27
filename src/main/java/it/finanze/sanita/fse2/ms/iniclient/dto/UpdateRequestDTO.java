@@ -13,4 +13,6 @@ public class UpdateRequestDTO {
     private String marshallData;
     
     private String documentType;
+    
+    private String workflow_instance_id;
 }
