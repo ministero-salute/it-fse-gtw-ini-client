@@ -3,14 +3,14 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
+import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,16 +22,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -39,7 +35,8 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
-@Disabled
+import javax.xml.bind.JAXBException;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -80,9 +77,7 @@ class IniInvocationTest {
     void publishErrorTest() {
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class)))
                 .thenThrow(new BusinessException(""));
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH);
-        assertFalse(response.getEsito());
-        assertNotNull(response.getErrorMessage());
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH));
     }
 
     @Test
@@ -99,11 +94,9 @@ class IniInvocationTest {
     @Test
     @DisplayName("Replace - success test")
     void replaceSuccessTest() {
-        Mockito.when(iniClient.sendReplaceData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), anyString()))
-                .thenReturn(new RegistryResponseType());
-        ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
-        requestDTO.setRiferimentoIni("identificativoDoc");
-        requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
+        RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
+        Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any()))
+                .thenReturn(registryResponseType);
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
         assertTrue(response.getEsito());
         assertNull(response.getErrorMessage());
@@ -116,9 +109,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
-        assertFalse(response.getEsito());
-        assertNotNull(response.getErrorMessage());
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE));
     }
 
     @Test
@@ -135,119 +126,115 @@ class IniInvocationTest {
         assertNotNull(response.getErrorMessage());
     }
 
-//    @Test
-//    @DisplayName("Update - success test")
-//    void updateSuccessTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
-//        Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
-//        
-//        String json = TestConstants.TEST_UPDATE_REQ_NEW ;
-//        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(json, UpdateRequestDTO.class);
-//        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
-//        assertTrue(iniResponse.getEsito());
-//        assertNull(iniResponse.getErrorMessage());
-//    }
+    @Test
+    @DisplayName("Update - success test")
+    void updateSuccessTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
+        Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
 
-//    @Test
-//    @DisplayName("Update - error test")
-//    void updateErrorTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        Mockito.when(iniClient.sendUpdateData(any(), any()))
-//                .thenThrow(new BusinessException(""));
-//        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
-//        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
-//        assertFalse(iniResponse.getEsito());
-//        assertNotNull(iniResponse.getErrorMessage());
-//    }
+        String json = TestConstants.TEST_UPDATE_REQ_NEW ;
+        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(json, UpdateRequestDTO.class);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
+        assertTrue(iniResponse.getEsito());
+        assertNull(iniResponse.getErrorMessage());
+    }
 
-//    @Test
-//    @DisplayName("Update - error response test")
-//    void updateErrorResponseTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-//        Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
-//        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
-//        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
-//        assertFalse(iniResponse.getEsito());
-//        assertNotNull(iniResponse.getErrorMessage());
-//    }
+    @Test
+    @DisplayName("Update - error test")
+    void updateErrorTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.sendUpdateData(any(), any()))
+                .thenThrow(new BusinessException(""));
+        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO));
+    }
 
-//    @Test
-//    @DisplayName("Delete - success test")
-//    void deleteSuccessTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
-//                .thenReturn(new RegistryResponseType());
-//        DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
-//        IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
-//        assertTrue(iniResponse.getEsito());
-//        assertNull(iniResponse.getErrorMessage());
-//    }
+    @Test
+    @DisplayName("Update - error response test")
+    void updateErrorResponseTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
+        Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
+        UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
+        assertFalse(iniResponse.getEsito());
+        assertNotNull(iniResponse.getErrorMessage());
+    }
 
-//    @Test
-//    @DisplayName("Delete - error test")
-//    void deleteErrorTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        Mockito.when(iniClient.sendDeleteData(anyString(), any(JWTPayloadDTO.class), anyString()))
-//                .thenThrow(new BusinessException(""));
-//        DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
-//        IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
-//        assertFalse(iniResponse.getEsito());
-//        assertNotNull(iniResponse.getErrorMessage());
-//    }
+    @Test
+    @DisplayName("Delete - success test")
+    void deleteSuccessTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
+                .thenReturn(new RegistryResponseType());
+        DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
+        IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
+        assertTrue(iniResponse.getEsito());
+        assertNull(iniResponse.getErrorMessage());
+    }
 
-//    @Test
-//    @DisplayName("Delete - error response test")
-//    void deleteErrorResponseTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-//        Mockito.when(iniClient.sendDeleteData(anyString(), any(JWTPayloadDTO.class), anyString()))
-//                .thenReturn(registryResponseType);
-//        DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
-//        IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
-//        assertFalse(iniResponse.getEsito());
-//        assertNotNull(iniResponse.getErrorMessage());
-//    }
+    @Test
+    @DisplayName("Delete - error test")
+    void deleteErrorTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
+                .thenThrow(new BusinessException(""));
+        DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
+        assertThrows(BusinessException.class, () ->iniInvocationSRV.deleteByDocumentId(deleteRequestDTO));
+    }
 
-//    @Test
-//    @DisplayName("Get Metadata - success test")
-//    void getMetadatiSuccessTest() throws JAXBException {
-//        AdhocQueryResponse response = TestUtility.mockQueryResponse();
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn(response);
-//        AdhocQueryResponse apiResponse = iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken());
-//        assertEquals(response, apiResponse);
-//        assertNotNull(apiResponse);
-//        assertNotNull(apiResponse.getRegistryObjectList());
-//        assertNotEquals(0, apiResponse.getRegistryObjectList().getIdentifiable().size());
-//    }
+    @Test
+    @DisplayName("Delete - error response test")
+    void deleteErrorResponseTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
+                .thenReturn(registryResponseType);
+        DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
+        IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
+        assertFalse(iniResponse.getEsito());
+        assertNotNull(iniResponse.getErrorMessage());
+    }
+
+    @Test
+    @DisplayName("Get Metadata - success test")
+    void getMetadatiSuccessTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
+                .thenReturn(response);
+        AdhocQueryResponse apiResponse = iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken());
+        assertEquals(response, apiResponse);
+        assertNotNull(apiResponse);
+        assertNotNull(apiResponse.getRegistryObjectList());
+        assertNotEquals(0, apiResponse.getRegistryObjectList().getIdentifiable().size());
+    }
 
     @Test
     @DisplayName("Get Metadata - error test when get reference uuid fails")
@@ -256,14 +243,4 @@ class IniInvocationTest {
                 .thenThrow(new BusinessException(""));
         assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken()));
     }
-
-//    @Test
-//    @DisplayName("Get Metadata - error test when get reference uuid fails")
-//    void getMetadatiGenericErrorTest() {
-//        Mockito.when(iniClient.getReferenceUUID(anyString(), any(JWTTokenDTO.class)))
-//                .thenReturn("uuid");
-//        Mockito.when(iniClient.getReferenceMetadata(anyString(), any(JWTTokenDTO.class)))
-//                .thenThrow(new BusinessException(""));
-//        assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken()));
-//    }
 }

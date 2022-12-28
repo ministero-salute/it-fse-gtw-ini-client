@@ -4,6 +4,8 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
 public class TestConstants {
+    public static final String TEST_UPDATE_REQ_WITH_BODY = "{\"idDoc\":\"_id\",\"token\":{\"iss\":\"201123456\",\"iat\":0,\"exp\":0,\"jti\":\"1540918800\",\"aud\":null,\"sub\":\"RSSMRA22A01A399Z^^^&amp;2.16.840.1.113883.2.9.4.3.2&amp;ISO\",\"subject_organization\":\"Regione Lazio\",\"subject_organization_id\":\"120\",\"locality\":\"Regione Lazio\",\"subject_role\":\"AAS\",\"person_id\":\"RSSMRA22A01A399Z\",\"patient_consent\":true,\"purpose_of_use\":\"TREATMENT\",\"resource_hl7_type\":\"('11502-2^^2.16.840.1.113883.6.1')\",\"action_id\":\"CREATE\",\"attachment_hash\":null},\"body\":{\"tipologiaStruttura\":\"Ospedale\",\"attiCliniciRegoleAccesso\":[\"P99\"],\"tipoDocumentoLivAlto\":\"WOR\",\"assettoOrganizzativo\":\"AD_PSC001\",\"dataInizioPrestazione\":\"string\",\"dataFinePrestazione\":\"string\",\"conservazioneANorma\":\"string\",\"tipoAttivitaClinica\":\"PHR\",\"identificativoSottomissione\":\"string\"}}";
+
     private TestConstants() {}
 
     public static final String TEST_UUID = "random";

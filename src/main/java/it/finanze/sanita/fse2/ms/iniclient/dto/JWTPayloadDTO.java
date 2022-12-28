@@ -6,13 +6,11 @@ package it.finanze.sanita.fse2.ms.iniclient.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class JWTPayloadDTO extends AbstractDTO {
+public class JWTPayloadDTO {
 
 	public JWTPayloadDTO() {
 		

@@ -8,6 +8,7 @@ import java.io.StringReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,15 +52,15 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     	log.debug("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
     	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
     	
-        log.info("[START] {}() with arguments {}={}, {}={}", "create",
-    			"traceId", traceInfoDTO.getTraceID(),
-        		"wif", workflowInstanceId );
+        log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+        		Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
         
         IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
         
-        log.info("[EXIT] {}() with arguments {}={}, {}={}", "create",
-    			"traceId", traceInfoDTO.getTraceID(),
-        		"wif", workflowInstanceId );
+        log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+        		Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
         
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
@@ -69,15 +70,15 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     	log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
     	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
         
-        log.info("[START] {}() with arguments {}={}, {}={}", "delete",
-    			"traceId", traceInfoDTO.getTraceID(),
+        log.info(Constants.Logs.START_LOG, Constants.Logs.DELETE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
     			"idDoc", requestBody.getIdDoc()
     			);
         
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
         
-        log.info("[EXIT] {}() with arguments {}={}, {}={}", "delete",
-    			"traceId", traceInfoDTO.getTraceID(),
+        log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
     			"idDoc", requestBody.getIdDoc()
     			);
         
@@ -90,15 +91,15 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
         final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
         
-        log.info("[START] {}() with arguments {}={}", "update",
-    			"traceId", traceInfoDTO.getTraceID()
+        log.info(Constants.Logs.START_UPDATE_LOG, Constants.Logs.UPDATE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID()
     			);
         
         SubmitObjectsRequest req =  JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
         IniResponseDTO res = iniInvocationSRV.updateByRequestBody(req, requestBody);
         
-        log.info("[EXIT] {}() with arguments {}={}", "update",
-    			"traceId", traceInfoDTO.getTraceID()
+        log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID()
     			);
         
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
@@ -109,16 +110,16 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     	log.debug("Workflow instance id received replace:" + workflowInstanceId +", calling ini invocation client...");
     	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
     	
-    	log.info("[START] {}() with arguments {}={}, {}={}", "delete",
-    			"traceId", traceInfoDTO.getTraceID(),
-    			"wif", workflowInstanceId
+    	log.info(Constants.Logs.START_LOG, Constants.Logs.REPLACE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+    			Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId
     			);
     	
     	IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
         
-    	log.info("[EXIT] {}() with arguments {}={}, {}={}", "delete",
-    			"traceId", traceInfoDTO.getTraceID(),
-    			"wif", workflowInstanceId
+    	log.info(Constants.Logs.END_LOG, Constants.Logs.REPLACE,
+    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+    			Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId
     			);
     	
     	return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());

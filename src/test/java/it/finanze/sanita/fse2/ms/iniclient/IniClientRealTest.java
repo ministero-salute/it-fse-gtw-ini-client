@@ -3,56 +3,36 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
-import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
-import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
-import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryErrorList;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.xml.bind.JAXBException;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
-class IniClientTest extends AbstractTest {
+class IniClientRealTest extends AbstractTest {
 
     @Autowired
     private IIniClient iniClient;
 
-    @MockBean
-    private IIniInvocationSRV iniInvocationSRV;
-
     @Test
+    @Disabled("Manually run this test")
     @DisplayName("errorPublishTest")
     void errorPublishTest() {
-        IniResponseDTO mockResponse = new IniResponseDTO();
-        mockResponse.setEsito(false);
-        mockResponse.setErrorMessage("error");
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class)))
-                .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
@@ -62,26 +42,33 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled("Manually run this test")
     @DisplayName("successPublishTest")
     void successPublishTest() {
-        IniResponseDTO mockResponse = new IniResponseDTO();
-        mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class)))
-                .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
+        //assertNull(response.getBody().getErrorMessage());
+        //assertEquals(true, response.getBody().getEsito());
     }
 
     @Test
+    @Disabled("Manually run this test")
+    @DisplayName("notFoundPublishErrorTest")
+    void notFoundPublishErrorTest() {
+        String workflowInstanceId = "notfound";
+        ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertNotNull(response.getBody().getErrorMessage());
+        assertEquals(false, response.getBody().getEsito());
+    }
+
+    @Test
+    @Disabled("Manually run this test")
     @DisplayName("errorDeleteTest")
     void errorDeleteTest() {
-        IniResponseDTO mockResponse = new IniResponseDTO();
-        mockResponse.setEsito(false);
-        mockResponse.setErrorMessage("error");
-        Mockito.when(iniInvocationSRV.deleteByDocumentId(any(DeleteRequestDTO.class)))
-                .thenReturn(mockResponse);
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
         assertEquals(200, response.getStatusCodeValue());
@@ -91,38 +78,50 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled("Manually run this test")
     @DisplayName("successDeleteTest")
     void successDeleteTest() {
-        IniResponseDTO mockResponse = new IniResponseDTO();
-        mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.deleteByDocumentId(any(DeleteRequestDTO.class)))
-                .thenReturn(mockResponse);
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
+        //assertNull(response.getBody().getErrorMessage());
+        //assertEquals(true, response.getBody().getEsito());
     }
 
     @Test
-    @DisplayName("errorGetMetadataTest")
-    void errorGetMetadataTest() {
-        Mockito.when(iniInvocationSRV.getMetadata(any(), any()))
-                .thenReturn(null);
+    @Disabled("Manually run this test")
+    @DisplayName("errorGetReferenceTest")
+    void errorGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
-        ResponseEntity<GetMetadatiResponseDTO> response = callGetMetadata(idDoc);
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-        assertNull(response.getBody().getResponse());
+        JWTTokenDTO jwtToken = buildJwtToken();
+        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, jwtToken));
     }
 
     @Test
+    @Disabled("Manually run this test")
+    @DisplayName("successGetReferenceTest")
+    void successGetReferenceTest() {
+        String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        JWTTokenDTO jwtToken = buildJwtToken();
+        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, jwtToken));
+        //assertNotNull(uuid);
+        //assertNull(response.getBody().getErrorMessage());
+        //assertEquals(true, response.getBody().getEsito());
+    }
+
+    @Test
+    @Disabled("Manually run this test")
+    @DisplayName("errorGetMetadataReferenceTest")
+    void errorGetMetadataReferenceTest() {
+        String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
+        assertThrows(HttpClientErrorException.Forbidden.class, () -> callGetMetadata(idDoc));
+    }
+
+    @Test
+    @Disabled("Manually run this test")
     @DisplayName("errorReplaceTest")
     void errorReplaceTest() {
-        IniResponseDTO mockResponse = new IniResponseDTO();
-        mockResponse.setEsito(false);
-        mockResponse.setErrorMessage("error");
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class)))
-                .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
@@ -132,12 +131,9 @@ class IniClientTest extends AbstractTest {
     }
 
     @Test
+    @Disabled("Manually run this test")
     @DisplayName("successReplaceTest")
     void successReplaceTest() {
-        IniResponseDTO mockResponse = new IniResponseDTO();
-        mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class)))
-                .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());

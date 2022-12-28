@@ -33,7 +33,9 @@
 			src/main/java/ihe/**/*.*,
 			src/main/java/oasis/**/*.*,
 			src/main/java/org/**/*.*,
-			src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*
+			src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*,
+			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/OpenApiCFG.java,
+			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/CustomSwaggerCFG.java
 		</sonar.exclusions>
 
 	</properties>

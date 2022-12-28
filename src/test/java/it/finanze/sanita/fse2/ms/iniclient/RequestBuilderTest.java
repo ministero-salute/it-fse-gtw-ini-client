@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,6 +44,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+
+import javax.xml.bind.JAXBException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -189,4 +192,79 @@ class RequestBuilderTest {
         ));
     }
 
+    @Test
+    @DisplayName("Update - merge metadata success test")
+    void updateBodyBuilderSuccessTest() throws JAXBException {
+        MergedMetadatiRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_WITH_BODY, MergedMetadatiRequestDTO.class);
+        JWTTokenDTO jwtTokenDTO = new JWTTokenDTO();
+        jwtTokenDTO.setPayload(updateRequestDTO.getToken());
+        JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
+        RegistryObjectListType oldMetadata = TestUtility.mockQueryResponse().getRegistryObjectList();
+        assertDoesNotThrow(() -> UpdateBodyBuilderUtility.buildSubmitObjectRequest(
+                updateRequestDTO,
+                oldMetadata,
+                TestConstants.TEST_UUID,
+                reconfiguredToken
+        ));
+    }
+
+    @Test
+    @DisplayName("PUBLISH - Header builder success test")
+    void publishHeaderBuilderSuccessTest() {
+        IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
+        DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        assertDoesNotThrow(() -> samlHeaderBuilderUtility.buildHeader(
+                new JWTTokenDTO(samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload()),
+                ActionEnumType.CREATE
+        ));
+    }
+
+    @Test
+    @DisplayName("UPDATE - Header builder success test")
+    void updateHeaderBuilderSuccessTest() {
+        IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
+        DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        assertDoesNotThrow(() -> samlHeaderBuilderUtility.buildHeader(
+                new JWTTokenDTO(samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload()),
+                ActionEnumType.UPDATE
+        ));
+    }
+
+    @Test
+    @DisplayName("REPLACE - Header builder success test")
+    void replaceHeaderBuilderSuccessTest() {
+        IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
+        DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        assertDoesNotThrow(() -> samlHeaderBuilderUtility.buildHeader(
+                new JWTTokenDTO(samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload()),
+                ActionEnumType.REPLACE
+        ));
+    }
+
+    @Test
+    @DisplayName("DELETE - Header builder success test")
+    void deleteHeaderBuilderSuccessTest() {
+        IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
+        DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        assertDoesNotThrow(() -> samlHeaderBuilderUtility.buildHeader(
+                new JWTTokenDTO(samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload()),
+                ActionEnumType.DELETE
+        ));
+    }
+
+    @Test
+    @DisplayName("READ REF - Header builder success test")
+    void readReferenceBuilderSuccessTest() {
+        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest(
+                "searchId", ActionEnumType.READ_REFERENCE
+        ));
+    }
+
+    @Test
+    @DisplayName("READ METADATA - Header builder success test")
+    void readMetadataBuilderSuccessTest() {
+        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest(
+                "searchId", ActionEnumType.READ_METADATA
+        ));
+    }
 }

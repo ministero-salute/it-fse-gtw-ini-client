@@ -14,8 +14,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PublicationMetadataReqDTO extends AbstractDTO {
+public class PublicationMetadataReqDTO {
 
 	@Schema(description = "Tipologia struttura che ha prodotto il documento", required = true)
 	private HealthcareFacilityEnum tipologiaStruttura;

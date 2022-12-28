@@ -92,7 +92,7 @@ public final class Constants {
 	}
 
 	public static final class AppConstants {
-
+		private AppConstants() {}
 		public static final String MOCKED_GATEWAY_NAME = "mocked-gateway";
 		
 		public static final String LOG_TYPE_KPI = "kpi-structured-log";
@@ -102,8 +102,20 @@ public final class Constants {
 	/**
 	 * Constants.
 	 */
-	private Constants() {
+	private Constants() {}
 
+	public static final class Logs {
+		public static final String END_LOG = "[EXIT] {}() with arguments {}={}, {}={}";
+		public static final Object DELETE = "delete";
+		public static final Object TRACE_ID_LOG = "traceId";
+		public static final Object WORKFLOW_INSTANCE_ID = "wif";
+		public static final String START_UPDATE_LOG = "[START] {}() with arguments {}={}";
+		public static final String END_UPDATE_LOG = "[EXIT] {}() with arguments {}={}";
+		public static final Object UPDATE = "update";
+        public static final Object CREATE = "create";
+		public static final Object REPLACE = "replace";
+
+		private Logs() {}
+		public static final String START_LOG = "[START] {}() with arguments {}={}, {}={}";
 	}
-
 }

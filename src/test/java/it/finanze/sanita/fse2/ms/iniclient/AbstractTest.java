@@ -3,12 +3,15 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
@@ -43,10 +46,11 @@ public abstract class AbstractTest {
     /**
      * Init collection
      */
-    @BeforeAll
-    void init() {
-        List<IniEdsInvocationETY> transactionEventsETYList = initList();
-        mongoTemplate.insertAll(transactionEventsETYList);
+    @BeforeEach
+    void initAbstract() {
+        mongoTemplate.dropCollection(IniEdsInvocationETY.class);
+        List<IniEdsInvocationETY> list = initList();
+        mongoTemplate.insertAll(list);
     }
 
     /**
@@ -152,7 +156,7 @@ public abstract class AbstractTest {
      * call publish ini client
      * @param oid of the transaction
      */
-    ResponseEntity<IniTraceResponseDTO> callGetMetadata(String oid) {
+    ResponseEntity<GetMetadatiResponseDTO> callGetMetadata(String oid) {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
@@ -160,6 +164,6 @@ public abstract class AbstractTest {
 
         GetMetadatiReqDTO getMetadatiReqDTO = JsonUtility.jsonToObject(TestConstants.TEST_GET_META_REQ, GetMetadatiReqDTO.class);
         HttpEntity<?> entity = new HttpEntity<>(getMetadatiReqDTO, null);
-        return restTemplate.exchange(url, HttpMethod.POST, entity, IniTraceResponseDTO.class);
+        return restTemplate.exchange(url, HttpMethod.POST, entity, GetMetadatiResponseDTO.class);
     }
 }
