@@ -9,7 +9,8 @@ public enum HealthcareFacilityEnum {
 	Prevenzione("Prevenzione"),
 	Territorio("Territorio"),
 	SistemaTS("SistemaTS"),
-	Cittadino("Cittadino");
+	Cittadino("Cittadino"),
+	MdsPN_DGC("MdsPN-DGC");
 
 	private String code;
 
