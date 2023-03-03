@@ -67,7 +67,6 @@ public final class PublishReplaceBodyBuilderUtility {
 
 		try {
 			String requestUUID = StringUtility.generateUUID();
-
 			//ExtrinsicObject
 			JAXBElement<ExtrinsicObjectType> extrinsicObject = buildExtrinsicObject(Constants.IniClientConstants.URN_UUID + requestUUID, documentEntryDTO.getMimeType(),
 					documentEntryDTO,requestUUID,jwtPayloadDTO);
