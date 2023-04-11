@@ -1,7 +1,10 @@
 
 package oasis.names.tc.ebxml_regrep.xsd.lcm._3;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
 
 
 /**
@@ -20,6 +23,9 @@ import javax.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory {
+	
+	private final static QName _RemoveObjectsRequest_QNAME = new QName("urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0", "RemoveObjectsRequest");
+    private final static QName _SubmitObjectsRequest_QNAME = new QName("urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0", "SubmitObjectsRequest");
 
 
     /**
@@ -93,4 +99,40 @@ public class ObjectFactory {
         return new SubmitObjectsRequest();
     }
 
+    /**
+     * Create an instance of {@link RemoveObjectsRequestType }
+     * 
+     */
+    public RemoveObjectsRequestType createRemoveObjectsRequestType() {
+        return new RemoveObjectsRequestType();
+    }
+
+    /**
+     * Create an instance of {@link SubmitObjectsRequestType }
+     * 
+     */
+    public SubmitObjectsRequestType createSubmitObjectsRequestType() {
+        return new SubmitObjectsRequestType();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveObjectsRequestType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0", name = "RemoveObjectsRequest")
+    public JAXBElement<RemoveObjectsRequestType> createRemoveObjectsRequest(RemoveObjectsRequestType value) {
+        return new JAXBElement<RemoveObjectsRequestType>(_RemoveObjectsRequest_QNAME, RemoveObjectsRequestType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SubmitObjectsRequestType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0", name = "SubmitObjectsRequest")
+    public JAXBElement<SubmitObjectsRequestType> createSubmitObjectsRequest(SubmitObjectsRequestType value) {
+        return new JAXBElement<SubmitObjectsRequestType>(_SubmitObjectsRequest_QNAME, SubmitObjectsRequestType.class, null, value);
+    }
+
+    
+    
 }

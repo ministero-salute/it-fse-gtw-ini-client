@@ -25,6 +25,8 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _RegistryResponse_QNAME = new QName("urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", "RegistryResponse");
+    private final static QName _RegistryErrorList_QNAME = new QName("urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", "RegistryErrorList");
+    private final static QName _RegistryError_QNAME = new QName("urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", "RegistryError");
     private final static QName _RegistryRequest_QNAME = new QName("urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", "RegistryRequest");
 
     /**
@@ -35,27 +37,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RegistryErrorType }
+     * 
+     */
+    public RegistryErrorType createRegistryErrorType() {
+        return new RegistryErrorType();
+    }
+
+    /**
+     * Create an instance of {@link RegistryErrorListType }
+     * 
+     */
+    public RegistryErrorListType createRegistryErrorListType() {
+        return new RegistryErrorListType();
+    }
+
+    /**
      * Create an instance of {@link RegistryRequestType }
      * 
      */
     public RegistryRequestType createRegistryRequestType() {
         return new RegistryRequestType();
-    }
-
-    /**
-     * Create an instance of {@link RegistryError }
-     * 
-     */
-    public RegistryError createRegistryError() {
-        return new RegistryError();
-    }
-
-    /**
-     * Create an instance of {@link RegistryErrorList }
-     * 
-     */
-    public RegistryErrorList createRegistryErrorList() {
-        return new RegistryErrorList();
     }
 
     /**
@@ -73,6 +75,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", name = "RegistryResponse")
     public JAXBElement<RegistryResponseType> createRegistryResponse(RegistryResponseType value) {
         return new JAXBElement<RegistryResponseType>(_RegistryResponse_QNAME, RegistryResponseType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegistryErrorListType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", name = "RegistryErrorList")
+    public JAXBElement<RegistryErrorListType> createRegistryErrorList(RegistryErrorListType value) {
+        return new JAXBElement<RegistryErrorListType>(_RegistryErrorList_QNAME, RegistryErrorListType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegistryErrorType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", name = "RegistryError")
+    public JAXBElement<RegistryErrorType> createRegistryError(RegistryErrorType value) {
+        return new JAXBElement<RegistryErrorType>(_RegistryError_QNAME, RegistryErrorType.class, null, value);
     }
 
     /**
