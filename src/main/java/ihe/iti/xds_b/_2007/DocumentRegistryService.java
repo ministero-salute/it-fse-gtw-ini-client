@@ -1,14 +1,10 @@
 
 package ihe.iti.xds_b._2007;
 
+import javax.xml.namespace.QName;
+import javax.xml.ws.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceFeature;
 
 
 /**
@@ -17,7 +13,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "DocumentRegistry_Service", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "file:/C:/Users/066070758/Desktop/INI_NEW/wsdl/XDS.b_DocumentRegistry.wsdl")
+@WebServiceClient(name = "DocumentRegistry_Service", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "classpath:wsdl/XDS.b_DocumentRegistry.wsdl")
 public class DocumentRegistryService
     extends Service
 {
@@ -30,7 +26,7 @@ public class DocumentRegistryService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/C:/Users/066070758/Desktop/INI_NEW/wsdl/XDS.b_DocumentRegistry.wsdl");
+            url = new URL("classpath:/wsdl/XDS.b_DocumentRegistry.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

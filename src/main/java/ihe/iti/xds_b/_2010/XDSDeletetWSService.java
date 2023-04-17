@@ -1,14 +1,10 @@
 
 package ihe.iti.xds_b._2010;
 
+import javax.xml.namespace.QName;
+import javax.xml.ws.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceFeature;
 
 
 /**
@@ -17,7 +13,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "XDSDeletetWSService", targetNamespace = "urn:ihe:iti:xds-b:2010", wsdlLocation = "file:/C:/Users/066070758/Desktop/INI_NEW/wsdl/XDSDeletetWS.wsdl")
+@WebServiceClient(name = "XDSDeletetWSService", targetNamespace = "urn:ihe:iti:xds-b:2010", wsdlLocation = "classpath:/wsdl/XDSDeletetWS.wsdl")
 public class XDSDeletetWSService
     extends Service
 {
@@ -30,7 +26,7 @@ public class XDSDeletetWSService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/C:/Users/066070758/Desktop/INI_NEW/wsdl/XDSDeletetWS.wsdl");
+            url = new URL("classpath:/wsdl/XDSDeletetWS.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
