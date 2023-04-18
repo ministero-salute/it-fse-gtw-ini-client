@@ -234,6 +234,11 @@ public final class PublishReplaceBodyBuilderUtility {
 				SlotType1 classificationObj1Slot4 = buildSlotObject("urn:ita:2022:administrativeRequest", null, new ArrayList<>(Collections.singleton(documentEntryDTO.getAdministrativeRequest())));
 				classificationObj1Slots.add(classificationObj1Slot4);
 			}
+			
+			//TODO
+			SlotType1 classificationObj1SlotSign = buildSlotObject("urn:ita:2022:documentSigned", null, new ArrayList<>(Collections.singleton("true^Documento firmato")));
+			classificationObj1Slots.add(classificationObj1SlotSign);
+			
 
 			ClassificationType classificationObject1 = buildClassificationObject(null,"urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d",
 				Constants.IniClientConstants.URN_UUID + requestUUID,"Author_1",null,classificationObj1Slots,Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,null);
