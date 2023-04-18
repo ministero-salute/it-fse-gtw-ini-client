@@ -193,7 +193,6 @@ public final class UpdateBodyBuilderUtility {
 			// 2. merge contentTypeCode
 			JAXBElement<ClassificationType> classificationObjectContentTypeCode = mergeContentTypeCodeClassificationObject(objectFactory, updateRequestBodyDTO, generatedUUID);
 			registryPackageObject.getClassification().add(classificationObjectContentTypeCode.getValue());
- 
 			
 			// 3. merge uniqueId
 			JAXBElement<ExternalIdentifierType> externalIdentifierObjectUniqueId = buildExternalIdentifierObjectJax(
@@ -206,7 +205,10 @@ public final class UpdateBodyBuilderUtility {
 					updateRequestBodyDTO.getIdentificativoSottomissione()
 			);
 			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectUniqueId.getValue());
-			 
+
+			// 4. merge administrative-request
+			// mergeAdministrativeRequest(updateRequestBodyDTO, classificationList);
+
 //			// 1. merge sourceId
 			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
 					objectFactory,

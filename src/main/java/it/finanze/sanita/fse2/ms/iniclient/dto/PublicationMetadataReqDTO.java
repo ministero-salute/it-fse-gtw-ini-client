@@ -8,7 +8,7 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.AttivitaClinicaEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.HealthcareFacilityEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.PracticeSettingCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.TipoDocAltoLivEnum;
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -47,5 +47,13 @@ public class PublicationMetadataReqDTO {
 	@Schema(description = "Identificativo sottomissione",required = true)
 	@Size(min = 0, max = 100)
 	private String identificativoSottomissione;
+
+	@Schema(description = "Tipo di richiesta amministrativa")
+	@Size(min = 0, max = 100)
+	private String administrativeRequest;
+
+	@Schema(description = "Descrittori")
+	@Size(min = 0, max = 100)
+	private List<String> description;
 
 }

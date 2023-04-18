@@ -18,6 +18,7 @@ public class DocumentEntryDTO {
     private String creationTime;
     private String hash;
     private long size;
+    private String administrativeRequest;
     private String status;
     private String languageCode;
     private String patientId;
@@ -37,6 +38,7 @@ public class DocumentEntryDTO {
     private String healthcareFacilityTypeCode;
     private String healthcareFacilityTypeCodeName;
     private List<String> eventCodeList;
+    private List<String> description;
     private String repositoryUniqueId;
     private String classCode;
     private String classCodeName;

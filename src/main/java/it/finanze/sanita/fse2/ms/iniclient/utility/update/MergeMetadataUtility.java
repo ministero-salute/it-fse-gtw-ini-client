@@ -3,28 +3,20 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObject;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import lombok.extern.slf4j.Slf4j;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
+
+import javax.xml.bind.JAXBElement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.*;
 
 @Slf4j
 public class MergeMetadataUtility {
@@ -175,6 +167,44 @@ public class MergeMetadataUtility {
                     "urn:ita:2017:repository-type",
                     null,
                     Collections.singletonList(updateRequestBodyDTO.getConservazioneANorma())
+            );
+            slotList.add(repositoryTypeSlot);
+        } catch (Exception ex) {
+            log.error("Error while perform merge repository type : {}" , ex.getMessage());
+            throw new BusinessException("Error while perform merge repository type : ", ex);
+        }
+    }
+
+    /**
+     * Merge administrative-request-type metadata
+     * @param updateRequestBodyDTO
+     * @param slotList
+     */
+    public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList) {
+        try {
+            SlotType1 repositoryTypeSlot = buildSlotObject(
+                "urn:ita:2022:administrativeRequest",
+                null,
+                Collections.singletonList(updateRequestBodyDTO.getAdministrativeRequest())
+            );
+            slotList.add(repositoryTypeSlot);
+        } catch (Exception ex) {
+            log.error("Error while perform merge repository type : {}" , ex.getMessage());
+            throw new BusinessException("Error while perform merge repository type : ", ex);
+        }
+    }
+
+    /**
+     * Merge description metadata
+     * @param updateRequestBodyDTO
+     * @param slotList
+     */
+    public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList) {
+        try {
+            SlotType1 repositoryTypeSlot = buildSlotObject(
+                "urn:ita:2022:description",
+                null,
+                new ArrayList<>(updateRequestBodyDTO.getDescription())
             );
             slotList.add(repositoryTypeSlot);
         } catch (Exception ex) {
