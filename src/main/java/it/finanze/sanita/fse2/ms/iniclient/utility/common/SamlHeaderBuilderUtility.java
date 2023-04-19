@@ -3,42 +3,26 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.cert.Certificate;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
+import com.sun.xml.ws.api.message.Header;
+import com.sun.xml.ws.api.message.Headers;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ws.security.util.Base64;
 import org.bson.Document;
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.SAMLVersion;
-import org.opensaml.saml2.core.Assertion;
-import org.opensaml.saml2.core.Attribute;
-import org.opensaml.saml2.core.AttributeStatement;
-import org.opensaml.saml2.core.AttributeValue;
-import org.opensaml.saml2.core.AuthnContext;
-import org.opensaml.saml2.core.AuthnContextClassRef;
-import org.opensaml.saml2.core.AuthnStatement;
-import org.opensaml.saml2.core.Conditions;
-import org.opensaml.saml2.core.Issuer;
-import org.opensaml.saml2.core.NameID;
-import org.opensaml.saml2.core.Subject;
-import org.opensaml.saml2.core.impl.AssertionBuilder;
-import org.opensaml.saml2.core.impl.AttributeBuilder;
-import org.opensaml.saml2.core.impl.AttributeStatementBuilder;
-import org.opensaml.saml2.core.impl.AuthnContextBuilder;
-import org.opensaml.saml2.core.impl.AuthnContextClassRefBuilder;
-import org.opensaml.saml2.core.impl.AuthnStatementBuilder;
-import org.opensaml.saml2.core.impl.ConditionsBuilder;
-import org.opensaml.saml2.core.impl.IssuerBuilder;
-import org.opensaml.saml2.core.impl.NameIDBuilder;
-import org.opensaml.saml2.core.impl.SubjectBuilder;
+import org.opensaml.saml2.core.*;
+import org.opensaml.saml2.core.impl.*;
 import org.opensaml.ws.wsaddressing.Action;
 import org.opensaml.ws.wsaddressing.MessageID;
 import org.opensaml.ws.wsaddressing.impl.ActionBuilder;
@@ -51,12 +35,7 @@ import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.schema.XSString;
 import org.opensaml.xml.schema.impl.XSStringBuilder;
 import org.opensaml.xml.security.x509.BasicX509Credential;
-import org.opensaml.xml.signature.KeyInfo;
-import org.opensaml.xml.signature.Signature;
-import org.opensaml.xml.signature.SignatureConstants;
-import org.opensaml.xml.signature.Signer;
-import org.opensaml.xml.signature.X509Certificate;
-import org.opensaml.xml.signature.X509Data;
+import org.opensaml.xml.signature.*;
 import org.opensaml.xml.signature.impl.KeyInfoBuilder;
 import org.opensaml.xml.signature.impl.SignatureBuilder;
 import org.opensaml.xml.signature.impl.X509CertificateBuilder;
@@ -66,19 +45,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
-import com.sun.xml.ws.api.message.Header;
-import com.sun.xml.ws.api.message.Headers;
-
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
-import lombok.extern.slf4j.Slf4j;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -445,7 +419,7 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization-id", payloadTokenJwt.getSubject_organization_id()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
-			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", "RSSMRA22A01A399Z^^^&2.16.840.1.113883.2.9.4.3.2&ISO")); //  payloadTokenJwt.getPerson_id()));//+ Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID)); "SCCFRZ76B13H501E^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));// 
+			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id())); //  payloadTokenJwt.getPerson_id()));//+ Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID)); "SCCFRZ76B13H501E^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));//
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));
 			
 			//TODO 

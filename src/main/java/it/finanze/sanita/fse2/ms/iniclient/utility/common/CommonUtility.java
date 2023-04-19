@@ -13,7 +13,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.LocalizedStringType;
-
 import org.bson.Document;
 import org.springframework.util.CollectionUtils;
 
@@ -97,7 +96,7 @@ public class CommonUtility {
     public static String extractFiscalCodeFromJwtSub(final String sub) {
 		String subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
         try {
-            final String [] chunks = sub.split("&amp;");
+            final String [] chunks = sub.split("&");
     
             // Checking if the system is MEF, in that case the fiscal code is the first element of the array
             if (chunks.length > 1 && Constants.OIDS.OID_MEF.equals(chunks[1])) {
