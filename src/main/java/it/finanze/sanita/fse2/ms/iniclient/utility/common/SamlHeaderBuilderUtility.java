@@ -421,11 +421,9 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id())); //  payloadTokenJwt.getPerson_id()));//+ Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID)); "SCCFRZ76B13H501E^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));//
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));
-			
-			//TODO 
-			out.add(buildAttribute("SubjectApplicationId", "BARMED")); 
-			out.add(buildAttribute("SubjectApplicationVendor", "FOO SPA"));
-			out.add(buildAttribute("SubjectApplicationVersion", "V.4.2.0"));			
+			out.add(buildAttribute("SubjectApplicationId", payloadTokenJwt.getSubject_application_id())); 
+			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor()));
+			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version()));			
 
 		} catch(Exception ex) {
 			log.error("Error while perform build attributes : "  + ex.getMessage());
