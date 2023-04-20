@@ -235,7 +235,6 @@ public final class PublishReplaceBodyBuilderUtility {
 				classificationObj1Slots.add(classificationObj1Slot4);
 			}
 			
-			//TODO
 			SlotType1 classificationObj1SlotSign = buildSlotObject("urn:ita:2022:documentSigned", null, new ArrayList<>(Collections.singleton("true^Documento firmato")));
 			classificationObj1Slots.add(classificationObj1SlotSign);
 			

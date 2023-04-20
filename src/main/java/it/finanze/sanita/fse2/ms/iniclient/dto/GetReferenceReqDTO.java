@@ -34,4 +34,10 @@ public class GetReferenceReqDTO {
     private String resource_hl7_type;
 	@NotNull
     private String action_id;
+	
+	private String subject_application_id;
+
+	private String subject_application_vendor;
+
+	private String subject_application_version;
 }
