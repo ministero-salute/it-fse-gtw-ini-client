@@ -31,6 +31,9 @@ public class DocumentEntryDTO {
     private String legalAuthenticator;
     private String sourcePatientInfo;
     private String author;
+	private String authorRole;
+	private String authorInstitution;
+	private String firma;
     private String representedOrganizationName;
     private String representedOrganizationCode;
     private String uniqueId;
@@ -47,4 +50,5 @@ public class DocumentEntryDTO {
     private String sourcePatientId;
     private String serviceStartTime;
     private String serviceStopTime;
+    private String conservazioneANorma;
 }

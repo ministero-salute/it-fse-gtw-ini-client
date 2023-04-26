@@ -161,16 +161,15 @@ public final class PublishReplaceBodyBuilderUtility {
 	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntry(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO) {
 		List<SlotType1> slotType1 = new ArrayList<>();
 		try {
-			//TODO
 			// Populate slot
-			slotType1.add(buildSlotObject("authorRole", jwtPayloadDTO.getSubject_role())); 
-			slotType1.add(buildSlotObject("authorInstitution",  "ULSS 9 - TREVISO^^^^^&2.16.840.1.113883.2.9.4.1.1&ISO^^^^050109")); 
-			slotType1.add(buildSlotObject("authorPerson", "ZNRMRA86L11B157N^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO")); 
+			slotType1.add(buildSlotObject("authorRole", documentEntryDTO.getAuthorRole())); 
+			slotType1.add(buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution())); 
+			slotType1.add(buildSlotObject("authorPerson", documentEntryDTO.getAuthor()));  
 			slotType1.add(buildSlotObject("languageCode", documentEntryDTO.getLanguageCode()));
 			slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
-			slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getSourcePatientId()));
+			slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId()));
 			slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
-			slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", "true^Documento firmato"));
+			slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", documentEntryDTO.getFirma()));
 			slotType1.add(buildSlotObject("urn:ita:2022:description", null, documentEntryDTO.getDescription()));
 			slotType1.add(buildSlotObject("urn:ita:2022:administrativeRequest", documentEntryDTO.getAdministrativeRequest()));
 			slotType1.add(buildSlotObject("size", String.valueOf(documentEntryDTO.getSize())));
@@ -190,7 +189,7 @@ public final class PublishReplaceBodyBuilderUtility {
 		try {
 			ExternalIdentifierType externalIdentifier1 = buildExternalIdentifierObject("XDSDocumentEntry.patientId",
 					"patientId_1",Constants.IniClientConstants.URN_UUID + requestUUID,Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-					"urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",documentEntryDTO.getSourcePatientId());
+					"urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",documentEntryDTO.getPatientId());
 			out.add(externalIdentifier1);
 			ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
 					"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab",Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
