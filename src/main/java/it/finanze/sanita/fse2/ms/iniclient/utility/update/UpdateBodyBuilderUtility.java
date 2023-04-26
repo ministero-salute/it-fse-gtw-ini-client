@@ -90,7 +90,6 @@ public final class UpdateBodyBuilderUtility {
 
 			// 3. Classification object
 			JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax(
-					objectFactory,
 					"urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",
 					null,
 					generatedUUID,
@@ -113,11 +112,11 @@ public final class UpdateBodyBuilderUtility {
 			associationObject1Slots.add(associationObj1SlotPreviousVersion);
 
 			JAXBElement<AssociationType1> jaxbAssociationObject1 = buildAssociationObject(
-					objectFactory,"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
+					"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
 					requestUUID,generatedUUID,uuid,associationObject1Slots);
 
 			JAXBElement<AssociationType1> jaxbAssociationObject2 = buildAssociationObject(
-					objectFactory,"urn:ihe:iti:2007:AssociationType:RPLC",
+					"urn:ihe:iti:2007:AssociationType:RPLC",
 					"SubmissionSet01_Association_1",uuid,uuid,null);
 
 		 

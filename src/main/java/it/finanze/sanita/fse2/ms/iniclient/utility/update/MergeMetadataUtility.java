@@ -253,7 +253,6 @@ public class MergeMetadataUtility {
             classificationObjAuthorSlots.add(classificationObjAuthorSlot3);
 
             return buildClassificationObjectJax(
-                    objectFactory,
                     null,
                     "urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
                     generatedUUID,
@@ -290,7 +289,6 @@ public class MergeMetadataUtility {
             classificationObjContentTypeCodeSlots.add(classificationObjContentTypeCodeSlot1);
 
             return buildClassificationObjectJax(
-                    objectFactory,
                     null,
                     "urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",
                     generatedUUID,

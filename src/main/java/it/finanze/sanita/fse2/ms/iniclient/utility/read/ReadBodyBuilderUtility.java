@@ -29,10 +29,10 @@ public final class ReadBodyBuilderUtility {
 	 * @param searchId will be idDoc for get reference, or entryUUID for get metadata
 	 * @return
 	 */
-	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId, ActionEnumType actionType) {
+	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId,String tipoRicerca, ActionEnumType actionType) {
 		try {
 			AdhocQueryType adhocQueryType = buildAdHocQuery(searchId, actionType);
-			ResponseOptionType responseOptionType = buildResponseOption();
+			ResponseOptionType responseOptionType = buildResponseOption(tipoRicerca);
 
 			AdhocQueryRequest adhocQueryRequest = new AdhocQueryRequest();
 			adhocQueryRequest.setResponseOption(responseOptionType);
@@ -70,9 +70,9 @@ public final class ReadBodyBuilderUtility {
 	}
  
 	
-	private static ResponseOptionType buildResponseOption() {
+	private static ResponseOptionType buildResponseOption(String tipoRicerca) {
 		ResponseOptionType responseOptionType = new ResponseOptionType();
-		responseOptionType.setReturnType("LeafClass");
+		responseOptionType.setReturnType(tipoRicerca);
 		responseOptionType.setReturnComposedObjects(true);
 		return responseOptionType;
 	}

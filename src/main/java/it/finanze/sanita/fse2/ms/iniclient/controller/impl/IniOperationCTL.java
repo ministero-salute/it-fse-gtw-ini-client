@@ -142,6 +142,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	
 	@Override
 	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO req, HttpServletRequest request) {
+		//DELETE
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 		return new ResponseEntity<>(iniInvocationSRV.getReference(idDoc, token), HttpStatus.OK);

@@ -20,6 +20,7 @@ import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -95,7 +96,7 @@ class IniClientRealTest extends AbstractTest {
     void errorGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, jwtToken));
+        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, SearchTypeEnum.LEAF_CLASS.getSearchKey(), jwtToken));
     }
 
     @Test
@@ -104,7 +105,7 @@ class IniClientRealTest extends AbstractTest {
     void successGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, jwtToken));
+        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, SearchTypeEnum.LEAF_CLASS.getSearchKey(),jwtToken));
         //assertNotNull(uuid);
         //assertNull(response.getBody().getErrorMessage());
         //assertEquals(true, response.getBody().getEsito());

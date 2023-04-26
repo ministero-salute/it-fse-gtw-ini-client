@@ -3,19 +3,32 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
 
 import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
 public class SamlBodyBuilderCommonUtility {
 
     private SamlBodyBuilderCommonUtility() {}
+    
+    private static ObjectFactory objectFactory = new ObjectFactory();
 
+    /**
+    *
+    * @param names
+    * @return
+    */
+   public static InternationalStringType buildInternationalStringType(String name) {
+      return buildInternationalStringType(Arrays.asList(name));
+   }
+   
     /**
      *
      * @param names
@@ -77,6 +90,24 @@ public class SamlBodyBuilderCommonUtility {
     }
 
     /**
+    *
+    * @param classificationNode
+    * @param classificationScheme
+    * @param classifiedObject
+    * @param id
+    * @param name
+    * @param slots
+    * @param objectType
+    * @param nodeRepresentation
+    * @return
+    */
+   public static ClassificationType buildClassificationObject(String classificationScheme,String classifiedObject,String id,
+           InternationalStringType name,SlotType1 slot,String nodeRepresentation) {
+	   
+	   return buildClassificationObject(null,classificationScheme,classifiedObject,id,
+	            name,Arrays.asList(slot),Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,nodeRepresentation);
+   }
+    /**
      *
      * @param classificationNode
      * @param classificationScheme
@@ -88,16 +119,9 @@ public class SamlBodyBuilderCommonUtility {
      * @param nodeRepresentation
      * @return
      */
-    public static ClassificationType buildClassificationObject(
-            String classificationNode,
-            String classificationScheme,
-            String classifiedObject,
-            String id,
-            InternationalStringType name,
-            List<SlotType1> slots,
-            String objectType,
-            String nodeRepresentation
-    ) {
+    public static ClassificationType buildClassificationObject(String classificationNode,
+            String classificationScheme,String classifiedObject,String id,
+            InternationalStringType name,List<SlotType1> slots,String objectType,String nodeRepresentation) {
         ClassificationType classificationObject = new ClassificationType();
         try {
             classificationObject.setClassificationNode(classificationNode);
@@ -118,6 +142,10 @@ public class SamlBodyBuilderCommonUtility {
         }
     }
 
+    public static SlotType1 buildSlotObject(String name,String value) {
+    	return buildSlotObject(name,null, Arrays.asList(value));
+    }
+    
     /**
      *
      * @param name
@@ -204,7 +232,6 @@ public class SamlBodyBuilderCommonUtility {
      * @return
      */
     public static JAXBElement<ClassificationType> buildClassificationObjectJax(
-            ObjectFactory objectFactory,
             String classificationNode,
             String classificationScheme,
             String classifiedObject,
@@ -212,8 +239,7 @@ public class SamlBodyBuilderCommonUtility {
             InternationalStringType name,
             List<SlotType1> slots,
             String objectType,
-            String nodeRepresentation
-    ) {
+            String nodeRepresentation) {
         try {
             return objectFactory.createClassification(buildClassificationObject(classificationNode, classificationScheme,
                     classifiedObject, id, name, slots, objectType, nodeRepresentation));
@@ -245,6 +271,17 @@ public class SamlBodyBuilderCommonUtility {
     }
 
     /**
+    *
+    * @param associationType
+    * @param id
+    * @param sourceObject
+    * @param targetObject
+    * @return
+    */
+   public static JAXBElement<AssociationType1> buildAssociationObject(String associationType,String id,String sourceObject,String targetObject) {
+	   return buildAssociationObject(associationType,id,sourceObject,targetObject,null);
+   }
+    /**
      *
      * @param associationType
      * @param id
@@ -254,7 +291,6 @@ public class SamlBodyBuilderCommonUtility {
      * @return
      */
     public static JAXBElement<AssociationType1> buildAssociationObject(
-            ObjectFactory objectFactory,
             String associationType,
             String id,
             String sourceObject,

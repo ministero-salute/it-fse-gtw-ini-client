@@ -30,6 +30,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
@@ -268,7 +269,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Override
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {
-		return iniClient.getReferenceUUID(oid, tokenDTO);
+		return iniClient.getReferenceUUID(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey() ,tokenDTO);
 	}
 
 	@Override
@@ -277,7 +278,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 
-		AdhocQueryResponse response = iniClient.getReferenceUUID(oid, reconfiguredToken);
+		AdhocQueryResponse response = iniClient.getReferenceUUID(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken);
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
@@ -307,7 +308,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(updateRequestDTO.getToken()), ActionEnumType.READ_REFERENCE);
-		AdhocQueryResponse oldMetadata = iniClient.getReferenceUUID(oidToUpdate, reconfiguredToken);
+		AdhocQueryResponse oldMetadata = iniClient.getReferenceUUID(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
 		if(oldMetadata==null) {
 			throw new NoRecordFoundException("Nessun metadato trovato");
 		}

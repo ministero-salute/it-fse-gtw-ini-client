@@ -26,6 +26,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRepo;
@@ -256,7 +257,7 @@ class RequestBuilderTest {
     @DisplayName("READ REF - Header builder success test")
     void readReferenceBuilderSuccessTest() {
         assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest(
-                "searchId", ActionEnumType.READ_REFERENCE
+                "searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(), ActionEnumType.READ_REFERENCE
         ));
     }
 
@@ -264,7 +265,7 @@ class RequestBuilderTest {
     @DisplayName("READ METADATA - Header builder success test")
     void readMetadataBuilderSuccessTest() {
         assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest(
-                "searchId", ActionEnumType.READ_METADATA
+                "searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(),ActionEnumType.READ_METADATA
         ));
     }
 }
