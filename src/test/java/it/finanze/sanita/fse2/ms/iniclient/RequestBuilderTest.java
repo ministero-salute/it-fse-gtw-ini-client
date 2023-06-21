@@ -13,10 +13,12 @@ package it.finanze.sanita.fse2.ms.iniclient;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
+import javax.xml.bind.JAXBException;
+
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,6 +46,7 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
@@ -53,8 +56,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
-
-import javax.xml.bind.JAXBException;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -87,6 +88,7 @@ class RequestBuilderTest {
     void createBodyBuilderSuccessTest() {
         IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
         DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        assertTrue(documentTreeDTO.checkIntegrity());
         assertDoesNotThrow(() -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
@@ -99,7 +101,6 @@ class RequestBuilderTest {
     @DisplayName("Publish - Error test when invalid body")
     void createBodyBuilderGenericErrorTest() {
         DocumentTreeDTO documentTreeDTO = new DocumentTreeDTO();
-        documentTreeDTO.setDocumentEntry(new Document());
         documentTreeDTO.setTokenEntry(new Document());
         documentTreeDTO.setSubmissionSetEntry(new Document());
         assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
