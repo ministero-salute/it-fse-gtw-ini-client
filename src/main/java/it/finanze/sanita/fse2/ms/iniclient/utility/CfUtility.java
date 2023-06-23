@@ -49,7 +49,7 @@ public class CfUtility {
     private static final int validaCF11(String cfIn) {
         if (cfIn == null)
             return CF_NON_CORRETTO;
-        int i, c, s;
+        int i;
         if (cfIn.length() == 0)
             return CF_NON_CORRETTO;
 
@@ -59,11 +59,11 @@ public class CfUtility {
             if (cfIn.charAt(i) < '0' || cfIn.charAt(i) > '9')
                 return CF_NON_CORRETTO;
         }
-        s = 0;
+        int s = 0;
         for (i = 0; i <= 9; i += 2)
             s += cfIn.charAt(i) - '0';
         for (i = 1; i <= 9; i += 2) {
-            c = 2 * (cfIn.charAt(i) - '0');
+            int c = 2 * (cfIn.charAt(i) - '0');
             if (c > 9)
                 c = c - 9;
             s += c;

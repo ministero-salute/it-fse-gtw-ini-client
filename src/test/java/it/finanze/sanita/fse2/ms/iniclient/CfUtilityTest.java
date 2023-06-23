@@ -58,6 +58,7 @@ class CfUtilityTest {
         final String fiscalCode11 = "RSSMRA72H26";
         final String fiscalCodeEni = "ENI1234567891234";
         final String fiscalCodeStp = "STP1234567891234";
+        final String fiscalCodeEmpty = "";
         final String fiscalCodeNull = null;
 
         assertEquals(CfUtility.CF_OK_16, CfUtility.validaCF(fiscalCode16));
@@ -65,6 +66,7 @@ class CfUtilityTest {
         assertNotEquals(CfUtility.CF_OK_11, CfUtility.validaCF(fiscalCode11));
         assertEquals(CfUtility.CF_ENI_OK, CfUtility.validaCF(fiscalCodeEni));
         assertEquals(CfUtility.CF_STP_OK, CfUtility.validaCF(fiscalCodeStp));
+        assertEquals(CfUtility.CF_NON_CORRETTO, CfUtility.validaCF(fiscalCodeEmpty));
         assertEquals(CfUtility.CF_NON_CORRETTO, CfUtility.validaCF(fiscalCodeNull));
 
         final String fiscalCodeShort = "RSSMRA72H26F941";
