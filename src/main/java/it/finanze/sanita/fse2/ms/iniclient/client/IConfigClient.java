@@ -17,5 +17,7 @@ package it.finanze.sanita.fse2.ms.iniclient.client;
 public interface IConfigClient {
 	
 	String getGatewayName();
+	
+	String getEDSStrategy();
 
 }

@@ -26,6 +26,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.LogDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ILogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,175 +36,187 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class LoggerHelper {
-    
+
 	Logger kafkaLog = LoggerFactory.getLogger("kafka-logger"); 
-	
+
 	@Value("${log.kafka-log.enable}")
 	private boolean kafkaLogEnable;
 
 	@Autowired
 	private IConfigClient configClient;
-	
+
 	private String gatewayName;
-	
+
 	@Value("${spring.application.name}")
 	private String msName;
-	
+
+	@Autowired
+	private IConfigSRV configSRV;
+
 	/* 
 	 * Specify here the format for the dates 
 	 */
 	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS"); 
-	
+
 	/* 
 	 * Implements structured logs, at all logging levels
 	 */
 	public void trace(String log_type, String workflowInstanceId, String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
-		String documentType, String subjectRole, String subjectFiscalCode, String locality) {
-		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_result(result.getCode()).
-				op_role(subjectRole).
-				op_fiscal_code(subjectFiscalCode).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
+			String documentType, String subjectRole, String subjectFiscalCode, String locality) {
+		if(!configSRV.isNoEds()){
+			LogDTO logDTO = LogDTO.builder().
+					op_issuer(issuer).
+					op_locality(locality).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_result(result.getCode()).
+					op_role(subjectRole).
+					op_fiscal_code(subjectFiscalCode).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
 
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.trace(logMessage);
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.trace(logMessage);
 
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.trace(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.trace(logMessage);
+			}
 		}
 	} 
-	
+
 	public void debug(String log_type, String workflowInstanceId,String message,  ILogEnum operation, ResultLogEnum result, Date startDateOperation, 
 			String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
-		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_result(result.getCode()).
-				op_role(subjectRole).
-				op_fiscal_code(subjectFiscalCode).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				build();
-		
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.debug(logMessage);
+		if(!configSRV.isNoEds()){
+			LogDTO logDTO = LogDTO.builder().
+					op_issuer(issuer).
+					op_locality(locality).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_result(result.getCode()).
+					op_role(subjectRole).
+					op_fiscal_code(subjectFiscalCode).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					build();
 
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.debug(logMessage);
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.debug(logMessage);
+
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.debug(logMessage);
+			}
 		}
+
 	} 
-	 
+
 	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
-		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(payloadDTO.getIss()).
-				op_locality(payloadDTO.getLocality()).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_result(ResultLogEnum.OK.getCode()).
-				op_role(payloadDTO.getSubject_role()).
-				op_fiscal_code(subjectFiscalCode).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				op_application_id(payloadDTO.getSubject_application_id()).
-				op_application_vendor(payloadDTO.getSubject_application_vendor()).
-				op_application_version(payloadDTO.getSubject_application_version()).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
-		
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.info(logMessage);
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.info(logMessage);
+		if(!configSRV.isNoEds()){
+			LogDTO logDTO = LogDTO.builder().
+					op_issuer(payloadDTO.getIss()).
+					op_locality(payloadDTO.getLocality()).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_result(ResultLogEnum.OK.getCode()).
+					op_role(payloadDTO.getSubject_role()).
+					op_fiscal_code(subjectFiscalCode).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					op_application_id(payloadDTO.getSubject_application_id()).
+					op_application_vendor(payloadDTO.getSubject_application_vendor()).
+					op_application_version(payloadDTO.getSubject_application_version()).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
+
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.info(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.info(logMessage);
+			}
 		}
+
 	} 
-	
+
 	public void warn(String log_type, String workflowInstanceId,String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
-		String documentType, String subjectRole, String subjectFiscalCode, String locality,
-		String applicationId, String applicationVendor, String applicationVersion) {
-		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_role(subjectRole).
-				op_fiscal_code(subjectFiscalCode).
-				op_result(result.getCode()).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				op_application_id(applicationId).
-				op_application_vendor(applicationVendor).
-				op_application_version(applicationVersion).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
-		
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.warn(logMessage);
- 
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.warn(logMessage);
+			String documentType, String subjectRole, String subjectFiscalCode, String locality,
+			String applicationId, String applicationVendor, String applicationVersion) {
+		if(!configSRV.isNoEds()){
+			LogDTO logDTO = LogDTO.builder().
+					op_issuer(issuer).
+					op_locality(locality).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_role(subjectRole).
+					op_fiscal_code(subjectFiscalCode).
+					op_result(result.getCode()).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					op_application_id(applicationId).
+					op_application_vendor(applicationVendor).
+					op_application_version(applicationVersion).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
+
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.warn(logMessage);
+
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.warn(logMessage);
+			}
 		}
- 
+
+
 	} 
-	
+
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
 			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
+		if(!configSRV.isNoEds()){
+			LogDTO logDTO = LogDTO.builder().
+					op_issuer(jwtPayloadDTO.getIss()).
+					op_locality(jwtPayloadDTO.getLocality()).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_role(jwtPayloadDTO.getSubject_role()).
+					op_fiscal_code(subjectFiscalCode).
+					op_result(ResultLogEnum.KO.getCode()).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					op_error(error.getCode()).
+					op_error_description(error.getDescription()).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					op_application_id(jwtPayloadDTO.getSubject_application_id()).
+					op_application_vendor(jwtPayloadDTO.getSubject_application_vendor()).
+					op_application_version(jwtPayloadDTO.getSubject_application_version()).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
 
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(jwtPayloadDTO.getIss()).
-				op_locality(jwtPayloadDTO.getLocality()).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_role(jwtPayloadDTO.getSubject_role()).
-				op_fiscal_code(subjectFiscalCode).
-				op_result(ResultLogEnum.KO.getCode()).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				op_error(error.getCode()).
-				op_error_description(error.getDescription()).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				op_application_id(jwtPayloadDTO.getSubject_application_id()).
-				op_application_vendor(jwtPayloadDTO.getSubject_application_vendor()).
-				op_application_version(jwtPayloadDTO.getSubject_application_version()).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.error(logMessage);
 
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.error(logMessage);
-
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.error(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.error(logMessage);
+			}
 		}
+
 	}
 
 	/**
@@ -217,5 +230,5 @@ public class LoggerHelper {
 		}
 		return gatewayName;
 	}
-    
+
 }

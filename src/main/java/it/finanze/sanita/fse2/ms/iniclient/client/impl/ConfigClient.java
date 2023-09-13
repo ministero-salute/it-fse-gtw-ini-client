@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.WhoIsResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.EdsStrategyEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -85,5 +86,16 @@ public class ConfigClient implements IConfigClient {
             return false;
         }
     }
+    
+    @Override
+    public String getEDSStrategy() {
+        String output = EdsStrategyEnum.NO_EDS.name(); 
+        if(isReachable()) {
+            String endpoint = configHost + "/v1/config-items/props?type=GENERIC&props=eds-strategy";
+            output = restTemplate.getForObject(endpoint,String.class);
+        }
+        return output;
+    }
+
 
 }
