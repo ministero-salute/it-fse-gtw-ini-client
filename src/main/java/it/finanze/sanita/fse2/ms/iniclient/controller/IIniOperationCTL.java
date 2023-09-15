@@ -96,6 +96,15 @@ public interface IIniOperationCTL {
 	})
 	ResponseEntity<GetReferenceResponseDTO> getReference(@PathVariable String idDoc, @RequestBody GetReferenceReqDTO jwtPayload, HttpServletRequest request);
 	
+	@PostMapping("/get-reference-author/{idDoc}")
+	@Operation(summary = "Get reference INI", description = "Recupero UUID, authorInstitution e administrativeRequest dato un oid in input")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetReferenceResponseDTO.class))),
+		@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
+		@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class)))
+	})
+	ResponseEntity<GetReferenceResponseDTO> getReferenceAuthor(@PathVariable String idDoc, @RequestBody GetReferenceReqDTO jwtPayload, HttpServletRequest request);
+	
 	@PutMapping("/get-merged-metadati")
 	@Operation(summary = "Aggiornamento metadati ad INI", description = "Invia i metadati di una risorsa FHIR ad INI.")
 	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMergedMetadatiResponseDTO.class)))

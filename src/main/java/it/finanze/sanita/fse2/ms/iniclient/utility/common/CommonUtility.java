@@ -184,7 +184,7 @@ public class CommonUtility {
         return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
     }
     
-    // TODO - completare metodo di estrazione author institution (per getMetadata)
+    // TODO - Verificare correttezza estrazione authorInstitution
     
     /**
      * Extract author institution from query response
@@ -217,7 +217,7 @@ public class CommonUtility {
         return Constants.IniClientConstants.MISSING_AUTHOR_INSTITUTION_PLACEHOLDER;
     }
     
-    // TODO - Verificare correttezza lsot e classificationScheme per l'estrazione dell'administrativeRequest
+    // TODO - Verificare correttezza slot e classificationScheme per l'estrazione dell'administrativeRequest
     // da AffinityDomain sembra non faccia parte di ClassificationScheme, quindi potrebbe essere uno slot esterno generico
     /**
      * Extract administrative request from query response
