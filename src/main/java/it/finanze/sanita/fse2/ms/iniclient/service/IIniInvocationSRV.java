@@ -33,6 +33,8 @@ public interface IIniInvocationSRV {
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
     GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO);
+    
+    GetReferenceResponseDTO getReferenceAuthor(String oid, JWTTokenDTO tokenDTO);
 	
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
 }

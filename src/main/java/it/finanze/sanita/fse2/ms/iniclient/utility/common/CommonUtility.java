@@ -11,8 +11,21 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.xml.bind.JAXBElement;
+
+import org.bson.Document;
+import org.springframework.util.CollectionUtils;
+
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.DocumentTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +34,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.LocalizedStringType;
-import org.bson.Document;
-import org.springframework.util.CollectionUtils;
-
-import javax.xml.bind.JAXBElement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @Slf4j
 public class CommonUtility {
@@ -127,7 +134,7 @@ public class CommonUtility {
 
     	if (documentTreeDTO != null) {
     		Optional<Document> documentEntry = Optional.of(documentTreeDTO.getDocumentEntry());
-    		if (documentEntry.get().getString("formatCode") != null) {
+    		if (documentEntry.get().getString("typeCode") != null) {
     			DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByCode(documentEntry.get().getString("typeCode"));
     			if (normalizedDocumentType != null) {
     				documentType = normalizedDocumentType.getDocumentType();
@@ -175,5 +182,64 @@ public class CommonUtility {
             }
         }
         return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+    }
+    
+    // TODO - completare metodo di estrazione author institution (per getMetadata)
+    
+    /**
+     * Extract author institution from query response
+     * @param queryResponse
+     * @return
+     */
+    public static String extractAuthorInstitutionFromQueryResponse(AdhocQueryResponse queryResponse) {
+        if (checkMetadata(queryResponse)) {
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+                    .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                    .findFirst();
+            if (optExtrinsicObject.isPresent()) {
+                ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+                List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
+                Optional<ClassificationType> optAuthorClassificationObject = classificationObjectList.stream()
+                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d"))
+                        .findFirst();
+                if(optAuthorClassificationObject.isPresent()) {
+                	List<SlotType1> authorSlots = optAuthorClassificationObject.get().getSlot();
+                    Optional<SlotType1> authorInstitutionSlot = authorSlots.stream()
+                            .filter(slot -> slot.getName().equals("authorInstitution"))
+                            .findFirst();
+                    if(authorInstitutionSlot.isPresent()) {
+                    	return authorInstitutionSlot.get().getValueList().getValue().get(0);
+                    }
+                }
+            }
+        }
+        return Constants.IniClientConstants.MISSING_AUTHOR_INSTITUTION_PLACEHOLDER;
+    }
+    
+    // TODO - Verificare correttezza lsot e classificationScheme per l'estrazione dell'administrativeRequest
+    // da AffinityDomain sembra non faccia parte di ClassificationScheme, quindi potrebbe essere uno slot esterno generico
+    /**
+     * Extract administrative request from query response
+     * @param queryResponse
+     * @return
+     */
+    public static String extractAdministrativeRequestFromQueryResponse(AdhocQueryResponse queryResponse) {
+        if (checkMetadata(queryResponse)) {
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+                    .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                    .findFirst();
+            if (optExtrinsicObject.isPresent()) {
+                ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+                Optional<SlotType1> administrativeRequestSlot = extrinsicObject.getSlot().stream()
+                		.filter(slot -> slot.getName().contains("administrativeRequest"))
+                		.findFirst();
+                if(administrativeRequestSlot.isPresent()) {
+                	return administrativeRequestSlot.get().getValueList().getValue().get(0);
+                }
+            }
+        }
+        return Constants.IniClientConstants.MISSING_ADMINISTRATIVE_REQUEST_PLACEHOLDER;
     }
 }

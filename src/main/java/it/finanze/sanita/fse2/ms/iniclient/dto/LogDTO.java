@@ -55,4 +55,9 @@ public class LogDTO {
 	private String op_application_version;
 	
 	private String workflow_instance_id;
+	
+	private String administrative_request;
+	
+	private String author_institution;
+	
 }

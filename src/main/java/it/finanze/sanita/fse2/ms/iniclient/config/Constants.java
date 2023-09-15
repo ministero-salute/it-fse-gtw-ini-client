@@ -88,6 +88,8 @@ public final class Constants {
 		public static final String DELETE_ACTION = "DELETE";
 
 		public static final String MISSING_DOC_TYPE_PLACEHOLDER = "UNKNOWN_DOCUMENT_TYPE";
+		public static final String MISSING_AUTHOR_INSTITUTION_PLACEHOLDER = "UNKNOWN_AUTHOR_INSTITUTION";
+		public static final String MISSING_ADMINISTRATIVE_REQUEST_PLACEHOLDER = "UNKNOWN_ADMINISTRATIVE_REQUEST";
 
 		public static final String JWT_MISSING_ISSUER_PLACEHOLDER = "UNDEFINED_JWT_ISSUER";
 		public static final String JWT_MISSING_SUBJECT = "UNDEFINED_SUBJECT";

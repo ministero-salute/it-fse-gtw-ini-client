@@ -118,7 +118,8 @@ public class LoggerHelper {
 
 	} 
 
-	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
+	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO,
+			String administrativeRequest, String authorInstitution) {
 		if(!configSRV.isNoEds()){
 			LogDTO logDTO = LogDTO.builder().
 					op_issuer(payloadDTO.getIss()).
@@ -138,6 +139,8 @@ public class LoggerHelper {
 					op_application_version(payloadDTO.getSubject_application_version()).
 					log_type(log_type).
 					workflow_instance_id(workflowInstanceId).
+					administrative_request(administrativeRequest).
+					author_institution(authorInstitution).
 					build();
 
 			final String logMessage = StringUtility.toJSON(logDTO);
@@ -185,7 +188,7 @@ public class LoggerHelper {
 	} 
 
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
-			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
+			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO, String administrativeRequest, String authorInstitution) {
 		if(!configSRV.isNoEds()){
 			LogDTO logDTO = LogDTO.builder().
 					op_issuer(jwtPayloadDTO.getIss()).
@@ -207,6 +210,8 @@ public class LoggerHelper {
 					op_application_version(jwtPayloadDTO.getSubject_application_version()).
 					log_type(log_type).
 					workflow_instance_id(workflowInstanceId).
+					administrative_request(administrativeRequest).
+					author_institution(authorInstitution).
 					build();
 
 			final String logMessage = StringUtility.toJSON(logDTO);

@@ -48,10 +48,14 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 				startingDate, 
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
-				new JWTPayloadDTO());
+				new JWTPayloadDTO(),
+				null,
+				null);
 		return out;
 	}
-
+	
+	// TODO: verificare se administrativeRequest e authorInstitution devono essere loggati anche in regime di mock
+	
 	@Override
 	public IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO) {
 		final Date startingDate = new Date();
@@ -59,7 +63,9 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 				startingDate, 
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
-				new JWTPayloadDTO());
+				new JWTPayloadDTO(),
+				null,
+				null);
 		return new IniResponseDTO();
 	}
 
@@ -70,7 +76,9 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 				startingDate, 
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
-				new JWTPayloadDTO());
+				new JWTPayloadDTO(),
+				null,
+				null);
 		return new IniResponseDTO();
 	}
 
@@ -93,6 +101,11 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 	@Override
 	public GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate, MergedMetadatiRequestDTO updateRequestDTO) {
 		return new GetMergedMetadatiDTO();
+	}
+
+	@Override
+	public GetReferenceResponseDTO getReferenceAuthor(String oid, JWTTokenDTO tokenDTO) {
+		return getReference(oid, tokenDTO);
 	}
 
 }
