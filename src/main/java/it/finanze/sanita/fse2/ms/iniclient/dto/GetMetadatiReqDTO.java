@@ -42,4 +42,10 @@ public class GetMetadatiReqDTO {
     private String resource_hl7_type;
 	@NotNull
     private String action_id;
+	@NotNull
+    private String subject_application_id;
+	@NotNull
+    private String subject_application_version;
+	@NotNull
+    private String subject_application_vendor;
 }

@@ -429,9 +429,9 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id())); //  payloadTokenJwt.getPerson_id()));//+ Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID)); "SCCFRZ76B13H501E^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));//
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));
-			out.add(buildAttribute("SubjectApplicationId", payloadTokenJwt.getSubject_application_id())); 
-			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor()));
-			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version()));			
+			out.add(buildAttribute("SubjectApplicationId", payloadTokenJwt.getSubject_application_id(),Constants.IniClientConstants.HEADER_NAME_FORMAT)); 
+			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
+			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version(),Constants.IniClientConstants.HEADER_NAME_FORMAT));			
 
 		} catch(Exception ex) {
 			log.error("Error while perform build attributes : "  + ex.getMessage());
@@ -439,7 +439,7 @@ public class SamlHeaderBuilderUtility {
 		}
 		return out;
 	}
-
+	
 	/**
 	 * Build attribute object from given input
 	 * @param name
@@ -447,13 +447,24 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private Attribute buildAttribute(String name, String value) {
+		return buildAttribute(name, value,Constants.IniClientConstants.HEADER_ATTRNAME_URI);
+	}
+	
+	/**
+	 * Build attribute object from given input
+	 * @param name
+	 * @param value
+	 * @param nameFormat
+	 * @return
+	 */
+	private Attribute buildAttribute(String name, String value,String nameFormat) {
 		Attribute attribute = null;
 		try {
 			XSStringBuilder stringBuilder = new XSStringBuilder();
 			AttributeBuilder attributeBuild = new AttributeBuilder();
 			attribute = attributeBuild.buildObject();
 			attribute.setName(name);
-			attribute.setNameFormat(Constants.IniClientConstants.HEADER_ATTRNAME_URI);
+			attribute.setNameFormat(nameFormat);
 			XSString stringValue = stringBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME);
 			stringValue.setValue(value);
 			attribute.getAttributeValues().add(stringValue);
