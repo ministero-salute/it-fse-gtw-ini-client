@@ -170,9 +170,6 @@ public final class PublishReplaceBodyBuilderUtility {
 		List<SlotType1> slotType1 = new ArrayList<>();
 		try {
 			// Populate slot
-			slotType1.add(buildSlotObject("authorRole", documentEntryDTO.getAuthorRole())); 
-			slotType1.add(buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution())); 
-			slotType1.add(buildSlotObject("authorPerson", documentEntryDTO.getAuthor()));  
 			slotType1.add(buildSlotObject("languageCode", documentEntryDTO.getLanguageCode()));
 			slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
 			slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId()));
@@ -281,7 +278,17 @@ public final class PublishReplaceBodyBuilderUtility {
 				typeCodeSlot,documentEntryDTO.getTypeCode()
 			);
 			out.add(typeCodeClassification);
- 
+			
+			SlotType1 authorRoleSlot = buildSlotObject("authorRole", documentEntryDTO.getAuthorRole());
+			SlotType1 authorRoleInstitution = buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution());
+			SlotType1 authorPerson = buildSlotObject("authorPerson", documentEntryDTO.getAuthor());
+			ClassificationType authorClassification = buildClassificationObject(
+					"urn:uuid:93606bcf9494-43ec-9b4e-a7748d1a838d",Constants.IniClientConstants.URN_UUID + requestUUID,
+					"AuthorId",nameTypeCode,
+					"",authorRoleSlot,authorRoleInstitution,authorPerson
+				);
+				out.add(authorClassification);
+			 
 		} catch(Exception ex) {
 			log.error("Error while perform buildExtrinsicClassificationObjects : " , ex);
 			throw new BusinessException("Error while perform buildExtrinsicClassificationObjects : " , ex);

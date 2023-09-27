@@ -96,6 +96,25 @@ public class SamlBodyBuilderCommonUtility {
             throw new BusinessException("Error while invoking buildExternalIdentifierObject: " + e.getMessage());
         }
     }
+    
+    /**
+    *
+    * @param classificationNode
+    * @param classificationScheme
+    * @param classifiedObject
+    * @param id
+    * @param name
+    * @param slots
+    * @param objectType
+    * @param nodeRepresentation
+    * @return
+    */
+   public static ClassificationType buildClassificationObject(String classificationScheme,String classifiedObject,String id,
+           InternationalStringType name,String nodeRepresentation,SlotType1... slot) {
+	   
+	   return buildClassificationObject(null,classificationScheme,classifiedObject,id,
+	            name,Arrays.asList(slot),Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,nodeRepresentation);
+   }
 
     /**
     *
