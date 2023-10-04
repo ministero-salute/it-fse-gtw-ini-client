@@ -11,30 +11,10 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import java.io.StringWriter;
-import java.util.Date;
-
-import javax.xml.bind.JAXB;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.webjars.NotFoundException;
-
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceAuthorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
@@ -55,6 +35,16 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.webjars.NotFoundException;
+
+import javax.xml.bind.JAXB;
+import java.io.StringWriter;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -294,16 +284,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 
 		AdhocQueryResponse response = iniClient.getReferenceUUID(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken);
-		StringBuilder sb = new StringBuilder();
-		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
-			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-				if (error.getCodeContext().equals("No results from the query")) {
-					throw new NoRecordFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
-				} else {
-					sb.append(error.getCodeContext());
-				}
-			}
-		}
+		StringBuilder sb = buildReferenceResponse(response);
 
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
 			out.setErrorMessage(sb.toString());
@@ -319,12 +300,34 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	// TODO: chiamare sul nuovo ep per delete/update anziché la getReference
 	// Questo metodo fa una query per ottenere la LEAF_CLASS ottenendo così più valori rispetto alla OBJECT_REF che ottiene solo UUID
 	@Override
-	public GetReferenceResponseDTO getReferenceAuthor(final String oid, final JWTTokenDTO tokenDTO) {
-		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
-
+	public GetReferenceAuthorResponseDTO getReferenceAuthor(final String oid, final JWTTokenDTO tokenDTO) {
+		// Retrieve document UUID
+		GetReferenceResponseDTO out = getReference(oid, tokenDTO);
+		// Prepare token
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
+		// Retrieve response
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(out.getUuid(), SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		// Structure
+		GetReferenceAuthorResponseDTO res = new GetReferenceAuthorResponseDTO();
+		StringBuilder sb = buildReferenceResponse(response);
+		// Check for issues
+		if(!StringUtility.isNullOrEmpty(sb.toString())){
+			res.setErrorMessage(sb.toString());
+		} else {
+			res.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
+			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
+			// TODO - Estrarre administrativeRequest e AuthorInstitution
+			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
+			String administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
+			res.setDocumentType(documentType);
+			res.setAuthorInstitution(authorInstitution);
+			res.setAdministrativeRequest(administrativeRequest);
+		}
 
-		AdhocQueryResponse response = iniClient.getReferenceUUID(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		return res;
+	}
+
+	private static StringBuilder buildReferenceResponse(AdhocQueryResponse response) {
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
@@ -335,24 +338,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				}
 			}
 		}
-
-		if(!StringUtility.isNullOrEmpty(sb.toString())){
-			out.setErrorMessage(sb.toString());
-		} else {
-			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
-			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
-			// TODO - Estrarre administrativeRequest e AuthorInstitution
-			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
-			String administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
-			out.setDocumentType(documentType);
-			out.setAuthorInstitution(authorInstitution);
-			out.setAdministrativeRequest(administrativeRequest);
-		}
-
-		return out;
+		return sb;
 	}
 
-	 
+
 	@Override
 	public GetMergedMetadatiDTO getMergedMetadati(final String oidToUpdate,final MergedMetadatiRequestDTO updateRequestDTO) {
 		GetMergedMetadatiDTO out = new GetMergedMetadatiDTO();

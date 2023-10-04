@@ -11,26 +11,20 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
-
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceAuthorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @ConditionalOnProperty(name="ini.client.mock-enable", havingValue="true")
@@ -104,8 +98,8 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 	}
 
 	@Override
-	public GetReferenceResponseDTO getReferenceAuthor(String oid, JWTTokenDTO tokenDTO) {
-		return getReference(oid, tokenDTO);
+	public GetReferenceAuthorResponseDTO getReferenceAuthor(String oid, JWTTokenDTO tokenDTO) {
+		return new GetReferenceAuthorResponseDTO();
 	}
 
 }

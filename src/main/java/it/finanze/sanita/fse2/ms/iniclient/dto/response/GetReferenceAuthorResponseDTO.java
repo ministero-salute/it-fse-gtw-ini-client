@@ -16,15 +16,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetReferenceResponseDTO extends ResponseDTO {
+public class GetReferenceAuthorResponseDTO extends ResponseDTO {
 
 	private String uuid;
-	
+
 	private String documentType;
 
 	private String errorMessage;
 
-	public GetReferenceResponseDTO() {
+	private String administrativeRequest;
+
+	private String authorInstitution;
+
+	public GetReferenceAuthorResponseDTO() {
 		super();
 	}
 	
