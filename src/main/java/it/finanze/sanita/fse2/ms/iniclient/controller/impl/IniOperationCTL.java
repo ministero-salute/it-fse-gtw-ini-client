@@ -150,12 +150,4 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse(),
 				mergedMetadati.getDocumentType());
 	}
-
-	@Override
-	public ResponseEntity<GetReferenceAuthorResponseDTO> getReferenceAuthor(String idDoc, GetReferenceReqDTO jwtPayload,
-																			HttpServletRequest request) {
-		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(RequestUtility.buildPayloadFromReq(jwtPayload));
-		return new ResponseEntity<>(iniInvocationSRV.getReferenceAuthor(idDoc, token), HttpStatus.OK);
-	}
 }

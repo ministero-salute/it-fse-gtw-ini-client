@@ -14,7 +14,6 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceAuthorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
@@ -283,43 +282,22 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 
-		AdhocQueryResponse response = iniClient.getReferenceUUID(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken);
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REF_AND_METADATA);
 		StringBuilder sb = buildReferenceResponse(response);
 
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
 			out.setErrorMessage(sb.toString());
 		} else {
-			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
-			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
-			out.setDocumentType(documentType);
-		}
-
-		return out;
-	}
-
-	@Override
-	public GetReferenceAuthorResponseDTO getReferenceAuthor(final String oid, final JWTTokenDTO tokenDTO) {
-		// Prepare token
-		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
-		// Retrieve response
-		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REF_AND_METADATA);
-		// Structure
-		GetReferenceAuthorResponseDTO res = new GetReferenceAuthorResponseDTO();
-		StringBuilder sb = buildReferenceResponse(response);
-		// Check for issues
-		if(!StringUtility.isNullOrEmpty(sb.toString())){
-			res.setErrorMessage(sb.toString());
-		} else {
 			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
 			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
 			String administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
-			res.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
-			res.setDocumentType(documentType);
-			res.setAuthorInstitution(authorInstitution);
-			res.setAdministrativeRequest(administrativeRequest);
+			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
+			out.setDocumentType(documentType);
+			out.setAuthorInstitution(authorInstitution);
+			out.setAdministrativeRequest(administrativeRequest);
 		}
 
-		return res;
+		return out;
 	}
 
 	private static StringBuilder buildReferenceResponse(AdhocQueryResponse response) {

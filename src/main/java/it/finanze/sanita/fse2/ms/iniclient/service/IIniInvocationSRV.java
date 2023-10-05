@@ -12,7 +12,6 @@
 package it.finanze.sanita.fse2.ms.iniclient.service;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceAuthorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
@@ -29,8 +28,6 @@ public interface IIniInvocationSRV {
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
     GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO);
-    
-    GetReferenceAuthorResponseDTO getReferenceAuthor(String oid, JWTTokenDTO tokenDTO);
-	
+
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
 }

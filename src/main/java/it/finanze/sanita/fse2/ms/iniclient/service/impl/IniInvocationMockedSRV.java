@@ -13,7 +13,6 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceAuthorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
@@ -47,9 +46,7 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 				null);
 		return out;
 	}
-	
-	// TODO: verificare se administrativeRequest e authorInstitution devono essere loggati anche in regime di mock
-	
+
 	@Override
 	public IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO) {
 		final Date startingDate = new Date();
@@ -89,17 +86,14 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
 		out.setUuid("UUID_MOCKATO");
 		out.setDocumentType("DOCUMENT_TYPE MOCKATO");
+		out.setAdministrativeRequest("ADM_REQ_MOCKATO");
+		out.setAuthorInstitution("AUTH_REQ_MOCKATO");
 		return out;
 	}
 
 	@Override
 	public GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate, MergedMetadatiRequestDTO updateRequestDTO) {
 		return new GetMergedMetadatiDTO();
-	}
-
-	@Override
-	public GetReferenceAuthorResponseDTO getReferenceAuthor(String oid, JWTTokenDTO tokenDTO) {
-		return new GetReferenceAuthorResponseDTO();
 	}
 
 }
