@@ -296,9 +296,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 		return out;
 	}
-	
-	// TODO: chiamare sul nuovo ep per delete/update anziché la getReference
-	// Questo metodo fa una query per ottenere la LEAF_CLASS ottenendo così più valori rispetto alla OBJECT_REF che ottiene solo UUID
+
 	@Override
 	public GetReferenceAuthorResponseDTO getReferenceAuthor(final String oid, final JWTTokenDTO tokenDTO) {
 		// Prepare token
@@ -312,11 +310,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
 			res.setErrorMessage(sb.toString());
 		} else {
-			res.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
 			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
-			// TODO - Estrarre administrativeRequest e AuthorInstitution
 			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
 			String administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
+			res.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
 			res.setDocumentType(documentType);
 			res.setAuthorInstitution(authorInstitution);
 			res.setAdministrativeRequest(administrativeRequest);
