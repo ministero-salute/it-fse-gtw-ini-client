@@ -301,12 +301,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	// Questo metodo fa una query per ottenere la LEAF_CLASS ottenendo così più valori rispetto alla OBJECT_REF che ottiene solo UUID
 	@Override
 	public GetReferenceAuthorResponseDTO getReferenceAuthor(final String oid, final JWTTokenDTO tokenDTO) {
-		// Retrieve document UUID
-		GetReferenceResponseDTO out = getReference(oid, tokenDTO);
 		// Prepare token
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 		// Retrieve response
-		AdhocQueryResponse response = iniClient.getReferenceMetadata(out.getUuid(), SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REF_AND_METADATA);
 		// Structure
 		GetReferenceAuthorResponseDTO res = new GetReferenceAuthorResponseDTO();
 		StringBuilder sb = buildReferenceResponse(response);
