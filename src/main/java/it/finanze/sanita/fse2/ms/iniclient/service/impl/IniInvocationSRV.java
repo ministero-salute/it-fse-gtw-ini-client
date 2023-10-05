@@ -325,6 +325,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if(oldMetadata==null) {
 			throw new NoRecordFoundException("Nessun metadato trovato");
 		}
+		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
 		try (StringWriter sw = new StringWriter();) {
