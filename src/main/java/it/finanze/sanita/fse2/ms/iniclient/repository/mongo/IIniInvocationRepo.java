@@ -16,5 +16,6 @@ import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY
 public interface IIniInvocationRepo {
 
 	IniEdsInvocationETY findByWorkflowInstanceId(String workflowInstanceId);
+	boolean removeMetadataByWorkflowInstanceId(String workflowInstanceId);
 	
 }

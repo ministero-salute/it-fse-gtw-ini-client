@@ -94,6 +94,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
 			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate);
 		}
+
+		if(out != null && out.getEsito() != null && out.getEsito()) {
+			iniInvocationRepo.removeMetadataByWorkflowInstanceId(workflowInstanceId);
+		}
+
 		return out;
 	}
 
@@ -322,7 +327,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		}
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
-		try (StringWriter sw = new StringWriter();) {
+		try (StringWriter sw = new StringWriter()) {
 			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
 			JAXB.marshal(req, sw);
 			out.setMarshallResponse(sw.toString());

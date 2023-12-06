@@ -13,6 +13,7 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import java.util.Date;
 
+import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,10 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 
 	@Autowired
 	private LoggerHelper logger;
-	
+
+	@Autowired
+	private IIniInvocationRepo repository;
+
 	@Override
 	public IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId,ProcessorOperationEnum operation) {
 		final Date startingDate = new Date();
@@ -49,6 +53,7 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
 				new JWTPayloadDTO());
+		repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
 		return out;
 	}
 
