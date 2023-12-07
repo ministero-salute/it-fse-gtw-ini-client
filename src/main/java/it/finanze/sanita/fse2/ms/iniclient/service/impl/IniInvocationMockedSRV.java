@@ -41,6 +41,9 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 	private LoggerHelper logger;
 
 	@Autowired
+	private ConfigSRV config;
+
+	@Autowired
 	private IIniInvocationRepo repository;
 
 	@Override
@@ -53,7 +56,9 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 				"Mocked Doc Type Ini", 
 				"Mocked fiscal code Ini",  
 				new JWTPayloadDTO());
-		repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
+		if(config.isRemoveMetadataEnable()) {
+			repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
+		}
 		return out;
 	}
 

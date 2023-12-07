@@ -11,8 +11,10 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
+import it.finanze.sanita.fse2.ms.iniclient.client.routes.ConfigClientRoutes;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
@@ -35,21 +37,22 @@ public class ConfigClient implements IConfigClient {
     /**
      * Config host.
      */
-    @Value("${ms.url.gtw-config}")
-    private String configHost;
+    @Autowired
+    private ConfigClientRoutes routes;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate client;
 
     @Autowired
     private ProfileUtility profileUtility;
+
 
     @Override
     public String getGatewayName() {
         String gatewayName;
         try {
             log.debug("Config Client - Calling Config Client to get Gateway Name");
-            final String endpoint = configHost + "/v1/whois";
+            final String endpoint = routes.whois();
 
             final boolean isTestEnvironment = profileUtility.isDevOrDockerProfile() || profileUtility.isTestProfile();
             
@@ -59,7 +62,7 @@ public class ConfigClient implements IConfigClient {
                 return Constants.AppConstants.MOCKED_GATEWAY_NAME;
             }
 
-            final ResponseEntity<WhoIsResponseDTO> response = restTemplate.getForEntity(endpoint, WhoIsResponseDTO.class);
+            final ResponseEntity<WhoIsResponseDTO> response = client.getForEntity(endpoint, WhoIsResponseDTO.class);
 
             if (response.getStatusCode().is2xxSuccessful() && response.hasBody()) {
                 WhoIsResponseDTO body = response.getBody();
@@ -76,14 +79,51 @@ public class ConfigClient implements IConfigClient {
         return gatewayName;
     }
 
+    @Override
+    public ConfigItemDTO getConfigurationItems(ConfigItemTypeEnum type) {
+        return client.getForObject(routes.getConfigItems(type), ConfigItemDTO.class);
+    }
+
+    @Override
+    public String getProps(ConfigItemTypeEnum type, String props, String previous) {
+        String out = previous;
+        String endpoint = routes.getConfigItem(type, props);
+        if (isReachable()) out = client.getForObject(endpoint, String.class);
+        if(out == null || !out.equals(previous)) {
+            log.info("[GTW-CFG] Property {} is set as {} (previously: {})", props, out, previous);
+        }
+        return out;
+    }
+
+
     private boolean isReachable() {
         try {
-            final String endpoint = configHost + "/status";
-            restTemplate.getForEntity(endpoint, String.class);
+            final String endpoint = routes.status();
+            client.getForEntity(endpoint, String.class);
             return true;
         } catch (ResourceAccessException clientException) {
             return false;
         }
     }
+
+    @SuppressWarnings("unchecked")
+    private <T> T convertResponse(Object response, Object previous) {
+        try {
+            Class<T> targetType = (Class<T>) previous.getClass();
+
+            if (targetType == Integer.class) {
+                return (T) Integer.valueOf(response.toString());
+            } else if (targetType == Boolean.class) {
+                return (T) Boolean.valueOf(response.toString());
+            } else if (targetType == String.class) {
+                return (T) response.toString();
+            } else {
+                return (T) response;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
 }

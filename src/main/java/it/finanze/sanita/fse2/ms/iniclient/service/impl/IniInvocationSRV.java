@@ -16,6 +16,7 @@ import java.util.Date;
 
 import javax.xml.bind.JAXB;
 
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -67,6 +68,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	private IniInvocationRepo iniInvocationRepo;
 
 	@Autowired
+	private IConfigSRV configSRV;
+
+	@Autowired
 	private IIniClient iniClient;
 
 	@Autowired
@@ -95,7 +99,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate);
 		}
 
-		if(out != null && out.getEsito() != null && out.getEsito()) {
+		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
 			iniInvocationRepo.removeMetadataByWorkflowInstanceId(workflowInstanceId);
 		}
 
