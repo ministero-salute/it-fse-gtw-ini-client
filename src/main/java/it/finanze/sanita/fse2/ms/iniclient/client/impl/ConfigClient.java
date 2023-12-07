@@ -105,25 +105,4 @@ public class ConfigClient implements IConfigClient {
             return false;
         }
     }
-
-    @SuppressWarnings("unchecked")
-    private <T> T convertResponse(Object response, Object previous) {
-        try {
-            Class<T> targetType = (Class<T>) previous.getClass();
-
-            if (targetType == Integer.class) {
-                return (T) Integer.valueOf(response.toString());
-            } else if (targetType == Boolean.class) {
-                return (T) Boolean.valueOf(response.toString());
-            } else if (targetType == String.class) {
-                return (T) response.toString();
-            } else {
-                return (T) response;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-
 }
