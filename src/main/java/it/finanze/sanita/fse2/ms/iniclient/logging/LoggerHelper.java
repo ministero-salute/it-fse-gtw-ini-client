@@ -22,10 +22,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.LogDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ILogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +46,9 @@ public class LoggerHelper {
 	@Autowired
 	private IConfigClient configClient;
 	
+	@Autowired
+	private IConfigSRV configSRV;
+	
 	private String gatewayName;
 	
 	@Value("${spring.application.name}")
@@ -60,150 +65,198 @@ public class LoggerHelper {
 	public void trace(String log_type, String workflowInstanceId, String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
 		String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_result(result.getCode()).
-				op_role(subjectRole).
-				op_fiscal_code(subjectFiscalCode).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
+		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+			LogDTO logDTO = LogDTO.builder().
+					op_locality(locality).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_result(result.getCode()).
+					op_role(subjectRole).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
 
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.trace(logMessage);
+			if(configSRV.isCfOnIssuerNotAllowed()) {
+				logDTO.setOp_issuer(issuer);
+			}
+			
+			if(configSRV.isSubjectPersistenceEnabled()) {
+				logDTO.setOp_fiscal_code(subjectFiscalCode);
+			}
+			
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.trace(logMessage);
 
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.trace(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.trace(logMessage);
+			}
 		}
+		
 	} 
 	
 	public void debug(String log_type, String workflowInstanceId,String message,  ILogEnum operation, ResultLogEnum result, Date startDateOperation, 
 			String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_result(result.getCode()).
-				op_role(subjectRole).
-				op_fiscal_code(subjectFiscalCode).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				build();
-		
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.debug(logMessage);
+		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+			LogDTO logDTO = LogDTO.builder().
+					op_locality(locality).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_result(result.getCode()).
+					op_role(subjectRole).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					build();
+			
+			if(configSRV.isCfOnIssuerNotAllowed()) {
+				logDTO.setOp_issuer(issuer);
+			}
+			
+			if(configSRV.isSubjectPersistenceEnabled()) {
+				logDTO.setOp_fiscal_code(subjectFiscalCode);
+			}
+			
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.debug(logMessage);
 
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.debug(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.debug(logMessage);
+			}	
 		}
+		
 	} 
 	 
 	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
 		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(payloadDTO.getIss()).
-				op_locality(payloadDTO.getLocality()).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_result(ResultLogEnum.OK.getCode()).
-				op_role(payloadDTO.getSubject_role()).
-				op_fiscal_code(subjectFiscalCode).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				op_application_id(payloadDTO.getSubject_application_id()).
-				op_application_vendor(payloadDTO.getSubject_application_vendor()).
-				op_application_version(payloadDTO.getSubject_application_version()).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
-		
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.info(logMessage);
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.info(logMessage);
+		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+			LogDTO logDTO = LogDTO.builder().
+					op_locality(payloadDTO.getLocality()).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_result(ResultLogEnum.OK.getCode()).
+					op_role(payloadDTO.getSubject_role()).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					op_application_id(payloadDTO.getSubject_application_id()).
+					op_application_vendor(payloadDTO.getSubject_application_vendor()).
+					op_application_version(payloadDTO.getSubject_application_version()).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
+			
+			if(configSRV.isCfOnIssuerNotAllowed()) {
+				logDTO.setOp_issuer(payloadDTO.getIss());
+			}
+			
+			if(configSRV.isSubjectPersistenceEnabled()) {
+				logDTO.setOp_fiscal_code(subjectFiscalCode);
+			}
+			
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.info(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.info(logMessage);
+			}
 		}
+		
 	} 
 	
 	public void warn(String log_type, String workflowInstanceId,String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
 		String documentType, String subjectRole, String subjectFiscalCode, String locality,
 		String applicationId, String applicationVendor, String applicationVersion) {
 		
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(issuer).
-				op_locality(locality).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_role(subjectRole).
-				op_fiscal_code(subjectFiscalCode).
-				op_result(result.getCode()).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				op_application_id(applicationId).
-				op_application_vendor(applicationVendor).
-				op_application_version(applicationVersion).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
-		
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.warn(logMessage);
- 
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.warn(logMessage);
+		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+			LogDTO logDTO = LogDTO.builder().
+					op_locality(locality).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_role(subjectRole).
+					op_result(result.getCode()).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					op_application_id(applicationId).
+					op_application_vendor(applicationVendor).
+					op_application_version(applicationVersion).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
+			
+			if(configSRV.isCfOnIssuerNotAllowed()) {
+				logDTO.setOp_issuer(issuer);
+			}
+			
+			if(configSRV.isSubjectPersistenceEnabled()) {
+				logDTO.setOp_fiscal_code(subjectFiscalCode);
+			}
+			
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.warn(logMessage);
+	 
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.warn(logMessage);
+			}
 		}
- 
+		
 	} 
 	
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
 			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
+		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+			LogDTO logDTO = LogDTO.builder().
+					op_locality(jwtPayloadDTO.getLocality()).
+					message(message).
+					operation(operation.getCode()).
+					op_document_type(documentType).
+					op_role(jwtPayloadDTO.getSubject_role()).
+					op_result(ResultLogEnum.KO.getCode()).
+					op_timestamp_start(dateFormat.format(startDateOperation)).
+					op_timestamp_end(dateFormat.format(new Date())).
+					op_error(error.getCode()).
+					op_error_description(error.getDescription()).
+					gateway_name(getGatewayName()).
+					microservice_name(msName).
+					op_application_id(jwtPayloadDTO.getSubject_application_id()).
+					op_application_vendor(jwtPayloadDTO.getSubject_application_vendor()).
+					op_application_version(jwtPayloadDTO.getSubject_application_version()).
+					log_type(log_type).
+					workflow_instance_id(workflowInstanceId).
+					build();
 
-		LogDTO logDTO = LogDTO.builder().
-				op_issuer(jwtPayloadDTO.getIss()).
-				op_locality(jwtPayloadDTO.getLocality()).
-				message(message).
-				operation(operation.getCode()).
-				op_document_type(documentType).
-				op_role(jwtPayloadDTO.getSubject_role()).
-				op_fiscal_code(subjectFiscalCode).
-				op_result(ResultLogEnum.KO.getCode()).
-				op_timestamp_start(dateFormat.format(startDateOperation)).
-				op_timestamp_end(dateFormat.format(new Date())).
-				op_error(error.getCode()).
-				op_error_description(error.getDescription()).
-				gateway_name(getGatewayName()).
-				microservice_name(msName).
-				op_application_id(jwtPayloadDTO.getSubject_application_id()).
-				op_application_vendor(jwtPayloadDTO.getSubject_application_vendor()).
-				op_application_version(jwtPayloadDTO.getSubject_application_version()).
-				log_type(log_type).
-				workflow_instance_id(workflowInstanceId).
-				build();
+			if(configSRV.isCfOnIssuerNotAllowed()) {
+				logDTO.setOp_issuer(jwtPayloadDTO.getIss());
+			}
+			
+			if(configSRV.isSubjectPersistenceEnabled()) {
+				logDTO.setOp_fiscal_code(subjectFiscalCode);
+			}
+			
+			final String logMessage = StringUtility.toJSON(logDTO);
+			log.error(logMessage);
 
-		final String logMessage = StringUtility.toJSON(logDTO);
-		log.error(logMessage);
-
-		if (Boolean.TRUE.equals(kafkaLogEnable)) {
-			kafkaLog.error(logMessage);
+			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+				kafkaLog.error(logMessage);
+			}
 		}
+		
 	}
 
 	/**

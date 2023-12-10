@@ -34,6 +34,10 @@ public final class ClientRoutes {
         public static final String QP_PROPS = "props";
         // VALUES
         public static final String PROPS_NAME_REMOVE_METADATA_ENABLE = "delete-early-strategy";
+        public static final String PROPS_NAME_ISSUER_CF = "issuer-cf-cleaning";
+        public static final String PROPS_NAME_SUBJECT = "subject-persistence";
+        public static final String PROPS_NAME_CONTROL_LOG_ENABLED = "control-log-persistence-enabled";
+        public static final String PROPS_NAME_KPI_LOG_ENABLED = "kpi-log-persistence-enabled";
 
     }
 
