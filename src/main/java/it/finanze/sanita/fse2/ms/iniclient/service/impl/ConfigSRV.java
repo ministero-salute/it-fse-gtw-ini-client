@@ -1,30 +1,26 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_CONTROL_LOG_ENABLED;
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_ISSUER_CF;
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_KPI_LOG_ENABLED;
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_REMOVE_METADATA_ENABLE;
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_SUBJECT;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.GENERIC;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.INI_CLIENT;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO.ConfigDataItemDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
-import lombok.extern.slf4j.Slf4j;;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.*;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.GENERIC;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.INI_CLIENT;
+
+;
 
 @Service
 @Slf4j
@@ -54,6 +50,7 @@ public class ConfigSRV implements IConfigSRV {
 				});
 			}
 		}
+		integrity();
 	}
 
 	@Override
@@ -67,8 +64,8 @@ public class ConfigSRV implements IConfigSRV {
 			}
 		}
 		return Boolean.parseBoolean(
-				props.get(PROPS_NAME_REMOVE_METADATA_ENABLE).getValue()
-				);
+			props.get(PROPS_NAME_REMOVE_METADATA_ENABLE).getValue()
+		);
 	}
 
 	private void refresh(ConfigItemTypeEnum type, String name) {
@@ -88,8 +85,8 @@ public class ConfigSRV implements IConfigSRV {
 			}
 		}
 		return Boolean.parseBoolean(
-				props.get(PROPS_NAME_SUBJECT).getValue()
-				);
+			props.get(PROPS_NAME_SUBJECT).getValue()
+		);
 	}
 
 	@Override
@@ -103,8 +100,8 @@ public class ConfigSRV implements IConfigSRV {
 			}
 		}
 		return Boolean.parseBoolean(
-				props.get(PROPS_NAME_ISSUER_CF).getValue()
-				);
+			props.get(PROPS_NAME_ISSUER_CF).getValue()
+		);
 	}
 
 	@Override
@@ -132,4 +129,19 @@ public class ConfigSRV implements IConfigSRV {
 		}
 		return Boolean.parseBoolean(props.get(PROPS_NAME_KPI_LOG_ENABLED).getValue());
 	}
+
+	private void integrity() {
+		String err = "Missing props {} from ini-client";
+		String[] out = new String[]{
+			PROPS_NAME_KPI_LOG_ENABLED,
+			PROPS_NAME_CONTROL_LOG_ENABLED,
+			PROPS_NAME_SUBJECT,
+			PROPS_NAME_ISSUER_CF,
+			PROPS_NAME_REMOVE_METADATA_ENABLE
+		};
+		for (String prop : out) {
+			if(!props.containsKey(prop)) throw new IllegalStateException(err.replace("{}", prop));
+		}
+	}
+
 }
