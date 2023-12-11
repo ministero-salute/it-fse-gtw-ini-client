@@ -4,7 +4,7 @@ public interface IConfigSRV {
 
     Boolean isRemoveMetadataEnable();
     
-    Boolean isSubjectPersistenceEnabled();
+    Boolean isSubjectNotAllowed();
     
     Boolean isCfOnIssuerNotAllowed();
     

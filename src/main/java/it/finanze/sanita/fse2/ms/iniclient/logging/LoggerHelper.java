@@ -85,7 +85,7 @@ public class LoggerHelper {
 				logDTO.setOp_issuer(issuer);
 			}
 			
-			if(configSRV.isSubjectPersistenceEnabled()) {
+			if(!configSRV.isSubjectNotAllowed()) {
 				logDTO.setOp_fiscal_code(subjectFiscalCode);
 			}
 			
@@ -121,7 +121,7 @@ public class LoggerHelper {
 				logDTO.setOp_issuer(issuer);
 			}
 			
-			if(configSRV.isSubjectPersistenceEnabled()) {
+			if(!configSRV.isSubjectNotAllowed()) {
 				logDTO.setOp_fiscal_code(subjectFiscalCode);
 			}
 			
@@ -161,7 +161,7 @@ public class LoggerHelper {
 				logDTO.setOp_issuer(payloadDTO.getIss());
 			}
 			
-			if(configSRV.isSubjectPersistenceEnabled()) {
+			if(!configSRV.isSubjectNotAllowed()) {
 				logDTO.setOp_fiscal_code(subjectFiscalCode);
 			}
 			
@@ -202,7 +202,7 @@ public class LoggerHelper {
 				logDTO.setOp_issuer(issuer);
 			}
 			
-			if(configSRV.isSubjectPersistenceEnabled()) {
+			if(!configSRV.isSubjectNotAllowed()) {
 				logDTO.setOp_fiscal_code(subjectFiscalCode);
 			}
 			
@@ -244,7 +244,7 @@ public class LoggerHelper {
 				logDTO.setOp_issuer(jwtPayloadDTO.getIss());
 			}
 			
-			if(configSRV.isSubjectPersistenceEnabled()) {
+			if(!configSRV.isSubjectNotAllowed()) {
 				logDTO.setOp_fiscal_code(subjectFiscalCode);
 			}
 			
