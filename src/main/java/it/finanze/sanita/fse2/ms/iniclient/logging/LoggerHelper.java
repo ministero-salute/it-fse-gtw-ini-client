@@ -11,16 +11,6 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.logging;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
@@ -30,6 +20,15 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /** 
  * 
@@ -82,7 +81,7 @@ public class LoggerHelper {
 					workflow_instance_id(workflowInstanceId).
 					build();
 
-			if(configSRV.isCfOnIssuerNotAllowed()) {
+			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(issuer);
 			}
 			
@@ -118,7 +117,7 @@ public class LoggerHelper {
 					microservice_name(msName).
 					build();
 			
-			if(configSRV.isCfOnIssuerNotAllowed()) {
+			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(issuer);
 			}
 			
@@ -158,7 +157,7 @@ public class LoggerHelper {
 					workflow_instance_id(workflowInstanceId).
 					build();
 			
-			if(configSRV.isCfOnIssuerNotAllowed()) {
+			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(payloadDTO.getIss());
 			}
 			
@@ -199,7 +198,7 @@ public class LoggerHelper {
 					workflow_instance_id(workflowInstanceId).
 					build();
 			
-			if(configSRV.isCfOnIssuerNotAllowed()) {
+			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(issuer);
 			}
 			
@@ -241,7 +240,7 @@ public class LoggerHelper {
 					workflow_instance_id(workflowInstanceId).
 					build();
 
-			if(configSRV.isCfOnIssuerNotAllowed()) {
+			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(jwtPayloadDTO.getIss());
 			}
 			
