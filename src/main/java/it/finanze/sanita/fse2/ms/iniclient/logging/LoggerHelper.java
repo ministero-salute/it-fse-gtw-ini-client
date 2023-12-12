@@ -65,7 +65,7 @@ public class LoggerHelper {
 		String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
 		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
-				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
 					op_locality(locality).
 					message(message).
@@ -103,7 +103,7 @@ public class LoggerHelper {
 			String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
 		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
-				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
 					op_locality(locality).
 					message(message).
@@ -138,7 +138,7 @@ public class LoggerHelper {
 	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
 		
 		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
-				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
 					op_locality(payloadDTO.getLocality()).
 					message(message).
@@ -179,7 +179,7 @@ public class LoggerHelper {
 		String applicationId, String applicationVendor, String applicationVersion) {
 		
 		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
-				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
 					op_locality(locality).
 					message(message).
@@ -219,7 +219,7 @@ public class LoggerHelper {
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
 			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
 		if((Constants.AppConstants.LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) || 
-				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+				(Constants.AppConstants.LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
 					op_locality(jwtPayloadDTO.getLocality()).
 					message(message).
