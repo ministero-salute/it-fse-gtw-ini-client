@@ -33,6 +33,8 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.*;
+
 @Service
 @ConditionalOnProperty(name="ini.client.mock-enable", havingValue="true")
 public class IniInvocationMockedSRV implements IIniInvocationSRV  {
@@ -47,40 +49,25 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 	private IIniInvocationRepo repository;
 
 	@Override
-	public IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId,ProcessorOperationEnum operation) {
-		final Date startingDate = new Date();
+	public IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation) {
 		IniResponseDTO out = new IniResponseDTO();
 		out.setErrorMessage("Regime di mock abilitato");
-		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,"Regime di mock abilitato", operation.getOperation(), 
-				startingDate, 
-				"Mocked Doc Type Ini", 
-				"Mocked fiscal code Ini",  
-				new JWTPayloadDTO());
-		if(config.isRemoveMetadataEnable()) {
-			repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
-		}
+		mockLog(workflowInstanceId, operation, new Date());
+		if(config.isRemoveMetadataEnable()) repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
 		return out;
 	}
 
 	@Override
 	public IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO) {
 		final Date startingDate = new Date();
-		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, deleteRequestDTO.getWorkflow_instance_id() ,"Regime di mock abilitato", ProcessorOperationEnum.DELETE.getOperation(), 
-				startingDate, 
-				"Mocked Doc Type Ini", 
-				"Mocked fiscal code Ini",  
-				new JWTPayloadDTO());
+		mockLog(deleteRequestDTO.getWorkflow_instance_id(), ProcessorOperationEnum.DELETE, startingDate);
 		return new IniResponseDTO();
 	}
 
 	@Override
 	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
-		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL, updateRequestDTO.getWorkflow_instance_id(),"Regime di mock abilitato", ProcessorOperationEnum.UPDATE.getOperation(), 
-				startingDate, 
-				"Mocked Doc Type Ini", 
-				"Mocked fiscal code Ini",  
-				new JWTPayloadDTO());
+		mockLog(updateRequestDTO.getWorkflow_instance_id(), ProcessorOperationEnum.UPDATE, startingDate);
 		return new IniResponseDTO();
 	}
 
@@ -103,6 +90,29 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 	@Override
 	public GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate, MergedMetadatiRequestDTO updateRequestDTO) {
 		return new GetMergedMetadatiDTO();
+	}
+
+	private void mockLog(String workflowInstanceId, ProcessorOperationEnum operation, Date startDateOperation) {
+		logger.info(
+			LOG_TYPE_CONTROL,
+			workflowInstanceId,
+			"Regime di mock abilitato",
+			operation.getOperation(),
+			startDateOperation,
+			"Mocked Doc Type Ini",
+			"Mocked fiscal code Ini",
+			new JWTPayloadDTO()
+		);
+		logger.info(
+			LOG_TYPE_KPI,
+			workflowInstanceId,
+			"Regime di mock abilitato",
+			operation.getOperation(),
+			startDateOperation,
+			"Mocked Doc Type Ini",
+			"Mocked fiscal code Ini",
+			new JWTPayloadDTO()
+		);
 	}
 
 }
