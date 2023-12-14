@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.*;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.GENERIC;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.INI_CLIENT;
 
 @Service
@@ -46,8 +45,8 @@ public class ConfigSRV implements IConfigSRV {
 					log.info("[GTW-CFG] Property {} is set as {}", key, value);
 					props.put(key, Pair.of(new Date().getTime(), value));
 				});
-				if(opt.getItems().isEmpty()) log.info("[GTW-CFG] No props were found");
 			}
+			if(opts.isEmpty()) log.info("[GTW-CFG] No props were found");
 		}
 		integrity();
 	}
