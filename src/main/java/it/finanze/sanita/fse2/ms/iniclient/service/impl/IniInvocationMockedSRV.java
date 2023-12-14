@@ -94,7 +94,7 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 			startDateOperation,
 			"Mocked Doc Type Ini",
 			"Mocked fiscal code Ini",
-			new JWTPayloadDTO()
+			JWTPayloadDTO.getMocked()
 		);
 		logger.info(
 			LOG_TYPE_KPI,
@@ -104,7 +104,7 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 			startDateOperation,
 			"Mocked Doc Type Ini",
 			"Mocked fiscal code Ini",
-			new JWTPayloadDTO()
+			JWTPayloadDTO.getMocked()
 		);
 	}
 

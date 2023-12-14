@@ -121,4 +121,15 @@ public class JWTPayloadDTO {
 	private String subject_application_vendor;
 
 	private String subject_application_version;
+
+	public static JWTPayloadDTO getMocked() {
+		JWTPayloadDTO out = new JWTPayloadDTO();
+		out.setLocality("MOCK-LOCALITY");
+		out.setSubject_role("MOCK-ROLE");
+		out.setSubject_application_id("MOCK-ID");
+		out.setSubject_application_vendor("MOCK-VENDOR");
+		out.setSubject_application_version("MOCK-VER");
+		out.setIss("MOCK-ISS#ABCDEF");
+		return out;
+	}
 }
