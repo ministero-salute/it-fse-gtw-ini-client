@@ -63,6 +63,7 @@ public final class Constants {
 		public static final String DEFAULT_HEAD_ERROR_MESSAGE = "Error while send data to ini: ";
 		public static final String HEADER_AUTH_CONTEXT = "urn:oasis:names:tc:SAML:2.0:ac:classes:X509";
 		public static final String HEADER_ATTRNAME_URI = "urn:oasis:names:tc:SAML:2.0:attrname-format:uri";
+		public static final String HEADER_NAME_FORMAT = "urn:oasis:names:tc:SAML:2.0:attrname-format:basic";
 		public static final String GENERIC_SUBJECT_SSN_OID = "^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
 		public static final String GENERIC_SSN_OID = "^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
 		public static final String AUTHOR_IVA_OID = "^^^^^^^^&2.16.840.1.113883.2.9.6.3.2%ISO";
@@ -87,6 +88,8 @@ public final class Constants {
 		public static final String DELETE_ACTION = "DELETE";
 
 		public static final String MISSING_DOC_TYPE_PLACEHOLDER = "UNKNOWN_DOCUMENT_TYPE";
+		public static final String MISSING_AUTHOR_INSTITUTION_PLACEHOLDER = "UNKNOWN_AUTHOR_INSTITUTION";
+		public static final String MISSING_ADMINISTRATIVE_REQUEST_PLACEHOLDER = "UNKNOWN_ADMINISTRATIVE_REQUEST";
 
 		public static final String JWT_MISSING_ISSUER_PLACEHOLDER = "UNDEFINED_JWT_ISSUER";
 		public static final String JWT_MISSING_SUBJECT = "UNDEFINED_SUBJECT";

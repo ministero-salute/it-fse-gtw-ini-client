@@ -69,6 +69,9 @@ public class RequestUtility {
                 subject_organization_id(req.getSubject_organization_id()).
                 subject_role(req.getSubject_role()).
                 patient_consent(req.isPatient_consent()).
+                subject_application_id(req.getSubject_application_id()).
+                subject_application_vendor(req.getSubject_application_vendor()).
+                subject_application_version(req.getSubject_application_version()).
                 build();
     }
 

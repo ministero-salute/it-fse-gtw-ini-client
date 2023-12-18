@@ -23,6 +23,9 @@ public class GetReferenceResponseDTO extends ResponseDTO {
 	private String documentType;
 
 	private String errorMessage;
+	private String administrativeRequest;
+
+	private String authorInstitution;
 
 	public GetReferenceResponseDTO() {
 		super();

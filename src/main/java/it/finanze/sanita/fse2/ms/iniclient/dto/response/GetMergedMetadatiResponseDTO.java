@@ -23,17 +23,19 @@ public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 	private String marshallResponse;
 	
 	private String documentType;
+	private String authorInstitution;
 
 	public GetMergedMetadatiResponseDTO() {
 		super();
 	}
 
 	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final String inErrorMessage, String inMarshallResponse,
-			String inDocumentType) {
+			String inDocumentType, String inAuthorInstitution) {
 		super(traceInfo);
 		errorMessage = inErrorMessage;
 		marshallResponse = inMarshallResponse;
 		documentType = inDocumentType;
+		authorInstitution = inAuthorInstitution;
 	}
 
 }

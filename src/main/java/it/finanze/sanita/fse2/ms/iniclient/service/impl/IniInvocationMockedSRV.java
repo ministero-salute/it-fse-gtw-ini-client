@@ -77,6 +77,8 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
 		out.setUuid("UUID_MOCKATO");
 		out.setDocumentType("DOCUMENT_TYPE MOCKATO");
+		out.setAdministrativeRequest("ADM_REQ_MOCKATO");
+		out.setAuthorInstitution("AUTH_REQ_MOCKATO");
 		return out;
 	}
 

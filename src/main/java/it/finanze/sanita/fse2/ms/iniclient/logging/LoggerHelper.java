@@ -38,9 +38,9 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.
 @Service
 @Slf4j
 public class LoggerHelper {
-    
+
 	Logger kafkaLog = LoggerFactory.getLogger("kafka-logger"); 
-	
+
 	@Value("${log.kafka-log.enable}")
 	private boolean kafkaLogEnable;
 
@@ -51,15 +51,18 @@ public class LoggerHelper {
 	private IConfigSRV configSRV;
 	
 	private String gatewayName;
-	
+
 	@Value("${spring.application.name}")
 	private String msName;
-	
+
+	@Autowired
+	private IConfigSRV configSRV;
+
 	/* 
 	 * Specify here the format for the dates 
 	 */
 	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS"); 
-	
+
 	/* 
 	 * Implements structured logs, at all logging levels
 	 */
@@ -100,7 +103,7 @@ public class LoggerHelper {
 		}
 		
 	} 
-	
+
 	public void debug(String log_type, String workflowInstanceId,String message,  ILogEnum operation, ResultLogEnum result, Date startDateOperation, 
 			String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
@@ -175,7 +178,7 @@ public class LoggerHelper {
 		}
 		
 	} 
-	
+
 	public void warn(String log_type, String workflowInstanceId,String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
 		String documentType, String subjectRole, String subjectFiscalCode, String locality,
 		String applicationId, String applicationVendor, String applicationVersion) {
@@ -217,7 +220,7 @@ public class LoggerHelper {
 		}
 		
 	} 
-	
+
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
 			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
@@ -271,5 +274,5 @@ public class LoggerHelper {
 		}
 		return gatewayName;
 	}
-    
+
 }
