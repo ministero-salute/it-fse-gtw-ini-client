@@ -23,6 +23,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 
 import javax.xml.bind.JAXBException;
 
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,10 +69,14 @@ class IniInvocationTest {
     @MockBean
     private IIniClient iniClient;
 
+    @MockBean
+    private IConfigSRV config;
+
     @BeforeEach
     void dataInit() {
         Document entity = JsonUtility.jsonToObject(TestConstants.TEST_INI_EDS_ENTRY, Document.class);
         mongoTemplate.save(entity, Constants.Profile.TEST_PREFIX + Constants.Collections.INI_EDS_INVOCATION);
+        Mockito.when(config.isControlLogPersistenceEnable()).thenReturn(true);
     }
 
     @AfterEach
