@@ -21,8 +21,6 @@ public interface IConfigClient {
 	
 	String getGatewayName();
 	
-	String getEDSStrategy();
-
 	ConfigItemDTO getConfigurationItems(ConfigItemTypeEnum type);
 
 	String getProps(String props, String previous, ConfigItemTypeEnum ms);

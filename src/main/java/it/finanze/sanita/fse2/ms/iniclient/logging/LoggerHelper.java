@@ -55,9 +55,6 @@ public class LoggerHelper {
 	@Value("${spring.application.name}")
 	private String msName;
 
-	@Autowired
-	private IConfigSRV configSRV;
-
 	/* 
 	 * Specify here the format for the dates 
 	 */
@@ -67,7 +64,7 @@ public class LoggerHelper {
 	 * Implements structured logs, at all logging levels
 	 */
 	public void trace(String log_type, String workflowInstanceId, String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
-		String documentType, String subjectRole, String subjectFiscalCode, String locality) {
+			String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
 				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
@@ -104,6 +101,7 @@ public class LoggerHelper {
 		
 	} 
 
+	
 	public void debug(String log_type, String workflowInstanceId,String message,  ILogEnum operation, ResultLogEnum result, Date startDateOperation, 
 			String issuer, String documentType, String subjectRole, String subjectFiscalCode, String locality) {
 		
@@ -139,8 +137,10 @@ public class LoggerHelper {
 		}
 		
 	} 
-	 
-	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
+	
+	
+	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO,
+			String administrativeRequest, String authorInstitution) {
 		
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
 				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
@@ -180,8 +180,8 @@ public class LoggerHelper {
 	} 
 
 	public void warn(String log_type, String workflowInstanceId,String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
-		String documentType, String subjectRole, String subjectFiscalCode, String locality,
-		String applicationId, String applicationVendor, String applicationVersion) {
+			String documentType, String subjectRole, String subjectFiscalCode, String locality,
+			String applicationId, String applicationVendor, String applicationVersion) {
 		
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
 				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
@@ -222,7 +222,7 @@ public class LoggerHelper {
 	} 
 
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
-			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
+			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO, String administrativeRequest, String authorInstitution) {
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
 				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
