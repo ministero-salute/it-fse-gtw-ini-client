@@ -11,20 +11,28 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
-import lombok.extern.slf4j.Slf4j;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObject;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
-import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.*;
+import javax.xml.bind.JAXBElement;
+
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import lombok.extern.slf4j.Slf4j;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
 
 @Slf4j
 public class MergeMetadataUtility {
@@ -60,7 +68,7 @@ public class MergeMetadataUtility {
                     .stream()
                     .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("PracticeSettingCodeEnum non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("PracticeSettingCodeEnum non trovato nei metadati di INI"));
             classificationObjectList.remove(practiceSettingCodeClassificationObject);
             practiceSettingCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
             InternationalStringType practiceSettingCodeName = buildInternationalStringType(
@@ -84,7 +92,7 @@ public class MergeMetadataUtility {
                     .stream()
                     .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("TipoDocAltoLivEnum non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("TipoDocAltoLivEnum non trovato nei metadati di INI"));
             classificationObjectList.remove(classCodeClassificationObject);
             classCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode());
             InternationalStringType classCodeName = buildInternationalStringType(
@@ -108,7 +116,7 @@ public class MergeMetadataUtility {
                     .stream()
                     .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("HealthcareFacilityEnum non trovata nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("HealthcareFacilityEnum non trovata nei metadati di INI"));
             classificationObjectList.remove(healthCareFacilityClassificationObject);
             healthCareFacilityClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipologiaStruttura().getCode());
             InternationalStringType healthcareFacilityTypeCodeName = buildInternationalStringType(
@@ -132,7 +140,7 @@ public class MergeMetadataUtility {
             SlotType1 editedStartTime = slotList.stream()
                     .filter(slot -> slot.getName().equals("serviceStartTime"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("serviceStartTime non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("serviceStartTime non trovato nei metadati di INI"));
             slotList.remove(editedStartTime);
             List<String> valuesSlotEditedStartTime = new ArrayList<>();
             valuesSlotEditedStartTime.add(updateRequestBodyDTO.getDataInizioPrestazione());
@@ -146,7 +154,7 @@ public class MergeMetadataUtility {
             SlotType1 editedStopTime = slotList.stream()
                     .filter(slot -> slot.getName().equals("serviceStopTime"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("serviceStopTime non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("serviceStopTime non trovato nei metadati di INI"));
             slotList.remove(editedStopTime);
             List<String> valuesSlotEditedStopTime = new ArrayList<>();
             valuesSlotEditedStopTime.add(updateRequestBodyDTO.getDataFinePrestazione());
@@ -235,21 +243,21 @@ public class MergeMetadataUtility {
             ClassificationType authorClassificationObject = classificationList.stream()
                     .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("ClassificationObject dell'autore non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("ClassificationObject dell'autore non trovato nei metadati di INI"));
 
             List<SlotType1> authorSlots = authorClassificationObject.getSlot();
             SlotType1 authorInstitutionSlot = authorSlots.stream()
                     .filter(slot -> slot.getName().equals("authorInstitution"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("authorInstitution non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("authorInstitution non trovato nei metadati di INI"));
             SlotType1 authorPersonSlot = authorSlots.stream()
                     .filter(slot -> slot.getName().equals("authorPerson"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("authorPerson non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("authorPerson non trovato nei metadati di INI"));
             SlotType1 authorRoleSlot = authorSlots.stream()
                     .filter(slot -> slot.getName().equals("authorRole"))
                     .findFirst()
-                    .orElseThrow(() -> new NoRecordFoundException("authorRole non trovato nei metadati di INI"));
+                    .orElseThrow(() -> new MergeMetadatoNotFoundException("authorRole non trovato nei metadati di INI"));
 
             SlotType1 classificationObjAuthorSlot1 = buildSlotObject("authorInstitution", authorInstitutionSlot.getSlotType(), authorInstitutionSlot.getValueList().getValue());
             SlotType1 classificationObjAuthorSlot2 = buildSlotObject("authorPerson", authorPersonSlot.getSlotType(), authorPersonSlot.getValueList().getValue());

@@ -9,45 +9,43 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fse2.ms.iniclient.exceptions;
+package it.finanze.sanita.fse2.ms.iniclient.exceptions.base;
 
 /**
- * 
- *
- *	Eccezione di record not found.
+ * Generic business exception.
  */
-public class NoRecordFoundException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
 	/**
-	 * Seriale.
-	 */
-	private static final long serialVersionUID = 5632725723070077498L;
-
-	/**
-	 * Costruttore.
 	 * 
-	 * @param msg	messaggio
 	 */
-	public NoRecordFoundException(final String msg) {
+	private static final long serialVersionUID = 4420700371354323215L;
+
+	/**
+	 * Message constructor.
+	 * 
+	 * @param msg	Message to be shown.
+	 */
+	public BusinessException(final String msg) {
 		super(msg);
 	}
 	
 	/**
-	 * Costruttore.
+	 * Complete constructor.
 	 * 
-	 * @param msg	messaggio
-	 * @param e		eccezione
+	 * @param msg	Message to be shown.
+	 * @param e		Exception to be shown.
 	 */
-	public NoRecordFoundException(final String msg, final Exception e) {
+	public BusinessException(final String msg, final Exception e) {
 		super(msg, e);
 	}
 	
 	/**
-	 * Costruttore.
+	 * Exception constructor.
 	 * 
-	 * @param e	eccezione.
+	 * @param e	Exception to be shown.
 	 */
-	public NoRecordFoundException(final Exception e) {
+	public BusinessException(final Exception e) {
 		super(e);
 	}
 	

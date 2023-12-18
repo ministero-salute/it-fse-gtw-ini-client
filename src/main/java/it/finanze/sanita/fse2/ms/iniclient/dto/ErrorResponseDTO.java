@@ -11,61 +11,49 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import javax.validation.constraints.Size;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import lombok.Data;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.ResponseDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 /**
- * The Class ErrorResponseDTO.
- *
- * 
- * 	Error response.
+ * Base response.
  */
-@Data
-public class ErrorResponseDTO {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorResponseDTO extends ResponseDTO {
 
-
-	/**
-	 * Trace id log.
-	 */
-	@Schema(description = "Indentificativo univoco della richiesta dell'utente")
-	private String traceID;
-	
-	/**
-	 * Span id log.
-	 */
-	@Schema(description = "Indentificativo univoco di un task della richiesta dell'utente (differisce dal traceID solo in caso di chiamate sincrone in cascata)")
-	private String spanID;
-
-	@Schema(description = "Identificativo del problema verificatosi")
+	@Schema(description = "Identificativo della classe del problema verificatosi")
+	@Size(min = 0, max = 100)
 	private String type;
 	
-	@Schema(description = "Sintesi del problema (invariante per occorrenze diverse dello stesso problema)")
+	@Schema(description = "Descrizione della classe del problema verificatosi (invariante per occorrenze diverse dello stesso problema)")
+	@Size(min = 0, max = 100)
 	private String title;
 
 	@Schema(description = "Descrizione del problema")
+	@Size(min = 0, max = 1000)
 	private String detail;
 
-	@Schema(description = "Stato http")
-	private Integer status;
-	
-	@Schema(description = "URI che potrebbe fornire ulteriori informazioni riguardo l'occorrenza del problema")
+	@Schema(description = "URI che identifica la specifica occorrenza del problema")
+	@Size(min = 0, max = 100)
 	private String instance;
 
-	public ErrorResponseDTO(final LogTraceInfoDTO traceInfo, final String inType, final String inTitle, final String inDetail, final Integer inStatus, final String inInstance) {
-		traceID = traceInfo.getTraceID();
-		spanID = traceInfo.getSpanID();
-		type = inType;
-		title = inTitle;
-		detail = inDetail;
-		status = inStatus;
-		instance = inInstance;
-	}
-
-	public ErrorResponseDTO(final LogTraceInfoDTO traceInfo) {
-		traceID = traceInfo.getTraceID();
-		spanID = traceInfo.getSpanID(); 
+	public ErrorResponseDTO(final LogTraceInfoDTO traceInfo, final ErrorDTO inError) {
+		super(traceInfo);
+		this.type = inError.getType();
+		this.title = inError.getTitle();
+		this.detail = inError.getDetail();
+		this.instance = inError.getInstance();
 	}
 
 }
+

@@ -12,7 +12,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.logging;
 
 import ch.qos.logback.core.spi.ContextAwareBase;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 
 import org.apache.kafka.clients.producer.BufferExhaustedException;
 import org.apache.kafka.clients.producer.Producer;

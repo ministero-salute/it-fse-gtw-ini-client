@@ -85,10 +85,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         
         IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
         
-        log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE,
-    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-    			"idDoc", requestBody.getIdDoc()
-    			);
+        log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc() );
         
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }

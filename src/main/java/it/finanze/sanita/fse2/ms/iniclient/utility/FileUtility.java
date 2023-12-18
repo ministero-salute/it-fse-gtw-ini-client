@@ -11,7 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility;
 
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +22,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+
 /**
  * The Class FileUtils.
  *
@@ -28,6 +31,7 @@ import java.nio.file.Paths;
  * Utility to manager file.
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FileUtility {
  
 	/**
@@ -35,34 +39,46 @@ public final class FileUtility {
 	 */
 	private static final int CHUNK_SIZE = 16384;
 
+	
 	/**
-	 * Constructor.
+	 * Metodo per il recupero del contenuto di un file dalla folder interna "/src/main/resources".
+	 *
+	 * @param filename	nome del file
+	 * @return			contenuto del file
 	 */
-	private FileUtility() {
+	public static byte[] getFileFromInternalResources(final String filename) {
+		byte[] b = null;
+		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
+			b = getByteFromInputStream(is);
+		} catch (Exception e) {
+			log.error("FILE UTILS getFileFromInternalResources(): Errore in fase di recupero del contenuto di un file dalla folder '/src/main/resources'. ", e);
+		}
+		return b;
 	}
 
-	public static ByteArrayInputStream getFileFromGenericResource(final String path) {
-		InputStream is = null;
-		try {
-			if (path.contains("classpath:")) {
-				String sanitizedPath = path.replace("classpath:", "");
-				is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sanitizedPath);
-			} else {
-				is = Files.newInputStream(Paths.get(path));
-			}
-			return new ByteArrayInputStream(FileUtility.getByteFromInputStream(is));
-		} catch (Exception e) {
-			throw new BusinessException("Errore in fase di recupero contenuto del file:" + e.getMessage());
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-					log.error("Error: {}", e.getMessage());
-				}
-			}
-		}
-	}
+
+//	public static ByteArrayInputStream getFileFromGenericResource(final String path) {
+//		InputStream is = null;
+//		try {
+//			if (path.contains("classpath:")) {
+//				String sanitizedPath = path.replace("classpath:", "");
+//				is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sanitizedPath);
+//			} else {
+//				is = Files.newInputStream(Paths.get(path));
+//			}
+//			return new ByteArrayInputStream(FileUtility.getByteFromInputStream(is));
+//		} catch (Exception e) {
+//			throw new BusinessException("Errore in fase di recupero contenuto del file:" + e.getMessage());
+//		} finally {
+//			if (is != null) {
+//				try {
+//					is.close();
+//				} catch (IOException e) {
+//					log.error("Error: {}", e.getMessage());
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * Recupero contenuto file da input stream.

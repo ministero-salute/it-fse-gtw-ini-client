@@ -14,9 +14,7 @@ import java.net.URL;
  * 
  */
 @WebServiceClient(name = "DocumentRegistry_Service", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "classpath:wsdl/XDS.b_DocumentRegistry.wsdl")
-public class DocumentRegistryService
-    extends Service
-{
+public class DocumentRegistryService extends Service {
 
     private final static URL DOCUMENTREGISTRYSERVICE_WSDL_LOCATION;
     private final static WebServiceException DOCUMENTREGISTRYSERVICE_EXCEPTION;

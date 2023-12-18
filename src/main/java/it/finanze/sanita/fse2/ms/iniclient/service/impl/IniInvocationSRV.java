@@ -39,8 +39,8 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRepo;
@@ -75,17 +75,17 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	@Autowired
 	private SamlHeaderBuilderUtility samlHeaderBuilderUtility;
 
-	
+	 
 	@Override
 	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation) {
 		final Date startingDate = new Date();
 
 		IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
 		if(iniInvocationETY==null) {
-			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,"Record non trovato", ProcessorOperationEnum.PUBLISH.getOperation(), 
-					startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), 
+			String message = String.format("Record con wii %s per l'operazione di %s non trovato", workflowInstanceId, operation);
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,message, operation.getOperation(), startingDate, operation.getErrorType(), 
 					null,null, new JWTPayloadDTO());
-			throw new NotFoundException("Record non trovato");
+			throw new NotFoundException(message);
 		}
 
 		IniResponseDTO out = null;
@@ -110,7 +110,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry());
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
-		try { 
+		try {
 			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO);
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder errorMsg = new StringBuilder();
@@ -291,7 +291,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 				if (error.getCodeContext().equals("No results from the query")) {
-					throw new NoRecordFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
+					throw new NotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
 				} else {
 					sb.append(error.getCodeContext());
 				}
@@ -318,7 +318,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(updateRequestDTO.getToken()), ActionEnumType.READ_REFERENCE);
 		AdhocQueryResponse oldMetadata = iniClient.getReferenceUUID(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
 		if(oldMetadata==null) {
-			throw new NoRecordFoundException("Nessun metadato trovato");
+			throw new IdDocumentNotFoundException("Nessun metadato trovato");
 		}
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();

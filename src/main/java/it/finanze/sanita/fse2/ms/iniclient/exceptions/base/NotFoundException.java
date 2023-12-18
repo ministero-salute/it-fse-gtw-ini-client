@@ -9,44 +9,21 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fse2.ms.iniclient.exceptions;
+package it.finanze.sanita.fse2.ms.iniclient.exceptions.base;
 
-/**
- * Generic business exception.
- */
-public class BusinessException extends RuntimeException {
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4420700371354323215L;
+@Getter
+@AllArgsConstructor
+public class NotFoundException extends RuntimeException {
 
-	/**
-	 * Message constructor.
-	 * 
-	 * @param msg	Message to be shown.
+    /**
+	 * Serial version uid.
 	 */
-	public BusinessException(final String msg) {
-		super(msg);
-	}
+	private static final long serialVersionUID = -5129068145500002117L;
 	
-	/**
-	 * Complete constructor.
-	 * 
-	 * @param msg	Message to be shown.
-	 * @param e		Exception to be shown.
-	 */
-	public BusinessException(final String msg, final Exception e) {
-		super(msg, e);
-	}
-	
-	/**
-	 * Exception constructor.
-	 * 
-	 * @param e	Exception to be shown.
-	 */
-	public BusinessException(final Exception e) {
-		super(e);
-	}
-	
+	private final transient ErrorDTO error;
+
 }
