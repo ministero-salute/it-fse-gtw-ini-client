@@ -51,7 +51,7 @@ public class ConfigSRV implements IConfigSRV {
 	public Boolean isRemoveMetadataEnable() {
 		long lastUpdate = props.get(PROPS_NAME_REMOVE_METADATA_ENABLE).getKey();
 		if (new Date().getTime() - lastUpdate >= DELTA_MS) {
-			synchronized(ConfigSRV.class) {
+			synchronized(Locks.REMOVE_METADATA_ENABLE) {
 				if (new Date().getTime() - lastUpdate >= DELTA_MS) {
 					refresh(PROPS_NAME_REMOVE_METADATA_ENABLE);
 				}
@@ -66,7 +66,7 @@ public class ConfigSRV implements IConfigSRV {
 	public Boolean isSubjectNotAllowed() {
 		long lastUpdate = props.get(PROPS_NAME_SUBJECT).getKey();
 		if (new Date().getTime() - lastUpdate >= DELTA_MS) {
-			synchronized (PROPS_NAME_SUBJECT) {
+			synchronized (Locks.SUBJECT_CLEANING) {
 				if (new Date().getTime() - lastUpdate >= DELTA_MS) {
 					refresh(PROPS_NAME_SUBJECT);
 				}
@@ -81,7 +81,7 @@ public class ConfigSRV implements IConfigSRV {
 	public Boolean isCfOnIssuerNotAllowed() {
 		long lastUpdate = props.get(PROPS_NAME_ISSUER_CF).getKey();
 		if (new Date().getTime() - lastUpdate >= DELTA_MS) {
-			synchronized(PROPS_NAME_ISSUER_CF) {
+			synchronized(Locks.ISSUER_CF_CLEANING) {
 				if (new Date().getTime() - lastUpdate >= DELTA_MS) {
 					refresh(PROPS_NAME_ISSUER_CF);
 				}
@@ -96,7 +96,7 @@ public class ConfigSRV implements IConfigSRV {
 	public Boolean isControlLogPersistenceEnable() {
 		long lastUpdate = props.get(PROPS_NAME_CONTROL_LOG_ENABLED).getKey();
 		if (new Date().getTime() - lastUpdate >= DELTA_MS) {
-			synchronized(PROPS_NAME_CONTROL_LOG_ENABLED) {
+			synchronized(Locks.CONTROL_LOG_ENABLED) {
 				if (new Date().getTime() - lastUpdate >= DELTA_MS) {
 					refresh(PROPS_NAME_CONTROL_LOG_ENABLED);
 				}
@@ -109,7 +109,7 @@ public class ConfigSRV implements IConfigSRV {
 	public Boolean isKpiLogPersistenceEnable() {
 		long lastUpdate = props.get(PROPS_NAME_KPI_LOG_ENABLED).getKey();
 		if (new Date().getTime() - lastUpdate >= DELTA_MS) {
-			synchronized(PROPS_NAME_KPI_LOG_ENABLED) {
+			synchronized(Locks.KPI_LOG_ENABLED) {
 				if (new Date().getTime() - lastUpdate >= DELTA_MS) {
 					refresh(PROPS_NAME_KPI_LOG_ENABLED);
 				}
@@ -152,6 +152,14 @@ public class ConfigSRV implements IConfigSRV {
 			if(opts.isEmpty()) log.info("[GTW-CFG] No props were found");
 		}
 		integrity();
+	}
+
+	private static final class Locks {
+		public static final Object REMOVE_METADATA_ENABLE = new Object();
+		public static final Object CONTROL_LOG_ENABLED = new Object();
+		public static final Object KPI_LOG_ENABLED = new Object();
+		public static final Object ISSUER_CF_CLEANING = new Object();
+		public static final Object SUBJECT_CLEANING = new Object();
 	}
 
 }
