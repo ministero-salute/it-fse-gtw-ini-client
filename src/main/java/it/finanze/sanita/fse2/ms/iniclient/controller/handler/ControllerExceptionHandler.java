@@ -11,10 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,17 +20,18 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import brave.Tracer;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.NoRecordFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
-import lombok.extern.slf4j.Slf4j;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 
 /**
  *	Exceptions Handler.
  */
 @ControllerAdvice
-@Slf4j
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	/**
@@ -49,19 +48,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @param request	request
 	 * @return			
 	 */
-	@ExceptionHandler(value = {NoRecordFoundException.class})
-	protected ResponseEntity<ErrorResponseDTO> handleRecordNotFoundException(NoRecordFoundException ex, final WebRequest request) {
-		log.error("" , ex);  
-		Integer status = 404;
+	@ExceptionHandler(value = {NotFoundException.class, IdDocumentNotFoundException.class})
+	protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final NotFoundException ex, final WebRequest request) {
 
-		String detail = ExceptionUtils.getMessage(ex);
-		
-		ErrorResponseDTO out = new ErrorResponseDTO(getLogTraceInfo(), "/msg/record-not-found", "Record not found", detail , status, "");
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
-
-		return new ResponseEntity<>(out, headers, status);
+		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 	
 
@@ -72,17 +65,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @param request	request
 	 * @return			
 	 */
-	@ExceptionHandler(value = {Exception.class})
+	@ExceptionHandler(value = {Exception.class, BusinessException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
-		Integer status = 500;
 
-		String msg = StringUtility.isNullOrEmpty(ex.getMessage()) ? "Errore generico" : ex.getMessage();
-		ErrorResponseDTO out = new ErrorResponseDTO(getLogTraceInfo(), "/msg/generic-error", "Generic error", msg , status, "");
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
+		ErrorDTO error = new ErrorDTO(ErrorClassEnum.GENERIC.getType(), ErrorClassEnum.GENERIC.getTitle(), ex.getMessage(), "error/generic");
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
-		return new ResponseEntity<>(out, headers, status);
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
  
 

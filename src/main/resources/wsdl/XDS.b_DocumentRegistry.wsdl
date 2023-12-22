@@ -170,7 +170,7 @@
 	</binding>
 	<service name="DocumentRegistry_Service">
 		<port name="DocumentRegistry_Port_Soap12" binding="ihe:DocumentRegistry_Binding_Soap12">
-			<soap12:address location="https://fseservicetest.sanita.finanze.it/FSEInteroperabilitaWeb/DocumentRegistry_Service"/>
+			<soap12:address location="pippo"/>
 		</port>
 	</service>
 </definitions>

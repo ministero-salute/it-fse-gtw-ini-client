@@ -11,31 +11,35 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.config;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Constants application.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 
 
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class OIDS {
 
 		public static final String OID_MEF = "2.16.840.1.113883.2.9.4.3.2";
 
-		private OIDS() {
-			// This method is intentionally left blank.
-		}
 	}
 
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class Collections {
 
 		public static final String INI_EDS_INVOCATION = "ini_eds_invocation";
 
-		private Collections() {
-
-		}
 	}
 
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class Profile {
+		/**
+		 * Test profile.
+		 */
 		public static final String TEST = "test";
 		public static final String TEST_PREFIX = "test_";
 
@@ -49,15 +53,10 @@ public final class Constants {
 		 */
 		public static final String DOCKER = "docker";
 
-		/**
-		 * Constructor.
-		 */
-		private Profile() {
-			// This method is intentionally left blank.
-		}
 
 	}
 
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class IniClientConstants {
 		public static final String SEVERITY_HEAD_ERROR_MESSAGE = " SEVERITY : ";
 		public static final String DEFAULT_HEAD_ERROR_MESSAGE = "Error while send data to ini: ";
@@ -97,24 +96,21 @@ public final class Constants {
 
 		public static final String JWT_MISSING_ROLE_PLACEHOLDER = "UNDEFINED_JWT_ROLE";
 		public static final String ERR_TOKEN_INTEGRITY = "Request token is not allowed to perform the operation";
+		public static final String SUBJECT_AUTHENTICATOR = "GTW_950";
+		public static final String LANGUAGE_CODE = "it-IT";
+		public static final String DOCUMENT_SIGNED = "true^Documento firmato";
 
-		private IniClientConstants() {
-		}
 	}
 
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class AppConstants {
-		private AppConstants() {}
 		public static final String MOCKED_GATEWAY_NAME = "mocked-gateway";
 		
 		public static final String LOG_TYPE_KPI = "kpi-structured-log";
 		public static final String LOG_TYPE_CONTROL = "control-structured-log";
 	}
 
-	/**
-	 * Constants.
-	 */
-	private Constants() {}
-
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class Logs {
 		public static final String END_LOG = "[EXIT] {}() with arguments {}={}, {}={}";
 		public static final Object DELETE = "delete";
@@ -126,7 +122,6 @@ public final class Constants {
         public static final Object CREATE = "create";
 		public static final Object REPLACE = "replace";
 
-		private Logs() {}
 		public static final String START_LOG = "[START] {}() with arguments {}={}, {}={}";
 	}
 }

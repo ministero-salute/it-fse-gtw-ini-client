@@ -28,7 +28,6 @@ public class DocumentEntryDTO {
     private long size;
     private String administrativeRequest;
     private String status;
-    private String languageCode;
     private String patientId;
     private String confidentialityCode;
     private String confidentialityCodeDisplayName;
@@ -41,7 +40,6 @@ public class DocumentEntryDTO {
     private String author;
 	private String authorRole;
 	private String authorInstitution;
-	private String firma;
     private String representedOrganizationName;
     private String representedOrganizationCode;
     private String uniqueId;

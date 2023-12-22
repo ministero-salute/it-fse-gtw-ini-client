@@ -25,25 +25,20 @@ import org.springframework.stereotype.Repository;
 import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_METADATA;
 import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_WIF;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
 
 @Repository
-@Slf4j
 public class IniInvocationRepo implements IIniInvocationRepo {
 
 	@Autowired
 	private MongoTemplate mongo;
 
 	@Override
-	public IniEdsInvocationETY findByWorkflowInstanceId(final String wif) {
-		IniEdsInvocationETY out;
-		Query query = new Query(where(FIELD_WIF).is(wif));
-		try {
-			out = mongo.findOne(query, IniEdsInvocationETY.class);
-		} catch(Exception ex) {
-			log.error("Error while running find by workflow instance id query : " , ex);
-			throw new BusinessException("Error while running find by workflow instance id query : " , ex);
-		}
-		return out;
+	public IniEdsInvocationETY findByWorkflowInstanceId(final String workflowInstanceId) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
+		return mongoTemplate.findOne(query, IniEdsInvocationETY.class);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -53,6 +53,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -206,15 +207,9 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private Issuer buildIssuer(final String issuerValue) {
-		Issuer issuer = null;
-		try {
-			IssuerBuilder issuerBuilder = new IssuerBuilder();
-			issuer = issuerBuilder.buildObject();
-			issuer.setValue(issuerValue);
-		} catch (Exception ex) {
-			log.error("Error while perform build issuer :" + ex.getMessage());
-			throw new BusinessException(ex);
-		}
+		IssuerBuilder issuerBuilder = new IssuerBuilder();
+		Issuer issuer = issuerBuilder.buildObject();
+		issuer.setValue(issuerValue);
 		return issuer;
 	}
 
@@ -223,29 +218,21 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private Signature buildSignature() {
-		Signature signature = null;
-		try {
-			SignatureBuilder builder = new SignatureBuilder();
-			signature = builder.buildObject();
-			BasicX509Credential signingCredential = getSigningCredential();
-			signature.setSigningCredential(signingCredential);
-			signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256);
-			signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
-			signature.setKeyInfo(buildKeyInfo(signingCredential));
-		} catch (Exception ex) {
-			log.error("Error while perform build signature : " + ex.getMessage());
-			throw new BusinessException("Error while perform build signature : " + ex.getMessage());
-		}
-
+		SignatureBuilder builder = new SignatureBuilder();
+		Signature signature = builder.buildObject();
+		BasicX509Credential signingCredential = getSigningCredential();
+		signature.setSigningCredential(signingCredential);
+		signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256);
+		signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
+		signature.setKeyInfo(buildKeyInfo(signingCredential));
 		return signature;
-
 	}
 
 	public BasicX509Credential getSigningCredential() {
 		BasicX509Credential credential = null;
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-			try (InputStream authInStreamCrt = FileUtility.getFileFromGenericResource(iniCFG.getKeyStoreLocation())) {
+			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
 				keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
 			}
 			Enumeration<String> en = keyStore.aliases();
@@ -336,16 +323,10 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private AuthnStatement buildAuthnStatement() {
-		AuthnStatement authnStatement = null;
-		try {
-			AuthnStatementBuilder authnStatementBuilder = new AuthnStatementBuilder();
-			authnStatement = authnStatementBuilder.buildObject();
-			authnStatement.setAuthnInstant(new DateTime());
-			authnStatement.setAuthnContext(buildAuthnContext());
-		} catch (Exception ex) {
-			log.error("Error while perform auth statement : " + ex.getMessage());
-			throw new BusinessException("Error while perform auth statement : " + ex.getMessage());
-		}
+		AuthnStatementBuilder authnStatementBuilder = new AuthnStatementBuilder();
+		AuthnStatement authnStatement = authnStatementBuilder.buildObject();
+		authnStatement.setAuthnInstant(new DateTime());
+		authnStatement.setAuthnContext(buildAuthnContext());
 		return authnStatement;
 	}
 
@@ -354,15 +335,9 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private AuthnContext buildAuthnContext() {
-		AuthnContext authnContext = null;
-		try {
-			AuthnContextBuilder authnContextBuilder = new AuthnContextBuilder();
-			authnContext = authnContextBuilder.buildObject();
-			authnContext.setAuthnContextClassRef(buildAuthnContextClassRef());
-		} catch (Exception ex) {
-			log.error("Error while perform authn context :" + ex.getMessage());
-			throw new BusinessException("Error while perform authn context :" + ex.getMessage());
-		}
+		AuthnContextBuilder authnContextBuilder = new AuthnContextBuilder();
+		AuthnContext authnContext = authnContextBuilder.buildObject();
+		authnContext.setAuthnContextClassRef(buildAuthnContextClassRef());
 		return authnContext;
 	}
 
@@ -371,15 +346,9 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private AuthnContextClassRef buildAuthnContextClassRef() {
-		AuthnContextClassRef authnContextClassRef = null;
-		try {
-			AuthnContextClassRefBuilder authnContextClassRefBuilder = new AuthnContextClassRefBuilder();
-			authnContextClassRef = authnContextClassRefBuilder.buildObject();
-			authnContextClassRef.setAuthnContextClassRef(Constants.IniClientConstants.HEADER_AUTH_CONTEXT);
-		} catch (Exception ex) {
-			log.error("Error while perform authn context class ref : " + ex.getMessage());
-			throw new BusinessException("Error while perform authn context class ref : " + ex.getMessage());
-		}
+		AuthnContextClassRefBuilder authnContextClassRefBuilder = new AuthnContextClassRefBuilder();
+		AuthnContextClassRef authnContextClassRef = authnContextClassRefBuilder.buildObject();
+		authnContextClassRef.setAuthnContextClassRef(Constants.IniClientConstants.HEADER_AUTH_CONTEXT);
 		return authnContextClassRef;
 	}
 
@@ -389,15 +358,9 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private AttributeStatement buildAttributeStatement(final JWTTokenDTO tokenDTO, ActionEnumType actionType) {
-		AttributeStatement attrStatement = null;
-		try {
-			AttributeStatementBuilder attStaBuilder = new AttributeStatementBuilder();
-			attrStatement = attStaBuilder.buildObject();
-			attrStatement.getAttributes().addAll(buildAttributes(tokenDTO, actionType));
-		} catch(Exception ex) {
-			log.error("Error while perform build attribute statement : "  + ex.getMessage());
-			throw new BusinessException("Error while perform build attribute statement : "  + ex.getMessage());
-		}
+		AttributeStatementBuilder attStaBuilder = new AttributeStatementBuilder();
+		AttributeStatement attrStatement = attStaBuilder.buildObject();
+		attrStatement.getAttributes().addAll(buildAttributes(tokenDTO, actionType));
 		return attrStatement;
 	}
 
@@ -429,9 +392,10 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id())); //  payloadTokenJwt.getPerson_id()));//+ Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID)); "SCCFRZ76B13H501E^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));//
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));
-			out.add(buildAttribute("SubjectApplicationId", payloadTokenJwt.getSubject_application_id(),Constants.IniClientConstants.HEADER_NAME_FORMAT)); 
-			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
-			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version(),Constants.IniClientConstants.HEADER_NAME_FORMAT));			
+			out.add(buildAttribute("SubjectApplicationId", payloadTokenJwt.getSubject_application_id())); 
+			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor()));
+			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version()));
+			out.add(buildAttribute("SubjectAuthenticator", Constants.IniClientConstants.SUBJECT_AUTHENTICATOR));
 
 		} catch(Exception ex) {
 			log.error("Error while perform build attributes : "  + ex.getMessage());
@@ -447,31 +411,14 @@ public class SamlHeaderBuilderUtility {
 	 * @return
 	 */
 	private Attribute buildAttribute(String name, String value) {
-		return buildAttribute(name, value,Constants.IniClientConstants.HEADER_ATTRNAME_URI);
-	}
-	
-	/**
-	 * Build attribute object from given input
-	 * @param name
-	 * @param value
-	 * @param nameFormat
-	 * @return
-	 */
-	private Attribute buildAttribute(String name, String value,String nameFormat) {
-		Attribute attribute = null;
-		try {
-			XSStringBuilder stringBuilder = new XSStringBuilder();
-			AttributeBuilder attributeBuild = new AttributeBuilder();
-			attribute = attributeBuild.buildObject();
-			attribute.setName(name);
-			attribute.setNameFormat(nameFormat);
-			XSString stringValue = stringBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME);
-			stringValue.setValue(value);
-			attribute.getAttributeValues().add(stringValue);
-		} catch (Exception ex) {
-			log.error("Error while perform build attribute : " + ex.getMessage());
-			throw new BusinessException("Error while perform build attribute : " + ex.getMessage());
-		}
+		XSStringBuilder stringBuilder = new XSStringBuilder();
+		AttributeBuilder attributeBuild = new AttributeBuilder();
+		Attribute attribute = attributeBuild.buildObject();
+		attribute.setName(name);
+		attribute.setNameFormat(Constants.IniClientConstants.HEADER_ATTRNAME_URI);
+		XSString stringValue = stringBuilder.buildObject(AttributeValue.DEFAULT_ELEMENT_NAME, XSString.TYPE_NAME);
+		stringValue.setValue(value);
+		attribute.getAttributeValues().add(stringValue);
 		return attribute;
 	}
 

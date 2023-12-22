@@ -19,18 +19,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class IniCFG {
 
-	@Value("${ini.client.publish-wsdl}")
-	private String wsdlPublishLocation;
+	@Value("${ini.client.document-registry-service}")
+	private String urlWsdlDocumentRegistryService;
 
-	@Value("${ini.client.delete-wsdl}")
-	private String wsdlDeleteLocation;
+	@Value("${ini.client.delete-service}")
+	private String urlWsdlDeletetService;
 
-	@Value("${ini.client.update-wsdl}")
-	private String wsdlUpdateLocation;
-
-	@Value("${ini.client.get-wsdl}")
-	private String wsdlGetLocation;
-	
 	@Value("${ini.client.enable-log}")
 	private boolean enableLog;
 

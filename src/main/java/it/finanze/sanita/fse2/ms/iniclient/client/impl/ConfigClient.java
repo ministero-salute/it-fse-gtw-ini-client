@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.WhoIsResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.extern.slf4j.Slf4j;
 

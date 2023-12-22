@@ -12,7 +12,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -66,7 +68,7 @@ public class SecuritySRV implements ISecuritySRV {
 
     private KeyStore loadKeyStore() throws KeyStoreException {
         KeyStore keyStore = KeyStore.getInstance(PKCS12_STRING);
-        try (InputStream authInStreamCrt = FileUtility.getFileFromGenericResource(iniCFG.getKeyStoreLocation())) {
+        try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
             keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
         } catch (Exception e) {
             log.error("Exception in loadKeyStore: " + e.getMessage());
@@ -89,7 +91,7 @@ public class SecuritySRV implements ISecuritySRV {
 
     private X509Certificate loadAuthCertificate(String path) throws KeyStoreException {
         KeyStore keystore = KeyStore.getInstance(PKCS12_STRING);
-        try (InputStream inputStream = FileUtility.getFileFromGenericResource(path)) {
+        try (InputStream inputStream = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(path))) {
             keystore.load(inputStream, iniCFG.getTrustStorePassword().toCharArray());
             Enumeration<String> en = keystore.aliases();
             String keyAlias = "";
