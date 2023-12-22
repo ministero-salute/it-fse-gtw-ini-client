@@ -11,24 +11,26 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl;
 
-import com.mongodb.client.result.UpdateResult;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
-import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
-import lombok.extern.slf4j.Slf4j;
+import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_METADATA;
+import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_WIF;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_METADATA;
-import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_WIF;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
+import com.mongodb.client.result.UpdateResult;
+
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
+@Slf4j
 public class IniInvocationRepo implements IIniInvocationRepo {
 
 	@Autowired
@@ -38,7 +40,7 @@ public class IniInvocationRepo implements IIniInvocationRepo {
 	public IniEdsInvocationETY findByWorkflowInstanceId(final String workflowInstanceId) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
-		return mongoTemplate.findOne(query, IniEdsInvocationETY.class);
+		return mongo.findOne(query, IniEdsInvocationETY.class);
 	}
 
 	@Override
