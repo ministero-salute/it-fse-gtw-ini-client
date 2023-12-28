@@ -24,6 +24,7 @@ import javax.xml.bind.JAXBElement;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -52,6 +53,7 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @return
 	 */
 	public static SubmitObjectsRequest buildSubmitObjectRequest(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
+		if (documentEntryDTO == null) throw new BusinessException("DocumentEntryDTO is null");
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
 		RegistryObjectListType registryObjectListType = buildRegistryObjectList(documentEntryDTO, submissionSetEntryDTO, jwtPayloadDTO, uuid);
 		submitObjectsRequest.setRegistryObjectList(registryObjectListType);

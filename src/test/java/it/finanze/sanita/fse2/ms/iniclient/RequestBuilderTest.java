@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 import javax.xml.bind.JAXBException;
 
+import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuilderUtility;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -116,9 +118,10 @@ class RequestBuilderTest {
     void createBodyBuilderGenericExceptionTest() {
         IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
         DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
-        PublishReplaceBodyBuilderUtility.setObjectFactory(Mockito.mock(ObjectFactory.class));
-        ObjectFactory objectFactory = PublishReplaceBodyBuilderUtility.getObjectFactory();
+        SubmissionSetEntryBuilderUtility.setObjectFactory(Mockito.mock(ObjectFactory.class));
+        ObjectFactory objectFactory = SubmissionSetEntryBuilderUtility.getObjectFactory();
         when(objectFactory.createRegistryPackage(any(RegistryPackageType.class))).thenThrow(new BusinessException("Error creating object"));
+        when(objectFactory.createSlot(any(SlotType1.class))).thenThrow(new BusinessException("Error creating object"));
         assertThrows(BusinessException.class, () -> PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),

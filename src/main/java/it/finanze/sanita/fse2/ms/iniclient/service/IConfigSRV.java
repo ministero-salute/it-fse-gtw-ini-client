@@ -11,4 +11,6 @@ public interface IConfigSRV {
     Boolean isControlLogPersistenceEnable();
     
     Boolean isKpiLogPersistenceEnable();
+
+    long getRefreshRate();
 }
