@@ -11,26 +11,37 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
-import com.sun.xml.ws.api.message.Header;
-import com.sun.xml.ws.api.message.Headers;
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
-import lombok.extern.slf4j.Slf4j;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ws.security.util.Base64;
 import org.bson.Document;
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.SAMLVersion;
-import org.opensaml.saml2.core.*;
-import org.opensaml.saml2.core.impl.*;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.Attribute;
+import org.opensaml.saml2.core.AttributeStatement;
+import org.opensaml.saml2.core.AttributeValue;
+import org.opensaml.saml2.core.AuthnContext;
+import org.opensaml.saml2.core.AuthnContextClassRef;
+import org.opensaml.saml2.core.AuthnStatement;
+import org.opensaml.saml2.core.Conditions;
+import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.NameID;
+import org.opensaml.saml2.core.Subject;
+import org.opensaml.saml2.core.impl.AssertionBuilder;
+import org.opensaml.saml2.core.impl.AttributeBuilder;
+import org.opensaml.saml2.core.impl.AttributeStatementBuilder;
+import org.opensaml.saml2.core.impl.AuthnContextBuilder;
+import org.opensaml.saml2.core.impl.AuthnContextClassRefBuilder;
+import org.opensaml.saml2.core.impl.AuthnStatementBuilder;
+import org.opensaml.saml2.core.impl.ConditionsBuilder;
+import org.opensaml.saml2.core.impl.IssuerBuilder;
+import org.opensaml.saml2.core.impl.NameIDBuilder;
+import org.opensaml.saml2.core.impl.SubjectBuilder;
 import org.opensaml.ws.wsaddressing.Action;
 import org.opensaml.ws.wsaddressing.MessageID;
 import org.opensaml.ws.wsaddressing.impl.ActionBuilder;
@@ -43,7 +54,12 @@ import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.schema.XSString;
 import org.opensaml.xml.schema.impl.XSStringBuilder;
 import org.opensaml.xml.security.x509.BasicX509Credential;
-import org.opensaml.xml.signature.*;
+import org.opensaml.xml.signature.KeyInfo;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xml.signature.Signer;
+import org.opensaml.xml.signature.X509Certificate;
+import org.opensaml.xml.signature.X509Data;
 import org.opensaml.xml.signature.impl.KeyInfoBuilder;
 import org.opensaml.xml.signature.impl.SignatureBuilder;
 import org.opensaml.xml.signature.impl.X509CertificateBuilder;
@@ -53,15 +69,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.cert.Certificate;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import com.sun.xml.ws.api.message.Header;
+import com.sun.xml.ws.api.message.Headers;
+
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.singleton.SigningCredentialSingleton;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
@@ -220,41 +240,12 @@ public class SamlHeaderBuilderUtility {
 	private Signature buildSignature() {
 		SignatureBuilder builder = new SignatureBuilder();
 		Signature signature = builder.buildObject();
-		BasicX509Credential signingCredential = getSigningCredential();
+		BasicX509Credential signingCredential =  SigningCredentialSingleton.getInstance(iniCFG);
 		signature.setSigningCredential(signingCredential);
 		signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256);
 		signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
 		signature.setKeyInfo(buildKeyInfo(signingCredential));
 		return signature;
-	}
-
-	public BasicX509Credential getSigningCredential() {
-		BasicX509Credential credential = null;
-		try {
-			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
-				keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
-			}
-			Enumeration<String> en = keyStore.aliases();
-			String keyAlias = "";
-			while (en.hasMoreElements()) {
-				keyAlias = en.nextElement();
-				if (en.hasMoreElements() && iniCFG.getKeyStoreAlias() != null && !iniCFG.getKeyStoreAlias().isEmpty()) {
-					keyAlias = iniCFG.getKeyStoreAlias();
-					break;
-				}
-			}
-			Certificate c = keyStore.getCertificate(keyAlias);
-			PrivateKey key = (PrivateKey)keyStore.getKey(keyAlias, iniCFG.getKeyStorePassword().toCharArray());
-
-			credential = new BasicX509Credential();
-			credential.setEntityCertificate((java.security.cert.X509Certificate) c);
-			credential.setPrivateKey(key);
-		} catch (Exception ex) {
-			log.error("Error while perform get signing credential : " + ex.getMessage());
-			throw new BusinessException("Error while perform get signing credential : " + ex.getMessage());
-		}
-		return credential;
 	}
 
 	private KeyInfo buildKeyInfo(BasicX509Credential signingCredential) {
