@@ -11,100 +11,68 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
-import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Enumeration;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class SecuritySRV implements ISecuritySRV {
 
-    public static final String PKCS12_STRING = "PKCS12";
+	public static final String PKCS12_STRING = "PKCS12";
 
-    @Autowired
-    private IniCFG iniCFG;
+	@Autowired
+	private IniCFG iniCFG;
 
-    @Override
-    public SSLContext createSslCustomContext() throws NoSuchAlgorithmException {
-        SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+	@Override
+	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+	 
+		KeyStore keystore = KeyStore.getInstance("JKS");
+		keystore.load(new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getTrustStoreLocation())), iniCFG.getTrustStorePassword().toCharArray());
 
-        try {
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+		KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+		keyManagerFactory.init(keystore, iniCFG.getTrustStorePassword().toCharArray());
 
-            // Client keyStore
-            KeyStore keyStore = this.loadKeyStore();
-            keyManagerFactory.init(keyStore, iniCFG.getKeyStorePassword().toCharArray());
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+		sslContext.init(keyManagerFactory.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());
+		return sslContext;
 
-            // Client trustStore -> trust cert server
-            KeyStore trustStore = this.loadTrustStore();
-            trustManagerFactory.init(trustStore);
+	}
 
-            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
-        } catch (Exception e) {
-            log.error("Failed to create SSLContext:" + e.getMessage());
-            throw new BusinessException("Failed to create SSLContext:" + e.getMessage());
-        }
-        return sslContext;
-    }
+	private static TrustManager[] trustAllCerts = new TrustManager[]{
+			new X509TrustManager() {
+				public X509Certificate[] getAcceptedIssuers() {
+					return new X509Certificate[0];
+				}
 
-    private KeyStore loadKeyStore() throws KeyStoreException {
-        KeyStore keyStore = KeyStore.getInstance(PKCS12_STRING);
-        try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
-            keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
-        } catch (Exception e) {
-            log.error("Exception in loadKeyStore: " + e.getMessage());
-        }
-        return keyStore;
-    }
+				public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+					log.info("Check client trusted:" + authType);
+				}
 
-    private KeyStore loadTrustStore() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException {
-        KeyStore trustStore = KeyStore.getInstance(PKCS12_STRING);
-        trustStore.load(null, null);
-        try  {
-            X509Certificate authCert = this.loadAuthCertificate(iniCFG.getTrustStoreLocation());
-            trustStore.setCertificateEntry("sogei", authCert);
-        } catch (Exception e) {
-            log.error("Failed to load trust store:" + e.getMessage());
-            throw new BusinessException("Failed to load trust store:" + e.getMessage());
-        }
-        return trustStore;
-    }
+				public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+					log.info("Check server trusted:" + authType);
+				}
+			}
+	};
 
-    private X509Certificate loadAuthCertificate(String path) throws KeyStoreException {
-        KeyStore keystore = KeyStore.getInstance(PKCS12_STRING);
-        try (InputStream inputStream = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(path))) {
-            keystore.load(inputStream, iniCFG.getTrustStorePassword().toCharArray());
-            Enumeration<String> en = keystore.aliases();
-            String keyAlias = "";
-            while (en.hasMoreElements()) {
-                keyAlias = en.nextElement();
-                if (en.hasMoreElements() && iniCFG.getTrustStoreAlias() != null && !iniCFG.getTrustStoreAlias().isEmpty()) {
-                    keyAlias = iniCFG.getTrustStoreAlias();
-                    break;
-                }
-            }
-            return (X509Certificate) keystore.getCertificate(keyAlias);
-        } catch (Exception e) {
-            throw new BusinessException("Error on load auth certificate:" + e.getMessage());
-        }
-    }
+  
 }
