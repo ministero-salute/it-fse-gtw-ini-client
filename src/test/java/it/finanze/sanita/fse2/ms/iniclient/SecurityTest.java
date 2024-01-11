@@ -47,9 +47,14 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.xml.bind.JAXBException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -72,7 +77,7 @@ class SecurityTest {
 
     @Test
     @DisplayName("SSLContext - success test")
-    void sslContextSuccessTest() throws NoSuchAlgorithmException {
+    void sslContextSuccessTest() throws NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException, KeyStoreException, FileNotFoundException, CertificateException, IOException {
         SSLContext sslContext = securitySRV.createSslCustomContext();
         assertNotNull(sslContext);
         assertNotNull(sslContext.getSocketFactory());

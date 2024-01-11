@@ -11,9 +11,16 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service;
 
-import javax.net.ssl.SSLContext;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLContext;
 
 public interface ISecuritySRV {
-    SSLContext createSslCustomContext() throws NoSuchAlgorithmException;
+	SSLContext createSslCustomContext() throws KeyStoreException, FileNotFoundException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, KeyManagementException;
 }

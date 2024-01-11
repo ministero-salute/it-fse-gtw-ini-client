@@ -34,7 +34,13 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import javax.net.ssl.SSLContext;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +52,7 @@ class IniClientErrorTest extends AbstractTest {
     private ISecuritySRV securitySRV;
 
     @BeforeEach
-    void init() throws NoSuchAlgorithmException {
+    void init() throws NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException, KeyStoreException, FileNotFoundException, CertificateException, IOException {
         Mockito.when(securitySRV.createSslCustomContext()).thenReturn(Mockito.mock(SSLContext.class));
     }
 
