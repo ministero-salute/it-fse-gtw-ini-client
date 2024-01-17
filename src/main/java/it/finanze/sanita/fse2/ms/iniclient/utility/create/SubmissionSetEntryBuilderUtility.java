@@ -62,7 +62,7 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 
 		// Build external identifiers
 		JAXBElement<ExternalIdentifierType> externalIdentifierObject1 = buildExternalIdentifierObjectJax(
-			objectFactory,"XDSSubmissionSet.sourceId","SubmissionSet01_SourceId",
+			"XDSSubmissionSet.sourceId","SubmissionSet01_SourceId",
 			"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
 			Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
 			Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
@@ -70,7 +70,7 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 		out.add(externalIdentifierObject1.getValue());
 
 		JAXBElement<ExternalIdentifierType> externalIdentifierObject2 = buildExternalIdentifierObjectJax(
-			objectFactory,"XDSSubmissionSet.uniqueId",
+			"XDSSubmissionSet.uniqueId",
 			"SubmissionSet01_UniqueId",
 			"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
 			Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
@@ -80,7 +80,7 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 		
 		 
 		JAXBElement<ExternalIdentifierType> externalPatientIdentifierObject = buildExternalIdentifierObjectJax(
-				objectFactory,"XDSSubmissionSet.patientId",
+				"XDSSubmissionSet.patientId",
 				"SubmissionSet01_PatientId",
 				"urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
 				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,

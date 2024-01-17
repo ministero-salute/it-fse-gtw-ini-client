@@ -220,7 +220,6 @@ public class SamlBodyBuilderCommonUtility {
 	 * @return
 	 */
 	public static JAXBElement<ExternalIdentifierType> buildExternalIdentifierObjectJax(
-			ObjectFactory objectFactory,
 			String name,
 			String id,
 			String identificationScheme,

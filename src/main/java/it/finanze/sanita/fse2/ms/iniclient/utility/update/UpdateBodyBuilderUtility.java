@@ -229,7 +229,6 @@ public final class UpdateBodyBuilderUtility {
 			
 			// 3. merge uniqueId
 			JAXBElement<ExternalIdentifierType> externalIdentifierObjectUniqueId = buildExternalIdentifierObjectJax(
-					objectFactory,
 					"XDSSubmissionSet.uniqueId",
 					"SubmissionSet01_UniqueId",
 					"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
@@ -244,7 +243,6 @@ public final class UpdateBodyBuilderUtility {
 
 //			// 1. merge sourceId
 			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
-					objectFactory,
 					"XDSSubmissionSet.sourceId",
 					"SubmissionSet01_SourceId",
 					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
