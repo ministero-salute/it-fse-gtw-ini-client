@@ -29,10 +29,10 @@ public class IniCFG {
 	private boolean enableLog;
 
 	@Value("${ini.client.auth-cert.path}")
-	private String trustStoreLocation;
+	private String authCertLocation;
 
 	@Value("${ini.client.auth-cert.password}")
-	private String trustStorePassword;
+	private String authCertPassword;
 
 	@Value("${ini.client.auth-cert.alias}")
 	private String trustStoreAlias;

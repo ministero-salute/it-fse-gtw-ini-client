@@ -86,7 +86,7 @@ class SecurityTest {
     @Test
     @DisplayName("SSLContext - failed to load trust store")
     void sslContextTrustStoreFailureTest() {
-        when(iniCFG.getTrustStoreLocation()).thenReturn("nothing");
+        when(iniCFG.getAuthCertLocation()).thenReturn("nothing");
         assertThrows(BusinessException.class, () -> securitySRV.createSslCustomContext());
     }
 

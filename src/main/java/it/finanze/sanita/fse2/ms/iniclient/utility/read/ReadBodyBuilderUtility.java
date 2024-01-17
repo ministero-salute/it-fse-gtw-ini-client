@@ -25,8 +25,6 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.ResponseOptionType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AdhocQueryType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotListType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ReadBodyBuilderUtility {

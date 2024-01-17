@@ -47,10 +47,10 @@ public class SecuritySRV implements ISecuritySRV {
 	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
 	 
 		KeyStore keystore = KeyStore.getInstance("JKS");
-		keystore.load(new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getTrustStoreLocation())), iniCFG.getTrustStorePassword().toCharArray());
+		keystore.load(new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getAuthCertLocation())), iniCFG.getAuthCertPassword().toCharArray());
 
 		KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-		keyManagerFactory.init(keystore, iniCFG.getTrustStorePassword().toCharArray());
+		keyManagerFactory.init(keystore, iniCFG.getAuthCertPassword().toCharArray());
 
 		SSLContext sslContext = SSLContext.getInstance("TLS");
 		sslContext.init(keyManagerFactory.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());
