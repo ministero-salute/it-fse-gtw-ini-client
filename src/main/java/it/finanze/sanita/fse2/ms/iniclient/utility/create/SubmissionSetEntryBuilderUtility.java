@@ -1,5 +1,9 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CODING_SCHEME;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildExternalIdentifierObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
@@ -13,7 +17,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
@@ -64,18 +67,13 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 		JAXBElement<ExternalIdentifierType> externalIdentifierObject1 = buildExternalIdentifierObjectJax(
 			"XDSSubmissionSet.sourceId","SubmissionSet01_SourceId",
 			"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
-			Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-			Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-			submissionSetEntryDTO.getSourceId());
+			EXTERNAL_IDENTIFIER_URN, SUBMISSION_SET_DEFAULT_ID, submissionSetEntryDTO.getSourceId());
 		out.add(externalIdentifierObject1.getValue());
 
 		JAXBElement<ExternalIdentifierType> externalIdentifierObject2 = buildExternalIdentifierObjectJax(
-			"XDSSubmissionSet.uniqueId",
-			"SubmissionSet01_UniqueId",
+			"XDSSubmissionSet.uniqueId", "SubmissionSet01_UniqueId",
 			"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
-			Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-			Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-			submissionSetEntryDTO.getUniqueID());
+			EXTERNAL_IDENTIFIER_URN, SUBMISSION_SET_DEFAULT_ID, submissionSetEntryDTO.getUniqueID());
 		out.add(externalIdentifierObject2.getValue());
 		
 		 
@@ -83,9 +81,7 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 				"XDSSubmissionSet.patientId",
 				"SubmissionSet01_PatientId",
 				"urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
-				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-				Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-				submissionSetEntryDTO.getPatientId());
+				EXTERNAL_IDENTIFIER_URN, SUBMISSION_SET_DEFAULT_ID, submissionSetEntryDTO.getPatientId());
 			out.add(externalPatientIdentifierObject.getValue());
 		return out;
 	}
@@ -94,12 +90,12 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 		List<ClassificationType> out = new ArrayList<>();
 		//Content Type
 		InternationalStringType nameContentTypeCode = buildInternationalStringType(Collections.singletonList(submissionSetEntryDTO.getContentTypeCodeName()));
-		SlotType1 nameContentTypeSlot = buildSlotObject(Constants.IniClientConstants.CODING_SCHEME,"2.16.840.1.113883.2.9.3.3.6.1.4");
+		SlotType1 nameContentTypeSlot = buildSlotObject(CODING_SCHEME,"2.16.840.1.113883.2.9.3.3.6.1.4");
 
 		JAXBElement<ClassificationType> contentTypeCodeClassification = buildClassificationObjectJax(
-			null,"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
+			null,"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",SUBMISSION_SET_DEFAULT_ID,
 			"IdContentTypeCode",nameContentTypeCode,Arrays.asList(nameContentTypeSlot),
-			Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,submissionSetEntryDTO.getContentTypeCode()
+			CLASSIFICATION_OBJECT_URN,submissionSetEntryDTO.getContentTypeCode()
 		);
 		out.add(contentTypeCodeClassification.getValue());
 

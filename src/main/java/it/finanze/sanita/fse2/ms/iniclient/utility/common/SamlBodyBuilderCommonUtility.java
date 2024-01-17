@@ -163,6 +163,11 @@ public class SamlBodyBuilderCommonUtility {
 
 		return classificationObject;
 	}
+	
+	public static SlotType1 buildSlotCodingSchemeObject(String value) {
+		List<String> values = StringUtility.isNullOrEmpty(value) ? null : Arrays.asList(value); 
+		return buildSlotObject(Constants.IniClientConstants.CODING_SCHEME,null, values);
+	}
 
 	public static SlotType1 buildSlotObject(String name,String value) {
 		List<String> values = StringUtility.isNullOrEmpty(value) ? null : Arrays.asList(value); 

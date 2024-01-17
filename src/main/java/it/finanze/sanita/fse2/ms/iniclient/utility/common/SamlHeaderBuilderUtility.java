@@ -106,25 +106,20 @@ public class SamlHeaderBuilderUtility {
 	 */
 	public List<Header> buildHeader(final JWTTokenDTO tokenDTO, ActionEnumType actionType) {
 		List<Header> out = new ArrayList<>();
-		try {
-			Element actionElement = buildAction(actionType);
-			ByteArrayOutputStream baosAction = new ByteArrayOutputStream();
-			XMLHelper.writeNode(actionElement, baosAction);
-			out.add(Headers.create(actionElement));
+		Element actionElement = buildAction(actionType);
+		ByteArrayOutputStream baosAction = new ByteArrayOutputStream();
+		XMLHelper.writeNode(actionElement, baosAction);
+		out.add(Headers.create(actionElement));
 
-			Element messageId = buildMessageId();
-			ByteArrayOutputStream baosId = new ByteArrayOutputStream();
-			XMLHelper.writeNode(messageId, baosId);
-			out.add(Headers.create(messageId));
+		Element messageId = buildMessageId();
+		ByteArrayOutputStream baosId = new ByteArrayOutputStream();
+		XMLHelper.writeNode(messageId, baosId);
+		out.add(Headers.create(messageId));
 
-			Element elementSec = buildSecurity(tokenDTO, actionType);
-			ByteArrayOutputStream baosSec = new ByteArrayOutputStream();
-			XMLHelper.writeNode(elementSec, baosSec);
-			out.add(Headers.create(elementSec));
-		} catch (Exception ex) {
-			log.error("Error while running build headers:" + ex.getMessage());
-			throw new BusinessException(ex);
-		}
+		Element elementSec = buildSecurity(tokenDTO, actionType);
+		ByteArrayOutputStream baosSec = new ByteArrayOutputStream();
+		XMLHelper.writeNode(elementSec, baosSec);
+		out.add(Headers.create(elementSec));
 
 		return out;
 	}
