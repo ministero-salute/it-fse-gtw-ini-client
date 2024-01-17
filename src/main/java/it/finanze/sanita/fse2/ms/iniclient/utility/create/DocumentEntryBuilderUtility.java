@@ -144,7 +144,6 @@ public class DocumentEntryBuilderUtility {
 		SlotType1 authorRoleSlot = buildSlotObject("authorRole", documentEntryDTO.getAuthorRole());
 		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution());
 		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", documentEntryDTO.getAuthor()+"^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
-//		InternationalStringType nameAuthor = buildInternationalStringType(documentEntryDTO.getAuthor());
 		ClassificationType authorClassification = buildClassificationObject("",
 	            "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d","urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3","Author_1",
 	            null,Arrays.asList(authorRoleSlot,authorInstitutionSlot,authorPersonSlot),"urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",""); 
