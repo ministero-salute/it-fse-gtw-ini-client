@@ -11,21 +11,29 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
-import lombok.extern.slf4j.Slf4j;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
-
-import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Slf4j
-public class SamlBodyBuilderCommonUtility {
+import javax.xml.bind.JAXBElement;
 
-	private SamlBodyBuilderCommonUtility() {}
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExternalIdentifierType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.LocalizedStringType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectRefListType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectRefType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class SamlBodyBuilderCommonUtility {
 
 	private static ObjectFactory objectFactory = new ObjectFactory();
 
@@ -45,19 +53,14 @@ public class SamlBodyBuilderCommonUtility {
 	 */
 	public static InternationalStringType buildInternationalStringType(List<String> names) {
 		InternationalStringType internationalStringObject = new InternationalStringType();
-		try {
-			List<LocalizedStringType> localizedStringsList = new ArrayList<>();
-			for (String name : names) {
-				LocalizedStringType localizedStringObject = new LocalizedStringType();
-				localizedStringObject.setValue(name);
-				localizedStringsList.add(localizedStringObject);
-			}
-			internationalStringObject.getLocalizedString().addAll(localizedStringsList);
-			return internationalStringObject;
-		} catch (Exception e) {
-			log.error("Error while invoking buildInternationalStringType: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildInternationalStringType: " + e.getMessage());
+		List<LocalizedStringType> localizedStringsList = new ArrayList<>();
+		for (String name : names) {
+			LocalizedStringType localizedStringObject = new LocalizedStringType();
+			localizedStringObject.setValue(name);
+			localizedStringsList.add(localizedStringObject);
 		}
+		internationalStringObject.getLocalizedString().addAll(localizedStringsList);
+		return internationalStringObject;
 	}
 
 	/**
@@ -80,22 +83,18 @@ public class SamlBodyBuilderCommonUtility {
 			) {
 		ExternalIdentifierType externalIdentifierObject = new ExternalIdentifierType();
 
-		try {
-			InternationalStringType nameType = new InternationalStringType();
-			LocalizedStringType localizedString = new LocalizedStringType();
-			localizedString.setValue(name);
-			nameType.getLocalizedString().add(localizedString);
-			externalIdentifierObject.setName(nameType);
-			externalIdentifierObject.setId(id);
-			externalIdentifierObject.setIdentificationScheme(identificationScheme);
-			externalIdentifierObject.setObjectType(objectType);
-			externalIdentifierObject.setRegistryObject(registryObject);
-			externalIdentifierObject.setValue(value);
-			return externalIdentifierObject;
-		} catch (Exception e) {
-			log.error("Error while invoking buildExternalIdentifierObject: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildExternalIdentifierObject: " + e.getMessage());
-		}
+		InternationalStringType nameType = new InternationalStringType();
+		LocalizedStringType localizedString = new LocalizedStringType();
+		localizedString.setValue(name);
+		nameType.getLocalizedString().add(localizedString);
+		externalIdentifierObject.setName(nameType);
+		externalIdentifierObject.setId(id);
+		externalIdentifierObject.setIdentificationScheme(identificationScheme);
+		externalIdentifierObject.setObjectType(objectType);
+		externalIdentifierObject.setRegistryObject(registryObject);
+		externalIdentifierObject.setValue(value);
+		return externalIdentifierObject;
+
 	}
 
 	/**
@@ -151,23 +150,18 @@ public class SamlBodyBuilderCommonUtility {
 			String classificationScheme,String classifiedObject,String id,
 			InternationalStringType name,List<SlotType1> slots,String objectType,String nodeRepresentation) {
 		ClassificationType classificationObject = new ClassificationType();
-		try {
-			classificationObject.setClassificationNode(classificationNode);
-			classificationObject.setClassificationScheme(classificationScheme);
-			classificationObject.setClassifiedObject(classifiedObject);
-			classificationObject.setId(id);
-			classificationObject.setName(name);
-			if (slots != null) {
-				classificationObject.getSlot().addAll(slots);
-			}
-			classificationObject.setObjectType(objectType);
-			classificationObject.setNodeRepresentation(nodeRepresentation);
-
-			return classificationObject;
-		} catch (Exception e) {
-			log.error("Error while invoking buildClassificationObject: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildClassificationObject: " + e.getMessage());
+		classificationObject.setClassificationNode(classificationNode);
+		classificationObject.setClassificationScheme(classificationScheme);
+		classificationObject.setClassifiedObject(classifiedObject);
+		classificationObject.setId(id);
+		classificationObject.setName(name);
+		if (slots != null) {
+			classificationObject.getSlot().addAll(slots);
 		}
+		classificationObject.setObjectType(objectType);
+		classificationObject.setNodeRepresentation(nodeRepresentation);
+
+		return classificationObject;
 	}
 
 	public static SlotType1 buildSlotObject(String name,String value) {
@@ -184,24 +178,20 @@ public class SamlBodyBuilderCommonUtility {
 	 */
 	public static SlotType1 buildSlotObject(String name,String type,List<String> values) {
 		SlotType1 slotObject = null;
-		try {
-			if(values!=null && !values.isEmpty()) {
-				slotObject = new SlotType1();
-				slotObject.setName(name);
-				slotObject.setSlotType(type);
-				ValueListType valueList = new ValueListType();
-				for (String value : values) {
-					valueList.getValue().add(value);
-				}
-				slotObject.setValueList(valueList);
+		if(values!=null && !values.isEmpty()) {
+			slotObject = new SlotType1();
+			slotObject.setName(name);
+			slotObject.setSlotType(type);
+			ValueListType valueList = new ValueListType();
+			for (String value : values) {
+				valueList.getValue().add(value);
 			}
-
-
-			return slotObject;
-		} catch (Exception e) {
-			log.error("Error while invoking buildSlotObject: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildSlotObject: " + e.getMessage());
+			slotObject.setValueList(valueList);
 		}
+
+
+		return slotObject;
+
 	}
 
 	/**
@@ -212,15 +202,11 @@ public class SamlBodyBuilderCommonUtility {
 	public static ObjectRefListType buildObjectRefList(String uuid) {
 		ObjectRefListType objectRefListType = new ObjectRefListType();
 
-		try {
-			ObjectRefType objectRef = new ObjectRefType();
-			objectRef.setId(uuid);
-			objectRefListType.getObjectRef().add(objectRef);
-			return objectRefListType;
-		} catch(Exception ex) {
-			log.error("Error while perform build registry object list : " , ex);
-			throw new BusinessException("Error while perform build registry object list : " , ex);
-		}
+		ObjectRefType objectRef = new ObjectRefType();
+		objectRef.setId(uuid);
+		objectRefListType.getObjectRef().add(objectRef);
+		return objectRefListType;
+
 	}
 
 	/**
@@ -242,12 +228,8 @@ public class SamlBodyBuilderCommonUtility {
 			String registryObject,
 			String value
 			) {
-		try {
-			return objectFactory.createExternalIdentifier(buildExternalIdentifierObject(name, id, identificationScheme, objectType, registryObject, value));
-		} catch (Exception e) {
-			log.error("Error while invoking buildExternalIdentifierObjectJax: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildExternalIdentifierObjectJax: " + e.getMessage());
-		}
+		return objectFactory.createExternalIdentifier(buildExternalIdentifierObject(name, id, identificationScheme, objectType, registryObject, value));
+
 	}
 
 	/**
@@ -271,13 +253,9 @@ public class SamlBodyBuilderCommonUtility {
 			List<SlotType1> slots,
 			String objectType,
 			String nodeRepresentation) {
-		try {
-			return objectFactory.createClassification(buildClassificationObject(classificationNode, classificationScheme,
-					classifiedObject, id, name, slots, objectType, nodeRepresentation));
-		} catch (Exception e) {
-			log.error("Error while invoking buildClassificationObjectJax: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildClassificationObjectJax: " + e.getMessage());
-		}
+		return objectFactory.createClassification(buildClassificationObject(classificationNode, classificationScheme,
+				classifiedObject, id, name, slots, objectType, nodeRepresentation));
+
 	}
 
 	/**
@@ -287,18 +265,8 @@ public class SamlBodyBuilderCommonUtility {
 	 * @param values
 	 * @return
 	 */
-	public static JAXBElement<SlotType1> buildSlotObjectJax(
-			ObjectFactory objectFactory,
-			String name,
-			String type,
-			List<String> values
-			) {
-		try {
-			return objectFactory.createSlot(buildSlotObject(name, type, values));
-		} catch (Exception e) {
-			log.error("Error while invoking buildSlotObjectJax: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildSlotObjectJax: " + e.getMessage());
-		}
+	public static JAXBElement<SlotType1> buildSlotObjectJax(String name,String type,List<String> values) {
+		return objectFactory.createSlot(buildSlotObject(name, type, values));
 	}
 
 	/**
@@ -329,19 +297,15 @@ public class SamlBodyBuilderCommonUtility {
 			List<SlotType1> slots
 			) {
 		AssociationType1 associationObject = new AssociationType1();
-		try {
-			associationObject.setAssociationType(associationType);
-			associationObject.setId(id);
-			associationObject.setSourceObject(sourceObject);
-			associationObject.setTargetObject(targetObject);
-			if (slots != null) {
-				associationObject.getSlot().addAll(slots);
-			}
-
-			return objectFactory.createAssociation(associationObject);
-		} catch (Exception e) {
-			log.error("Error while invoking buildAssociationObject: {}", e.getMessage());
-			throw new BusinessException("Error while invoking buildAssociationObject: " + e.getMessage());
+		associationObject.setAssociationType(associationType);
+		associationObject.setId(id);
+		associationObject.setSourceObject(sourceObject);
+		associationObject.setTargetObject(targetObject);
+		if (slots != null) {
+			associationObject.getSlot().addAll(slots);
 		}
+
+		return objectFactory.createAssociation(associationObject);
+
 	}
 }

@@ -66,7 +66,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		slotType1.add(buildSlotObject("authorPerson", documentEntryDTO.getAuthor()));  
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
-		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId() + "^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));
+		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId())); /*+ "^^^&2.16.840.1.113883.2.9.4.3.2&ISO"*/
 		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
 		slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", DOCUMENT_SIGNED));
 		slotType1.add(buildSlotObject("urn:ita:2022:description", null, documentEntryDTO.getDescription()));
@@ -156,7 +156,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		List<ExternalIdentifierType> out = new ArrayList<>();
 		ExternalIdentifierType externalIdentifier1 = buildExternalIdentifierObject("XDSDocumentEntry.patientId",
 				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427","urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier",
-				"urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3",documentEntryDTO.getPatientId()+ "^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+				"urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3",documentEntryDTO.getPatientId());
 		out.add(externalIdentifier1);
 		ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
 				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab",Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,

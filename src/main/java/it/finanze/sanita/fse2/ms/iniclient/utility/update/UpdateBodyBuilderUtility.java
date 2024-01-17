@@ -194,7 +194,7 @@ public final class UpdateBodyBuilderUtility {
 							Constants.IniClientConstants.SOURCE_ID_OID +
 							jwtTokenDTO.getPayload().getSubject_organization_id()));
 			JAXBElement<SlotType1> slotObject = buildSlotObjectJax(
-					objectFactory,
+					
 					"intendedRecipient",
 					null,
 					slotValues
@@ -366,7 +366,7 @@ public final class UpdateBodyBuilderUtility {
 			String submissionSetTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 			List<String> slotValues = new ArrayList<>(Collections.singletonList(submissionSetTime));
 			JAXBElement<SlotType1> slotObject = buildSlotObjectJax(
-					objectFactory,
+					
 					"submissionTime",
 					null,
 					slotValues

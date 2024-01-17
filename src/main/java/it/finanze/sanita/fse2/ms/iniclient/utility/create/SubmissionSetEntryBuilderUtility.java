@@ -53,7 +53,7 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 	
 	private static List<SlotType1> buildSlotSubmissionSet(SubmissionSetEntryDTO submissionSetEntryDTO){
 		List<SlotType1> out = new ArrayList<>();
-		out.add(buildSlotObjectJax(objectFactory,"submissionTime",null,Arrays.asList(submissionSetEntryDTO.getSubmissionTime())).getValue());
+		out.add(buildSlotObjectJax("submissionTime",null,Arrays.asList(submissionSetEntryDTO.getSubmissionTime())).getValue());
 		return out;
 	}
 	
@@ -85,7 +85,7 @@ public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 				"urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
 				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
 				Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
-				"GNTLNI47M25D668R^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+				submissionSetEntryDTO.getPatientId());
 			out.add(externalPatientIdentifierObject.getValue());
 		return out;
 	}

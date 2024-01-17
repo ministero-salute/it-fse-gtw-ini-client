@@ -29,4 +29,5 @@ public class SubmissionSetEntryDTO {
     private String author;
 	private String authorRole;
 	private String authorInstitution;
+	private String patientId;
 }
