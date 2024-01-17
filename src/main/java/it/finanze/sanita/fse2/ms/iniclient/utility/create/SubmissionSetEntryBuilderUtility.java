@@ -1,5 +1,6 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildExternalIdentifierObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
@@ -76,6 +77,16 @@ public class SubmissionSetEntryBuilderUtility {
 			Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
 			submissionSetEntryDTO.getUniqueID());
 		out.add(externalIdentifierObject2.getValue());
+		
+		 
+		JAXBElement<ExternalIdentifierType> externalPatientIdentifierObject = buildExternalIdentifierObjectJax(
+				objectFactory,"XDSSubmissionSet.patientId",
+				"SubmissionSet01_PatientId",
+				"urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
+				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
+				Constants.IniClientConstants.SUBMISSION_SET_DEFAULT_ID,
+				"GNTLNI47M25D668R^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+			out.add(externalPatientIdentifierObject.getValue());
 		return out;
 	}
 	
@@ -91,6 +102,18 @@ public class SubmissionSetEntryBuilderUtility {
 			Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,submissionSetEntryDTO.getContentTypeCode()
 		);
 		out.add(contentTypeCodeClassification.getValue());
+		
+		SlotType1 authorRoleSlot = buildSlotObject("authorRole", "AAS");
+		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", "ULSS 9-TREVISO^^^^^&2.16.840.1.113883.2.9.4.1.1&ISO^^^^050109");
+		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", "VRDMRC67T20I257E^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+		JAXBElement<ClassificationType> authorClassification = buildClassificationObjectJax(null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d","SubmissionSet01",
+	            "SubmissionSet01_ClassificationAuthor",
+	            null,
+	            Arrays.asList(authorRoleSlot,authorInstitutionSlot,authorPersonSlot),
+	            "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",
+	            "");
+		
+		out.add(authorClassification.getValue());
 		return out;
 	}
 }

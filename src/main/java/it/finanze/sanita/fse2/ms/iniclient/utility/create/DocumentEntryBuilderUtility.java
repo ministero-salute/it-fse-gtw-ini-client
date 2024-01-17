@@ -9,6 +9,7 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilder
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -64,7 +65,7 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("authorPerson", documentEntryDTO.getAuthor()));  
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
-		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId()));
+		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId() + "^^^&2.16.840.1.113883.2.9.4.3.2&ISO"));
 		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
 		slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", DOCUMENT_SIGNED));
 		slotType1.add(buildSlotObject("urn:ita:2022:description", null, documentEntryDTO.getDescription()));
@@ -99,7 +100,7 @@ public class DocumentEntryBuilderUtility {
 		SlotType1 formatCodeSlot = buildSlotObject(CODING_SCHEME,"2.16.840.1.113883.2.9.3.3.6.1.6");
 		InternationalStringType nameFormatCode = buildInternationalStringType(documentEntryDTO.getFormatCodeName());
 		ClassificationType formatCodeClassification = buildClassificationObject(
-				"urn:uuid:a09d5840-386c-46f2-b5ad9c3699a4309d","Documento01","IdFormatCode01",nameFormatCode,
+				"urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d","Documento01","FormatCode_1",nameFormatCode,
 				formatCodeSlot,documentEntryDTO.getFormatCode());
 		out.add(formatCodeClassification);
 
@@ -133,11 +134,21 @@ public class DocumentEntryBuilderUtility {
 		SlotType1 typeCodeSlot = buildSlotObject(CODING_SCHEME,"2.16.840.1.113883.6.1");
 		InternationalStringType nameTypeCode = buildInternationalStringType(documentEntryDTO.getTypeCodeName());
 		ClassificationType typeCodeClassification = buildClassificationObject(
-				"urn:uuid:f0306f51-975f-434e-a61cc59651d33983",Constants.IniClientConstants.URN_UUID + requestUUID,
+				"urn:uuid:f0306f51-975f-434e-a61c-c59651d33983",Constants.IniClientConstants.URN_UUID + requestUUID,
 				"IdTypeCode",nameTypeCode,
 				typeCodeSlot,documentEntryDTO.getTypeCode()
 				);
 		out.add(typeCodeClassification);
+		
+		//Author
+		SlotType1 authorRoleSlot = buildSlotObject("authorRole", documentEntryDTO.getAuthorRole());
+		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution());
+		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", documentEntryDTO.getAuthor()+"^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+//		InternationalStringType nameAuthor = buildInternationalStringType(documentEntryDTO.getAuthor());
+		ClassificationType authorClassification = buildClassificationObject("",
+	            "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d","urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3","Author_1",
+	            null,Arrays.asList(authorRoleSlot,authorInstitutionSlot,authorPersonSlot),"urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",""); 
+		out.add(authorClassification);
 
 		return out;
 	}
@@ -145,8 +156,8 @@ public class DocumentEntryBuilderUtility {
 	private static List<ExternalIdentifierType> buildExternalIdentifierDocEntry(DocumentEntryDTO documentEntryDTO, String requestUUID, JWTPayloadDTO jwtPayloadDTO) {
 		List<ExternalIdentifierType> out = new ArrayList<>();
 		ExternalIdentifierType externalIdentifier1 = buildExternalIdentifierObject("XDSDocumentEntry.patientId",
-				"patientId_1",Constants.IniClientConstants.URN_UUID + requestUUID,Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-				"urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",documentEntryDTO.getPatientId());
+				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427","urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier",
+				"urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3",documentEntryDTO.getPatientId()+ "^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
 		out.add(externalIdentifier1);
 		ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
 				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab",Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,

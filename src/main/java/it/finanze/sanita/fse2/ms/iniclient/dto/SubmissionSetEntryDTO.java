@@ -26,4 +26,7 @@ public class SubmissionSetEntryDTO {
     private String contentTypeCode;
     private String contentTypeCodeName;
     private String uniqueID;
+    private String author;
+	private String authorRole;
+	private String authorInstitution;
 }
