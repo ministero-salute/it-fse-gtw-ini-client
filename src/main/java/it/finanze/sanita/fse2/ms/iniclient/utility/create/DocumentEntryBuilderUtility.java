@@ -17,6 +17,7 @@ import javax.xml.bind.JAXBElement;
 import org.springframework.util.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
@@ -32,7 +33,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DocumentEntryBuilderUtility {
+public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 
 	@Getter
 	@Setter
@@ -141,12 +142,11 @@ public class DocumentEntryBuilderUtility {
 		out.add(typeCodeClassification);
 		
 		//Author
-		SlotType1 authorRoleSlot = buildSlotObject("authorRole", documentEntryDTO.getAuthorRole());
-		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution());
-		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", documentEntryDTO.getAuthor()+"^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+		AuthorSlotDTO author = buildAuthorSlot(documentEntryDTO.getAuthorRole(),documentEntryDTO.getAuthorInstitution() , documentEntryDTO.getAuthor());
 		ClassificationType authorClassification = buildClassificationObject("",
 	            "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d","urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3","Author_1",
-	            null,Arrays.asList(authorRoleSlot,authorInstitutionSlot,authorPersonSlot),"urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",""); 
+	            null,Arrays.asList(author.getAuthorRoleSlot(),author.getAuthorInstitutionSlot(),author.getAuthorPersonSlot()),
+	            "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",""); 
 		out.add(authorClassification);
 
 		return out;

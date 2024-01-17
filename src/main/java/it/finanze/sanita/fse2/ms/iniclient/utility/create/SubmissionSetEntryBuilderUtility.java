@@ -1,6 +1,5 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildExternalIdentifierObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
@@ -15,6 +14,7 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import lombok.AccessLevel;
@@ -29,7 +29,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class SubmissionSetEntryBuilderUtility {
+public class SubmissionSetEntryBuilderUtility extends EntryBuilderUility {
 
 	@Getter
 	@Setter
@@ -102,14 +102,13 @@ public class SubmissionSetEntryBuilderUtility {
 			Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,submissionSetEntryDTO.getContentTypeCode()
 		);
 		out.add(contentTypeCodeClassification.getValue());
-		
-		SlotType1 authorRoleSlot = buildSlotObject("authorRole", "AAS");
-		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", "ULSS 9-TREVISO^^^^^&2.16.840.1.113883.2.9.4.1.1&ISO^^^^050109");
-		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", "VRDMRC67T20I257E^^^^^^^^&2.16.840.1.113883.2.9.4.3.2&ISO");
+
+		//Author
+		AuthorSlotDTO author = buildAuthorSlot(submissionSetEntryDTO.getAuthorRole(), submissionSetEntryDTO.getAuthorInstitution(), submissionSetEntryDTO.getAuthor());
 		JAXBElement<ClassificationType> authorClassification = buildClassificationObjectJax(null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d","SubmissionSet01",
 	            "SubmissionSet01_ClassificationAuthor",
 	            null,
-	            Arrays.asList(authorRoleSlot,authorInstitutionSlot,authorPersonSlot),
+	            Arrays.asList(author.getAuthorRoleSlot(), author.getAuthorInstitutionSlot(), author.getAuthorPersonSlot()),
 	            "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",
 	            "");
 		
