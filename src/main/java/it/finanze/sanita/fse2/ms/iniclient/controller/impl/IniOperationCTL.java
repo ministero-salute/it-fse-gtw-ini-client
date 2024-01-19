@@ -11,24 +11,42 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.*;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
-import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
-import lombok.extern.slf4j.Slf4j;
-import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
+import java.io.StringReader;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXB;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXB;
-import java.io.StringReader;
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
+import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
+import lombok.extern.slf4j.Slf4j;
+import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 
 /**
  *	INI Publication controller.
@@ -40,6 +58,15 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	
 	@Autowired
 	private IIniInvocationSRV iniInvocationSRV;
+	
+	@Autowired
+	private IIniInvocationMockedSRV iniMockInvocationSRV;
+	
+	@Autowired
+	private IIssuerSRV issuserSRV;
+	
+	@Autowired
+	private IniCFG iniCFG;
     
     
     @Override
@@ -47,15 +74,21 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     	log.debug("Workflow instance id received:" + workflowInstanceId +", calling ini invocation client...");
     	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
     	
-        log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE,
-    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-        		Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
+        log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
         
-        IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+        IniResponseDTO res = null;
+        if(!iniCFG.isMockEnable()) {
+        	res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+        } else {
+        	IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
+        	if(!issuserSRV.isMocked(iniETY.getIssuer())) {
+        		res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+        	} else {
+        		res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);	
+        	}
+        }
         
-        log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE,
-    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-        		Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
+        log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
         
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
@@ -65,12 +98,18 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     	log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
     	final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
         
-        log.info(Constants.Logs.START_LOG, Constants.Logs.DELETE,
-    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-    			"idDoc", requestBody.getIdDoc()
-    			);
+        log.info(Constants.Logs.START_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc());
         
-        IniResponseDTO res = iniInvocationSRV.deleteByDocumentId(requestBody);
+        IniResponseDTO res = null;
+        if(!iniCFG.isMockEnable()) {
+        	res = iniInvocationSRV.deleteByDocumentId(requestBody);
+        } else {
+        	if(!issuserSRV.isMocked(requestBody.getIss())) {
+        		res = iniInvocationSRV.deleteByDocumentId(requestBody);
+        	} else {
+        		res = iniMockInvocationSRV.deleteByDocumentId(requestBody);	
+        	}
+        }
         
         log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc() );
         
@@ -83,16 +122,21 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
         final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
         
-        log.info(Constants.Logs.START_UPDATE_LOG, Constants.Logs.UPDATE,
-    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID()
-    			);
+        log.info(Constants.Logs.START_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
         
+        IniResponseDTO res = null;
         SubmitObjectsRequest req =  JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
-        IniResponseDTO res = iniInvocationSRV.updateByRequestBody(req, requestBody);
+        if(!iniCFG.isMockEnable()) {
+            res = iniInvocationSRV.updateByRequestBody(req, requestBody);
+        } else {
+        	if(!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+        		res = iniInvocationSRV.updateByRequestBody(req, requestBody);
+        	} else {
+        		res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);	
+        	}
+        }
         
-        log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE,
-    			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID()
-    			);
+        log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
         
         return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
     }
@@ -107,7 +151,17 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     			Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId
     			);
     	
-    	IniResponseDTO res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+    	IniResponseDTO res = null;
+    	if(!iniCFG.isMockEnable()) {
+    		res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE); 
+    	} else {
+    		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE, new Date());
+        	if(!issuserSRV.isMocked(iniETY.getIssuer())) {
+        		res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+        	} else {
+        		res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);	
+        	}
+    	}
         
     	log.info(Constants.Logs.END_LOG, Constants.Logs.REPLACE,
     			Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
@@ -127,7 +181,18 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     	LogTraceInfoDTO traceInfo = getLogTraceInfo();
     	out.setTraceID(traceInfo.getTraceID());
     	out.setSpanID(traceInfo.getSpanID());
-    	out.setResponse(iniInvocationSRV.getMetadata(idDoc, token)); 
+    	
+    	if(!iniCFG.isMockEnable()) {
+    		out.setResponse(iniInvocationSRV.getMetadata(idDoc, token));	
+    	} else {
+    		if(!issuserSRV.isMocked(req.getIss())) {
+    			out.setResponse(iniInvocationSRV.getMetadata(idDoc, token));
+    		} else {
+    			out.setResponse(iniMockInvocationSRV.getMetadata(idDoc, token));	
+    		}
+    		
+    	}
+    	 
     	return new ResponseEntity<>(out, HttpStatus.OK);
     }
  
@@ -137,13 +202,35 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		//DELETE
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-		return new ResponseEntity<>(iniInvocationSRV.getReference(idDoc, token), HttpStatus.OK);
+		GetReferenceResponseDTO out = null;
+		if(!iniCFG.isMockEnable()) {
+			out = iniInvocationSRV.getReference(idDoc, token);
+		} else {
+			if(!issuserSRV.isMocked(req.getIss())) {
+				
+			} else {
+				out = iniMockInvocationSRV.getReference(idDoc, token);	
+			}
+			
+		}
+		return new ResponseEntity<>(out, HttpStatus.OK);
 	}
 	
 	@Override
 	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody, HttpServletRequest request) {
 		log.debug("Call merged metadati");
-		GetMergedMetadatiDTO mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);
+		GetMergedMetadatiDTO mergedMetadati = null;
+		if(!iniCFG.isMockEnable()) {
+			mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody); 
+		} else {
+			if(!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+				mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);
+			} else {
+				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);	
+			}
+			
+		}
+		 
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse(),
 				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution());
 	}

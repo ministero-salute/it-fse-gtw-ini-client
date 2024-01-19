@@ -11,16 +11,13 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service;
 
-import java.util.Date;
-
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
-import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
-public interface IIniInvocationSRV {
+public interface IIniInvocationMockedSRV {
 
 	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation);
 	
@@ -33,6 +30,4 @@ public interface IIniInvocationSRV {
     GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO);
 
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
-	
-	IniEdsInvocationETY findByWII(String workflowInstanceId, final ProcessorOperationEnum operation, Date startingDate);
 }

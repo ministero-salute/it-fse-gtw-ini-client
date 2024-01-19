@@ -31,4 +31,12 @@ public class CollectionNaming {
         }
         return Constants.Collections.INI_EDS_INVOCATION;
     }
+
+    @Bean("issuersBean")
+    public String getIssuersCollection(){
+        if (profileUtility.isTestProfile()){
+            return Constants.Profile.TEST_PREFIX + Constants.Collections.ISSUERS;
+        }
+        return Constants.Collections.ISSUERS;
+    }
 }

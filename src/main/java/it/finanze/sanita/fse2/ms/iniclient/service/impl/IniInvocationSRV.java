@@ -18,7 +18,6 @@ import javax.xml.bind.JAXB;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.webjars.NotFoundException;
@@ -59,7 +58,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 @Service
 @Slf4j
-@ConditionalOnProperty(name="ini.client.mock-enable", havingValue="false")
 public class IniInvocationSRV implements IIniInvocationSRV {
 
 	private static final String WARNING = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
@@ -84,13 +82,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation) {
 		final Date startingDate = new Date();
 
-		IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
-		if(iniInvocationETY==null) {
-			String message = String.format("Record con wii %s per l'operazione di %s non trovato", workflowInstanceId, operation);
-			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,message, operation.getOperation(), startingDate, operation.getErrorType(), 
-					null,null, new JWTPayloadDTO(),null,null);
-			throw new NotFoundException(message);
-		}
+		IniEdsInvocationETY iniInvocationETY = findByWII(workflowInstanceId, operation, startingDate);
 
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
@@ -104,6 +96,17 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		}
 
 		return out;
+	}
+
+	public IniEdsInvocationETY findByWII(final String workflowInstanceId, final ProcessorOperationEnum operation, final Date startingDate) {
+		IniEdsInvocationETY iniInvocationETY = iniInvocationRepo.findByWorkflowInstanceId(workflowInstanceId);
+		if(iniInvocationETY==null) {
+			String message = String.format("Record con wii %s per l'operazione di %s non trovato", workflowInstanceId, operation);
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,message, operation.getOperation(), startingDate, operation.getErrorType(), 
+					null,null, new JWTPayloadDTO(),null,null);
+			throw new NotFoundException(message);
+		}
+		return iniInvocationETY;
 	}
 
 	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {

@@ -11,26 +11,31 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_CONTROL;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_KPI;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
-import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_CONTROL;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_KPI;
 
 @Service
-@ConditionalOnProperty(name="ini.client.mock-enable", havingValue="true")
-public class IniInvocationMockedSRV implements IIniInvocationSRV  {
+public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 
 	@Autowired
 	private LoggerHelper logger;
@@ -63,7 +68,6 @@ public class IniInvocationMockedSRV implements IIniInvocationSRV  {
 		mockLog(updateRequestDTO.getWorkflow_instance_id(), ProcessorOperationEnum.UPDATE, startingDate);
 		return new IniResponseDTO();
 	}
-
 
 	@Override
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {

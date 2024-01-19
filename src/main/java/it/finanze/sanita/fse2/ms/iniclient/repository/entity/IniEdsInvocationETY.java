@@ -30,6 +30,7 @@ public class IniEdsInvocationETY {
 
 	public static final String FIELD_WIF = "workflow_instance_id";
 	public static final String FIELD_REF_INI = "riferimento_ini";
+	public static final String FIELD_ISSUER = "issuer";
 	public static final String FIELD_DATA = "data";
 	public static final String FIELD_METADATA = "metadata";
 
@@ -41,6 +42,9 @@ public class IniEdsInvocationETY {
 
 	@Field(name = FIELD_REF_INI)
 	private String riferimentoIni;
+
+	@Field(name = FIELD_ISSUER)
+	private String issuer;
 
 	@Field(name = FIELD_DATA)
 	private org.bson.Document data;
