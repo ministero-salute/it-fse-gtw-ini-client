@@ -36,12 +36,6 @@ public class IssuerRepo implements IIssuerRepo {
     public String createIssuer(IssuerETY issuerETY) {
         String out = null;
         try{
-            IssuerETY finded = findByName(issuerETY.getIssuer());
-
-            if (finded != null){
-                throw new Exception("Issuer già esistente nel database");
-            }
-
             IssuerETY issuer = mongo.insert(issuerETY);
             out = issuer.getId();
         }catch (Exception ex){

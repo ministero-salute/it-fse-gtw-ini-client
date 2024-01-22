@@ -2,9 +2,9 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIssuerCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -23,22 +23,41 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
 
     @Override
     public IssuerResponseDTO create(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+
         if (StringUtility.isNullOrEmpty(requestBody.getIssuer())){
             String message = String.format("La stringa issuer deve essere valorizzata");
             log.error(message);
             throw new BusinessException(message);
         }
         IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
-        response.setTraceID(getLogTraceInfo().getTraceID());
-        response.setSpanID(getLogTraceInfo().getSpanID());
+        response.setTraceID(traceInfo.getTraceID());
+        response.setSpanID(traceInfo.getSpanID());
         return response;
     }
 
     @Override
     public IssuerDeleteResponseDTO delete(String issuer, HttpServletRequest request) {
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
         IssuerDeleteResponseDTO response = issuerSRV.removeIssuer(issuer);
-        response.setTraceID(getLogTraceInfo().getTraceID());
-        response.setSpanID(getLogTraceInfo().getSpanID());
+        response.setTraceID(traceInfo.getTraceID());
+        response.setSpanID(traceInfo.getSpanID());
+        return response;
+    }
+
+    @Override
+    public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+
+        if (StringUtility.isNullOrEmpty(requestBody.getIssuer())){
+            String message = String.format("La stringa issuer deve essere valorizzata");
+            log.error(message);
+            throw new BusinessException(message);
+        }
+        Integer dCount = issuerSRV.removeIssuer(requestBody.getIssuer()).getCount();
+        IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
+        response.setTraceID(traceInfo.getTraceID());
+        response.setSpanID(traceInfo.getSpanID());
         return response;
     }
 }

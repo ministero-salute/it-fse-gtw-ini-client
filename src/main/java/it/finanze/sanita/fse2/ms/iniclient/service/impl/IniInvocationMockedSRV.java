@@ -16,6 +16,7 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.
 
 import java.util.Date;
 
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	private LoggerHelper logger;
 
 	@Autowired
-	private ConfigSRV config;
+	private IConfigSRV config;
 
 	@Autowired
 	private IIniInvocationRepo repository;

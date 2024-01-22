@@ -83,43 +83,41 @@ public class IniClient implements IIniClient {
 	@PostConstruct
 	void initialize() {
 		try {
-			if(!Boolean.TRUE.equals(iniCFG.isMockEnable())) {
-				samlHeaderBuilderUtility.initialize();
-				if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-					sslContext = securitySRV.createSslCustomContext();
-					HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-				}
-
-				DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-				documentRegistryPort = documentRegistryService.getDocumentRegistryPortSoap12();
-				if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDocumentRegistryService())) {
-					BindingProvider bindingProvider = (BindingProvider) documentRegistryPort;
-					bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDocumentRegistryService());
-				} 
-
-				XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
-				deletePort = deletetWSService.getXDSDeletetWSSPort();
-				if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDeletetService())) {
-					BindingProvider bindingProvider = (BindingProvider) deletePort;
-					bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDeletetService());
-				}
-				
-				if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-					((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-					((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				}
-				
-				if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-					List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-					handlerChainDocumentRegistry.add(new SOAPLoggingHandler());
-					((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
-					
-					List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-					handlerChainDelete.add(new SOAPLoggingHandler());
-					((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDelete);
-				}
-				
+			samlHeaderBuilderUtility.initialize();
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				sslContext = securitySRV.createSslCustomContext();
+				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 			}
+
+			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
+			documentRegistryPort = documentRegistryService.getDocumentRegistryPortSoap12();
+			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDocumentRegistryService())) {
+				BindingProvider bindingProvider = (BindingProvider) documentRegistryPort;
+				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDocumentRegistryService());
+			} 
+
+			XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
+			deletePort = deletetWSService.getXDSDeletetWSSPort();
+			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDeletetService())) {
+				BindingProvider bindingProvider = (BindingProvider) deletePort;
+				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDeletetService());
+			}
+
+			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+				((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+			}
+
+			if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
+				List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
+				handlerChainDocumentRegistry.add(new SOAPLoggingHandler());
+				((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
+
+				List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
+				handlerChainDelete.add(new SOAPLoggingHandler());
+				((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDelete);
+			}
+
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
 			throw new BusinessException(ex);

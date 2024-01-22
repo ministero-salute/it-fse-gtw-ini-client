@@ -24,6 +24,7 @@ public class IssuerSRV implements IIssuerSRV {
     @Override
     public boolean isMocked(final String issuer) {
     	boolean mocked = true;
+    	 
         IssuerETY issuerETY = issuerRepo.findByName(issuer);
         if (issuerETY != null){
         	mocked = issuerETY.getMock();
@@ -39,6 +40,12 @@ public class IssuerSRV implements IIssuerSRV {
         IssuerETY entity = new IssuerETY();
         entity.setIssuer(issuerDTO.getIssuer());
         entity.setMock(issuerDTO.isMock());
+
+        IssuerETY finded = issuerRepo.findByName(entity.getIssuer());
+
+        if (finded != null){
+            throw new BusinessException("Issuer già esistente nel database");
+        }
 
         String id = issuerRepo.createIssuer(entity);
 
