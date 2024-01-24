@@ -11,7 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -31,7 +32,6 @@ import org.springframework.stereotype.Service;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
-import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -47,7 +47,9 @@ public class SecuritySRV implements ISecuritySRV {
 	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
 	 
 		KeyStore keystore = KeyStore.getInstance("JKS");
-		keystore.load(new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getAuthCertLocation())), iniCFG.getAuthCertPassword().toCharArray());
+	    try (FileInputStream fis = new FileInputStream(new File(iniCFG.getAuthCertLocation()))) {
+	    	keystore.load(fis, iniCFG.getAuthCertPassword().toCharArray());	
+	    }
 
 		KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 		keyManagerFactory.init(keystore, iniCFG.getAuthCertPassword().toCharArray());

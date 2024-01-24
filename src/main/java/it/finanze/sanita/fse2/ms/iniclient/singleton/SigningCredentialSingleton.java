@@ -1,6 +1,8 @@
 package it.finanze.sanita.fse2.ms.iniclient.singleton;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -34,9 +36,10 @@ public class SigningCredentialSingleton {
 	private static BasicX509Credential getSigningCredential(IniCFG iniCFG) {
 		BasicX509Credential credential = null;
 		try {
-			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
-				keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
+			KeyStore keyStore = KeyStore.getInstance("JKS");
+//			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
+			try (FileInputStream fis = new FileInputStream(new File(iniCFG.getKeyStoreLocation()))) {
+				keyStore.load(fis, iniCFG.getKeyStorePassword().toCharArray());
 			}
 			Enumeration<String> en = keyStore.aliases();
 			String keyAlias = "";
