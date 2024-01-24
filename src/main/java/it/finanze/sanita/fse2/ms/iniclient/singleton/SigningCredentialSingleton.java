@@ -1,7 +1,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.singleton;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
@@ -11,6 +11,7 @@ import org.opensaml.xml.security.x509.BasicX509Credential;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,8 @@ public class SigningCredentialSingleton {
 		BasicX509Credential credential = null;
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-//			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
-			try (FileInputStream fis = new FileInputStream(new File(iniCFG.getKeyStoreLocation()))) {
-				keyStore.load(fis, iniCFG.getKeyStorePassword().toCharArray());
+			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
+				keyStore.load(authInStreamCrt, iniCFG.getKeyStorePassword().toCharArray());
 			}
 			Enumeration<String> en = keyStore.aliases();
 			String keyAlias = "";
@@ -59,22 +59,4 @@ public class SigningCredentialSingleton {
 		}
 		return credential;
 	}
-	
-//	@Override
-//	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
-//
-//	    KeyStore keystore = KeyStore.getInstance("JKS");
-//
-//	    try (FileInputStream fis = new FileInputStream(new File(iniCFG.getAuthCertLocation()))) {
-//	        keystore.load(fis, iniCFG.getAuthCertPassword().toCharArray());
-//	    }
-//
-//	    KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-//	    keyManagerFactory.init(keystore, iniCFG.getAuthCertPassword().toCharArray());
-//
-//	    SSLContext sslContext = SSLContext.getInstance("TLS");
-//	    sslContext.init(keyManagerFactory.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());
-//
-//	    return sslContext;
-//	}
 }
