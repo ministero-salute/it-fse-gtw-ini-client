@@ -61,7 +61,7 @@ public class SecuritySRV implements ISecuritySRV {
 	@Override
 	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
 
-	    KeyStore keystore = KeyStore.getInstance("JKS");
+	    KeyStore keystore = KeyStore.getInstance("PKCS12");
 
 	    try (FileInputStream fis = new FileInputStream(new File(iniCFG.getAuthCertLocation()))) {
 	        keystore.load(fis, iniCFG.getAuthCertPassword().toCharArray());
