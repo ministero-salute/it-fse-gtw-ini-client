@@ -115,7 +115,7 @@ public class IniClient implements IIniClient {
 
 				List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
 				handlerChainDelete.add(new SOAPLoggingHandler());
-				((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDelete);
+				((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 			}
 
 		} catch(Exception ex) {

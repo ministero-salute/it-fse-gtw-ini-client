@@ -207,7 +207,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			out = iniInvocationSRV.getReference(idDoc, token);
 		} else {
 			if(!issuserSRV.isMocked(req.getIss())) {
-				
+				out = iniInvocationSRV.getReference(idDoc, token);
 			} else {
 				out = iniMockInvocationSRV.getReference(idDoc, token);	
 			}

@@ -35,7 +35,6 @@ public final class DeleteBodyBuilderUtility {
 		RemoveObjectsRequestType removeObjectsRequestType = new RemoveObjectsRequestType();
 		ObjectRefListType objectRefList = buildObjectRefList(uuid);
 		removeObjectsRequestType.setObjectRefList(objectRefList);
-
 		JAXBElement<RemoveObjectsRequestType> removeObjectsRequest = objectFactory.createRemoveObjectsRequest(removeObjectsRequestType);
 		return removeObjectsRequest.getValue();
 	}
