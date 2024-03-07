@@ -94,9 +94,9 @@ public class LoggerHelper {
 			final String logMessage = StringUtility.toJSON(logDTO);
 			log.trace(logMessage);
 
-			if (Boolean.TRUE.equals(kafkaLogEnable)) {
-				kafkaLog.trace(logMessage);
-			}
+//			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+//				kafkaLog.trace(logMessage);
+//			}
 		}
 		
 	} 
@@ -131,9 +131,9 @@ public class LoggerHelper {
 			final String logMessage = StringUtility.toJSON(logDTO);
 			log.debug(logMessage);
 
-			if (Boolean.TRUE.equals(kafkaLogEnable)) {
-				kafkaLog.debug(logMessage);
-			}	
+//			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+//				kafkaLog.debug(logMessage);
+//			}	
 		}
 		
 	} 
@@ -214,9 +214,9 @@ public class LoggerHelper {
 			final String logMessage = StringUtility.toJSON(logDTO);
 			log.warn(logMessage);
 	 
-			if (Boolean.TRUE.equals(kafkaLogEnable)) {
-				kafkaLog.warn(logMessage);
-			}
+//			if (Boolean.TRUE.equals(kafkaLogEnable)) {
+//				kafkaLog.warn(logMessage);
+//			}
 		}
 		
 	} 
