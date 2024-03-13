@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import brave.Tracer;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
@@ -34,11 +33,17 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-	/**
-	 * Tracker log.
-	 */
 	@Autowired
-	private Tracer tracer;
+	private org.springframework.cloud.sleuth.Tracer tracer;
+	protected LogTraceInfoDTO getLogTraceInfo() {
+		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
+		if (tracer.currentSpan() != null) {
+			out = new LogTraceInfoDTO(
+					tracer.currentSpan().context().spanId(),
+					tracer.currentSpan().context().traceId());
+		}
+		return out;
+	}
      
 
 	/**
@@ -76,11 +81,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
  
-
-	private LogTraceInfoDTO getLogTraceInfo() {
-		return new LogTraceInfoDTO(
-				tracer.currentSpan().context().spanIdString(), 
-				tracer.currentSpan().context().traceIdString());
-	}
+ 
  
 }

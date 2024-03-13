@@ -158,6 +158,8 @@ public class LoggerHelper {
 					op_application_id(payloadDTO.getSubject_application_id()).
 					op_application_vendor(payloadDTO.getSubject_application_vendor()).
 					op_application_version(payloadDTO.getSubject_application_version()).
+					administrative_request(administrativeRequest).
+					author_institution(authorInstitution).
 					log_type(log_type).
 					workflow_instance_id(workflowInstanceId).
 					build();
@@ -243,6 +245,8 @@ public class LoggerHelper {
 					op_application_version(jwtPayloadDTO.getSubject_application_version()).
 					log_type(log_type).
 					workflow_instance_id(workflowInstanceId).
+					administrative_request(administrativeRequest).
+					author_institution(authorInstitution).
 					build();
 
 			if(!configSRV.isCfOnIssuerNotAllowed()) {
