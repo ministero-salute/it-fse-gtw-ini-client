@@ -18,7 +18,7 @@ public class IniResponseDTO {
 
 	private Boolean esito;
 	
-	private String errorMessage;
+	private String message;
 
 	public IniResponseDTO() {
 		esito = true;

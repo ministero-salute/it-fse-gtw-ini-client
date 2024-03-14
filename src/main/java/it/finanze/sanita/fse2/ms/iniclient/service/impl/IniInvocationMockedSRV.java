@@ -50,7 +50,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	@Override
 	public IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation) {
 		IniResponseDTO out = new IniResponseDTO();
-		out.setErrorMessage("Regime di mock abilitato");
+		out.setMessage("Regime di mock abilitato");
 		mockLog(workflowInstanceId, operation, new Date());
 		if(config.isRemoveMetadataEnable()) repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
 		return out;
