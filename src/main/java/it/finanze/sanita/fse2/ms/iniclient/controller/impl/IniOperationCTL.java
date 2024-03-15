@@ -228,10 +228,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			} else {
 				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);	
 			}
-			
 		}
 		 
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse(),
-				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution());
+				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),mergedMetadati.getAdministrativeRequest());
 	}
 }

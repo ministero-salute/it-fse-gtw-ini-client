@@ -11,6 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -56,7 +58,7 @@ public class LogDTO {
 	
 	private String workflow_instance_id;
 	
-	private String administrative_request;
+	private List<String> administrative_request;
 	
 	private String author_institution;
 	

@@ -201,7 +201,7 @@ public class MergeMetadataUtility {
             SlotType1 repositoryTypeSlot = buildSlotObject(
                 "urn:ita:2022:administrativeRequest",
                 null,
-                Collections.singletonList(updateRequestBodyDTO.getAdministrativeRequest())
+                updateRequestBodyDTO.getAdministrativeRequest()
             );
             slotList.add(repositoryTypeSlot);
         } catch (Exception ex) {

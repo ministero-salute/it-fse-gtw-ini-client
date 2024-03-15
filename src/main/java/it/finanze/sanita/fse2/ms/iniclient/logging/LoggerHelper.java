@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_CONTROL;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_KPI;
@@ -138,9 +139,12 @@ public class LoggerHelper {
 		
 	} 
 	
+	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO) {
+		info(log_type, workflowInstanceId,message, operation, startDateOperation, documentType, subjectFiscalCode, payloadDTO,null, null);
+	}
 	
 	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO,
-			String administrativeRequest, String authorInstitution) {
+			List<String> administrativeRequest, String authorInstitution) {
 		
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
 				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
@@ -158,11 +162,18 @@ public class LoggerHelper {
 					op_application_id(payloadDTO.getSubject_application_id()).
 					op_application_vendor(payloadDTO.getSubject_application_vendor()).
 					op_application_version(payloadDTO.getSubject_application_version()).
-					administrative_request(administrativeRequest).
-					author_institution(authorInstitution).
 					log_type(log_type).
 					workflow_instance_id(workflowInstanceId).
 					build();
+			
+			if(administrativeRequest!=null && !administrativeRequest.isEmpty()) {
+				logDTO.setAdministrative_request(administrativeRequest);
+			}
+			
+			if(!StringUtility.isNullOrEmpty(authorInstitution)) {
+				logDTO.setAuthor_institution(authorInstitution);
+			}
+			
 			
 			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(payloadDTO.getIss());
@@ -224,7 +235,12 @@ public class LoggerHelper {
 	} 
 
 	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
-			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO, String administrativeRequest, String authorInstitution) {
+			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO) {
+		error(log_type, workflowInstanceId,message, operation, startDateOperation, error,documentType, subjectFiscalCode, jwtPayloadDTO, null, null);
+	}
+	
+	public void error(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, ILogEnum error, 
+			String documentType, String subjectFiscalCode, JWTPayloadDTO jwtPayloadDTO, List<String> administrativeRequest, String authorInstitution) {
 		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
 				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
 			LogDTO logDTO = LogDTO.builder().
@@ -249,6 +265,14 @@ public class LoggerHelper {
 					author_institution(authorInstitution).
 					build();
 
+			if(administrativeRequest!=null && !administrativeRequest.isEmpty()) {
+				logDTO.setAdministrative_request(administrativeRequest);	
+			}
+			
+			if(!StringUtility.isNullOrEmpty(authorInstitution)) {
+				logDTO.setAuthor_institution(authorInstitution);
+			}
+			
 			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(jwtPayloadDTO.getIss());
 			}

@@ -11,6 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto.response;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,19 +25,23 @@ public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 	private String marshallResponse;
 	
 	private String documentType;
+	
 	private String authorInstitution;
+	
+	private List<String> administrativeRequest;
 
 	public GetMergedMetadatiResponseDTO() {
 		super();
 	}
 
 	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final String inErrorMessage, String inMarshallResponse,
-			String inDocumentType, String inAuthorInstitution) {
+			String inDocumentType, String inAuthorInstitution, List<String> inAdministrativeRequest) {
 		super(traceInfo);
 		errorMessage = inErrorMessage;
 		marshallResponse = inMarshallResponse;
 		documentType = inDocumentType;
 		authorInstitution = inAuthorInstitution;
+		administrativeRequest = inAdministrativeRequest;
 	}
 
 }

@@ -14,6 +14,7 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_CONTROL;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_KPI;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
@@ -82,7 +83,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
 		out.setUuid("UUID_MOCKATO");
 		out.setDocumentType("DOCUMENT_TYPE MOCKATO");
-		out.setAdministrativeRequest("ADM_REQ_MOCKATO");
+		out.setAdministrativeRequest(Arrays.asList("ADM_REQ_MOCKATO"));
 		out.setAuthorInstitution("AUTH_REQ_MOCKATO");
 		return out;
 	}
@@ -102,7 +103,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 			"Mocked Doc Type Ini",
 			"Mocked fiscal code Ini",
 			JWTPayloadDTO.getMocked(), 
-			"Mocked Admn Req",
+			Arrays.asList("Mocked Admn Req"),			
 			"Mocked author institution"
 		);
 		logger.info(
@@ -114,7 +115,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 			"Mocked Doc Type Ini",
 			"Mocked fiscal code Ini",
 			JWTPayloadDTO.getMocked(), 
-			"Mocked Admn Req",
+			Arrays.asList("Mocked Admn Req"),
 			"Mocked author institution"
 		);
 	}
