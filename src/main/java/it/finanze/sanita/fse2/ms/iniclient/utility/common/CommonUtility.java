@@ -222,7 +222,7 @@ public class CommonUtility {
      * @param queryResponse
      * @return
      */
-    public static String extractAdministrativeRequestFromQueryResponse(AdhocQueryResponse queryResponse) {
+    public static List<String> extractAdministrativeRequestFromQueryResponse(AdhocQueryResponse queryResponse) {
         if (checkMetadata(queryResponse)) {
             List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
             Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
@@ -234,10 +234,10 @@ public class CommonUtility {
                 		.filter(slot -> slot.getName().contains("administrativeRequest"))
                 		.findFirst();
                 if(administrativeRequestSlot.isPresent()) {
-                	return administrativeRequestSlot.get().getValueList().getValue().get(0);
+                	return administrativeRequestSlot.get().getValueList().getValue();
                 }
             }
         }
-        return Constants.IniClientConstants.MISSING_ADMINISTRATIVE_REQUEST_PLACEHOLDER;
+        return new ArrayList<>();
     }
 }

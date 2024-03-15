@@ -26,7 +26,7 @@ public class DocumentEntryDTO {
     private String creationTime;
     private String hash;
     private long size;
-    private String administrativeRequest;
+    private List<String> administrativeRequest;
     private String status;
     private String patientId;
     private String confidentialityCode;

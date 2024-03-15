@@ -58,7 +58,7 @@ public class PublicationMetadataReqDTO {
 
 	@Schema(description = "Tipo di richiesta amministrativa")
 	@Size(min = 0, max = 100)
-	private String administrativeRequest;
+	private List<String> administrativeRequest;
 
 	@Schema(description = "Descrittori")
 	@Size(min = 0, max = 100)

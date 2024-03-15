@@ -46,7 +46,7 @@ class IniClientRealTest extends AbstractTest {
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getErrorMessage());
+        assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
     }
 
@@ -70,7 +70,7 @@ class IniClientRealTest extends AbstractTest {
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getErrorMessage());
+        assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
     }
 
@@ -82,7 +82,7 @@ class IniClientRealTest extends AbstractTest {
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getErrorMessage());
+        assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
     }
 
@@ -135,7 +135,7 @@ class IniClientRealTest extends AbstractTest {
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getErrorMessage());
+        assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
     }
 

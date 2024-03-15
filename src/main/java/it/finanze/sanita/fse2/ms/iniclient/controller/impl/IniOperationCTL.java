@@ -90,7 +90,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         
         log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId );
         
-        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
     }
 
     @Override
@@ -113,7 +113,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         
         log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc() );
         
-        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
     }
  
     
@@ -138,7 +138,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
         
         log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
         
-        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
     }
 
     @Override
@@ -168,7 +168,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
     			Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId
     			);
     	
-    	return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getErrorMessage());
+    	return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
     }
 
     @Override
@@ -228,10 +228,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			} else {
 				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(),requestBody);	
 			}
-			
 		}
 		 
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(), mergedMetadati.getMarshallResponse(),
-				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution());
+				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),mergedMetadati.getAdministrativeRequest());
 	}
 }

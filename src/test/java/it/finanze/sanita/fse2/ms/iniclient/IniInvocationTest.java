@@ -91,7 +91,7 @@ class IniInvocationTest {
                 .thenReturn(new RegistryResponseType());
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH);
         assertTrue(response.getEsito());
-        assertNull(response.getErrorMessage());
+        assertNull(response.getMessage());
     }
 
     @Test
@@ -110,7 +110,7 @@ class IniInvocationTest {
                 .thenReturn(registryResponseType);
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH);
         assertFalse(response.getEsito());
-        assertNotNull(response.getErrorMessage());
+        assertNotNull(response.getMessage());
     }
 
     @Test
@@ -121,7 +121,7 @@ class IniInvocationTest {
                 .thenReturn(registryResponseType);
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
         assertTrue(response.getEsito());
-        assertNull(response.getErrorMessage());
+        assertNull(response.getMessage());
     }
 
     @Test
@@ -145,7 +145,7 @@ class IniInvocationTest {
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE);
         assertFalse(response.getEsito());
-        assertNotNull(response.getErrorMessage());
+        assertNotNull(response.getMessage());
     }
 
     @Test
@@ -163,7 +163,7 @@ class IniInvocationTest {
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(json, UpdateRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
         assertTrue(iniResponse.getEsito());
-        assertNull(iniResponse.getErrorMessage());
+        assertNull(iniResponse.getMessage());
     }
 
     @Test
@@ -193,7 +193,7 @@ class IniInvocationTest {
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
         assertFalse(iniResponse.getEsito());
-        assertNotNull(iniResponse.getErrorMessage());
+        assertNotNull(iniResponse.getMessage());
     }
 
     @Test
@@ -209,7 +209,7 @@ class IniInvocationTest {
         DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
         assertTrue(iniResponse.getEsito());
-        assertNull(iniResponse.getErrorMessage());
+        assertNull(iniResponse.getMessage());
     }
 
     @Test
@@ -240,7 +240,7 @@ class IniInvocationTest {
         DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
         assertFalse(iniResponse.getEsito());
-        assertNotNull(iniResponse.getErrorMessage());
+        assertNotNull(iniResponse.getMessage());
     }
 
     @Test
