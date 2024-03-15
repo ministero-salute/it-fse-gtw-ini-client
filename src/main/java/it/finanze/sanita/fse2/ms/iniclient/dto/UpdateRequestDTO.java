@@ -11,6 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -24,7 +26,7 @@ public class UpdateRequestDTO {
     
     private String workflow_instance_id;
     
-    private String administrative_request;
+    private List<String> administrative_request;
     
     private String author_institution;
     
