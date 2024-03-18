@@ -170,15 +170,16 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		try {
 			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni());
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-				StringBuilder errorMsg = new StringBuilder();
-				out.setEsito(false);
+				StringBuilder msg = new StringBuilder();
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-					errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					msg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					if (!WARNING.equals(error.getSeverity())) {
+						out.setEsito(false);
+					} 
 				}
 				
-				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-					out.setMessage(errorMsg.toString());
-					out.setEsito(false);
+				if(!StringUtility.isNullOrEmpty(msg.toString())) {
+					out.setMessage(msg.toString());
 				}
 			}
 
