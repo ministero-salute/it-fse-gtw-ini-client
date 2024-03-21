@@ -11,6 +11,23 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.logging;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_CONTROL;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_KPI;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.AUTHOR_INSTITUTION_NOT_PRESENT;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.LogDTO;
@@ -19,19 +36,6 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ResultLogEnum;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_CONTROL;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.AppConstants.LOG_TYPE_KPI;
 
 /** 
  * 
@@ -145,52 +149,57 @@ public class LoggerHelper {
 	
 	public void info(String log_type, String workflowInstanceId,String message, ILogEnum operation, Date startDateOperation, String documentType, String subjectFiscalCode, JWTPayloadDTO payloadDTO,
 			List<String> administrativeRequest, String authorInstitution) {
+
+		LogDTO logDTO = LogDTO.builder()
+							.message(message)
+							.operation(operation.getCode())
+							.op_document_type(documentType)
+							.op_result(ResultLogEnum.OK.getCode())
+							.op_role(payloadDTO.getSubject_role())
+							.op_timestamp_start(dateFormat.format(startDateOperation))
+							.op_timestamp_end(dateFormat.format(new Date()))
+							.microservice_name(msName)
+							.op_application_id(payloadDTO.getSubject_application_id())
+							.op_application_vendor(payloadDTO.getSubject_application_vendor())
+							.op_application_version(payloadDTO.getSubject_application_version())
+							.log_type(log_type)
+							.workflow_instance_id(workflowInstanceId)
+							.build();
 		
-		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable()) ||
-				(LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
-			LogDTO logDTO = LogDTO.builder().
-					op_locality(payloadDTO.getLocality()).
-					message(message).
-					operation(operation.getCode()).
-					op_document_type(documentType).
-					op_result(ResultLogEnum.OK.getCode()).
-					op_role(payloadDTO.getSubject_role()).
-					op_timestamp_start(dateFormat.format(startDateOperation)).
-					op_timestamp_end(dateFormat.format(new Date())).
-					gateway_name(getGatewayName()).
-					microservice_name(msName).
-					op_application_id(payloadDTO.getSubject_application_id()).
-					op_application_vendor(payloadDTO.getSubject_application_vendor()).
-					op_application_version(payloadDTO.getSubject_application_version()).
-					log_type(log_type).
-					workflow_instance_id(workflowInstanceId).
-					build();
-			
-			if(administrativeRequest!=null && !administrativeRequest.isEmpty()) {
-				logDTO.setAdministrative_request(administrativeRequest);
-			}
-			
-			if(!StringUtility.isNullOrEmpty(authorInstitution)) {
-				logDTO.setAuthor_institution(authorInstitution);
-			}
-			
+		if(!configSRV.isSubjectNotAllowed()) {
+			logDTO.setOp_fiscal_code(subjectFiscalCode);
+		}
+		
+		// CONTROL LOG
+		if((LOG_TYPE_CONTROL.equals(log_type) && configSRV.isControlLogPersistenceEnable())) {
+
+			logDTO.setOp_locality(payloadDTO.getLocality());
+			logDTO.setGateway_name(getGatewayName());
 			
 			if(!configSRV.isCfOnIssuerNotAllowed()) {
 				logDTO.setOp_issuer(payloadDTO.getIss());
 			}
-			
-			if(!configSRV.isSubjectNotAllowed()) {
-				logDTO.setOp_fiscal_code(subjectFiscalCode);
-			}
-			
-			final String logMessage = StringUtility.toJSON(logDTO);
-			log.info(logMessage);
-			if (Boolean.TRUE.equals(kafkaLogEnable)) {
-				kafkaLog.info(logMessage);
+	
+		// KPI LOG
+		} else if ((LOG_TYPE_KPI.equals(log_type) && configSRV.isKpiLogPersistenceEnable())) {
+
+			logDTO.setIs_ssn(administrativeRequest.stream().anyMatch(elem -> elem.equals("SSN")));
+			logDTO.setRegistry(extractRegistryField(authorInstitution));
+
+			if (!configSRV.isCfOnIssuerNotAllowed()) {
+				logDTO.setRegion(extractRegion(payloadDTO.getIss()));
+				logDTO.setCompany(extractCompany(payloadDTO.getIss()));
+				logDTO.setStructure(extractStructure(payloadDTO.getIss()));
 			}
 		}
 		
-	} 
+		// Invio il log
+		final String logMessage = StringUtility.toJSON(logDTO);
+		log.info(logMessage);
+		if (Boolean.TRUE.equals(kafkaLogEnable)) {
+			kafkaLog.info(logMessage);
+		}
+	}
 
 	public void warn(String log_type, String workflowInstanceId,String message, ILogEnum operation, ResultLogEnum result, Date startDateOperation, String issuer, 
 			String documentType, String subjectRole, String subjectFiscalCode, String locality,
@@ -301,6 +310,72 @@ public class LoggerHelper {
 			gatewayName = configClient.getGatewayName();
 		}
 		return gatewayName;
+	}
+
+	private String extractRegistryField(String authorInstitution) {
+		List<String> regTempList = Arrays.asList(authorInstitution.split("&"));
+		String registryField = AUTHOR_INSTITUTION_NOT_PRESENT;
+		if (regTempList.size() == 3) {
+			registryField = regTempList.get(1);
+		}
+		return registryField;
+	}
+
+	private String extractRegion(String issuer) {
+		return extractRegionCompanyStructure(issuer).get(0);
+	}
+
+	private String extractCompany(String issuer) {
+		return extractRegionCompanyStructure(issuer).get(1);
+	}
+
+	private String extractStructure(String issuer) {
+		return extractRegionCompanyStructure(issuer).get(2);
+	}
+
+	private List<String> extractRegionCompanyStructure(String issuer) {
+		List<String> out = new ArrayList<>(Arrays.asList(issuer.split("#")));
+		List<String> outError = new ArrayList<>();
+		outError.add("ER");
+		outError.add("ER");
+		outError.add("ER");
+		// Il campo issuer deve avere almeno 3 elementi (divisi dal #)
+		if (out.size() < 3 || out.size() > 5) {
+			return outError;
+		}
+		// Rimuovo i campi superflui
+		out.remove(out.size() - 1);
+		out.remove(0);
+		// Check sintattico sul campo "region", ossia il primo campo presente
+		if (out.get(0).length() != 3) {
+			return outError;
+		}
+		// Riempio i eventuali campi mancati
+		// CASO 1: esiste solo il campo "region"
+		if (out.size() == 1) {
+			out.add("ER");
+			out.add("ER");
+			return out;
+		}
+		// CASO 2: esistono i campi "region" e "company"
+		if (out.size() == 2) {
+			if (out.get(1).length() != 3) {
+				return outError;
+			}
+			out.add("ER");
+			return out;
+		}
+		// CASO 3: esistono tutti i campi, "region" "company" e "structure"
+		if (out.size() == 3) {
+			if (out.get(1).length() != 3) {
+				return outError;
+			}
+			if (out.get(2).length() != 6) {
+				return outError;
+			}
+			return out;
+		}
+		return null;
 	}
 
 }

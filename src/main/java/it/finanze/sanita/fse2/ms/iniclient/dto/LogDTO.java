@@ -61,5 +61,15 @@ public class LogDTO {
 	private List<String> administrative_request;
 	
 	private String author_institution;
+
+	private Boolean is_ssn;
+
+	private String registry;
+
+	private String region;
+
+	private String company;
+
+	private String structure;
 	
 }

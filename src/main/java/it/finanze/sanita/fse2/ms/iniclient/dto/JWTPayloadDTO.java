@@ -129,7 +129,7 @@ public class JWTPayloadDTO {
 		out.setSubject_application_id("MOCK-ID");
 		out.setSubject_application_vendor("MOCK-VENDOR");
 		out.setSubject_application_version("MOCK-VER");
-		out.setIss("MOCK-ISS#ABCDEF");
+		out.setIss("A1#120#201#123321#RESP_CERT");
 		return out;
 	}
 }

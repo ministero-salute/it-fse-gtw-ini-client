@@ -108,7 +108,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 		);
 		logger.info(
 			LOG_TYPE_KPI,
-			null,
+			workflowInstanceId,
 			"Regime di mock abilitato",
 			operation.getOperation(),
 			startDateOperation,
@@ -116,7 +116,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 			"Mocked fiscal code Ini",
 			JWTPayloadDTO.getMocked(), 
 			Arrays.asList("Mocked Admn Req"),
-			"Mocked author institution"
+			"ULSS 9 - TREVISO^^^^^&2.16.840.1.113883.2.9.4.1.3&ISO^^^^050109"
 		);
 	}
 
