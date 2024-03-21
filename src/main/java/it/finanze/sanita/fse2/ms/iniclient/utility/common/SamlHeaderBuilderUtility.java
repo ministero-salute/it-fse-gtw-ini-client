@@ -362,14 +362,11 @@ public class SamlHeaderBuilderUtility {
 		try {
 			JWTPayloadDTO payloadTokenJwt = tokenDTO.getPayload();
 
-			if(!ActionEnumType.DELETE.equals(actionEnumType)) {
-				if (!StringUtility.isNullOrEmpty(payloadTokenJwt.getResource_hl7_type())) {
-					out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
-				}
-				if (payloadTokenJwt.getPatient_consent() != null) {
-					out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
-				}
-			} 
+				
+			if (payloadTokenJwt.getPatient_consent() != null) {
+				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
+			}
+			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
@@ -389,7 +386,7 @@ public class SamlHeaderBuilderUtility {
 		}
 		return out;
 	}
-	
+
 	/**
 	 * Build attribute object from given input
 	 * @param name
