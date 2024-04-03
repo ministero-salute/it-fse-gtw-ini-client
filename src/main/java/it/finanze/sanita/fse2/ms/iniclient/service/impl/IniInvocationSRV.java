@@ -337,10 +337,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(updateRequestDTO.getToken()), ActionEnumType.READ_REFERENCE);
-		AdhocQueryResponse oldMetadata = iniClient.getReferenceUUID(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
-		if(oldMetadata==null) {
-			throw new IdDocumentNotFoundException("Nessun metadato trovato");
-		}
+//		AdhocQueryResponse oldMetadata = iniClient.getReferenceUUID(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();

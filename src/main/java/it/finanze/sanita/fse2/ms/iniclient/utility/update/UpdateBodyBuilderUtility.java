@@ -44,6 +44,8 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.FormatCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
@@ -58,9 +60,9 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UpdateBodyBuilderUtility {
 
-	private UpdateBodyBuilderUtility(){}
 
 	private static ObjectFactory objectFactory = new ObjectFactory();
 
@@ -93,19 +95,17 @@ public final class UpdateBodyBuilderUtility {
 	 * @param jwtTokenDTO
 	 * @return
 	 */
-	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata,
-			MergedMetadatiRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO) {
+	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata, MergedMetadatiRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO) {
 		
 		String generatedUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		try {
 			List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>(oldMetadata.getIdentifiable());
+			
 			ExtrinsicObjectType oldExtrinsicObject = (ExtrinsicObjectType) list.stream()
 					.filter(e -> e.getValue() instanceof ExtrinsicObjectType)
 					.findFirst().orElseThrow(() -> new MergeMetadatoNotFoundException("ExtrinsicObject non trovato nei metadati di INI"))
 					.getValue();
-
-			RegistryPackageType registryPackageObject = buildBasicRegistryPackageObject(generatedUUID);
 
 			// 1. extrinsic object
 			ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody(),requestUUID,
@@ -113,6 +113,7 @@ public final class UpdateBodyBuilderUtility {
 			JAXBElement<ExtrinsicObjectType> jaxbEditedExtrinsicObject = objectFactory.createExtrinsicObject(editedExtrinsicObject);
 
 			// 2. registry package object
+			RegistryPackageType registryPackageObject = buildBasicRegistryPackageObject(generatedUUID);
 			RegistryPackageType editedRegistryPackageObject = rebuildRegistryPackageObjectMetadata(
 					oldExtrinsicObject,
 					registryPackageObject,
@@ -134,14 +135,8 @@ public final class UpdateBodyBuilderUtility {
 
 			// 4. Association object
 			List<SlotType1> associationObject1Slots = new ArrayList<>();
-			SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject(
-					"SubmissionSetStatus",
-					null,
-					Collections.singletonList("Original")
-			);
-			SlotType1 associationObj1SlotPreviousVersion = buildSlotObject("PreviousVersion",null,
-					Collections.singletonList(oldExtrinsicObject.getVersionInfo().getVersionName())
-			);
+			SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject("SubmissionSetStatus",null,Collections.singletonList("Original"));
+			SlotType1 associationObj1SlotPreviousVersion = buildSlotObject("PreviousVersion",null,Collections.singletonList(oldExtrinsicObject.getVersionInfo().getVersionName()));
 			associationObject1Slots.add(associationObj1SlotSubmissionSetStatus);
 			associationObject1Slots.add(associationObj1SlotPreviousVersion);
 
@@ -302,9 +297,9 @@ public final class UpdateBodyBuilderUtility {
 			mergeServiceStartStopTime(updateRequestBodyDTO, slotList);
 
 			// 2.3 merge repository-type
-			if (updateRequestBodyDTO.getConservazioneANorma()!=null) {
-				MergeMetadataUtility.mergeRepositoryType(updateRequestBodyDTO, slotList);
-			}
+			MergeMetadataUtility.mergeRepositoryType(updateRequestBodyDTO, slotList);
+			MergeMetadataUtility.mergeAdministrativeRequest(updateRequestBodyDTO, slotList);
+			MergeMetadataUtility.mergeDescription(updateRequestBodyDTO, slotList);
 
 			mergeRefType(updateRequestBodyDTO, slotList, olduuid);
 			
