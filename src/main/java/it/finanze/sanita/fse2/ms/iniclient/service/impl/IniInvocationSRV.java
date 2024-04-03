@@ -298,7 +298,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 
-		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REF_AND_METADATA);
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REFERENCE);
 		StringBuilder sb = buildReferenceResponse(response);
 
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
