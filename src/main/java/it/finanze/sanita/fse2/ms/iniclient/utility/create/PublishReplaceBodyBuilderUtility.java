@@ -91,8 +91,6 @@ public final class PublishReplaceBodyBuilderUtility {
 		} else {
 			//Replace
 			List<SlotType1> associationObjectSlots = new ArrayList<>();
-			SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList("Original"));
-			associationObjectSlots.add(associationObjSlot);
 			associationObject = buildAssociationObject(
 					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet01_Association_1", URN_UUID + documentEntryUUID,uuid,associationObjectSlots);
 		}
