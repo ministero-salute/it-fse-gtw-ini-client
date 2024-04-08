@@ -86,8 +86,12 @@ public final class PublishReplaceBodyBuilderUtility {
 		JAXBElement<AssociationType1> associationObject = null;
 		if (uuid == null) {
 			//Create
+			List<SlotType1> associationObjectSlots = new ArrayList<>();
+			SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList("Original"));
+			associationObjectSlots.add(associationObjSlot);
 			associationObject = buildAssociationObject(
-					"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), URN_UUID +submissionEntryUUID,URN_UUID +documentEntryUUID);
+					"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), URN_UUID +submissionEntryUUID,URN_UUID +documentEntryUUID,associationObjectSlots
+					);
 		} else {
 			//Replace
 			List<SlotType1> associationObjectSlots = new ArrayList<>();
