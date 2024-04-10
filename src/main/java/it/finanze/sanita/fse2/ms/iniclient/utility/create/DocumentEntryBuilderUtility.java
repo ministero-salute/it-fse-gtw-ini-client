@@ -4,7 +4,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientCons
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_SIGNED;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.LANGUAGE_CODE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.URN_UUID;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum.AUTHOR;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum.CLASS_CODE;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum.CONFIDENTIALITY_CODE;
@@ -31,6 +30,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,8 +49,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 	@Setter
 	private static ObjectFactory objectFactory = new ObjectFactory();
 	
-	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntry(String id,DocumentEntryDTO documentEntryDTO,
-			String requestUUID,JWTPayloadDTO jwtPayloadDTO) {
+	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntry(String id,DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
 
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
 		extrinsicObject.setId(id);
@@ -59,8 +58,8 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
 		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO));
-		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntry(documentEntryDTO, requestUUID));
-		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, requestUUID, jwtPayloadDTO));
+		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntry(documentEntryDTO,id));
+		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
 
@@ -86,13 +85,13 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		return slotType1;
 	}
 	
-	private static List<ClassificationType> buildExtrinsicClassificationObjectsDocEntry(DocumentEntryDTO documentEntryDTO, String requestUUID) {
+	private static List<ClassificationType> buildExtrinsicClassificationObjectsDocEntry(DocumentEntryDTO documentEntryDTO,String id) {
 		List<ClassificationType> out = new ArrayList<>();
 		//Class code
 		SlotType1 classCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.5");
 		InternationalStringType nameClassCode = buildInternationalStringType(documentEntryDTO.getClassCodeName());
 		ClassificationType classCodeClassification = buildClassificationObject(
-				CLASS_CODE.getClassificationScheme(),"Documento01",CLASS_CODE.getId(),nameClassCode,
+				CLASS_CODE.getClassificationScheme(),id,CLASS_CODE.getId(),nameClassCode,
 				classCodeSlot,documentEntryDTO.getClassCode());
 		out.add(classCodeClassification);
 
@@ -100,7 +99,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		SlotType1 confidentialityCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.5.25");
 		InternationalStringType nameConfCode = buildInternationalStringType(documentEntryDTO.getConfidentialityCodeDisplayName()); 
 		ClassificationType confidentialityCodeClassification = buildClassificationObject(
-				CONFIDENTIALITY_CODE.getClassificationScheme(),"Documento01",CONFIDENTIALITY_CODE.getId(),nameConfCode,
+				CONFIDENTIALITY_CODE.getClassificationScheme(),id,CONFIDENTIALITY_CODE.getId(),nameConfCode,
 				confidentialityCodeSlot,documentEntryDTO.getConfidentialityCode());
 		out.add(confidentialityCodeClassification);
 
@@ -108,7 +107,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		SlotType1 formatCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.6");
 		InternationalStringType nameFormatCode = buildInternationalStringType(documentEntryDTO.getFormatCodeName());
 		ClassificationType formatCodeClassification = buildClassificationObject(
-				FORMAT_CODE.getClassificationScheme(),"Documento01",FORMAT_CODE.getId(),nameFormatCode,
+				FORMAT_CODE.getClassificationScheme(),id,FORMAT_CODE.getId(),nameFormatCode,
 				formatCodeSlot,documentEntryDTO.getFormatCode());
 		out.add(formatCodeClassification);
 
@@ -118,7 +117,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 				SlotType1 eventCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.3");
 				InternationalStringType nameEventCode = buildInternationalStringType(EventCodeEnum.fromValue(eventCode).getDescription());
 				ClassificationType eventCodeClassification = buildClassificationObject(EVENT_CODE.getClassificationScheme(),
-						"Documento01", EVENT_CODE.getId(), nameEventCode, eventCodeSlot, eventCode);
+						id, EVENT_CODE.getId(), nameEventCode, eventCodeSlot, eventCode);
 				out.add(eventCodeClassification);
 			}
 		}
@@ -127,7 +126,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		SlotType1 healthcareFacilityTypeCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.1");
 		InternationalStringType nameHealthcareFacilityTypeCode = buildInternationalStringType(documentEntryDTO.getHealthcareFacilityTypeCodeName());
 		ClassificationType healthcareFacilityTypeCodeClassification = buildClassificationObject(
-				HEALTH_CARE_FACILITY_TYPE_CODE.getClassificationScheme(), "Documento01",HEALTH_CARE_FACILITY_TYPE_CODE.getId(),
+				HEALTH_CARE_FACILITY_TYPE_CODE.getClassificationScheme(), id, HEALTH_CARE_FACILITY_TYPE_CODE.getId(),
 				nameHealthcareFacilityTypeCode, healthcareFacilityTypeCodeSlot,documentEntryDTO.getHealthcareFacilityTypeCode());
 		out.add(healthcareFacilityTypeCodeClassification);
 
@@ -135,21 +134,21 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		SlotType1 practiceSettingCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.2");
 		InternationalStringType namePracticeSettingCode = buildInternationalStringType(documentEntryDTO.getPracticeSettingCodeName());
 		ClassificationType practiceSettingCodeClassification = buildClassificationObject(PRACTICE_SETTING_CODE.getClassificationScheme(),
-				"Documento01", PRACTICE_SETTING_CODE.getId(), namePracticeSettingCode,practiceSettingCodeSlot,documentEntryDTO.getPracticeSettingCode());
+				id, PRACTICE_SETTING_CODE.getId(), namePracticeSettingCode,practiceSettingCodeSlot,documentEntryDTO.getPracticeSettingCode());
 		out.add(practiceSettingCodeClassification);
 
 		//Type Code
 		SlotType1 typeCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.6.1");
 		InternationalStringType nameTypeCode = buildInternationalStringType(documentEntryDTO.getTypeCodeName());
 		ClassificationType typeCodeClassification = buildClassificationObject(
-				TYPE_CODE.getClassificationScheme(), "Documento01",
+				TYPE_CODE.getClassificationScheme(), id,
 				TYPE_CODE.getId(),nameTypeCode, typeCodeSlot,documentEntryDTO.getTypeCode());
 		out.add(typeCodeClassification);
 		
 		//Author
 		AuthorSlotDTO author = buildAuthorSlot(documentEntryDTO.getAuthorRole(),documentEntryDTO.getAuthorInstitution() , documentEntryDTO.getAuthor());
 		ClassificationType authorClassification = buildClassificationObject("",
-	            AUTHOR.getClassificationScheme(),"Documento01",AUTHOR.getId(),
+	            AUTHOR.getClassificationScheme(),id,AUTHOR.getId(),
 	            null,Arrays.asList(author.getAuthorRoleSlot(),author.getAuthorInstitutionSlot(),author.getAuthorPersonSlot()),
 	            CLASSIFICATION_OBJECT_URN,""); 
 		out.add(authorClassification);
@@ -160,12 +159,11 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 	private static List<ExternalIdentifierType> buildExternalIdentifierDocEntry(DocumentEntryDTO documentEntryDTO, String requestUUID, JWTPayloadDTO jwtPayloadDTO) {
 		List<ExternalIdentifierType> out = new ArrayList<>();
 		ExternalIdentifierType externalIdentifier1 = buildExternalIdentifierObject("XDSDocumentEntry.patientId",
-				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427","urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier",
-				"urn:uuid:3c86e9e9-6ae0-425d-9c42-93afa1d00db3",documentEntryDTO.getPatientId());
+				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",EXTERNAL_IDENTIFIER_URN,"urn:uuid:"+StringUtility.generateUUID(),
+				documentEntryDTO.getPatientId());
 		out.add(externalIdentifier1);
 		ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
-				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab", EXTERNAL_IDENTIFIER_URN,
-				URN_UUID + requestUUID,documentEntryDTO.getUniqueId());
+				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab", EXTERNAL_IDENTIFIER_URN, requestUUID,documentEntryDTO.getUniqueId());
 
 		out.add(externalIdentifier2);
 		return out;

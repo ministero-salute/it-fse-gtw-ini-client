@@ -39,7 +39,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -242,7 +241,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		}
 		return out;
 	}
-
+ 
 	@Override
 	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
@@ -271,16 +270,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getMessage();
-				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id() , message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken,
-						updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id() , message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
 			} else {
 				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
-				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken,
-						updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
 			}
 		} catch(Exception ex) {
-			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,"", "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), 
-					ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(),fiscalCode, payloadToken);
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(),fiscalCode, payloadToken);
 			throw new BusinessException(ex);
 		}
 		return out;
