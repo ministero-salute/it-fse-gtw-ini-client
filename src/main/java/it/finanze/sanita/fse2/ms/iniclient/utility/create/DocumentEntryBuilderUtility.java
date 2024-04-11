@@ -30,7 +30,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -156,14 +155,14 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		return out;
 	}
 
-	private static List<ExternalIdentifierType> buildExternalIdentifierDocEntry(DocumentEntryDTO documentEntryDTO, String requestUUID, JWTPayloadDTO jwtPayloadDTO) {
+	private static List<ExternalIdentifierType> buildExternalIdentifierDocEntry(DocumentEntryDTO documentEntryDTO, String id, JWTPayloadDTO jwtPayloadDTO) {
 		List<ExternalIdentifierType> out = new ArrayList<>();
 		ExternalIdentifierType externalIdentifier1 = buildExternalIdentifierObject("XDSDocumentEntry.patientId",
-				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",EXTERNAL_IDENTIFIER_URN,"urn:uuid:"+StringUtility.generateUUID(),
+				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",EXTERNAL_IDENTIFIER_URN,id,
 				documentEntryDTO.getPatientId());
 		out.add(externalIdentifier1);
 		ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
-				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab", EXTERNAL_IDENTIFIER_URN, requestUUID,documentEntryDTO.getUniqueId());
+				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab", EXTERNAL_IDENTIFIER_URN, id,documentEntryDTO.getUniqueId());
 
 		out.add(externalIdentifier2);
 		return out;

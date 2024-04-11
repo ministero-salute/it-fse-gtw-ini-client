@@ -94,7 +94,7 @@ public final class PublishReplaceBodyBuilderUtility {
 			//Replace
 			List<SlotType1> associationObjectSlots = new ArrayList<>();
 			associationObject = buildAssociationObject(
-					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet01_Association_1", documentEntryId,uuid,associationObjectSlots);
+					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", documentEntryId,uuid,associationObjectSlots);
 		}
 		registryObjectListType.getIdentifiable().add(associationObject);
 
