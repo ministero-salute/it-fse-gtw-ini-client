@@ -59,7 +59,9 @@ public final class Constants {
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static final class IniClientConstants {
-		public static final String SEVERITY_HEAD_ERROR_MESSAGE = " SEVERITY : ";
+		public static final String SEVERITY_HEAD_ERROR_MESSAGE = "SEVERITY:";
+		public static final String SEVERITY_CODE_CONTEXT = "CODE CONTEXT:";
+		public static final String SEVERITY_CODE_HEAD_ERROR_MESSAGE = "ERROR_CODE:";
 		public static final String DEFAULT_HEAD_ERROR_MESSAGE = "Error while send data to ini: ";
 		public static final String HEADER_AUTH_CONTEXT = "urn:oasis:names:tc:SAML:2.0:ac:classes:X509";
 		public static final String HEADER_ATTRNAME_URI = "urn:oasis:names:tc:SAML:2.0:attrname-format:uri";
@@ -70,7 +72,7 @@ public final class Constants {
 		public static final String AUTHOR_INSTITUTION_OID = "^^^^^&2.16.840.1.113883.2.9.4.1.3&ISO^^^^";
 		public static final String VALID_SSN_OID = "^^^&2.16.840.1.113883.2.9.4.3.2&ISO";
 		public static final String RECORD_NOT_FOUND = "Nessun record trovato";
-		public static final String CODE_HEAD_ERROR_MESSAGE = " ERROR_CODE : ";
+		
 		public static final String EXTERNAL_IDENTIFIER_URN = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier";
 		public static final String CLASSIFICATION_OBJECT_URN = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification";
 		public static final String CODING_SCHEME = "codingScheme";

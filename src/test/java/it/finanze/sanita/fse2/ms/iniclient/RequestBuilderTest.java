@@ -200,7 +200,7 @@ class RequestBuilderTest {
                 updateRequestDTO,
                 oldMetadata,
                 TestConstants.TEST_UUID,
-                reconfiguredToken
+                reconfiguredToken,""
         ));
     }
 
@@ -216,7 +216,7 @@ class RequestBuilderTest {
                 updateRequestDTO,
                 oldMetadata,
                 TestConstants.TEST_UUID,
-                reconfiguredToken
+                reconfiguredToken,""
         ));
     }
 
