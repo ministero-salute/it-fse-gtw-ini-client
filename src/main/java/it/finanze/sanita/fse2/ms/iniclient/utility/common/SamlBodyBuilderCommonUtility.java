@@ -150,7 +150,9 @@ public class SamlBodyBuilderCommonUtility {
 			String classificationScheme,String classifiedObject,String id,
 			InternationalStringType name,List<SlotType1> slots,String objectType,String nodeRepresentation) {
 		ClassificationType classificationObject = new ClassificationType();
-		classificationObject.setClassificationNode(classificationNode);
+		if(!StringUtility.isNullOrEmpty(classificationNode)) {
+			classificationObject.setClassificationNode(classificationNode);	
+		}
 		classificationObject.setClassificationScheme(classificationScheme);
 		classificationObject.setClassifiedObject(classifiedObject);
 		classificationObject.setId(id);
