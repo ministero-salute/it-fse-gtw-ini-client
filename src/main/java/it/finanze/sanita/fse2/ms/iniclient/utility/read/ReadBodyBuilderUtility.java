@@ -18,7 +18,6 @@ import java.util.Collections;
 
 import javax.xml.bind.JAXBElement;
 
-import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
@@ -36,8 +35,8 @@ public final class ReadBodyBuilderUtility {
 	 * @param searchId will be idDoc for get reference, or entryUUID for get metadata
 	 * @return
 	 */
-	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId,String tipoRicerca, ActionEnumType actionType) {
-		AdhocQueryType adhocQueryType = buildAdHocQuery(searchId, actionType);
+	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId,String tipoRicerca) {
+		AdhocQueryType adhocQueryType = buildAdHocQuery(searchId);
 		ResponseOptionType responseOptionType = buildResponseOption(tipoRicerca);
 
 		AdhocQueryRequest adhocQueryRequest = new AdhocQueryRequest();
@@ -54,13 +53,10 @@ public final class ReadBodyBuilderUtility {
 	 * @param searchId
 	 * @return
 	 */
-	private static AdhocQueryType buildAdHocQuery(String searchId, ActionEnumType actionType) {
+	private static AdhocQueryType buildAdHocQuery(String searchId) {
 		AdhocQueryType adhocQuery = new AdhocQueryType();
 		adhocQuery.setId("urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4");
-		adhocQuery.getSlot().add(buildSlotObject(
-				actionType == ActionEnumType.READ_REFERENCE ? "$XDSDocumentEntryUniqueId" : "$XDSDocumentEntryEntryUUID",
-						null,
-						Collections.singletonList("('" + searchId + "')")));
+		adhocQuery.getSlot().add(buildSlotObject("$XDSDocumentEntryUniqueId",null,Collections.singletonList("('" + searchId + "')")));
 		JAXBElement<AdhocQueryType> jaxbAdhocQuery = objectFactory.createAdhocQuery(adhocQuery);
 		return jaxbAdhocQuery.getValue();
 	}

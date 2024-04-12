@@ -186,7 +186,7 @@ public class IniClient implements IIniClient {
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca,ActionEnumType.READ_REFERENCE);
+		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
 		return documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 	}
 
@@ -205,7 +205,7 @@ public class IniClient implements IIniClient {
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca, actionEnumType);
+		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
 		AdhocQueryResponse response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 		if (response.getRegistryErrorList()!=null) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {

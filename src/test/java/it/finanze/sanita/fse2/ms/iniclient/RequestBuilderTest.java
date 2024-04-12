@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 
 import javax.xml.bind.JAXBException;
 
-import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuilderUtility;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +28,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -47,6 +45,7 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.PublishReplaceBodyBuilderUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
@@ -268,16 +267,12 @@ class RequestBuilderTest {
     @Test
     @DisplayName("READ REF - Header builder success test")
     void readReferenceBuilderSuccessTest() {
-        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest(
-                "searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(), ActionEnumType.READ_REFERENCE
-        ));
+        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey()));
     }
 
     @Test
     @DisplayName("READ METADATA - Header builder success test")
     void readMetadataBuilderSuccessTest() {
-        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest(
-                "searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(),ActionEnumType.READ_METADATA
-        ));
+        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey()));
     }
 }

@@ -71,9 +71,6 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 	 */
 	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntry(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO) {
 		List<SlotType1> slotType1 = new ArrayList<>();
-		slotType1.add(buildSlotObject("authorRole", documentEntryDTO.getAuthorRole())); 
-		slotType1.add(buildSlotObject("authorInstitution", documentEntryDTO.getAuthorInstitution())); 
-		slotType1.add(buildSlotObject("authorPerson", documentEntryDTO.getAuthor()));  
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
 		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId())); 
