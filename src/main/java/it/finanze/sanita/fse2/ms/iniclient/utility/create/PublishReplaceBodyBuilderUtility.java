@@ -32,6 +32,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
@@ -70,16 +71,15 @@ public final class PublishReplaceBodyBuilderUtility {
 	private static RegistryObjectListType buildRegistryObjectList(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
 		RegistryObjectListType registryObjectListType = new RegistryObjectListType();
 
-		String documentEntryUUID = StringUtility.generateUUID();
-		String submissionEntryUUID = StringUtility.generateUUID();
+		String documentEntryId = "Document1";
+		String submissionEntryId = "SubmissionSet1"; 
 		
 		//ExtrinsicObject - DocumentEntry
-		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(URN_UUID + documentEntryUUID, documentEntryDTO,documentEntryUUID,jwtPayloadDTO);
+		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(documentEntryId, documentEntryDTO,jwtPayloadDTO);
 		registryObjectListType.getIdentifiable().add(extrinsicObject);
 
 		//Registry package - SubmissionSetEntry
-		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO,
-				URN_UUID + submissionEntryUUID);
+		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO, submissionEntryId);
 		registryObjectListType.getIdentifiable().add(registryPackageObject);
 
 
@@ -89,20 +89,44 @@ public final class PublishReplaceBodyBuilderUtility {
 			List<SlotType1> associationObjectSlots = new ArrayList<>();
 			SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList("Original"));
 			associationObjectSlots.add(associationObjSlot);
-			associationObject = buildAssociationObject(
-					"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), URN_UUID +submissionEntryUUID,URN_UUID +documentEntryUUID,associationObjectSlots
-					);
+			associationObject = buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), submissionEntryId,documentEntryId,associationObjectSlots);
 		} else {
 			//Replace
 			List<SlotType1> associationObjectSlots = new ArrayList<>();
 			associationObject = buildAssociationObject(
-					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet01_Association_1", URN_UUID + documentEntryUUID,uuid,associationObjectSlots);
+					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", documentEntryId,uuid,associationObjectSlots);
 		}
 		registryObjectListType.getIdentifiable().add(associationObject);
 
+		JAXBElement<ClassificationType> c = buildClassificationObject(submissionEntryId);
+		registryObjectListType.getIdentifiable().add(c);
+		
 		return registryObjectListType;
 	}
 
     
+	public static JAXBElement<ClassificationType> buildClassificationObject(String id) {
+		ClassificationType classificationObject = new ClassificationType();
+		classificationObject.setClassificationNode("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd");
+		classificationObject.setClassifiedObject(id);
+		classificationObject.setId("Classification1");
+		classificationObject.setObjectType("urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification");
+		
+		return objectFactory.createClassification(classificationObject);
+	}
+	
+	public static JAXBElement<AssociationType1> buildAssociationObject(String associationType,String id,String sourceObject,String targetObject,List<SlotType1> slots) {
+		AssociationType1 associationObject = new AssociationType1();
+		associationObject.setAssociationType(associationType);
+		associationObject.setId(id);
+		associationObject.setSourceObject(sourceObject);
+		associationObject.setTargetObject(targetObject);
+		if (slots != null) {
+			associationObject.getSlot().addAll(slots);
+		}
+
+		return objectFactory.createAssociation(associationObject);
+
+	}
   
 }
