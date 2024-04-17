@@ -78,9 +78,10 @@ public final class Constants {
 		public static final String CODING_SCHEME = "codingScheme";
 		public static final String URN_UUID = "urn:uuid:";
 		public static final String SUBMISSION_SET_DEFAULT_ID = "SubmissionSet01";
-		public static final String SOURCE_ID_OID = "2.16.840.1.113883.2.9.2.";
+		public static final String SOURCE_ID_PREFIX = "2.16.840.1.113883.2.9.2.";
 		public static final String TREATMENT_PURPOSE_OF_USE = "TREATMENT";
 		public static final String REGISTER_DOCUMENT_SETB_ACTION = "urn:ihe:iti:2007:RegisterDocumentSet-b";
+		public static final String UPDATE_SETB_ACTION = "urn:ihe:iti:2010:UpdateDocumentSet";
 		public static final String REGISTRY_STORED_QUERY_ACTION = "urn:ihe:iti:2007:RegistryStoredQuery";
 		public static final String DELETE_DOCUMENT_ACTION = "urn:ihe:iti:xds-b:2010:XDSDeletetWS:DocumentRegistry_DeleteDocumentSetRequest";
 		public static final String SYSADMIN_PURPOSE_OF_USE = "SYSADMIN";

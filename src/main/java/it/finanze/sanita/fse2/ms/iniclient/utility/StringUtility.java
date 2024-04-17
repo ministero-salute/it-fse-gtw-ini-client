@@ -60,4 +60,12 @@ public final class StringUtility {
 	public static String toJSON(final Object obj) {
 		return new Gson().toJson(obj);
 	}
+	
+	public static String sanitizeSourceId(final String organizationId) {
+		String sourceId = organizationId; 
+		if(sourceId.startsWith("0")) {
+			sourceId = sourceId.substring(1, sourceId.length());
+		}
+		return sourceId;
+	}
 }
