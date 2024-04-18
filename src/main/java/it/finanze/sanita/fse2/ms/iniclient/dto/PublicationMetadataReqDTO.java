@@ -11,15 +11,17 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import java.util.List;
+
+import javax.validation.constraints.Size;
+
 import io.swagger.v3.oas.annotations.media.Schema;
+import it.finanze.sanita.fse2.ms.iniclient.enums.AdministrativeReqEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.AttivitaClinicaEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.HealthcareFacilityEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.PracticeSettingCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.TipoDocAltoLivEnum;
 import lombok.Data;
-
-import javax.validation.constraints.Size;
-import java.util.List;
 
 @Data
 public class PublicationMetadataReqDTO {
@@ -58,7 +60,7 @@ public class PublicationMetadataReqDTO {
 
 	@Schema(description = "Tipo di richiesta amministrativa")
 	@Size(min = 0, max = 100)
-	private List<String> administrativeRequest;
+	private List<AdministrativeReqEnum> administrativeRequest;
 
 	@Schema(description = "Descrittori")
 	@Size(min = 0, max = 100)

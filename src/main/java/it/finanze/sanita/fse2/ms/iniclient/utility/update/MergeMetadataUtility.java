@@ -27,6 +27,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.AdministrativeReqEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
@@ -65,22 +66,31 @@ public class MergeMetadataUtility {
 	 * @param classificationObjectList
 	 */
 	public static void mergePracticeSettingCode(PublicationMetadataReqDTO updateRequestBodyDTO, List<ClassificationType> classificationObjectList) {
-		try {
-			ClassificationType practiceSettingCodeClassificationObject = classificationObjectList
-					.stream()
-					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("PracticeSettingCodeEnum non trovato nei metadati di INI"));
-			classificationObjectList.remove(practiceSettingCodeClassificationObject);
-			practiceSettingCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
-			InternationalStringType practiceSettingCodeName = buildInternationalStringType(
-					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getAssettoOrganizzativo().getDescription())));
-			practiceSettingCodeClassificationObject.setName(practiceSettingCodeName);
-			classificationObjectList.add(practiceSettingCodeClassificationObject);
-		} catch (Exception ex) {
-			log.error("Error while perform merge practice setting code : {}" , ex.getMessage());
-			throw new BusinessException("Error while perform merge practice setting code : ", ex);
+		String classificationScheme = "urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead";
+		String name = "";
+		String description = "";
+		if(updateRequestBodyDTO.getAssettoOrganizzativo()!=null) {
+			name = updateRequestBodyDTO.getAssettoOrganizzativo().name();
+			description = updateRequestBodyDTO.getAssettoOrganizzativo().getDescription();
 		}
+		mergeClassification(name,description, classificationScheme, classificationObjectList);
+		
+//		try {
+//			ClassificationType practiceSettingCodeClassificationObject = classificationObjectList
+//					.stream()
+//					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead"))
+//					.findFirst()
+//					.orElseThrow(() -> new MergeMetadatoNotFoundException("PracticeSettingCodeEnum non trovato nei metadati di INI"));
+//			classificationObjectList.remove(practiceSettingCodeClassificationObject);
+//			practiceSettingCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
+//			InternationalStringType practiceSettingCodeName = buildInternationalStringType(
+//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getAssettoOrganizzativo().getDescription())));
+//			practiceSettingCodeClassificationObject.setName(practiceSettingCodeName);
+//			classificationObjectList.add(practiceSettingCodeClassificationObject);
+//		} catch (Exception ex) {
+//			log.error("Error while perform merge practice setting code : {}" , ex.getMessage());
+//			throw new BusinessException("Error while perform merge practice setting code : ", ex);
+//		}
 	}
 
 	/**
@@ -89,22 +99,31 @@ public class MergeMetadataUtility {
 	 * @param classificationObjectList
 	 */
 	public static void mergeClassCode(PublicationMetadataReqDTO updateRequestBodyDTO, List<ClassificationType> classificationObjectList) {
-		try {
-			ClassificationType classCodeClassificationObject = classificationObjectList
-					.stream()
-					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("TipoDocAltoLivEnum non trovato nei metadati di INI"));
-			classificationObjectList.remove(classCodeClassificationObject);
-			classCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode());
-			InternationalStringType classCodeName = buildInternationalStringType(
-					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription())));
-			classCodeClassificationObject.setName(classCodeName);
-			classificationObjectList.add(classCodeClassificationObject);
-		} catch (Exception ex) {
-			log.error("Error while perform merge class code : {}" , ex.getMessage());
-			throw new BusinessException("Error while perform merge class code : ", ex);
+		String classificationScheme = "urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a";
+		String name = "";
+		String description = "";
+		if(updateRequestBodyDTO.getTipoDocumentoLivAlto() != null) {
+			name = updateRequestBodyDTO.getTipoDocumentoLivAlto().name();
+			description = updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription();
 		}
+		mergeClassification(name,description, classificationScheme, classificationObjectList);
+		
+//		try {
+//			ClassificationType classCodeClassificationObject = classificationObjectList
+//					.stream()
+//					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a"))
+//					.findFirst()
+//					.orElseThrow(() -> new MergeMetadatoNotFoundException("TipoDocAltoLivEnum non trovato nei metadati di INI"));
+//			classificationObjectList.remove(classCodeClassificationObject);
+//			classCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode());
+//			InternationalStringType classCodeName = buildInternationalStringType(
+//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription())));
+//			classCodeClassificationObject.setName(classCodeName);
+//			classificationObjectList.add(classCodeClassificationObject);
+//		} catch (Exception ex) {
+//			log.error("Error while perform merge class code : {}" , ex.getMessage());
+//			throw new BusinessException("Error while perform merge class code : ", ex);
+//		}
 	}
 
 	/**
@@ -113,34 +132,67 @@ public class MergeMetadataUtility {
 	 * @param classificationObjectList
 	 */
 	public static void mergeHealthcareFacilityTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO, List<ClassificationType> classificationObjectList) {
-		try {
-			ClassificationType healthCareFacilityClassificationObject = classificationObjectList
-					.stream()
-					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("HealthcareFacilityEnum non trovata nei metadati di INI"));
-			classificationObjectList.remove(healthCareFacilityClassificationObject);
-			healthCareFacilityClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipologiaStruttura().getCode());
-			InternationalStringType healthcareFacilityTypeCodeName = buildInternationalStringType(
-					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipologiaStruttura().getCode())));
-			healthCareFacilityClassificationObject.setName(healthcareFacilityTypeCodeName);
-			classificationObjectList.add(healthCareFacilityClassificationObject);
-		} catch (Exception ex) {
-			log.error("Error while perform merge healthcare facility type code : {}" , ex.getMessage());
-			throw new BusinessException("Error while perform merge healthcare facility type code : ", ex);
+		String classificationScheme = "urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1";
+		String name = "";
+		String description = "";
+		if(updateRequestBodyDTO.getTipologiaStruttura() != null) {
+			name = updateRequestBodyDTO.getTipologiaStruttura().getCode();
+			description = updateRequestBodyDTO.getTipologiaStruttura().getCode();
 		}
+		mergeClassification(name,description, classificationScheme, classificationObjectList);
+//		try {
+//			ClassificationType healthCareFacilityClassificationObject = classificationObjectList
+//					.stream()
+//					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1"))
+//					.findFirst()
+//					.orElseThrow(() -> new MergeMetadatoNotFoundException("HealthcareFacilityEnum non trovata nei metadati di INI"));
+//			classificationObjectList.remove(healthCareFacilityClassificationObject);
+//			healthCareFacilityClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipologiaStruttura().getCode());
+//			InternationalStringType healthcareFacilityTypeCodeName = buildInternationalStringType(
+//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipologiaStruttura().getCode())));
+//			healthCareFacilityClassificationObject.setName(healthcareFacilityTypeCodeName);
+//			classificationObjectList.add(healthCareFacilityClassificationObject);
+//		} catch (Exception ex) {
+//			log.error("Error while perform merge healthcare facility type code : {}" , ex.getMessage());
+//			throw new BusinessException("Error while perform merge healthcare facility type code : ", ex);
+//		}
 	}
 	
 	/**
-	 * Merge service start/stop time for extrinsic object
+	 * Merge practiceSettingCode for extrinsic object
 	 * @param updateRequestBodyDTO
-	 * @param slotList
+	 * @param classificationObjectList
 	 */
-	 public static void mergeServiceStartStopTime(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList) {
-		 mergeSlot("serviceStartTime", slotList,updateRequestBodyDTO.getDataInizioPrestazione());
-		 mergeSlot("serviceStopTime", slotList, updateRequestBodyDTO.getDataFinePrestazione());
-	 }
-	 
+	public static void mergeClassification(String newName, String newDescription, String classificationScheme, List<ClassificationType> classificationObjectList) {
+		try {
+			ClassificationType classificationObject = classificationObjectList.stream().filter(classificationType -> classificationType.getClassificationScheme().equals(classificationScheme)).findFirst()
+					.orElse(null);
+			
+			if(classificationObject != null && newName != null) {
+				classificationObjectList.remove(classificationObject);
+				classificationObject.setNodeRepresentation(newName);
+				InternationalStringType internationalStringType = null;
+				if(newDescription!=null){
+					internationalStringType = buildInternationalStringType(
+							new ArrayList<>(Collections.singleton(newDescription)));	
+				}
+				
+				classificationObject.setName(internationalStringType);
+				classificationObjectList.add(classificationObject);
+			}
+			
+//			classificationObjectList.remove(classificationObject);
+//			classificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
+//			InternationalStringType practiceSettingCodeName = buildInternationalStringType(
+//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getAssettoOrganizzativo().getDescription())));
+//			classificationObject.setName(practiceSettingCodeName);
+//			classificationObjectList.add(classificationObject);
+		} catch (Exception ex) {
+			log.error("Error while perform merge practice setting code : {}" , ex.getMessage());
+			throw new BusinessException("Error while perform merge practice setting code : ", ex);
+		}
+	}
+	
 	private static void mergeSlot(String slotName, List<SlotType1> slotList, String... newValue) {
 		try {
 			SlotType1 editedSlot = slotList.stream().filter(slot -> slot.getName().equals(slotName)).findFirst().orElse(null);
@@ -162,8 +214,18 @@ public class MergeMetadataUtility {
 			throw new BusinessException("Error while performing merge for " + slotName + ": ", ex);
 		}
 	}
-
-
+	
+	
+	/**
+	 * Merge service start/stop time for extrinsic object
+	 * @param updateRequestBodyDTO
+	 * @param slotList
+	 */
+	 public static void mergeServiceStartStopTime(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList) {
+		 mergeSlot("serviceStartTime", slotList,updateRequestBodyDTO.getDataInizioPrestazione());
+		 mergeSlot("serviceStopTime", slotList, updateRequestBodyDTO.getDataFinePrestazione());
+	 }
+	 
 
 	/**
 	 * Merge repository-type metadata
@@ -186,10 +248,21 @@ public class MergeMetadataUtility {
 	 */
 	public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList) {
 		try { 
-			mergeSlot("urn:ita:2022:administrativeRequest", slotList, updateRequestBodyDTO.getAdministrativeRequest().toArray(new String[0]));
+			List<AdministrativeReqEnum> administrativeRequests = updateRequestBodyDTO.getAdministrativeRequest();
+			
+			String[] newValues = null;
+			if(administrativeRequests!=null && administrativeRequests.size()>0) {
+				newValues = new String[administrativeRequests.size()];
+
+				for (int i = 0; i < administrativeRequests.size(); i++) {
+				    newValues[i] = administrativeRequests.get(i).getCode() + "^" + administrativeRequests.get(i).getDescription();
+				}
+	
+			}
+			mergeSlot("urn:ita:2022:administrativeRequest", slotList, newValues);
 		} catch (Exception ex) {
-			log.error("Error while perform merge repository type : {}" , ex.getMessage());
-			throw new BusinessException("Error while perform merge repository type : ", ex);
+			log.error("Error while perform merge administrative request: {}" , ex.getMessage());
+			throw new BusinessException("Error while perform merge administrative request: ", ex);
 		}
 	}
 
@@ -246,7 +319,7 @@ public class MergeMetadataUtility {
 					null,
 					"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
 					generatedUUID,
-					"SubmissionSet01_ClassificationAuthor",
+					"SubmissionSet1_ClassificationAuthor",
 					null,
 					classificationObjAuthorSlots,
 					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,
@@ -263,11 +336,7 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @return
 	 */
-	public static JAXBElement<ClassificationType> mergeContentTypeCodeClassificationObject(
-			ObjectFactory objectFactory,
-			PublicationMetadataReqDTO updateRequestBodyDTO,
-			String generatedUUID
-			) {
+	public static JAXBElement<ClassificationType> mergeContentTypeCodeClassificationObject(ObjectFactory objectFactory,PublicationMetadataReqDTO updateRequestBodyDTO,String generatedUUID) {
 		try {
 			InternationalStringType contentTypeCodeName = buildInternationalStringType(Collections.singletonList(updateRequestBodyDTO.getTipoAttivitaClinica().getDescription()));
 			SlotType1 classificationObjContentTypeCodeSlot1 = buildSlotObject(
@@ -282,7 +351,7 @@ public class MergeMetadataUtility {
 					null,
 					"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",
 					generatedUUID,
-					"SubmissionSet01_ClinicalActivity",
+					"SubmissionSet1_ClinicalActivity",
 					contentTypeCodeName,
 					classificationObjContentTypeCodeSlots,
 					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,

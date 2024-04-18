@@ -22,6 +22,7 @@ import javax.xml.ws.handler.Handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.developer.JAXWSProperties;
@@ -186,7 +187,7 @@ public class IniClient implements IIniClient {
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca,ActionEnumType.READ_REFERENCE);
+		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
 		return documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 	}
 
@@ -205,18 +206,21 @@ public class IniClient implements IIniClient {
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca, actionEnumType);
+		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
 		AdhocQueryResponse response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-		if (response.getRegistryErrorList()!=null) {
+		
+		StringBuilder sb = new StringBuilder();
+		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 				if (error.getCodeContext().equals("No results from the query")) {
-					throw new IdDocumentNotFoundException(error.getCodeContext());
+					throw new IdDocumentNotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
+				} else {
+					sb.append(error.getCodeContext());
 				}
 			}
-			throw new BusinessException("Errore riscontrato su INI");
+			throw new BusinessException(sb.toString());
 		}
 		return response;
-
 	}
 
 

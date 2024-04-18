@@ -15,9 +15,11 @@ import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -39,7 +41,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -128,7 +129,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-					msg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					msg.
+					append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
+					append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
+					append(SEVERITY_CODE_CONTEXT).append(error.getCodeContext());
+					
 					if (!WARNING.equals(error.getSeverity())) {
 						out.setEsito(false);
 					} 
@@ -172,7 +177,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-					msg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					msg.
+					append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
+					append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
+					append(SEVERITY_CODE_CONTEXT).append(error.getCodeContext());
 					if (!WARNING.equals(error.getSeverity())) {
 						out.setEsito(false);
 					} 
@@ -213,7 +221,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-					errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+					errorMsg.
+						append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
+						append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
+						append(SEVERITY_CODE_CONTEXT).append(error.getCodeContext());
 				}
 				
 				if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
@@ -242,7 +253,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		}
 		return out;
 	}
-
+ 
 	@Override
 	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO) {
 		final Date startingDate = new Date();
@@ -258,7 +269,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
 					if (!WARNING.equals(error.getSeverity())) {
-						errorMsg.append(Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).append(Constants.IniClientConstants.CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode());
+						errorMsg.
+							append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
+							append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
+							append(SEVERITY_CODE_CONTEXT).append(error.getCodeContext());
 					}
 				}
 			}
@@ -266,23 +280,20 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
 				out.setEsito(false);						
 				out.setMessage(errorMsg.toString());
-			}
-			
-			String message = "Operazione eseguita su INI";
-			if(Boolean.FALSE.equals(out.getEsito())) {
-				message += ": " + out.getMessage();
-				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id() , message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken,
-						updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
-			} else {
-				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
-				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken,
-						updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), errorMsg.toString(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+				throw new BusinessException(errorMsg.toString());
 			}
 		} catch(Exception ex) {
-			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,"", "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), 
-					ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(),fiscalCode, payloadToken);
+			if(out.getEsito()!=false) {
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(),fiscalCode, payloadToken);
+			}
 			throw new BusinessException(ex);
 		}
+			
+		String message = "Operazione eseguita su INI";
+		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflow_instance_id(), message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
+		logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+
 		return out;
 	}
 
@@ -337,19 +348,19 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(updateRequestDTO.getToken()), ActionEnumType.READ_REFERENCE);
-//		AdhocQueryResponse oldMetadata = iniClient.getReferenceUUID(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
 		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
 		try (StringWriter sw = new StringWriter()) {
-			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token);
+			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token,oidToUpdate);
 			JAXB.marshal(req, sw);
 			out.setMarshallResponse(sw.toString());
 		} catch(Exception ex) {
-			out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getMessage(ex));
 			log.error("Error while merge metadati", ex);
+			throw new BusinessException(ex);
+//			out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getRootCauseMessage(ex));
 		} 
 		return out;
 	}
