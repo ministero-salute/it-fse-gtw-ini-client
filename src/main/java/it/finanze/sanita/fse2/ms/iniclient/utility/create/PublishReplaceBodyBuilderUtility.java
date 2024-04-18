@@ -81,7 +81,7 @@ public final class PublishReplaceBodyBuilderUtility {
 		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO, submissionEntryId);
 		registryObjectListType.getIdentifiable().add(registryPackageObject);
 
-		String reference = StringUtility.isNullOrEmpty(uuid) ? "Original" : "Reference";
+		String reference = "Original";
 		List<SlotType1> associationObjectSlots = new ArrayList<>();
 		SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList(reference));
 		associationObjectSlots.add(associationObjSlot);
