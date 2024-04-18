@@ -169,7 +169,7 @@ public final class UpdateBodyBuilderUtility {
 			List<String> slotValues = new ArrayList<>(Collections.singletonList(
 					jwtTokenDTO.getPayload().getSubject_organization() +
 							"^^^^^^^^^" +
-							Constants.IniClientConstants.SOURCE_ID_OID +
+							Constants.IniClientConstants.SOURCE_ID_PREFIX +
 							jwtTokenDTO.getPayload().getSubject_organization_id()));
 			JAXBElement<SlotType1> slotObject = buildSlotObjectJax("intendedRecipient",null,slotValues);
 			registryPackageObject.getSlot().add(slotObject.getValue());
@@ -201,32 +201,7 @@ public final class UpdateBodyBuilderUtility {
 			// 2. merge contentTypeCode
 			JAXBElement<ClassificationType> classificationObjectContentTypeCode = mergeContentTypeCodeClassificationObject(objectFactory, updateRequestBodyDTO, generatedUUID);
 			registryPackageObject.getClassification().add(classificationObjectContentTypeCode.getValue());
-			
-			// 3. merge uniqueId
-//			JAXBElement<ExternalIdentifierType> externalIdentifierObjectUniqueId = buildExternalIdentifierObjectJax(
-//					"XDSSubmissionSet.uniqueId",
-//					"SubmissionSet1_UniqueId",
-//					"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
-//					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-//					"registryObject",
-//					updateRequestBodyDTO.getIdentificativoSottomissione()
-//			);
-//			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectUniqueId.getValue());
-//
-//			// 4. merge administrative-request
-//			// mergeAdministrativeRequest(updateRequestBodyDTO, classificationList);
-//
-////			// 1. merge sourceId
-//			JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
-//					"XDSSubmissionSet.sourceId",
-//					"SubmissionSet1_SourceId",
-//					"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
-//					Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-//					generatedUUID,
-//					Constants.IniClientConstants.SOURCE_ID_OID + jwtTokenDTO.getPayload().getSubject_organization_id()
-//			);
-//			registryPackageObject.getExternalIdentifier().add(externalIdentifierObjectSourceId.getValue());
-			
+			 
 			registryPackageObject.getExternalIdentifier().addAll(buildExternalIdentifierSubmissionSet(updateRequestBodyDTO, jwtTokenDTO, idDocumento));
 			
 			return registryPackageObject;
@@ -236,34 +211,23 @@ public final class UpdateBodyBuilderUtility {
 		}
 	}
 	
-	private static List<ExternalIdentifierType> buildExternalIdentifierSubmissionSet(PublicationMetadataReqDTO updateRequestBodyDTO, JWTTokenDTO jwtTokenDTO,
-			String idDocumento) {
+	private static List<ExternalIdentifierType> buildExternalIdentifierSubmissionSet(PublicationMetadataReqDTO updateRequestBodyDTO, JWTTokenDTO jwtTokenDTO,String idDocumento) {
 		List<ExternalIdentifierType> out = new ArrayList<>();
 
 		JAXBElement<ExternalIdentifierType> externalIdentifierObjectUniqueId = buildExternalIdentifierObjectJax(
-				"XDSSubmissionSet.uniqueId",
-				"SubmissionSet1_UniqueId",
-				"urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
-				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-				"registryObject",idDocumento
-				//updateRequestBodyDTO.getIdentificativoSottomissione()
-		);
+				"XDSSubmissionSet.uniqueId","SubmissionSet1_UniqueId","urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8",
+				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,"registryObject",updateRequestBodyDTO.getIdentificativoSottomissione());
 		out.add(externalIdentifierObjectUniqueId.getValue());
 	
-		JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax(
-				"XDSSubmissionSet.sourceId",
-				"SubmissionSet1_SourceId",
-				"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",
-				Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,
-				StringUtility.generateUUID(),
-				Constants.IniClientConstants.SOURCE_ID_OID + jwtTokenDTO.getPayload().getSubject_organization_id());
+		String sourceId = StringUtility.sanitizeSourceId(jwtTokenDTO.getPayload().getSubject_organization_id());
+		JAXBElement<ExternalIdentifierType> externalIdentifierObjectSourceId = buildExternalIdentifierObjectJax("XDSSubmissionSet.sourceId","SubmissionSet1_SourceId",
+				"urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832",Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN,StringUtility.generateUUID(),
+				Constants.IniClientConstants.SOURCE_ID_PREFIX + sourceId);
 		out.add(externalIdentifierObjectSourceId.getValue());
 		
 		
 		JAXBElement<ExternalIdentifierType> externalPatientIdentifierObject = buildExternalIdentifierObjectJax(
-				"XDSSubmissionSet.patientId",
-				"SubmissionSet1_PatientId",
-				"urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
+				"XDSSubmissionSet.patientId","SubmissionSet1_PatientId","urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446",
 				EXTERNAL_IDENTIFIER_URN, StringUtility.generateUUID(), jwtTokenDTO.getPayload().getPerson_id());
 			out.add(externalPatientIdentifierObject.getValue());
 
@@ -344,13 +308,6 @@ public final class UpdateBodyBuilderUtility {
         		}
         	}
 
-//        		SlotType1 repositoryTypeSlot = buildSlotObject(
-//        				"urn:ihe:iti:xds:2013:referenceIdList",
-//        				null,
-//        				Collections.singletonList(uuid+"^^^&2.16.840.1.113883.2.9.2.190&ISO^urn:ihe:iti:2007:AssociationType:RPLC")
-////                    Collections.singletonList(slotList.get(5).getValueList().getValue().get(0))
-//        				);
-//        		slotList.add(repositoryTypeSlot);
         } catch (Exception ex) {
             log.error("Error while perform merge repository type : {}" , ex.getMessage());
             throw new BusinessException("Error while perform merge repository type : ", ex);

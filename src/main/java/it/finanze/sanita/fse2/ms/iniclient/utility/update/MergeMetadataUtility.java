@@ -27,6 +27,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.AdministrativeReqEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
@@ -247,10 +248,21 @@ public class MergeMetadataUtility {
 	 */
 	public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList) {
 		try { 
-			mergeSlot("urn:ita:2022:administrativeRequest", slotList, updateRequestBodyDTO.getAdministrativeRequest().toArray(new String[0]));
+			List<AdministrativeReqEnum> administrativeRequests = updateRequestBodyDTO.getAdministrativeRequest();
+			
+			String[] newValues = null;
+			if(administrativeRequests!=null && administrativeRequests.size()>0) {
+				newValues = new String[administrativeRequests.size()];
+
+				for (int i = 0; i < administrativeRequests.size(); i++) {
+				    newValues[i] = administrativeRequests.get(i).getCode() + "^" + administrativeRequests.get(i).getDescription();
+				}
+	
+			}
+			mergeSlot("urn:ita:2022:administrativeRequest", slotList, newValues);
 		} catch (Exception ex) {
-			log.error("Error while perform merge repository type : {}" , ex.getMessage());
-			throw new BusinessException("Error while perform merge repository type : ", ex);
+			log.error("Error while perform merge administrative request: {}" , ex.getMessage());
+			throw new BusinessException("Error while perform merge administrative request: ", ex);
 		}
 	}
 

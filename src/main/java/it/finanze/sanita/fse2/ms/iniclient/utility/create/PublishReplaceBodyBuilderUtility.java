@@ -12,7 +12,6 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.URN_UUID;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 import java.util.ArrayList;
@@ -82,21 +81,21 @@ public final class PublishReplaceBodyBuilderUtility {
 		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO, submissionEntryId);
 		registryObjectListType.getIdentifiable().add(registryPackageObject);
 
-
-		JAXBElement<AssociationType1> associationObject = null;
-		if (uuid == null) {
-			//Create
-			List<SlotType1> associationObjectSlots = new ArrayList<>();
-			SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList("Original"));
-			associationObjectSlots.add(associationObjSlot);
-			associationObject = buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), submissionEntryId,documentEntryId,associationObjectSlots);
-		} else {
-			//Replace
-			List<SlotType1> associationObjectSlots = new ArrayList<>();
-			associationObject = buildAssociationObject(
-					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", documentEntryId,uuid,associationObjectSlots);
-		}
+		String reference = "Original";
+		List<SlotType1> associationObjectSlots = new ArrayList<>();
+		SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList(reference));
+		associationObjectSlots.add(associationObjSlot);
+		JAXBElement<AssociationType1> associationObject = buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), submissionEntryId,documentEntryId,associationObjectSlots);
 		registryObjectListType.getIdentifiable().add(associationObject);
+		
+		JAXBElement<AssociationType1> associationObjectRep = null;
+		if(!StringUtility.isNullOrEmpty(uuid)) {
+			//Replace
+			List<SlotType1> associationObjectSlotsRep = new ArrayList<>();
+			associationObjectRep = buildAssociationObject(
+					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", documentEntryId,uuid,associationObjectSlotsRep);
+			registryObjectListType.getIdentifiable().add(associationObjectRep);
+		}
 
 		JAXBElement<ClassificationType> c = buildClassificationObject(submissionEntryId);
 		registryObjectListType.getIdentifiable().add(c);
