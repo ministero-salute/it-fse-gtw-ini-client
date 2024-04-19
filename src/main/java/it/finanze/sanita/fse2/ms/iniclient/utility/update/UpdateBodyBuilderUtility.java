@@ -11,6 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
@@ -24,7 +26,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUt
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeHealthcareFacilityTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergePracticeSettingCode;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeServiceStartStopTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.FormatCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
@@ -94,7 +96,6 @@ public final class UpdateBodyBuilderUtility {
 	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata, MergedMetadatiRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO,
 			String idDocumento) {
 
-		String generatedUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>(oldMetadata.getIdentifiable());
 
@@ -102,25 +103,40 @@ public final class UpdateBodyBuilderUtility {
 				.filter(e -> e.getValue() instanceof ExtrinsicObjectType)
 				.findFirst().orElseThrow(() -> new MergeMetadatoNotFoundException("ExtrinsicObject non trovato nei metadati di INI"))
 				.getValue();
-
+		
 		// 1. extrinsic object
-		ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody(),requestUUID,uuid);
+		ExtrinsicObjectType editedExtrinsicObject = rebuildExtrinsicObjectMetadata(oldExtrinsicObject, updateRequestDTO.getBody(),requestUUID,DOCUMENT_ENTRY_ID);
+		editedExtrinsicObject.setId(DOCUMENT_ENTRY_ID);
+		for(ClassificationType classification : editedExtrinsicObject.getClassification()) {
+			for(ClassificationEnum classificationEnum : ClassificationEnum.values()) {
+				if(classificationEnum.getClassificationScheme().equals(classification.getClassificationScheme())) {
+					classification.setId(classificationEnum.getId());
+					continue;
+				}
+			}
+			classification.setClassifiedObject(DOCUMENT_ENTRY_ID);
+		}
+		
+		for(ExternalIdentifierType external : editedExtrinsicObject.getExternalIdentifier()) {
+			external.setRegistryObject(DOCUMENT_ENTRY_ID);
+		}
 		JAXBElement<ExtrinsicObjectType> jaxbEditedExtrinsicObject = objectFactory.createExtrinsicObject(editedExtrinsicObject);
 
 		// 2. registry package object
-		RegistryPackageType registryPackageObject = buildBasicRegistryPackageObject(generatedUUID);
+		RegistryPackageType registryPackageObject = buildBasicRegistryPackageObject(SUBMISSION_ENTRY_ID);
 		RegistryPackageType editedRegistryPackageObject = rebuildRegistryPackageObjectMetadata(
-				oldExtrinsicObject,
-				registryPackageObject,
-				updateRequestDTO.getBody(),
-				jwtTokenDTO,
-				generatedUUID,
-				idDocumento
-				);
+				oldExtrinsicObject,registryPackageObject,updateRequestDTO.getBody(),jwtTokenDTO,SUBMISSION_ENTRY_ID,idDocumento);
+		for(ClassificationType classification : editedRegistryPackageObject.getClassification()) {
+			classification.setClassifiedObject(SUBMISSION_ENTRY_ID);
+		}
+		for(ExternalIdentifierType external : editedRegistryPackageObject.getExternalIdentifier()) {
+			external.setRegistryObject(SUBMISSION_ENTRY_ID);
+		}
+		
 		JAXBElement<RegistryPackageType> jaxbEditedRegistryPackageObject = objectFactory.createRegistryPackage(editedRegistryPackageObject);
 
 		// 3. Classification object
-		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,generatedUUID,uuid,null, null, null, null);
+		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,null, null, null, null);
 		oldMetadata.getIdentifiable().add(classificationObject);
 
 		// 4. Association object
@@ -132,24 +148,28 @@ public final class UpdateBodyBuilderUtility {
 			associationObject1Slots.add(associationObj1SlotPreviousVersion);
 		}
 		
-
-		JAXBElement<AssociationType1> jaxbAssociationObject1 = buildAssociationObject(
-				"urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",
-				requestUUID,generatedUUID,uuid,associationObject1Slots);
-
-		JAXBElement<AssociationType1> jaxbAssociationObject2 = buildAssociationObject(
-				"urn:ihe:iti:2007:AssociationType:RPLC",
-				"SubmissionSet1_Association_1",uuid,uuid,null);
-
-
+		JAXBElement<AssociationType1> jaxbAssociationHasMember = buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",requestUUID,SUBMISSION_ENTRY_ID, DOCUMENT_ENTRY_ID,associationObject1Slots);
+ 
 		// 6. merge metadata
 		oldMetadata.getIdentifiable().clear();
 		oldMetadata.getIdentifiable().add(jaxbEditedExtrinsicObject);
 		oldMetadata.getIdentifiable().add(jaxbEditedRegistryPackageObject);
-		oldMetadata.getIdentifiable().add(jaxbAssociationObject1);
-		oldMetadata.getIdentifiable().add(jaxbAssociationObject2);
+		oldMetadata.getIdentifiable().add(jaxbAssociationHasMember);
+		
+		oldMetadata.getIdentifiable().add(buildClassificationObject());
 
 		return oldMetadata;
+	}
+	
+	 
+	public static JAXBElement<ClassificationType> buildClassificationObject() {
+		ClassificationType classificationObject = new ClassificationType();
+		classificationObject.setClassificationNode("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd");
+		classificationObject.setClassifiedObject(SUBMISSION_ENTRY_ID);
+		classificationObject.setId("Classification1");
+		classificationObject.setObjectType("urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification");
+
+		return objectFactory.createClassification(classificationObject);
 	}
 
 	/**
@@ -166,13 +186,10 @@ public final class UpdateBodyBuilderUtility {
 		try {
 			// Slots
 			// 1. intendedRecipient
-			List<String> slotValues = new ArrayList<>(Collections.singletonList(
-					jwtTokenDTO.getPayload().getSubject_organization() +
-							"^^^^^^^^^" +
-							Constants.IniClientConstants.SOURCE_ID_PREFIX +
-							jwtTokenDTO.getPayload().getSubject_organization_id()));
-			JAXBElement<SlotType1> slotObject = buildSlotObjectJax("intendedRecipient",null,slotValues);
-			registryPackageObject.getSlot().add(slotObject.getValue());
+			String intendedRecipient = jwtTokenDTO.getPayload().getSubject_organization() + "^^^^^^^^^" + Constants.IniClientConstants.SOURCE_ID_PREFIX + StringUtility.sanitizeSourceId(jwtTokenDTO.getPayload().getSubject_organization_id());
+			List<String> intendedRecipientSlotValues = new ArrayList<>(Collections.singletonList(intendedRecipient));
+			JAXBElement<SlotType1> intendedRecipientSlotObject = buildSlotObjectJax("intendedRecipient",null,intendedRecipientSlotValues);
+			registryPackageObject.getSlot().add(intendedRecipientSlotObject.getValue());
 
 			// 2. Name + Description
 			ClassificationType formatCodeClassification = oldExtrinsicObject.getClassification().stream()
@@ -265,17 +282,12 @@ public final class UpdateBodyBuilderUtility {
 			// 1.5 add all classification objects
 			oldExtrinsicObject.getClassification().clear();
 			oldExtrinsicObject.getClassification().addAll(classificationObjectList);
-
+			
 			// 2. Slot objects
 			List<SlotType1> slotList = new ArrayList<>(oldExtrinsicObject.getSlot());
-
 			// 2.1 Reset slots in extrinsic object
 			oldExtrinsicObject.getSlot().clear();
-
-			// 2.2 merge service start / stop time
-			mergeServiceStartStopTime(updateRequestBodyDTO, slotList);
-
-			// 2.3 merge repository-type
+			MergeMetadataUtility.mergeServiceStartStopTime(updateRequestBodyDTO, slotList);
 			MergeMetadataUtility.mergeRepositoryType(updateRequestBodyDTO, slotList);
 			MergeMetadataUtility.mergeAdministrativeRequest(updateRequestBodyDTO, slotList);
 			MergeMetadataUtility.mergeDescription(updateRequestBodyDTO, slotList);
@@ -292,13 +304,12 @@ public final class UpdateBodyBuilderUtility {
 		}
 	}
 
-	  /**
+	/**
      * Merge repository-type metadata
      * @param updateRequestBodyDTO
      * @param slotList
      */
-    public static void mergeRefType(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList,
-    		String uuid) {
+    public static void mergeRefType(PublicationMetadataReqDTO updateRequestBodyDTO, List<SlotType1> slotList,String uuid) {
         try {
         	List<SlotType1> temp = new ArrayList<>(slotList);
         	for(SlotType1 slot : temp) {

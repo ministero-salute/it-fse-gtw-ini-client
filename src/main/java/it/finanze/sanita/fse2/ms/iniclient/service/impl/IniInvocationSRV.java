@@ -360,7 +360,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		} catch(Exception ex) {
 			log.error("Error while merge metadati", ex);
 			throw new BusinessException(ex);
-//			out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getRootCauseMessage(ex));
 		} 
 		return out;
 	}

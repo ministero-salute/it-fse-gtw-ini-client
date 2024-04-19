@@ -11,6 +11,7 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildInternationalStringType;
@@ -29,8 +30,9 @@ import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.AdministrativeReqEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
@@ -39,8 +41,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MergeMetadataUtility {
-	private MergeMetadataUtility() {}
 
 	/**
 	 * Merge eventTypeCode for extrinsic object
@@ -74,23 +76,7 @@ public class MergeMetadataUtility {
 			description = updateRequestBodyDTO.getAssettoOrganizzativo().getDescription();
 		}
 		mergeClassification(name,description, classificationScheme, classificationObjectList);
-		
-//		try {
-//			ClassificationType practiceSettingCodeClassificationObject = classificationObjectList
-//					.stream()
-//					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead"))
-//					.findFirst()
-//					.orElseThrow(() -> new MergeMetadatoNotFoundException("PracticeSettingCodeEnum non trovato nei metadati di INI"));
-//			classificationObjectList.remove(practiceSettingCodeClassificationObject);
-//			practiceSettingCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
-//			InternationalStringType practiceSettingCodeName = buildInternationalStringType(
-//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getAssettoOrganizzativo().getDescription())));
-//			practiceSettingCodeClassificationObject.setName(practiceSettingCodeName);
-//			classificationObjectList.add(practiceSettingCodeClassificationObject);
-//		} catch (Exception ex) {
-//			log.error("Error while perform merge practice setting code : {}" , ex.getMessage());
-//			throw new BusinessException("Error while perform merge practice setting code : ", ex);
-//		}
+		 
 	}
 
 	/**
@@ -107,23 +93,6 @@ public class MergeMetadataUtility {
 			description = updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription();
 		}
 		mergeClassification(name,description, classificationScheme, classificationObjectList);
-		
-//		try {
-//			ClassificationType classCodeClassificationObject = classificationObjectList
-//					.stream()
-//					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a"))
-//					.findFirst()
-//					.orElseThrow(() -> new MergeMetadatoNotFoundException("TipoDocAltoLivEnum non trovato nei metadati di INI"));
-//			classificationObjectList.remove(classCodeClassificationObject);
-//			classCodeClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode());
-//			InternationalStringType classCodeName = buildInternationalStringType(
-//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription())));
-//			classCodeClassificationObject.setName(classCodeName);
-//			classificationObjectList.add(classCodeClassificationObject);
-//		} catch (Exception ex) {
-//			log.error("Error while perform merge class code : {}" , ex.getMessage());
-//			throw new BusinessException("Error while perform merge class code : ", ex);
-//		}
 	}
 
 	/**
@@ -140,22 +109,7 @@ public class MergeMetadataUtility {
 			description = updateRequestBodyDTO.getTipologiaStruttura().getCode();
 		}
 		mergeClassification(name,description, classificationScheme, classificationObjectList);
-//		try {
-//			ClassificationType healthCareFacilityClassificationObject = classificationObjectList
-//					.stream()
-//					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1"))
-//					.findFirst()
-//					.orElseThrow(() -> new MergeMetadatoNotFoundException("HealthcareFacilityEnum non trovata nei metadati di INI"));
-//			classificationObjectList.remove(healthCareFacilityClassificationObject);
-//			healthCareFacilityClassificationObject.setNodeRepresentation(updateRequestBodyDTO.getTipologiaStruttura().getCode());
-//			InternationalStringType healthcareFacilityTypeCodeName = buildInternationalStringType(
-//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getTipologiaStruttura().getCode())));
-//			healthCareFacilityClassificationObject.setName(healthcareFacilityTypeCodeName);
-//			classificationObjectList.add(healthCareFacilityClassificationObject);
-//		} catch (Exception ex) {
-//			log.error("Error while perform merge healthcare facility type code : {}" , ex.getMessage());
-//			throw new BusinessException("Error while perform merge healthcare facility type code : ", ex);
-//		}
+
 	}
 	
 	/**
@@ -165,10 +119,10 @@ public class MergeMetadataUtility {
 	 */
 	public static void mergeClassification(String newName, String newDescription, String classificationScheme, List<ClassificationType> classificationObjectList) {
 		try {
-			ClassificationType classificationObject = classificationObjectList.stream().filter(classificationType -> classificationType.getClassificationScheme().equals(classificationScheme)).findFirst()
-					.orElse(null);
-			
-			if(classificationObject != null && newName != null) {
+			ClassificationType classificationObject = classificationObjectList.stream().filter(classificationType -> classificationType.getClassificationScheme().equals(classificationScheme)).findFirst().orElse(null);
+			if(classificationObject != null) {
+				classificationObject.setClassifiedObject(DOCUMENT_ENTRY_ID);
+				if(newName != null) {
 				classificationObjectList.remove(classificationObject);
 				classificationObject.setNodeRepresentation(newName);
 				InternationalStringType internationalStringType = null;
@@ -179,14 +133,9 @@ public class MergeMetadataUtility {
 				
 				classificationObject.setName(internationalStringType);
 				classificationObjectList.add(classificationObject);
+				}
 			}
-			
-//			classificationObjectList.remove(classificationObject);
-//			classificationObject.setNodeRepresentation(updateRequestBodyDTO.getAssettoOrganizzativo().name());
-//			InternationalStringType practiceSettingCodeName = buildInternationalStringType(
-//					new ArrayList<>(Collections.singleton(updateRequestBodyDTO.getAssettoOrganizzativo().getDescription())));
-//			classificationObject.setName(practiceSettingCodeName);
-//			classificationObjectList.add(classificationObject);
+
 		} catch (Exception ex) {
 			log.error("Error while perform merge practice setting code : {}" , ex.getMessage());
 			throw new BusinessException("Error while perform merge practice setting code : ", ex);
@@ -289,42 +238,26 @@ public class MergeMetadataUtility {
 		try {
 			ClassificationType authorClassificationObject = classificationList.stream()
 					.filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("ClassificationObject dell'autore non trovato nei metadati di INI"));
-
-			List<SlotType1> authorSlots = authorClassificationObject.getSlot();
-			SlotType1 authorInstitutionSlot = authorSlots.stream()
-					.filter(slot -> slot.getName().equals("authorInstitution"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("authorInstitution non trovato nei metadati di INI"));
-			SlotType1 authorPersonSlot = authorSlots.stream()
-					.filter(slot -> slot.getName().equals("authorPerson"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("authorPerson non trovato nei metadati di INI"));
-			SlotType1 authorRoleSlot = authorSlots.stream()
-					.filter(slot -> slot.getName().equals("authorRole"))
-					.findFirst()
-					.orElseThrow(() -> new MergeMetadatoNotFoundException("authorRole non trovato nei metadati di INI"));
-
-			SlotType1 classificationObjAuthorSlot1 = buildSlotObject("authorInstitution", authorInstitutionSlot.getSlotType(), authorInstitutionSlot.getValueList().getValue());
-			SlotType1 classificationObjAuthorSlot2 = buildSlotObject("authorPerson", authorPersonSlot.getSlotType(), authorPersonSlot.getValueList().getValue());
-			SlotType1 classificationObjAuthorSlot3 = buildSlotObject("authorRole", authorRoleSlot.getSlotType(), authorRoleSlot.getValueList().getValue());
+					.findFirst().orElse(null);
 
 			List<SlotType1> classificationObjAuthorSlots = new ArrayList<>();
-			classificationObjAuthorSlots.add(classificationObjAuthorSlot1);
-			classificationObjAuthorSlots.add(classificationObjAuthorSlot2);
-			classificationObjAuthorSlots.add(classificationObjAuthorSlot3);
+			if(authorClassificationObject!=null) {
+				authorClassificationObject.setClassifiedObject(DOCUMENT_ENTRY_ID);
+				List<SlotType1> authorSlots = authorClassificationObject.getSlot();
+				SlotType1 authorInstitutionSlot = authorSlots.stream().filter(slot -> slot.getName().equals("authorInstitution")).findFirst().orElse(null);
+				SlotType1 authorPersonSlot = authorSlots.stream().filter(slot -> slot.getName().equals("authorPerson")).findFirst().orElse(null);
+				SlotType1 authorRoleSlot = authorSlots.stream().filter(slot -> slot.getName().equals("authorRole")).findFirst().orElse(null);
 
-			return buildClassificationObjectJax(
-					null,
-					"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
-					generatedUUID,
-					"SubmissionSet1_ClassificationAuthor",
-					null,
-					classificationObjAuthorSlots,
-					Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,
-					""
-					);
+				SlotType1 classificationObjAuthorSlot1 = buildSlotObject("authorInstitution", authorInstitutionSlot.getSlotType(), authorInstitutionSlot.getValueList().getValue());
+				SlotType1 classificationObjAuthorSlot2 = buildSlotObject("authorPerson", authorPersonSlot.getSlotType(), authorPersonSlot.getValueList().getValue());
+				SlotType1 classificationObjAuthorSlot3 = buildSlotObject("authorRole", authorRoleSlot.getSlotType(), authorRoleSlot.getValueList().getValue());
+				classificationObjAuthorSlots.add(classificationObjAuthorSlot1);
+				classificationObjAuthorSlots.add(classificationObjAuthorSlot2);
+				classificationObjAuthorSlots.add(classificationObjAuthorSlot3);
+				authorClassificationObject.setNodeRepresentation("");
+			}
+			
+			return buildClassificationObjectJax(null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",DOCUMENT_ENTRY_ID,"SubmissionSet1_ClassificationAuthor",null,classificationObjAuthorSlots,Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN,"");
 		} catch (Exception ex) {
 			log.error("Error while perform merge author classification object : {}" , ex.getMessage());
 			throw new BusinessException("Error while perform merge author classification object : ", ex);
@@ -339,18 +272,15 @@ public class MergeMetadataUtility {
 	public static JAXBElement<ClassificationType> mergeContentTypeCodeClassificationObject(ObjectFactory objectFactory,PublicationMetadataReqDTO updateRequestBodyDTO,String generatedUUID) {
 		try {
 			InternationalStringType contentTypeCodeName = buildInternationalStringType(Collections.singletonList(updateRequestBodyDTO.getTipoAttivitaClinica().getDescription()));
-			SlotType1 classificationObjContentTypeCodeSlot1 = buildSlotObject(
-					Constants.IniClientConstants.CODING_SCHEME,
-					null,
-					Collections.singletonList("2.16.840.1.113883.2.9.3.3.6.1.4")
-					);
+			SlotType1 classificationObjContentTypeCodeSlot1 = buildSlotObject(Constants.IniClientConstants.CODING_SCHEME,
+					null,Collections.singletonList("2.16.840.1.113883.2.9.3.3.6.1.4"));
 			List<SlotType1> classificationObjContentTypeCodeSlots = new ArrayList<>();
 			classificationObjContentTypeCodeSlots.add(classificationObjContentTypeCodeSlot1);
 
 			return buildClassificationObjectJax(
 					null,
 					"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",
-					generatedUUID,
+					DOCUMENT_ENTRY_ID,
 					"SubmissionSet1_ClinicalActivity",
 					contentTypeCodeName,
 					classificationObjContentTypeCodeSlots,

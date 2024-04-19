@@ -103,6 +103,8 @@ public final class Constants {
 		public static final String SUBJECT_AUTHENTICATOR = "GTW_950";
 		public static final String LANGUAGE_CODE = "it-IT";
 		public static final String DOCUMENT_SIGNED = "true^Documento firmato";
+		public static final String DOCUMENT_ENTRY_ID = "Document1";
+		public static final String SUBMISSION_ENTRY_ID = "SubmissionSet1";
 
 	}
 
