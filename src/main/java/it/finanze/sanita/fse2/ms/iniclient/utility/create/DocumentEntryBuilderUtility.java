@@ -30,6 +30,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DocumentEntryBuilderUtility extends EntryBuilderUility{
+public class DocumentEntryBuilderUtility {
 
 	@Getter
 	@Setter
@@ -145,7 +146,7 @@ public class DocumentEntryBuilderUtility extends EntryBuilderUility{
 		out.add(typeCodeClassification);
 		
 		//Author
-		AuthorSlotDTO author = buildAuthorSlot(documentEntryDTO.getAuthorRole(),documentEntryDTO.getAuthorInstitution() , documentEntryDTO.getAuthor());
+		AuthorSlotDTO author = CommonUtility.buildAuthorSlot(documentEntryDTO.getAuthorRole(),documentEntryDTO.getAuthorInstitution() , documentEntryDTO.getAuthor());
 		ClassificationType authorClassification = buildClassificationObject("",
 	            AUTHOR.getClassificationScheme(),id,AUTHOR.getId(),
 	            null,Arrays.asList(author.getAuthorRoleSlot(),author.getAuthorInstitutionSlot(),author.getAuthorPersonSlot()),

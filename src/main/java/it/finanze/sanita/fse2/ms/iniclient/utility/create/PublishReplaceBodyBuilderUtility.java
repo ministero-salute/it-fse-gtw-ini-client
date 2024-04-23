@@ -12,6 +12,8 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.URN_UUID;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -69,63 +72,48 @@ public final class PublishReplaceBodyBuilderUtility {
 	 */
 	private static RegistryObjectListType buildRegistryObjectList(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
 		RegistryObjectListType registryObjectListType = new RegistryObjectListType();
-
-		String documentEntryId = "Document1";
-		String submissionEntryId = "SubmissionSet1"; 
+		 
 		
 		//ExtrinsicObject - DocumentEntry
-		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(documentEntryId, documentEntryDTO,jwtPayloadDTO);
+		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(DOCUMENT_ENTRY_ID, documentEntryDTO,jwtPayloadDTO);
 		registryObjectListType.getIdentifiable().add(extrinsicObject);
 
 		//Registry package - SubmissionSetEntry
-		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO, submissionEntryId);
+		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO, SUBMISSION_ENTRY_ID);
 		registryObjectListType.getIdentifiable().add(registryPackageObject);
 
 		String reference = "Original";
 		List<SlotType1> associationObjectSlots = new ArrayList<>();
 		SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList(reference));
 		associationObjectSlots.add(associationObjSlot);
-		JAXBElement<AssociationType1> associationObject = buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), submissionEntryId,documentEntryId,associationObjectSlots);
+		JAXBElement<AssociationType1> associationObject = SamlBodyBuilderCommonUtility.buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,associationObjectSlots);
 		registryObjectListType.getIdentifiable().add(associationObject);
 		
 		JAXBElement<AssociationType1> associationObjectRep = null;
 		if(!StringUtility.isNullOrEmpty(uuid)) {
 			//Replace
 			List<SlotType1> associationObjectSlotsRep = new ArrayList<>();
-			associationObjectRep = buildAssociationObject(
-					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", documentEntryId,uuid,associationObjectSlotsRep);
+			associationObjectRep = SamlBodyBuilderCommonUtility.buildAssociationObject(
+					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", DOCUMENT_ENTRY_ID,uuid,associationObjectSlotsRep);
 			registryObjectListType.getIdentifiable().add(associationObjectRep);
 		}
 
-		JAXBElement<ClassificationType> c = buildClassificationObject(submissionEntryId);
+		JAXBElement<ClassificationType> c = buildClassificationObject();
 		registryObjectListType.getIdentifiable().add(c);
 		
 		return registryObjectListType;
 	}
 
     
-	public static JAXBElement<ClassificationType> buildClassificationObject(String id) {
+	public static JAXBElement<ClassificationType> buildClassificationObject() {
 		ClassificationType classificationObject = new ClassificationType();
 		classificationObject.setClassificationNode("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd");
-		classificationObject.setClassifiedObject(id);
+		classificationObject.setClassifiedObject(SUBMISSION_ENTRY_ID);
 		classificationObject.setId("Classification1");
 		classificationObject.setObjectType("urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification");
 		
 		return objectFactory.createClassification(classificationObject);
 	}
 	
-	public static JAXBElement<AssociationType1> buildAssociationObject(String associationType,String id,String sourceObject,String targetObject,List<SlotType1> slots) {
-		AssociationType1 associationObject = new AssociationType1();
-		associationObject.setAssociationType(associationType);
-		associationObject.setId(id);
-		associationObject.setSourceObject(sourceObject);
-		associationObject.setTargetObject(targetObject);
-		if (slots != null) {
-			associationObject.getSlot().addAll(slots);
-		}
-
-		return objectFactory.createAssociation(associationObject);
-
-	}
   
 }

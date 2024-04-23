@@ -11,6 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import org.bson.Document;
 import org.springframework.util.CollectionUtils;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
@@ -240,4 +243,12 @@ public class CommonUtility {
         }
         return new ArrayList<>();
     }
+    
+	public static AuthorSlotDTO buildAuthorSlot(final String authorRole, final String authorInstitution, final String authorPerson) {
+		SlotType1 authorRoleSlot = buildSlotObject("authorRole", authorRole);
+		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", authorInstitution);
+		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", authorPerson);
+		return new AuthorSlotDTO(authorRoleSlot, authorInstitutionSlot, authorPersonSlot);
+		
+	}
 }
