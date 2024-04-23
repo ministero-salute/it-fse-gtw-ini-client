@@ -27,6 +27,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -85,14 +86,14 @@ public final class PublishReplaceBodyBuilderUtility {
 		List<SlotType1> associationObjectSlots = new ArrayList<>();
 		SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList(reference));
 		associationObjectSlots.add(associationObjSlot);
-		JAXBElement<AssociationType1> associationObject = buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,associationObjectSlots);
+		JAXBElement<AssociationType1> associationObject = SamlBodyBuilderCommonUtility.buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,associationObjectSlots);
 		registryObjectListType.getIdentifiable().add(associationObject);
 		
 		JAXBElement<AssociationType1> associationObjectRep = null;
 		if(!StringUtility.isNullOrEmpty(uuid)) {
 			//Replace
 			List<SlotType1> associationObjectSlotsRep = new ArrayList<>();
-			associationObjectRep = buildAssociationObject(
+			associationObjectRep = SamlBodyBuilderCommonUtility.buildAssociationObject(
 					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", DOCUMENT_ENTRY_ID,uuid,associationObjectSlotsRep);
 			registryObjectListType.getIdentifiable().add(associationObjectRep);
 		}
@@ -114,18 +115,5 @@ public final class PublishReplaceBodyBuilderUtility {
 		return objectFactory.createClassification(classificationObject);
 	}
 	
-	public static JAXBElement<AssociationType1> buildAssociationObject(String associationType,String id,String sourceObject,String targetObject,List<SlotType1> slots) {
-		AssociationType1 associationObject = new AssociationType1();
-		associationObject.setAssociationType(associationType);
-		associationObject.setId(id);
-		associationObject.setSourceObject(sourceObject);
-		associationObject.setTargetObject(targetObject);
-		if (slots != null) {
-			associationObject.getSlot().addAll(slots);
-		}
-
-		return objectFactory.createAssociation(associationObject);
-
-	}
   
 }

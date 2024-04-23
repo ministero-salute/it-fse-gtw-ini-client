@@ -1,9 +1,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.singleton;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
@@ -13,7 +11,6 @@ import org.opensaml.xml.security.x509.BasicX509Credential;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +34,6 @@ public class SigningCredentialSingleton {
 		BasicX509Credential credential = null;
 		try {
 			KeyStore keyStore = KeyStore.getInstance("JKS");
-//			try (InputStream authInStreamCrt = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(iniCFG.getKeyStoreLocation()))) {
 			try (FileInputStream fis = new FileInputStream(new File(iniCFG.getKeyStoreLocation()))) {
 				keyStore.load(fis, iniCFG.getKeyStorePassword().toCharArray());
 			}
