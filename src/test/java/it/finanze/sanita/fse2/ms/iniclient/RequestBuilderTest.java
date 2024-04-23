@@ -196,12 +196,12 @@ class RequestBuilderTest {
         jwtTokenDTO.setPayload(updateRequestDTO.getToken());
         JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
         RegistryObjectListType oldMetadata = new RegistryObjectListType();
-        assertThrows(BusinessException.class, () -> UpdateBodyBuilderUtility.buildSubmitObjectRequest(
+        assertThrows(BusinessException.class, () -> UpdateBodyBuilderUtility.buildSubmitObjectRequest(oldMetadata,
                 updateRequestDTO,
-                oldMetadata,
                 TestConstants.TEST_UUID,
                 reconfiguredToken,""
         ));
+     
     }
 
     @Test
@@ -212,9 +212,8 @@ class RequestBuilderTest {
         jwtTokenDTO.setPayload(updateRequestDTO.getToken());
         JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtTokenDTO, ActionEnumType.UPDATE);
         RegistryObjectListType oldMetadata = TestUtility.mockQueryResponse().getRegistryObjectList();
-        assertDoesNotThrow(() -> UpdateBodyBuilderUtility.buildSubmitObjectRequest(
+        assertDoesNotThrow(() -> UpdateBodyBuilderUtility.buildSubmitObjectRequest(oldMetadata,
                 updateRequestDTO,
-                oldMetadata,
                 TestConstants.TEST_UUID,
                 reconfiguredToken,""
         ));

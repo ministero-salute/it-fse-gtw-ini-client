@@ -343,24 +343,23 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 
 	@Override
-	public GetMergedMetadatiDTO getMergedMetadati(final String oidToUpdate,final MergedMetadatiRequestDTO updateRequestDTO) {
+	public GetMergedMetadatiDTO getMergedMetadati(final String oidToUpdate,final MergedMetadatiRequestDTO newMetadataDTO) {
 		GetMergedMetadatiDTO out = new GetMergedMetadatiDTO();
-		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
+		JWTTokenDTO token = new JWTTokenDTO(newMetadataDTO.getToken());
 
-		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(updateRequestDTO.getToken()), ActionEnumType.READ_REFERENCE);
+		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(newMetadataDTO.getToken()), ActionEnumType.READ_REFERENCE);
 		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
 		try (StringWriter sw = new StringWriter()) {
-			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(updateRequestDTO,oldMetadata.getRegistryObjectList(), uuid,token,oidToUpdate);
+			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(oldMetadata.getRegistryObjectList(),newMetadataDTO, uuid,token,oidToUpdate);
 			JAXB.marshal(req, sw);
 			out.setMarshallResponse(sw.toString());
 		} catch(Exception ex) {
 			log.error("Error while merge metadati", ex);
 			throw new BusinessException(ex);
-//			out.setErrorMessage("Error while merge metadati:" + ExceptionUtils.getRootCauseMessage(ex));
 		} 
 		return out;
 	}
