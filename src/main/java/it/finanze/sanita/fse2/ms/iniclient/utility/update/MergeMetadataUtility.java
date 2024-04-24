@@ -96,9 +96,11 @@ public class MergeMetadataUtility {
 		ClassificationEnum eventCode = ClassificationEnum.EVENT_CODE;
 		
 		Map<String,String> value = new HashMap<>();
-		for(String event : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
-			EventCodeEnum eventCodeEnum = EventCodeEnum.fromValue(event);
-			value.put(eventCodeEnum.getCode(), eventCodeEnum.getDescription());
+		if(updateRequestBodyDTO.getAttiCliniciRegoleAccesso()!=null) {
+			for(String event : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
+				EventCodeEnum eventCodeEnum = EventCodeEnum.fromValue(event);
+				value.put(eventCodeEnum.getCode(), eventCodeEnum.getDescription());
+			}	
 		}
 		
 		mergeClassification(eventCode.getCodingScheme(), eventCode.getClassificationScheme(), "Document1","IdEventCodeList", extrinsicObject.getClassification(), value);
