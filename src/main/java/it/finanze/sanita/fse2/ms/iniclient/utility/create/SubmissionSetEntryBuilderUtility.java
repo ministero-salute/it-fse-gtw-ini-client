@@ -142,7 +142,7 @@ public class SubmissionSetEntryBuilderUtility {
 		}
 		
 		//Author
-		if(StringUtility.isNullOrEmpty(author)) {
+		if(!StringUtility.isNullOrEmpty(author)) {
 			AuthorSlotDTO authorSlotDto = CommonUtility.buildAuthorSlot(authorRole, authorInstitution, author);
 			JAXBElement<ClassificationType> authorClassification = buildClassificationObjectJax(null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",id,
 					"SubmissionSet1_ClassificationAuthor",
