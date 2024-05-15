@@ -27,6 +27,7 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUt
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBElement;
 
@@ -92,8 +93,16 @@ public final class UpdateBodyBuilderUtility {
 		ExtrinsicObjectType extrinsicObject = mergeExtrinsicObjectMetadata(list, updateReq,requestUUID);
 		extrinsicObject.setLid(uuid);
 		
+        Optional<ClassificationType> classificationAuthor = findClassificationById(extrinsicObject, "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d");
+		ClassificationType classificationAuthorType = null;
+		if(classificationAuthor.isPresent()){
+			ClassificationType extrinsicObjAuthor = classificationAuthor.get();
+			classificationAuthorType = buildClassificationObjectJax(extrinsicObjAuthor.getClassificationNode(), "urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
+			extrinsicObjAuthor.getClassifiedObject(), extrinsicObjAuthor.getId(), extrinsicObjAuthor.getName(), extrinsicObjAuthor.getSlot(), extrinsicObjAuthor.getObjectType(), extrinsicObjAuthor.getNodeRepresentation()).getValue();
+		}
+
 		// 2. registry package
-		JAXBElement<RegistryPackageType> registryPackage = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(updateReq, jwtTokenDTO.getPayload(), requestUUID);
+		JAXBElement<RegistryPackageType> registryPackage = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(updateReq, jwtTokenDTO.getPayload(), requestUUID,classificationAuthorType);
 		list.add(registryPackage);
 		
 		// 3. Association
@@ -107,6 +116,10 @@ public final class UpdateBodyBuilderUtility {
 		return out;
 	}
 	
+	public static Optional<ClassificationType> findClassificationById(ExtrinsicObjectType extrinsicObject, String classificationScheme) {
+        return extrinsicObject.getClassification().stream().filter(c -> c.getClassificationScheme().equals(classificationScheme)).findFirst();
+    }
+
 	private static JAXBElement<AssociationType1> buildAssociation(VersionInfoType versionInfoType, String requestUUID) {
 		List<SlotType1> associationObject1Slots = new ArrayList<>();
 		SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject("SubmissionSetStatus",null,Collections.singletonList("Original"));

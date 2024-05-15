@@ -44,11 +44,13 @@ public class SubmissionSetEntryBuilderUtility {
 	@Setter
 	private static ObjectFactory objectFactory = new ObjectFactory();
 	
-	public static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSet(PublicationMetadataReqDTO updateRequestDto,JWTPayloadDTO jwtPayloadDTO, String id) {
+	public static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSet(PublicationMetadataReqDTO updateRequestDto,JWTPayloadDTO jwtPayloadDTO, String id,
+	ClassificationType classificationAuthorType) {
+
 		String sourceId = Constants.IniClientConstants.SOURCE_ID_PREFIX + StringUtility.sanitizeSourceId(jwtPayloadDTO.getSubject_organization_id());
 		JAXBElement<RegistryPackageType> registryPackage = buildRegistryPackageObjectSubmissionSet("",sourceId, updateRequestDto.getIdentificativoSottomissione(), jwtPayloadDTO.getPerson_id(),
 				updateRequestDto.getTipoAttivitaClinica().getDescription(),updateRequestDto.getTipoAttivitaClinica().getCode(),
-				"", "" , "");
+				"", "" , "",classificationAuthorType);
 		
 		String submissionSetTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		List<String> slotValues = new ArrayList<>(Collections.singletonList(submissionSetTime));
@@ -64,12 +66,12 @@ public class SubmissionSetEntryBuilderUtility {
 	public static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSet(SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO, String id) {
 		return buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO.getSubmissionTime(),submissionSetEntryDTO.getSourceId(), submissionSetEntryDTO.getUniqueID(), submissionSetEntryDTO.getPatientId(),
 				submissionSetEntryDTO.getContentTypeCodeName(),submissionSetEntryDTO.getContentTypeCode(),
-				submissionSetEntryDTO.getAuthorRole(), submissionSetEntryDTO.getAuthorInstitution() , submissionSetEntryDTO.getAuthor());
+				submissionSetEntryDTO.getAuthorRole(), submissionSetEntryDTO.getAuthorInstitution() , submissionSetEntryDTO.getAuthor(),null);
 	}
 
 	private static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSet(final String submissionTime,final String sourceId, final String uniqueId, final String patientId,
 			String contentTypeCodeName,String contentTypeCode,
-			String authorRole, String authorInstitution, String author) {
+			String authorRole, String authorInstitution, String author,ClassificationType classificationAuthorType) {
 
 		RegistryPackageType registryPackageObject = new RegistryPackageType();
 
@@ -80,7 +82,7 @@ public class SubmissionSetEntryBuilderUtility {
 		registryPackageObject.setName(null);
 		registryPackageObject.setDescription(null);
 		registryPackageObject.getSlot().addAll(buildSlotSubmissionSet(submissionTime));
-		registryPackageObject.getClassification().addAll(buildClassificationSubmissionSet(contentTypeCodeName,contentTypeCode,authorRole,authorInstitution,author,id));
+		registryPackageObject.getClassification().addAll(buildClassificationSubmissionSet(contentTypeCodeName,contentTypeCode,authorRole,authorInstitution,author,id,classificationAuthorType));
 		registryPackageObject.getExternalIdentifier().addAll(buildExternalIdentifierSubmissionSet(sourceId, uniqueId,patientId, id));
 		return objectFactory.createRegistryPackage(registryPackageObject);
 	}
@@ -125,7 +127,7 @@ public class SubmissionSetEntryBuilderUtility {
 	}
 	
 	private static List<ClassificationType> buildClassificationSubmissionSet(String contentTypeCodeName,String contentTypeCode,
-			String authorRole, String authorInstitution, String author,String id) {
+			String authorRole, String authorInstitution, String author,String id,ClassificationType classificationAuthorType) {
 		
 		List<ClassificationType> out = new ArrayList<>();
 		if(!StringUtility.isNullOrEmpty(contentTypeCodeName)) {
@@ -140,18 +142,20 @@ public class SubmissionSetEntryBuilderUtility {
 			out.add(contentTypeCodeClassification.getValue());
 	
 		}
-		
-		//Author
-		if(!StringUtility.isNullOrEmpty(author)) {
-			AuthorSlotDTO authorSlotDto = CommonUtility.buildAuthorSlot(authorRole, authorInstitution, author);
-			JAXBElement<ClassificationType> authorClassification = buildClassificationObjectJax(null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",id,
-					"SubmissionSet1_ClassificationAuthor",
-					null,
-					Arrays.asList(authorSlotDto.getAuthorRoleSlot(), authorSlotDto.getAuthorInstitutionSlot(), authorSlotDto.getAuthorPersonSlot()),
-					"urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",
-					"");
 
-			out.add(authorClassification.getValue());	
+		//Author
+		if(classificationAuthorType!=null){
+			out.add(classificationAuthorType);
+		} else if(!StringUtility.isNullOrEmpty(author)) {
+		 	AuthorSlotDTO authorSlotDto = CommonUtility.buildAuthorSlot(authorRole, authorInstitution, author);
+		 	JAXBElement<ClassificationType> authorClassification = buildClassificationObjectJax(null,"urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",id,
+		 			"SubmissionSet1_ClassificationAuthor",
+		 			null,
+		 			Arrays.asList(authorSlotDto.getAuthorRoleSlot(), authorSlotDto.getAuthorInstitutionSlot(), authorSlotDto.getAuthorPersonSlot()),
+		 			"urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification",
+		 			"");
+
+		 	out.add(authorClassification.getValue());	
 		}
 		
 		return out;
