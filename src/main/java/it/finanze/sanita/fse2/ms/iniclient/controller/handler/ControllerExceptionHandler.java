@@ -14,6 +14,7 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -26,6 +27,10 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+
+import javax.validation.ConstraintViolationException;
+
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
 
 /**
  *	Exceptions Handler.
@@ -48,10 +53,10 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	/**
 	 * Management record not found exception received by clients.
-	 * 
+	 *
 	 * @param ex		exception
 	 * @param request	request
-	 * @return			
+	 * @return
 	 */
 	@ExceptionHandler(value = {NotFoundException.class, IdDocumentNotFoundException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final NotFoundException ex, final WebRequest request) {
@@ -75,12 +80,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-		ErrorDTO error = new ErrorDTO(ErrorClassEnum.GENERIC.getType(), ErrorClassEnum.GENERIC.getTitle(), ex.getMessage(), "error/generic");
+		ErrorDTO error = new ErrorDTO(GENERIC.getType(), GENERIC.getTitle(), ex.getMessage(), "error/generic");
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
- 
- 
- 
+
+
+
 }

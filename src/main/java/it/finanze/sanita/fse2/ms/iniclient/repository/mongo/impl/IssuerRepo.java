@@ -59,4 +59,19 @@ public class IssuerRepo implements IIssuerRepo {
         }
         return dCount;
     }
+
+    @Override
+    public IssuerETY findRegioneMiddleware(String etichettaRegione) {
+        IssuerETY res = null;
+        try {
+            Query query = new Query();
+            query.addCriteria(Criteria.where(IssuerETY.ETICHETTA_REGIONE).is(etichettaRegione));
+            query.addCriteria(Criteria.where(IssuerETY.MIDDLEWARE).is(true));
+            res = mongo.findOne(query, IssuerETY.class);
+        } catch (Exception ex){
+            log.error("Error while performing isMiddlewareByEtichettaRegione on issuer collection", ex);
+            throw new BusinessException("Error while performing isMiddlewareByEtichettaRegione on issuer collection", ex);
+        }
+        return res;
+    }
 }

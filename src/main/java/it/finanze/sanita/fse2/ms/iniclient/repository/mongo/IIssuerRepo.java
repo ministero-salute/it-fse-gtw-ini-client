@@ -6,6 +6,6 @@ public interface IIssuerRepo {
 
     IssuerETY findByName(String name);
     String createIssuer(IssuerETY issuerETY);
-
     Integer removeByName(String name);
+    IssuerETY findRegioneMiddleware(String etichettaRegione);
 }

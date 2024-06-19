@@ -30,6 +30,12 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
             log.error(message);
             throw new BusinessException(message);
         }
+        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
+            String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
+            log.error(message);
+            throw new BusinessException(message);
+        }
+
         IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
         response.setTraceID(traceInfo.getTraceID());
         response.setSpanID(traceInfo.getSpanID());
@@ -45,15 +51,17 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
         return response;
     }
 
+
     @Override
     public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
         LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-        if (StringUtility.isNullOrEmpty(requestBody.getIssuer())){
-            String message = String.format("La stringa issuer deve essere valorizzata");
+        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
+            String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
             log.error(message);
             throw new BusinessException(message);
         }
+
         Integer dCount = issuerSRV.removeIssuer(requestBody.getIssuer()).getCount();
         IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
         response.setTraceID(traceInfo.getTraceID());

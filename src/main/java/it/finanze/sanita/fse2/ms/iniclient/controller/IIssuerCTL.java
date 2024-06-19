@@ -13,12 +13,15 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RequestMapping(path = "/v1")
 @Tag(name = "Servizio di censimento issuer")
+@Validated
 public interface IIssuerCTL {
 
     @PostMapping("/issuer-create")
@@ -27,7 +30,7 @@ public interface IIssuerCTL {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Creazione eseguita con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))) })
-    IssuerResponseDTO create(@RequestBody IssuerCreateRequestDTO requestBody, HttpServletRequest request);
+    IssuerResponseDTO create(@Valid @RequestBody IssuerCreateRequestDTO requestBody, HttpServletRequest request);
 
     @DeleteMapping("/issuer-delete/{issuer}")
     @Operation(summary = "Cancellazione issuer", description = "Cancella l'issuer dal database.")
@@ -43,5 +46,5 @@ public interface IIssuerCTL {
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Aggiornamento eseguito con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))) })
-    IssuerResponseDTO replace(@RequestBody IssuerCreateRequestDTO requestBody, HttpServletRequest request);
+    IssuerResponseDTO replace(@Valid @RequestBody IssuerCreateRequestDTO requestBody, HttpServletRequest request);
 }

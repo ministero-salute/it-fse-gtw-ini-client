@@ -11,6 +11,7 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
+import it.finanze.sanita.fse2.ms.iniclient.service.IKafkaSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,9 @@ public class IssuerSRV implements IIssuerSRV {
 
     @Autowired
     private IIssuerRepo issuerRepo;
+
+    @Autowired
+    private IKafkaSRV kafkaSRV;
     
     @Override
     public boolean isMocked(final String issuer) {
@@ -40,12 +44,22 @@ public class IssuerSRV implements IIssuerSRV {
         IssuerETY entity = new IssuerETY();
         entity.setIssuer(issuerDTO.getIssuer());
         entity.setMock(issuerDTO.isMock());
+        entity.setMailResponsabile(issuerDTO.getMailResponsabile());
+        entity.setMiddleware(issuerDTO.isMiddleware());
+        entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
+        if(!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
 
-        IssuerETY finded = issuerRepo.findByName(entity.getIssuer());
+        IssuerETY issuer = issuerRepo.findByName(entity.getIssuer());
+        IssuerETY regione = issuerRepo.findRegioneMiddleware(entity.getEtichettaRegione());
 
-        if (finded != null){
+        if (issuer != null){
             throw new BusinessException("Issuer già esistente nel database");
         }
+
+        if(regione != null && issuerDTO.isMiddleware()) {
+            throw new BusinessException("La regione indicata ha già un middleware");
+        }
+
 
         String id = issuerRepo.createIssuer(entity);
 
@@ -55,6 +69,8 @@ public class IssuerSRV implements IIssuerSRV {
             String message = String.format("Creazione dell'issuer %s nel database non riuscita", entity.getIssuer());
             throw new BusinessException(message);
         }
+
+        kafkaSRV.sendMessage("topic", "key", "Value"); //TODO
         return out;
     }
 
