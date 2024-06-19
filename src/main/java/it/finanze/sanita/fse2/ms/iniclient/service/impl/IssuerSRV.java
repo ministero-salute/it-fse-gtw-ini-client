@@ -3,6 +3,7 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaTopicCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
@@ -24,6 +25,9 @@ public class IssuerSRV implements IIssuerSRV {
 
     @Autowired
     private IKafkaSRV kafkaSRV;
+
+    @Autowired
+    private KafkaTopicCFG kafkaTopicCFG;
     
     @Override
     public boolean isMocked(final String issuer) {
@@ -70,7 +74,7 @@ public class IssuerSRV implements IIssuerSRV {
             throw new BusinessException(message);
         }
 
-        kafkaSRV.sendMessage("topic", "key", "Value"); //TODO
+        kafkaSRV.sendMessage(kafkaTopicCFG.getCrashProgramValidatorTopic(), issuerDTO.getIssuer(), "Value"); 
         return out;
     }
 
