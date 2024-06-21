@@ -11,26 +11,25 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
-
-import javax.validation.ConstraintViolationException;
-
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
 
 /**
  *	Exceptions Handler.
@@ -86,6 +85,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@Override
+	protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
+		ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }
