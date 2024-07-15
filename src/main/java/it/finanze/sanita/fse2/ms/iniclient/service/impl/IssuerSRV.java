@@ -1,11 +1,17 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaTopicCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IssuersDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
@@ -51,6 +57,8 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setMailResponsabile(issuerDTO.getMailResponsabile());
         entity.setMiddleware(issuerDTO.isMiddleware());
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
+        entity.setCodFiscalePaziente(issuerDTO.getCodFiscalePaziente());
+
         if(!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
 
         IssuerETY issuer = issuerRepo.findByName(entity.getIssuer());
@@ -63,8 +71,7 @@ public class IssuerSRV implements IIssuerSRV {
         if(regione != null && issuerDTO.isMiddleware()) {
             throw new BusinessException("La regione indicata ha già un middleware");
         }
-
-
+ 
         String id = issuerRepo.createIssuer(entity);
 
         out.setEsito(!StringUtility.isNullOrEmpty(id));
@@ -73,8 +80,9 @@ public class IssuerSRV implements IIssuerSRV {
             String message = String.format("Creazione dell'issuer %s nel database non riuscita", entity.getIssuer());
             throw new BusinessException(message);
         }
-
-        kafkaSRV.sendMessage(kafkaTopicCFG.getCrashProgramValidatorTopic(), issuerDTO.getIssuer(), "Value"); 
+ 
+        IssuersDTO issuers = buildIssuersDtoJson();
+        kafkaSRV.sendMessage(kafkaTopicCFG.getCrashProgramValidatorTopic(), issuerDTO.getMailResponsabile(), StringUtility.toJSONJackson(issuers)); 
         return out;
     }
 
@@ -94,5 +102,20 @@ public class IssuerSRV implements IIssuerSRV {
         out.setCount(count);
 
         return out;
+    }
+
+    private IssuersDTO buildIssuersDtoJson(){
+        List<IssuerETY> issuersEty = issuerRepo.findIssuersCrashProgrm();
+        IssuersDTO issuers = new IssuersDTO();
+        if(issuersEty!=null && !issuersEty.isEmpty()){
+            issuers.setDataAggiornamento(new Date());
+            issuers.setCounter(issuersEty.size());
+            List<IssuerDTO> issuerDto = new ArrayList<>();
+            for(IssuerETY i : issuersEty){
+                issuerDto.add(new IssuerDTO(i.getIssuer(),i.getEtichettaRegione()));
+            }
+            issuers.setIssuers(issuerDto);
+        } 
+        return issuers;
     }
 }

@@ -1,15 +1,19 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl;
 
-import com.mongodb.client.result.DeleteResult;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
-import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
+import com.mongodb.client.result.DeleteResult;
+
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
+import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
@@ -35,7 +39,7 @@ public class IssuerRepo implements IIssuerRepo {
     @Override
     public String createIssuer(IssuerETY issuerETY) {
         String out = null;
-        try{
+        try{ 
             IssuerETY issuer = mongo.insert(issuerETY);
             out = issuer.getId();
         }catch (Exception ex){
@@ -74,4 +78,12 @@ public class IssuerRepo implements IIssuerRepo {
         }
         return res;
     }
+
+    @Override
+    public List<IssuerETY> findIssuersCrashProgrm(){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("mock").is(false));
+        return mongo.find(query, IssuerETY.class);
+    }
+
 }

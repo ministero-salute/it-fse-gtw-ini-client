@@ -21,6 +21,8 @@ public class IssuerETY {
     public static final String MIDDLEWARE = "middleware";
     public static final String ETICHETTA_REGIONE = "etichettaRegione";
     public static final String NOME_DOCUMENT_REPOSITORY = "nomeDocumentRepository";
+    public static final String COD_FISCALE_PAZIENTE = "codFiscalePaziente";
+
 
     @Id
     private String id;
@@ -43,4 +45,9 @@ public class IssuerETY {
     @Field(name = NOME_DOCUMENT_REPOSITORY)
     @Nullable
     private String nomeDocumentRepository;
-}
+
+    @Field(name = COD_FISCALE_PAZIENTE)
+    @Nullable
+    private String codFiscalePaziente;
+    
+} 
