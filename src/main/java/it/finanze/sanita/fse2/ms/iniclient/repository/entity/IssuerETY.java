@@ -3,12 +3,9 @@ package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
 import com.mongodb.lang.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.validation.constraints.NotBlank;
 
 @Document(collection = "#{@issuersBean}")
 @Data
@@ -21,7 +18,7 @@ public class IssuerETY {
     public static final String MIDDLEWARE = "middleware";
     public static final String ETICHETTA_REGIONE = "etichettaRegione";
     public static final String NOME_DOCUMENT_REPOSITORY = "nomeDocumentRepository";
-    public static final String COD_FISCALE_PAZIENTE = "codFiscalePaziente";
+    public static final String PAZIENTE_CF = "pazienteCf";
 
 
     @Id
@@ -46,8 +43,8 @@ public class IssuerETY {
     @Nullable
     private String nomeDocumentRepository;
 
-    @Field(name = COD_FISCALE_PAZIENTE)
+    @Field(name = PAZIENTE_CF)
     @Nullable
-    private String codFiscalePaziente;
+    private String pazienteCf;
     
 } 

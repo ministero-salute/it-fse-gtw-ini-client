@@ -32,5 +32,5 @@ public class IssuerCreateRequestDTO {
     @Nullable
     private String nomeDocumentRepository;
  
-    private String codFiscalePaziente;
+    private String pazienteCf;
 }
