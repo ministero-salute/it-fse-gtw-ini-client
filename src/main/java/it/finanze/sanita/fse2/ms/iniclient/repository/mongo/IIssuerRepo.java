@@ -1,8 +1,8 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.mongo;
 
-import java.util.List;
-
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
+
+import java.util.List;
 
 public interface IIssuerRepo {
 
@@ -11,5 +11,6 @@ public interface IIssuerRepo {
     Integer removeByName(String name);
     IssuerETY findRegioneMiddleware(String etichettaRegione);
     List<IssuerETY> findIssuersCrashProgrm();
+    IssuerETY findByFiscalCode(String fiscalCode);
 
 }

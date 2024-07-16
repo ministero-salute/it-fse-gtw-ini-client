@@ -1,19 +1,19 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl;
 
-import java.util.List;
-
+import com.mongodb.client.result.DeleteResult;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
+import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.client.result.DeleteResult;
+import java.util.List;
 
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
-import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
-import lombok.extern.slf4j.Slf4j;
+import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY.*;
 
 @Repository
 @Slf4j
@@ -27,7 +27,7 @@ public class IssuerRepo implements IIssuerRepo {
         IssuerETY out = null;
         try{
             Query query = new Query();
-            query.addCriteria(Criteria.where(IssuerETY.ISSUER).is(name));
+            query.addCriteria(Criteria.where(ISSUER).is(name));
             out = mongo.findOne(query, IssuerETY.class);
         }catch (Exception ex){
             log.error("Error while perform findByName on issuer collection", ex);
@@ -54,7 +54,7 @@ public class IssuerRepo implements IIssuerRepo {
         Integer dCount = 0;
         try{
             Query query = new Query();
-            query.addCriteria(Criteria.where(IssuerETY.ISSUER).is(name));
+            query.addCriteria(Criteria.where(ISSUER).is(name));
             DeleteResult res = mongo.remove(query, IssuerETY.class);
             dCount = (int) res.getDeletedCount();
         }catch (Exception ex){
@@ -69,8 +69,8 @@ public class IssuerRepo implements IIssuerRepo {
         IssuerETY res = null;
         try {
             Query query = new Query();
-            query.addCriteria(Criteria.where(IssuerETY.ETICHETTA_REGIONE).is(etichettaRegione));
-            query.addCriteria(Criteria.where(IssuerETY.MIDDLEWARE).is(true));
+            query.addCriteria(Criteria.where(ETICHETTA_REGIONE).is(etichettaRegione));
+            query.addCriteria(Criteria.where(MIDDLEWARE).is(true));
             res = mongo.findOne(query, IssuerETY.class);
         } catch (Exception ex){
             log.error("Error while performing isMiddlewareByEtichettaRegione on issuer collection", ex);
@@ -82,8 +82,15 @@ public class IssuerRepo implements IIssuerRepo {
     @Override
     public List<IssuerETY> findIssuersCrashProgrm(){
         Query query = new Query();
-        query.addCriteria(Criteria.where("mock").is(false));
+        query.addCriteria(Criteria.where(MOCK).is(false));
         return mongo.find(query, IssuerETY.class);
+    }
+
+    @Override
+    public IssuerETY findByFiscalCode(String fiscalCode) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where(PAZIENTE_CF).is(fiscalCode));
+        return mongo.findOne(query, IssuerETY.class);
     }
 
 }

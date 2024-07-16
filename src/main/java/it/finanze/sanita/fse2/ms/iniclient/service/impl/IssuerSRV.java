@@ -1,12 +1,5 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaTopicCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
@@ -21,6 +14,12 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IKafkaSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -57,21 +56,26 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setMailResponsabile(issuerDTO.getMailResponsabile());
         entity.setMiddleware(issuerDTO.isMiddleware());
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
-        entity.setCodFiscalePaziente(issuerDTO.getCodFiscalePaziente());
+        entity.setPazienteCf(issuerDTO.getPazienteCf());
 
         if(!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
 
         IssuerETY issuer = issuerRepo.findByName(entity.getIssuer());
         IssuerETY regione = issuerRepo.findRegioneMiddleware(entity.getEtichettaRegione());
+        IssuerETY paziente = issuerRepo.findByFiscalCode(entity.getPazienteCf());
 
         if (issuer != null){
             throw new BusinessException("Issuer già esistente nel database");
         }
 
-        if(regione != null && issuerDTO.isMiddleware()) {
+        if(regione != null) {
             throw new BusinessException("La regione indicata ha già un middleware");
         }
- 
+
+        if(paziente != null){
+            throw new BusinessException("Il codice fiscale del paziente inserito è già presente");
+        }
+
         String id = issuerRepo.createIssuer(entity);
 
         out.setEsito(!StringUtility.isNullOrEmpty(id));
