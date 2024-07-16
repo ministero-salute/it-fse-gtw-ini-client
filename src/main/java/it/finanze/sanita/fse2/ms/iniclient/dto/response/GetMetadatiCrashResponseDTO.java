@@ -20,59 +20,48 @@ import lombok.Setter;
 @Setter
 public class GetMetadatiCrashResponseDTO extends ResponseDTO {
 
-	private String identificativoDoc;
+	private String slotIdentificativoRep;
+	private List<String> slotAdministrativeRequest;
+	private String slotDataInizioPrestazione; 
+	private String slotDataFinePrestazione;
+	private String slotConservazioneANorma; 
+	private List<String> slotDescriptions; 
+	private String classificationTipoDocumentoLivAlto; 
+	private String classificationTipologiaStruttura;
+	private String classificationAssettoOrganizzativo; 
+	private List<String> classificationAttiCliniciRegoleAccesso; 
 
-	private String identificativoRep;
-
-	private String healthDataFormat;
-
-	private String tipologiaStruttura;
-
-	private List<String> attiCliniciRegoleAccesso;
-
-	private String tipoDocumentoLivAlto;
-
-	private String assettoOrganizzativo;
-
-	private String dataInizioPrestazione;
-
-	private String dataFinePrestazione;
-
-	private String conservazioneANorma;
-
-	private String tipoAttivitaClinica;
-
-	private String identificativoSottomissione;
-
-	private List<String> descriptions;
-
-	private List<String> administrativeRequest;
+	// private String healthDataFormat; 
+	// private String tipoAttivitaClinica; 
+	// private String identificativoSottomissione; 
+	 
 
 	public GetMetadatiCrashResponseDTO() {
 		super();
 	}
 
-	public GetMetadatiCrashResponseDTO(final LogTraceInfoDTO traceInfo,
-			String identificativoDoc, String identificativoRep, String healthDataFormat, String tipologiaStruttura,
+	public GetMetadatiCrashResponseDTO(final LogTraceInfoDTO traceInfo, String identificativoRep, String healthDataFormat, String tipologiaStruttura,
 			List<String> attiCliniciRegoleAccesso, String tipoDocumentoLivAlto, String assettoOrganizzativo,
 			String dataInizioPrestazione, String dataFinePrestazione,
 			String conservazioneANorma, String tipoAttivitaClinica, String identificativoSottomissione,
 			List<String> descriptions, List<String> administrativeRequest) {
 		super(traceInfo);
-		this.identificativoDoc = identificativoDoc;
-		this.identificativoRep = identificativoRep;
-		this.healthDataFormat = healthDataFormat;
-		this.tipologiaStruttura = tipologiaStruttura;
-		this.attiCliniciRegoleAccesso = attiCliniciRegoleAccesso;
-		this.tipoDocumentoLivAlto = tipoDocumentoLivAlto;
-		this.assettoOrganizzativo = assettoOrganizzativo;
-		this.dataInizioPrestazione = dataInizioPrestazione;
-		this.dataFinePrestazione = dataFinePrestazione;
-		this.conservazioneANorma = conservazioneANorma;
-		this.tipoAttivitaClinica = tipoAttivitaClinica;
-		this.identificativoSottomissione = identificativoSottomissione;
-		this.descriptions = descriptions;
-		this.administrativeRequest = administrativeRequest;
+		 
+		this.slotIdentificativoRep = identificativoRep;
+		
+		this.classificationTipologiaStruttura = tipologiaStruttura;
+		this.classificationAttiCliniciRegoleAccesso = attiCliniciRegoleAccesso;
+		this.classificationTipoDocumentoLivAlto = tipoDocumentoLivAlto;
+		this.classificationAssettoOrganizzativo = assettoOrganizzativo;
+		this.slotDataInizioPrestazione = dataInizioPrestazione;
+		this.slotDataFinePrestazione = dataFinePrestazione;
+		this.slotConservazioneANorma = conservazioneANorma;
+		this.slotDescriptions = descriptions;
+		this.slotAdministrativeRequest = administrativeRequest;
+
+		// this.tipoAttivitaClinica = tipoAttivitaClinica;
+		// this.identificativoSottomissione = identificativoSottomissione;
+		// this.healthDataFormat = healthDataFormat;
 	}
 
 }

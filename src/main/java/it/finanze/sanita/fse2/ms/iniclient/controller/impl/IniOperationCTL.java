@@ -13,6 +13,7 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
@@ -276,14 +278,51 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		if (optExtrinsicObject.isPresent()) {
 			ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
 			for(SlotType1 slot : extrinsicObject.getSlot()){
+				
 				if("repositoryUniqueId".equals(slot.getName())){
-					out.setIdentificativoRep(slot.getValueList().getValue().get(0));
+					out.setSlotIdentificativoRep(slot.getValueList().getValue().get(0));
 				}
 
 				if("urn:ita:2022:administrativeRequest".equals(slot.getName())){
-					out.setAdministrativeRequest(slot.getValueList().getValue());
+					out.setSlotAdministrativeRequest(slot.getValueList().getValue());
+				}
+
+				if("serviceStartTime".equals(slot.getName())){
+					out.setSlotDataInizioPrestazione(slot.getValueList().getValue().get(0));
+				}
+
+				if("serviceStopTime".equals(slot.getName())){
+					out.setSlotDataFinePrestazione(slot.getValueList().getValue().get(0));
+				}
+
+				if("urn:ita:2017:repository-type".equals(slot.getName())){
+					out.setSlotConservazioneANorma(slot.getValueList().getValue().get(0));
+				}
+
+				if("urn:ita:2022:urn:ita:2022:description".equals(slot.getName())){
+					out.setSlotDescriptions(slot.getValueList().getValue());
 				}
 			}
+			for(ClassificationType classificationType : extrinsicObject.getClassification()){
+				if("ClassCodeId_1".equals(classificationType.getId())){
+					out.setClassificationTipoDocumentoLivAlto(classificationType.getNodeRepresentation());
+				}
+
+				if("healthcareFacilityTypeCode_1".equals(classificationType.getId())){
+					out.setClassificationTipologiaStruttura(classificationType.getNodeRepresentation());
+				}
+
+				if("practiceSettingCode_1".equals(classificationType.getId())){
+					out.setClassificationAssettoOrganizzativo(classificationType.getNodeRepresentation());
+				}
+
+				if("EventCodeList_1_1".equals(classificationType.getId())){
+					out.setClassificationAttiCliniciRegoleAccesso(Arrays.asList(classificationType.getNodeRepresentation()));
+				}
+ 
+				System.out.println(classificationType.getClassificationScheme());
+			}
+
 		}
  
 		return out;
