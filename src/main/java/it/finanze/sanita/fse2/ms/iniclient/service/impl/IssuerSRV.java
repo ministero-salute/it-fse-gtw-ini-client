@@ -14,6 +14,7 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IKafkaSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.security.oauthbearer.secured.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,15 +66,15 @@ public class IssuerSRV implements IIssuerSRV {
         IssuerETY paziente = issuerRepo.findByFiscalCode(entity.getPazienteCf());
 
         if (issuer != null){
-            throw new BusinessException("Issuer già esistente nel database");
+            throw new ValidateException("Issuer già esistente nel database");
         }
 
         if(regione != null) {
-            throw new BusinessException("La regione indicata ha già un middleware");
+            throw new ValidateException("La regione indicata ha già un middleware");
         }
 
         if(paziente != null){
-            throw new BusinessException("Il codice fiscale del paziente inserito è già presente");
+            throw new ValidateException("Il codice fiscale del paziente inserito è già presente");
         }
 
         String id = issuerRepo.createIssuer(entity);
