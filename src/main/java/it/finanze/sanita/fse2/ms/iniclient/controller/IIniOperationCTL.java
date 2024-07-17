@@ -35,7 +35,8 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
@@ -108,11 +109,11 @@ public interface IIniOperationCTL {
 
 	@PostMapping("/get-metadati-post-crash/{idDoc}")
 	@Operation(summary = "Get metadati INI", description = "Get dei metadati dato un oid in input.")
-	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiCrashResponseDTO.class)))
+	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiCrashProgramResponseDTO.class)))
 	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiCrashResponseDTO.class))),
+			@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiCrashProgramResponseDTO.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
-	ResponseEntity<GetMetadatiCrashResponseDTO> getMetadatiPostCrash(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
+	ResponseEntity<GetMetadatiCrashProgramResponseDTO> getMetadatiPostCrash(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
 
 }

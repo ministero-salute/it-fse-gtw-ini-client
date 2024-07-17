@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +40,15 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
@@ -57,9 +61,8 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
-import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotListType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 
 /**
  * INI Publication controller.
@@ -257,18 +260,35 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public ResponseEntity<GetMetadatiCrashResponseDTO> getMetadatiPostCrash(String idDoc, GetMetadatiReqDTO jwtPayload,
+	public ResponseEntity<GetMetadatiCrashProgramResponseDTO> getMetadatiPostCrash(String idDoc, GetMetadatiReqDTO jwtPayload,
 			HttpServletRequest request) {
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(jwtPayload));
 
+		boolean documentFound = true;
 		AdhocQueryResponse res = iniInvocationSRV.getMetadata(idDoc, token);
-		GetMetadatiCrashResponseDTO out = buildFromAdhocQueryRes(res);
+		if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+			for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+				if (error.getCodeContext().equals("No results from the query")) {
+					documentFound = false;
+					break;
+				}
+			}
+		}
+		GetMetadatiCrashProgramDTO metadati = null;
+		if(documentFound) {
+			metadati = buildFromAdhocQueryRes(res);
+		}
+		  
+		GetMetadatiCrashProgramResponseDTO out = new GetMetadatiCrashProgramResponseDTO();
+		out.setMetadati(metadati);
+		out.setFoundDocument(documentFound);
 		return new ResponseEntity<>(out, HttpStatus.OK);
 	}
 
-	private GetMetadatiCrashResponseDTO buildFromAdhocQueryRes(AdhocQueryResponse response) {
-		GetMetadatiCrashResponseDTO out = new GetMetadatiCrashResponseDTO();
+	  
+	private GetMetadatiCrashProgramDTO buildFromAdhocQueryRes(AdhocQueryResponse response) {
+		GetMetadatiCrashProgramDTO metadati = new GetMetadatiCrashProgramDTO();
 		 
 		List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
 				response.getRegistryObjectList().getIdentifiable());
@@ -280,51 +300,50 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			for(SlotType1 slot : extrinsicObject.getSlot()){
 				
 				if("repositoryUniqueId".equals(slot.getName())){
-					out.setSlotIdentificativoRep(slot.getValueList().getValue().get(0));
+					metadati.setSlotIdentificativoRep(slot.getValueList().getValue().get(0));
 				}
 
 				if("urn:ita:2022:administrativeRequest".equals(slot.getName())){
-					out.setSlotAdministrativeRequest(slot.getValueList().getValue());
+					metadati.setSlotAdministrativeRequest(slot.getValueList().getValue());
 				}
 
 				if("serviceStartTime".equals(slot.getName())){
-					out.setSlotDataInizioPrestazione(slot.getValueList().getValue().get(0));
+					metadati.setSlotDataInizioPrestazione(slot.getValueList().getValue().get(0));
 				}
 
 				if("serviceStopTime".equals(slot.getName())){
-					out.setSlotDataFinePrestazione(slot.getValueList().getValue().get(0));
+					metadati.setSlotDataFinePrestazione(slot.getValueList().getValue().get(0));
 				}
 
 				if("urn:ita:2017:repository-type".equals(slot.getName())){
-					out.setSlotConservazioneANorma(slot.getValueList().getValue().get(0));
+					metadati.setSlotConservazioneANorma(slot.getValueList().getValue().get(0));
 				}
 
 				if("urn:ita:2022:urn:ita:2022:description".equals(slot.getName())){
-					out.setSlotDescriptions(slot.getValueList().getValue());
+					metadati.setSlotDescriptions(slot.getValueList().getValue());
 				}
 			}
 			for(ClassificationType classificationType : extrinsicObject.getClassification()){
 				if("ClassCodeId_1".equals(classificationType.getId())){
-					out.setClassificationTipoDocumentoLivAlto(classificationType.getNodeRepresentation());
+					metadati.setClassificationTipoDocumentoLivAlto(classificationType.getNodeRepresentation());
 				}
 
 				if("healthcareFacilityTypeCode_1".equals(classificationType.getId())){
-					out.setClassificationTipologiaStruttura(classificationType.getNodeRepresentation());
+					metadati.setClassificationTipologiaStruttura(classificationType.getNodeRepresentation());
 				}
 
 				if("practiceSettingCode_1".equals(classificationType.getId())){
-					out.setClassificationAssettoOrganizzativo(classificationType.getNodeRepresentation());
+					metadati.setClassificationAssettoOrganizzativo(classificationType.getNodeRepresentation());
 				}
 
 				if("EventCodeList_1_1".equals(classificationType.getId())){
-					out.setClassificationAttiCliniciRegoleAccesso(Arrays.asList(classificationType.getNodeRepresentation()));
+					metadati.setClassificationAttiCliniciRegoleAccesso(Arrays.asList(classificationType.getNodeRepresentation()));
 				}
- 
-				System.out.println(classificationType.getClassificationScheme());
+  
 			}
 
 		}
  
-		return out;
+		return metadati;
 	}
 }
