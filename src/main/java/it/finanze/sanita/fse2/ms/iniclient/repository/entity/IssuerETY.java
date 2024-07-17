@@ -19,6 +19,8 @@ public class IssuerETY {
     public static final String ETICHETTA_REGIONE = "etichettaRegione";
     public static final String NOME_DOCUMENT_REPOSITORY = "nomeDocumentRepository";
     public static final String PAZIENTE_CF = "pazienteCf";
+    public static final String EMAIL_SENT = "isEmailSent";
+
 
 
     @Id
@@ -46,5 +48,8 @@ public class IssuerETY {
     @Field(name = PAZIENTE_CF)
     @Nullable
     private String pazienteCf;
+
+    @Field(name = EMAIL_SENT)
+    private boolean emailSent=false;
     
 } 
