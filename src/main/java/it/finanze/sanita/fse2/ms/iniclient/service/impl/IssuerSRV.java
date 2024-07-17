@@ -59,23 +59,20 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
         entity.setPazienteCf(issuerDTO.getPazienteCf());
 
-        if(!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
+        IssuerETY asl = null;
+        if(!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) {
+            entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
+            asl = issuerRepo.findByNomeDocumentRepository(entity.getNomeDocumentRepository());
+        }
 
         IssuerETY issuer = issuerRepo.findByName(entity.getIssuer());
         IssuerETY regione = issuerRepo.findRegioneMiddleware(entity.getEtichettaRegione());
         IssuerETY paziente = issuerRepo.findByFiscalCode(entity.getPazienteCf());
 
-        if (issuer != null){
-            throw new ValidateException("Issuer già esistente nel database");
-        }
-
-        if(regione != null) {
-            throw new ValidateException("La regione indicata ha già un middleware");
-        }
-
-        if(paziente != null){
-            throw new ValidateException("Il codice fiscale del paziente inserito è già presente");
-        }
+        if (issuer != null) throw new ValidateException("Issuer già esistente nel database");
+        if(regione != null) throw new ValidateException("La regione indicata ha già un middleware");
+        if(paziente != null) throw new ValidateException("Il codice fiscale del paziente inserito è già presente");
+        if(asl!=null && entity.getMiddleware()) throw new ValidateException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
 
         String id = issuerRepo.createIssuer(entity);
 

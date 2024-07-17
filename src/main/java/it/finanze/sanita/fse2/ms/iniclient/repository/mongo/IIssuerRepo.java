@@ -12,5 +12,7 @@ public interface IIssuerRepo {
     IssuerETY findRegioneMiddleware(String etichettaRegione);
     List<IssuerETY> findIssuersCrashProgrm();
     IssuerETY findByFiscalCode(String fiscalCode);
+    IssuerETY findByNomeDocumentRepository(String fiscalCode);
+
 
 }
