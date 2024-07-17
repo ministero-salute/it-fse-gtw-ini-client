@@ -93,4 +93,11 @@ public class IssuerRepo implements IIssuerRepo {
         return mongo.findOne(query, IssuerETY.class);
     }
 
+    @Override
+    public IssuerETY findByNomeDocumentRepository(String nomeDocumentRepository) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where(NOME_DOCUMENT_REPOSITORY).is(nomeDocumentRepository));
+        return mongo.findOne(query, IssuerETY.class);
+    }
+
 }
