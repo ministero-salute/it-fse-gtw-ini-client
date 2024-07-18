@@ -16,7 +16,9 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,7 @@ import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_I
  *	Exceptions Handler.
  */
 @ControllerAdvice
+@Slf4j
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
@@ -63,6 +66,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
 
+		log.info("NotFoundException");
+		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(value = InputValidationException.class)
+	protected ResponseEntity<ErrorResponseDTO> handleInputValidationException(final InputValidationException ex){
+
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		ErrorDTO inError = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
+
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 	
@@ -74,7 +88,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @param request	request
 	 * @return			
 	 */
-	@ExceptionHandler(value = {Exception.class, BusinessException.class})
+	@ExceptionHandler(value = {BusinessException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
@@ -82,6 +96,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorDTO error = new ErrorDTO(GENERIC.getType(), GENERIC.getTitle(), ex.getMessage(), "error/generic");
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
+		log.info("Exception, BusinessException");
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -92,6 +107,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
+		log.info("Method Argument");
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 

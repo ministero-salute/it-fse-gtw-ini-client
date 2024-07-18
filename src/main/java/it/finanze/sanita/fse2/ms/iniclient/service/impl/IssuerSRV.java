@@ -8,13 +8,13 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IssuersDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IKafkaSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.security.oauthbearer.secured.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,10 +69,10 @@ public class IssuerSRV implements IIssuerSRV {
         IssuerETY regione = issuerRepo.findRegioneMiddleware(entity.getEtichettaRegione());
         IssuerETY paziente = issuerRepo.findByFiscalCode(entity.getPazienteCf());
 
-        if (issuer != null) throw new ValidateException("Issuer già esistente nel database");
-        if(regione != null) throw new ValidateException("La regione indicata ha già un middleware");
-        if(paziente != null) throw new ValidateException("Il codice fiscale del paziente inserito è già presente");
-        if(asl!=null && entity.getMiddleware()) throw new ValidateException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
+        if (issuer != null) throw new InputValidationException("Issuer già esistente nel database");
+        if(regione != null) throw new InputValidationException("La regione indicata ha già un middleware");
+        if(paziente != null) throw new InputValidationException("Il codice fiscale del paziente inserito è già presente");
+        if(asl!=null && entity.getMiddleware()) throw new InputValidationException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
 
         String id = issuerRepo.createIssuer(entity);
 
