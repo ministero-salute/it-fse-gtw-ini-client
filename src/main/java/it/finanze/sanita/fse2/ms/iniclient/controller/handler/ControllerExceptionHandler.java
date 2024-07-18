@@ -66,7 +66,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
 
-		log.info("NotFoundException");
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 
@@ -96,7 +95,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorDTO error = new ErrorDTO(GENERIC.getType(), GENERIC.getTitle(), ex.getMessage(), "error/generic");
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
-		log.info("Exception, BusinessException");
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -107,7 +105,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
-		log.info("Method Argument");
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 
