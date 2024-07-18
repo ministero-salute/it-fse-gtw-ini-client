@@ -108,7 +108,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
 		log.info("Method Argument");
-		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 
 }
