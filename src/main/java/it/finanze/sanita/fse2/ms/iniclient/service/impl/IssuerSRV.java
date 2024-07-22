@@ -7,6 +7,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuersDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
@@ -70,9 +71,9 @@ public class IssuerSRV implements IIssuerSRV {
         IssuerETY paziente = issuerRepo.findByFiscalCode(entity.getPazienteCf());
 
         if (issuer != null) throw new InputValidationException("Issuer già esistente nel database");
-        if(regione != null) throw new InputValidationException("La regione indicata ha già un middleware");
+        if(regione != null) throw new BadRequestException("La regione indicata ha già un middleware");
         if(paziente != null) throw new InputValidationException("Il codice fiscale del paziente inserito è già presente");
-        if(asl!=null && entity.getMiddleware()) throw new InputValidationException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
+        if(asl!=null && entity.getMiddleware()) throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
 
         String id = issuerRepo.createIssuer(entity);
 

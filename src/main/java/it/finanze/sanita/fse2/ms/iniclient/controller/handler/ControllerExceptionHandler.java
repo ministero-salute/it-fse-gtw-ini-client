@@ -15,6 +15,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
@@ -76,7 +77,17 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorDTO inError = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
 
-		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(value = BadRequestException.class)
+	protected ResponseEntity<ErrorResponseDTO> handleBadRequestException(final BadRequestException ex){
+
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		ErrorDTO inError = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
+
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 	
 
