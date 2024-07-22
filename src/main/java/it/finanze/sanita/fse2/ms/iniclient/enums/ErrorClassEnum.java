@@ -17,7 +17,9 @@ public enum ErrorClassEnum {
 	GENERIC("/errors", "Generic", "Errore generico", "/generic"),
 	ID_DOC_MISSING("/errors/fields", "Missing", "Id documento non presente", "/ini"),
 	METADATO_MISSING("/errors/fields", "Missing", "Metadato non presente", "/ini"),
-	INVALID_INPUT("/errors/input", "Invalid input", "Input non valido", "/ini");
+	INVALID_INPUT("/errors/input", "Invalid input", "Input non valido", "/ini"),
+	CONFLICT("errors/conflict", "Conflict", "Input non valido", "/ini"),
+	VALIDATION("errors/validation", "Invalid input", "Input non valido", "/ini");
 
 
 	/**

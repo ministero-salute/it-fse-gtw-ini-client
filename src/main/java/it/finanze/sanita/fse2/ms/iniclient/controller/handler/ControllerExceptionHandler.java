@@ -31,8 +31,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
 
 /**
  *	Exceptions Handler.
@@ -74,7 +73,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ErrorResponseDTO> handleInputValidationException(final InputValidationException ex){
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		ErrorDTO inError = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
+		ErrorDTO inError = new ErrorDTO(CONFLICT.getType(), CONFLICT.getTitle(), ex.getMessage(), CONFLICT.getInstance());
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
 
 		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
@@ -84,7 +83,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ErrorResponseDTO> handleBadRequestException(final BadRequestException ex){
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		ErrorDTO inError = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
+		ErrorDTO inError = new ErrorDTO(VALIDATION.getType(), VALIDATION.getTitle(), ex.getMessage(), VALIDATION.getInstance());
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
