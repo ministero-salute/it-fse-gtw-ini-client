@@ -168,26 +168,12 @@
             <artifactId>spring-cloud-starter-sleuth</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-sleuth-brave</artifactId>
-                </exclusion>
-                <exclusion>
 					<groupId>org.yaml</groupId>
 					<artifactId>snakeyaml</artifactId>
 				</exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-otel-autoconfigure</artifactId>
-        </dependency>
-        <!-- Dipendenze per OpenTelemetry -->
-		<dependency>
-		    <groupId>io.opentelemetry</groupId>
-		    <artifactId>opentelemetry-sdk</artifactId>
-		    <version>1.0.1</version>
-		</dependency>
-
+    
 		<!-- Open SAML -->
 		<dependency>
 			<groupId>org.opensaml</groupId>
@@ -284,14 +270,7 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-sleuth-otel-dependencies</artifactId>
-                <version>1.1.2</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
+			</dependency> 
 		</dependencies>
 	</dependencyManagement>
 
