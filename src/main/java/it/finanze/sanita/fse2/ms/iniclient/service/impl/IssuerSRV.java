@@ -84,7 +84,8 @@ public class IssuerSRV implements IIssuerSRV {
             throw new BusinessException(message);
         }
  
-        IssuersDTO issuers = buildIssuersDtoJson(entity.getIssuer());
+        IssuersDTO issuers = buildIssuersDtoJson();
+        issuers.setActualIssuer(new IssuerDTO(entity.getIssuer(), entity.getEtichettaRegione(), entity.getPazienteCf()));
         kafkaSRV.sendMessage(kafkaTopicCFG.getCrashProgramValidatorTopic(), issuerDTO.getMailResponsabile(), StringUtility.toJSONJackson(issuers)); 
         return out;
     }
@@ -107,7 +108,7 @@ public class IssuerSRV implements IIssuerSRV {
         return out;
     }
 
-    private IssuersDTO buildIssuersDtoJson(String issuer){
+    private IssuersDTO buildIssuersDtoJson(){
         List<IssuerETY> issuersEty = issuerRepo.findIssuersCrashProgrm();
         IssuersDTO issuers = new IssuersDTO();
         if(issuersEty!=null && !issuersEty.isEmpty()){
@@ -119,7 +120,6 @@ public class IssuerSRV implements IIssuerSRV {
             }
             issuers.setIssuers(issuerDto);
         }
-        issuers.setActualIssuer(issuer);
         return issuers;
     }
 }

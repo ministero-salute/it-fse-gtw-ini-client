@@ -12,7 +12,7 @@ public class IssuersDTO {
 
 	private Integer counter;
 	private Date dataAggiornamento;
-	private String actualIssuer;
+	private IssuerDTO actualIssuer;
 	
 	private List<IssuerDTO> issuers;
     
