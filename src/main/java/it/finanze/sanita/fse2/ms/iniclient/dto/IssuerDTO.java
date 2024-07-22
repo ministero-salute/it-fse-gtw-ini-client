@@ -11,5 +11,6 @@ public class IssuerDTO {
 
 	private String nome;
 	private String regione;
+	private String cfPaziente;
 
 }

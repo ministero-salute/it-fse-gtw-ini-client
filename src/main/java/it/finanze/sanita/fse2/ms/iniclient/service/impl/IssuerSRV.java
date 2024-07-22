@@ -114,7 +114,7 @@ public class IssuerSRV implements IIssuerSRV {
             issuers.setCounter(issuersEty.size());
             List<IssuerDTO> issuerDto = new ArrayList<>();
             for(IssuerETY i : issuersEty){
-                issuerDto.add(new IssuerDTO(i.getIssuer(),i.getEtichettaRegione()));
+                issuerDto.add(new IssuerDTO(i.getIssuer(),i.getEtichettaRegione(),i.getPazienteCf()));
             }
             issuers.setIssuers(issuerDto);
         }
