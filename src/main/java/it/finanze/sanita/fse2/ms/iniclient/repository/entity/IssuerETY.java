@@ -20,6 +20,7 @@ public class IssuerETY {
     public static final String NOME_DOCUMENT_REPOSITORY = "nomeDocumentRepository";
     public static final String PAZIENTE_CF = "pazienteCf";
     public static final String EMAIL_SENT = "isEmailSent";
+    public static final String READY_TO_SCAN = "readyToScan";
 
 
 
@@ -48,6 +49,9 @@ public class IssuerETY {
     @Field(name = PAZIENTE_CF)
     @Nullable
     private String pazienteCf;
+
+    @Field(name = READY_TO_SCAN)
+    private boolean readyToScan;
 
     @Field(name = EMAIL_SENT)
     private boolean emailSent=false;

@@ -6,6 +6,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -62,8 +63,13 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
             throw new BusinessException(message);
         }
 
-        Integer dCount = issuerSRV.removeIssuer(requestBody.getIssuer()).getCount();
-        IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
+        IssuerETY ety = issuerSRV.findByIssuer(requestBody.getIssuer());
+
+        IssuerResponseDTO response;
+        if(ety==null) response = issuerSRV.createIssuer(requestBody);
+        else response = issuerSRV.updateIssuer(requestBody);
+
+
         response.setTraceID(traceInfo.getTraceID());
         response.setSpanID(traceInfo.getSpanID());
         return response;

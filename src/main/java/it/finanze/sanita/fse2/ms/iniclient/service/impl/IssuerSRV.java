@@ -1,15 +1,13 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaTopicCFG;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IssuersDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
@@ -59,6 +57,7 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setMiddleware(issuerDTO.isMiddleware());
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
         entity.setPazienteCf(issuerDTO.getPazienteCf());
+        entity.setReadyToScan(issuerDTO.isReadyToScan());
 
         IssuerETY asl = null;
         if(!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) {
@@ -91,6 +90,28 @@ public class IssuerSRV implements IIssuerSRV {
     }
 
     @Override
+    public IssuerResponseDTO updateIssuer(IssuerCreateRequestDTO issuerDTO) {
+        IssuerResponseDTO out = new IssuerResponseDTO();
+        out.setEsito(false);
+
+        IssuerETY entity = new IssuerETY();
+        entity.setIssuer(issuerDTO.getIssuer());
+        entity.setMock(issuerDTO.isMock());
+        entity.setMailResponsabile(issuerDTO.getMailResponsabile());
+        entity.setMiddleware(issuerDTO.isMiddleware());
+        entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
+        entity.setPazienteCf(issuerDTO.getPazienteCf());
+        entity.setReadyToScan(issuerDTO.isReadyToScan());
+
+        String id = issuerRepo.updateIssuer(entity);
+
+        out.setEsito(!StringUtility.isNullOrEmpty(id));
+        out.setId(id);
+
+        return out;
+    }
+
+    @Override
     public IssuerDeleteResponseDTO removeIssuer(String issuerName) {
         IssuerDeleteResponseDTO out = new IssuerDeleteResponseDTO();
         out.setEsito(false);
@@ -106,6 +127,11 @@ public class IssuerSRV implements IIssuerSRV {
         out.setCount(count);
 
         return out;
+    }
+
+    @Override
+    public IssuerETY findByIssuer(String issuer){
+        return issuerRepo.findByName(issuer);
     }
 
     private IssuersDTO buildIssuersDtoJson(){

@@ -33,4 +33,6 @@ public class IssuerCreateRequestDTO {
     private String nomeDocumentRepository;
  
     private String pazienteCf;
+
+    private boolean readyToScan;
 }
