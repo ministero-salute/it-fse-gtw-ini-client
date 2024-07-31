@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 
 import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY.*;
 
@@ -83,22 +81,7 @@ public class IssuerRepo implements IIssuerRepo {
 
     @Override
     public String updateIssuer(IssuerETY issuer) {
-        try {
-            Query query = new Query();
-            query.addCriteria(Criteria.where(ISSUER).is(issuer.getIssuer()));
-
-            Update update = new Update();
-            update.set(MAIL_RESPONSABILE, issuer.getMailResponsabile());
-            update.set(READY_TO_SCAN, issuer.isReadyToScan());
-
-            String id = Objects.requireNonNull(mongo.findOne(query, IssuerETY.class)).getId();
-            mongo.updateFirst(query, update, IssuerETY.class);
-
-            return id;
-        } catch (Exception ex) {
-            log.error("Error while updating readyToScan for issuer: " + issuer, ex);
-            throw new BusinessException("Error while updating readyToScan for issuer: " + issuer, ex);
-        }
+        return mongo.save(issuer).getId();
     }
 
 

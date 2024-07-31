@@ -54,6 +54,6 @@ public class IssuerETY {
     private boolean readyToScan;
 
     @Field(name = EMAIL_SENT)
-    private boolean emailSent=false;
+    private boolean emailSent;
     
 } 

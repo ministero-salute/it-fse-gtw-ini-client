@@ -1,11 +1,13 @@
 package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIssuerCTL;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.ISSUER_MISSING;
 
 @Slf4j
 @RestController
@@ -54,7 +58,7 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
 
 
     @Override
-    public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
+    public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, String issuer, HttpServletRequest request) {
         LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
         if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
@@ -63,11 +67,14 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
             throw new BusinessException(message);
         }
 
-        IssuerETY ety = issuerSRV.findByIssuer(requestBody.getIssuer());
+        IssuerETY ety = issuerSRV.findByIssuer(issuer);
 
         IssuerResponseDTO response;
-        if(ety==null) response = issuerSRV.createIssuer(requestBody);
-        else response = issuerSRV.updateIssuer(requestBody);
+        if(ety==null) {
+            ErrorDTO error = new ErrorDTO(ISSUER_MISSING.getType(), ISSUER_MISSING.getTitle(), ISSUER_MISSING.getDetail(), ISSUER_MISSING.getInstance());
+            throw new NotFoundException(error);
+        }
+        else response = issuerSRV.updateIssuer(ety, requestBody);
 
 
         response.setTraceID(traceInfo.getTraceID());

@@ -1,13 +1,15 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaTopicCFG;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IssuersDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIssuerRepo;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
@@ -90,11 +92,12 @@ public class IssuerSRV implements IIssuerSRV {
     }
 
     @Override
-    public IssuerResponseDTO updateIssuer(IssuerCreateRequestDTO issuerDTO) {
+    public IssuerResponseDTO updateIssuer(IssuerETY issuerETY, IssuerCreateRequestDTO issuerDTO) {
         IssuerResponseDTO out = new IssuerResponseDTO();
         out.setEsito(false);
 
         IssuerETY entity = new IssuerETY();
+        entity.setId(issuerETY.getId());
         entity.setIssuer(issuerDTO.getIssuer());
         entity.setMock(issuerDTO.isMock());
         entity.setMailResponsabile(issuerDTO.getMailResponsabile());
@@ -102,6 +105,7 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
         entity.setPazienteCf(issuerDTO.getPazienteCf());
         entity.setReadyToScan(issuerDTO.isReadyToScan());
+        entity.setEmailSent(issuerETY.isEmailSent());
 
         String id = issuerRepo.updateIssuer(entity);
 

@@ -9,7 +9,7 @@ public interface IIssuerSRV {
 
 	boolean isMocked(String issuer);
     IssuerResponseDTO createIssuer(IssuerCreateRequestDTO issuerDTO);
-    IssuerResponseDTO updateIssuer(IssuerCreateRequestDTO issuerDTO);
+    IssuerResponseDTO updateIssuer(IssuerETY issuerETY, IssuerCreateRequestDTO issuerDTO);
     IssuerDeleteResponseDTO removeIssuer(String issuerName);
     IssuerETY findByIssuer(String issuer);
 
