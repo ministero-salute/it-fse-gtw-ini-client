@@ -107,6 +107,10 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setReadyToScan(issuerDTO.isReadyToScan());
         entity.setEmailSent(issuerETY.isEmailSent());
 
+        if(issuerDTO.getNomeDocumentRepository()!=null && entity.getMiddleware())
+            throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
+        entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
+
         String id = issuerRepo.updateIssuer(entity);
 
         out.setEsito(!StringUtility.isNullOrEmpty(id));
