@@ -11,32 +11,9 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import java.io.StringWriter;
-import java.util.Date;
-import java.util.List;
-
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
-import javax.xml.bind.JAXB;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.webjars.NotFoundException;
-
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
@@ -57,6 +34,17 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.webjars.NotFoundException;
+
+import javax.xml.bind.JAXB;
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.List;
+
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.*;
 
 @Service
 @Slf4j
@@ -316,7 +304,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out.setErrorMessage(sb.toString());
 		} else {
 			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
-			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
+
+			String authorInstitution;
+			String actionId = tokenDTO.getPayload().getAction_id();
+			if(actionId.equals("DELETE") || actionId.equals("UPDATE") || actionId.equals("READ"))
+				authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
+			else
+				authorInstitution = tokenDTO.getPayload().getLocality();
+
 			List<String> administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
 			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
 			out.setDocumentType(documentType);
