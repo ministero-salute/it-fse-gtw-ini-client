@@ -303,14 +303,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
 			out.setErrorMessage(sb.toString());
 		} else {
-			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
-
-			String authorInstitution;
-			String actionId = tokenDTO.getPayload().getAction_id();
-			if(actionId.equals("DELETE") || actionId.equals("UPDATE") || actionId.equals("READ"))
-				authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
-			else
-				authorInstitution = tokenDTO.getPayload().getLocality();
+			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response); 
+			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
 
 			List<String> administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
 			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());

@@ -127,12 +127,14 @@ public class MergeMetadataUtility {
 	 }
 	 
 	 public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
-		 String[] newValues = new String[updateRequestBodyDTO.getAdministrativeRequest().size()];
-		 for (int i = 0; i < updateRequestBodyDTO.getAdministrativeRequest().size(); i++) {
-			 newValues[i] = updateRequestBodyDTO.getAdministrativeRequest().get(i).getCode() + "^" + updateRequestBodyDTO.getAdministrativeRequest().get(i).getDescription();
-		 }
-		 mergeSlot("urn:ita:2022:administrativeRequest", extrinsicObject.getSlot(), newValues); 
-	 }
+		String[] newValues = updateRequestBodyDTO.getAdministrativeRequest()!=null ? new String[updateRequestBodyDTO.getAdministrativeRequest().size()] : null;
+		if(newValues!=null){
+		   for (int i = 0; i < updateRequestBodyDTO.getAdministrativeRequest().size(); i++) {
+			   newValues[i] = updateRequestBodyDTO.getAdministrativeRequest().get(i).getCode() + "^" + updateRequestBodyDTO.getAdministrativeRequest().get(i).getDescription();
+		   }
+		}
+		mergeSlot("urn:ita:2022:administrativeRequest", extrinsicObject.getSlot(), newValues); 
+	}
 	
 	  
 	private static void mergeSlot(String slotName, List<SlotType1> slotList, String... newValue) {

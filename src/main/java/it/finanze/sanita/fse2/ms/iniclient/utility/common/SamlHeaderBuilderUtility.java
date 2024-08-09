@@ -55,9 +55,7 @@ import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List; 
 
 @Slf4j
 @Component
@@ -342,11 +340,19 @@ public class SamlHeaderBuilderUtility {
 				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
 			}
 
-			String locality = getLocalityType(payloadTokenJwt.getLocality(), actionEnumType);
-
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", locality));
+
+			//Controllo che il campo locality inizia con un numero di modo che posso assumere che sia un oid
+			if (!StringUtility.isNullOrEmpty(payloadTokenJwt.getLocality()) && !Character.isDigit(payloadTokenJwt.getLocality().charAt(0))) {
+				String locality = payloadTokenJwt.getLocality();
+				int firstIndextAmp = locality.indexOf('&');
+				String localityWithoutNomeStruttura = locality.substring(firstIndextAmp+1, locality.length());
+				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", localityWithoutNomeStruttura));
+			} else {
+				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
+			}
+
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization-id", payloadTokenJwt.getSubject_organization_id()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
@@ -394,18 +400,6 @@ public class SamlHeaderBuilderUtility {
 		jwtTokenDTO.setPayload(payloadDTO);
 		return jwtTokenDTO;
 	}
+ 
 
-	private String getLocalityType(String locality, ActionEnumType action){
-		if(action.equals(ActionEnumType.CREATE) || action.equals(ActionEnumType.REPLACE)){
-			Pattern pattern = Pattern.compile("(&[^\\^]+&ISO\\^\\^\\^\\^\\S+)$");
-			Matcher matcher = pattern.matcher(locality);
-
-			if(matcher.find())
-				locality = matcher.group(1);
-			else
-				throw new BusinessException("[SAML] Locality format is not handled");
-		}
-
-		return locality;
-	}
 }
