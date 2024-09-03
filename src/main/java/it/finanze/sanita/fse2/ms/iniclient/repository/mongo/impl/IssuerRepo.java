@@ -88,7 +88,7 @@ public class IssuerRepo implements IIssuerRepo {
     @Override
     public List<IssuerETY> findIssuersCrashProgrm(){
         Query query = new Query();
-        query.addCriteria(Criteria.where(MOCK).is(false));
+        query.addCriteria(Criteria.where(MOCK).is(false).and("etichettaRegione").ne(null).and("pazienteCf").ne(null));
         return mongo.find(query, IssuerETY.class);
     }
 
