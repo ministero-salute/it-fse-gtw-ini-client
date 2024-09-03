@@ -11,27 +11,27 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
-import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import java.util.List;
 
-@Getter
-@Setter
-public class GetMetadatiResponseDTO extends ResponseDTO {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+public class GetMetadatiCrashProgramDTO extends ResponseDTO {
+
+	private String slotIdentificativoRep;
+	private List<String> slotAdministrativeRequest;
+	private String slotDataInizioPrestazione; 
+	private String slotDataFinePrestazione;
+	private String slotConservazioneANorma; 
+	private List<String> slotDescriptions; 
+	private String classificationTipoDocumentoLivAlto; 
+	private String classificationTipologiaStruttura;
+	private String classificationAssettoOrganizzativo; 
+	private List<String> classificationAttiCliniciRegoleAccesso; 
  
-	private AdhocQueryResponse response;
-
-	private String errorMessage;
-
-	public GetMetadatiResponseDTO() {
-		super();
-	}
-
-	public GetMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final AdhocQueryResponse inResponse, final String inErrorMessage) {
-		super(traceInfo);
-		response = inResponse;
-		errorMessage = inErrorMessage;
-	}
-
+ 
 }
-

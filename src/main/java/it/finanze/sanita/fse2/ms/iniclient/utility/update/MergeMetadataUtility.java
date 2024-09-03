@@ -40,111 +40,127 @@ public class MergeMetadataUtility {
 
 	/**
 	 * Merge healthcareFacilityTypeCode for extrinsic object
+	 * 
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergeHealthcareFacilityTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
+	public static void mergeHealthcareFacilityTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum healthCare = ClassificationEnum.HEALTH_CARE_FACILITY_TYPE_CODE;
-		Map<String,String> value = new HashMap<>();
-		if(updateRequestBodyDTO.getAssettoOrganizzativo()!=null) {
+		Map<String, String> value = new HashMap<>();
+		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
 			String code = updateRequestBodyDTO.getTipologiaStruttura().getCode();
 			String description = updateRequestBodyDTO.getTipologiaStruttura().getCode();
 			value.put(code, description);
 		}
-		mergeClassification(healthCare.getCodingScheme(), healthCare.getClassificationScheme(), "Document1","IdHealthcareFacilityTypeCode", extrinsicObject.getClassification(), value);
+		mergeClassification(healthCare.getCodingScheme(), healthCare.getClassificationScheme(), "Document1",
+				"IdHealthcareFacilityTypeCode", extrinsicObject.getClassification(), value);
 	}
+
 	/**
 	 * Merge classCode for extrinsic object
+	 * 
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergeClassCode(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
+	public static void mergeClassCode(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum classCode = ClassificationEnum.CLASS_CODE;
-		Map<String,String> value = new HashMap<>();
-		if(updateRequestBodyDTO.getAssettoOrganizzativo()!=null) {
+		Map<String, String> value = new HashMap<>();
+		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
 			String code = updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode();
 			String description = updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription();
 			value.put(code, description);
 		}
-		mergeClassification(classCode.getCodingScheme(), classCode.getClassificationScheme(), "Document1","ClassCode", extrinsicObject.getClassification(), value);
+		mergeClassification(classCode.getCodingScheme(), classCode.getClassificationScheme(), "Document1", "ClassCode",
+				extrinsicObject.getClassification(), value);
 	}
-	
 
 	/**
 	 * Merge practiceSettingCode for extrinsic object
+	 * 
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergePracticeSettingCode(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
+	public static void mergePracticeSettingCode(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum practiceSettingCode = ClassificationEnum.PRACTICE_SETTING_CODE;
-		Map<String,String> value = new HashMap<>();
-		if(updateRequestBodyDTO.getAssettoOrganizzativo()!=null) {
+		Map<String, String> value = new HashMap<>();
+		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
 			String code = updateRequestBodyDTO.getAssettoOrganizzativo().getCode();
 			String description = updateRequestBodyDTO.getAssettoOrganizzativo().getDescription();
 			value.put(code, description);
 		}
-		mergeClassification(practiceSettingCode.getCodingScheme(), practiceSettingCode.getClassificationScheme(), "Document1","IdPracticeSettingCode", extrinsicObject.getClassification(), value);
+		mergeClassification(practiceSettingCode.getCodingScheme(), practiceSettingCode.getClassificationScheme(),
+				"Document1", "IdPracticeSettingCode", extrinsicObject.getClassification(), value);
 	}
-	
 
 	/**
 	 * Merge eventTypeCode for extrinsic object
+	 * 
 	 * @param updateRequestBodyDTO
 	 * @param classificationObjectList
 	 */
-	public static void mergeEventTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
+	public static void mergeEventTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum eventCode = ClassificationEnum.EVENT_CODE;
-		
-		Map<String,String> value = new HashMap<>();
-		if(updateRequestBodyDTO.getAttiCliniciRegoleAccesso()!=null) {
-			for(String event : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
+
+		Map<String, String> value = new HashMap<>();
+		if (updateRequestBodyDTO.getAttiCliniciRegoleAccesso() != null) {
+			for (String event : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
 				EventCodeEnum eventCodeEnum = EventCodeEnum.fromValue(event);
 				value.put(eventCodeEnum.getCode(), eventCodeEnum.getDescription());
-			}	
+			}
 		}
-		
-		mergeClassification(eventCode.getCodingScheme(), eventCode.getClassificationScheme(), "Document1","IdEventCodeList", extrinsicObject.getClassification(), value);
+
+		mergeClassification(eventCode.getCodingScheme(), eventCode.getClassificationScheme(), "Document1",
+				"IdEventCodeList", extrinsicObject.getClassification(), value);
 	}
- 
-	 
-	
+
 	/**
 	 * Merge service start/stop time for extrinsic object
+	 * 
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	 public static void mergeServiceTime(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
-		 mergeSlot("serviceStartTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataInizioPrestazione());
-		 mergeSlot("serviceStopTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataFinePrestazione()); 
-	 }
-	 
-	 /**
-	  * Merge description metadata
-	  * @param updateRequestBodyDTO
-	  * @param slotList
+	public static void mergeServiceTime(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
+		mergeSlot("serviceStartTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataInizioPrestazione());
+		mergeSlot("serviceStopTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataFinePrestazione());
+	}
+
+	/**
+	 * Merge description metadata
+	 * 
+	 * @param updateRequestBodyDTO
+	 * @param slotList
 	 */
-	 public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
-		 String[] newValue = updateRequestBodyDTO.getDescription() == null ? null : new String[]{updateRequestBodyDTO.getDescription().toArray()[0].toString()};
-		 mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue); 
-	 }
-	 
-	 public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO, ExtrinsicObjectType extrinsicObject) {
-		 String[] newValues = null;
-		 
-		 if(updateRequestBodyDTO.getAdministrativeRequest()!=null) {
-			 newValues = new String[updateRequestBodyDTO.getAdministrativeRequest().size()];
-			 for (int i = 0; i < updateRequestBodyDTO.getAdministrativeRequest().size(); i++) {
-				 newValues[i] = updateRequestBodyDTO.getAdministrativeRequest().get(i).getCode() + "^" + updateRequestBodyDTO.getAdministrativeRequest().get(i).getDescription();
-			 }
-		 }
-		 mergeSlot("urn:ita:2022:administrativeRequest", extrinsicObject.getSlot(), newValues); 
-	 }
-	
-	  
+	public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
+		String[] newValue = updateRequestBodyDTO.getDescription() == null ? null
+				: new String[] { updateRequestBodyDTO.getDescription().toArray()[0].toString() };
+		mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue);
+	}
+
+	public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
+		String[] newValues = updateRequestBodyDTO.getAdministrativeRequest() != null
+				? new String[updateRequestBodyDTO.getAdministrativeRequest().size()]
+				: null;
+		if (newValues != null) {
+			for (int i = 0; i < updateRequestBodyDTO.getAdministrativeRequest().size(); i++) {
+				newValues[i] = updateRequestBodyDTO.getAdministrativeRequest().get(i).getCode() + "^"
+						+ updateRequestBodyDTO.getAdministrativeRequest().get(i).getDescription();
+			}
+		}
+		mergeSlot("urn:ita:2022:administrativeRequest", extrinsicObject.getSlot(), newValues);
+	}
+
 	private static void mergeSlot(String slotName, List<SlotType1> slotList, String... newValue) {
 		try {
-			SlotType1 editedSlot = slotList.stream().filter(slot -> slot.getName().equals(slotName)).findFirst().orElse(null);
-			 
+			SlotType1 editedSlot = slotList.stream().filter(slot -> slot.getName().equals(slotName)).findFirst()
+					.orElse(null);
+
 			if (editedSlot != null) {
 				slotList.remove(editedSlot);
 			}
@@ -155,37 +171,40 @@ public class MergeMetadataUtility {
 				valueListTime.getValue().addAll(Arrays.asList(newValue));
 				editedSlot.setValueList(valueListTime);
 				slotList.add(editedSlot);
-			}  
+			}
 
 		} catch (Exception ex) {
 			log.error("Error while performing merge for {}: {}", slotName, ex.getMessage());
 			throw new BusinessException("Error while performing merge for " + slotName + ": ", ex);
 		}
 	}
-	
-	private static void mergeClassification(String codingScheme,String classificationSchemeName, String classifiedObject, String id,
-			List<ClassificationType> classificationList, Map<String,String> value) {
+
+	private static void mergeClassification(String codingScheme, String classificationSchemeName,
+			String classifiedObject, String id,
+			List<ClassificationType> classificationList, Map<String, String> value) {
 		try {
-			ClassificationType editedClassification = classificationList.stream().filter(classification -> classification.getClassificationScheme().equals(classificationSchemeName)).findFirst().orElse(null);
-			 
+			ClassificationType editedClassification = classificationList.stream()
+					.filter(classification -> classification.getClassificationScheme().equals(classificationSchemeName))
+					.findFirst().orElse(null);
+
 			if (editedClassification != null) {
 				classificationList.remove(editedClassification);
 			}
-			
-			if (value!=null && value.size()>0) {
-				for(Entry<String, String> entry : value.entrySet()) {
+
+			if (value != null && value.size() > 0) {
+				for (Entry<String, String> entry : value.entrySet()) {
 					SlotType1 classCodeSlot = buildSlotCodingSchemeObject(codingScheme);
 					InternationalStringType nameClassCode = buildInternationalStringType(entry.getValue());
-					editedClassification = buildClassificationObject(classificationSchemeName,classifiedObject,id,nameClassCode,classCodeSlot,entry.getKey());
-					classificationList.add(editedClassification);	
+					editedClassification = buildClassificationObject(classificationSchemeName, classifiedObject, id,
+							nameClassCode, classCodeSlot, entry.getKey());
+					classificationList.add(editedClassification);
 				}
-			}  
+			}
 
 		} catch (Exception ex) {
 			log.error("Error while performing merge for {}: {}", classificationSchemeName, ex.getMessage());
 			throw new BusinessException("Error while performing merge for " + classificationSchemeName + ": ", ex);
 		}
 	}
-	
-	 
+
 }
