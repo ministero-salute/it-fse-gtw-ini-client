@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.ICrashProgramClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.MicroservicesCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerDTO;
@@ -32,6 +33,9 @@ public class IssuerSRV implements IIssuerSRV {
 
     @Autowired
     private ICrashProgramClient crashProgramClient;
+
+    @Autowired
+    private MicroservicesCFG msCfg;
 
     @Override
     public boolean isMocked(final String issuer) {
@@ -89,7 +93,11 @@ public class IssuerSRV implements IIssuerSRV {
         IssuersDTO issuers = buildIssuersDtoJson();
         issuers.setActualIssuer(
                 new IssuerDTO(entity.getIssuer(), entity.getEtichettaRegione(), entity.getPazienteCf()));
-        crashProgramClient.sendIssuerData(issuers);
+
+        if (!StringUtility.isNullOrEmpty(msCfg.getUrlCrashProgramValidator())) {
+            crashProgramClient.sendIssuerData(issuers);
+        }
+
         return out;
     }
 
