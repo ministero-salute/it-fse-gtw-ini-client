@@ -109,7 +109,8 @@ public final class UpdateBodyBuilderUtility {
 		list.add(buildAssociation(extrinsicObject.getVersionInfo(), requestUUID));
 		
 		// 4. Classification object
-		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,null, null, null, null);
+//		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,null, null, null, null);
+		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:"+StringUtility.generateUUID(),null,SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,null, null, null, null);
 		list.add(classificationObject);
 		
 		out.getIdentifiable().addAll(list);
