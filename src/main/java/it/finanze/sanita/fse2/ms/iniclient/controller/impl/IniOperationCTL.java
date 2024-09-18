@@ -92,13 +92,12 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
 		IniResponseDTO res = null;
+		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
 		} else {
-			IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH,
-					new Date());
 			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
 			}
@@ -156,8 +155,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			}
 		}
 
-		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG,
-				traceInfoDTO.getTraceID());
+		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
 
 		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
 	}
@@ -172,13 +170,13 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
 		IniResponseDTO res = null;
+		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
+				new Date());
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 		} else {
-			IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
-					new Date());
 			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
 			}
