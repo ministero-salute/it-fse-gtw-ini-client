@@ -22,7 +22,8 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 public interface IIniInvocationSRV {
 
-	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation);
+	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation,
+			IniEdsInvocationETY iniInvocationETY);
 	
 	IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO);
 
@@ -35,4 +36,5 @@ public interface IIniInvocationSRV {
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
 	
 	IniEdsInvocationETY findByWII(String workflowInstanceId, final ProcessorOperationEnum operation, Date startingDate);
+	
 }

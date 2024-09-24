@@ -81,10 +81,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	 
 	@Override
-	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation) {
+	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation,
+			IniEdsInvocationETY iniInvocationETY) {
 		final Date startingDate = new Date();
 
-		IniEdsInvocationETY iniInvocationETY = findByWII(workflowInstanceId, operation, startingDate);
 
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {

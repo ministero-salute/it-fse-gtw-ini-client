@@ -82,6 +82,7 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("creationTime", documentEntryDTO.getCreationTime()));
 		slotType1.add(buildSlotObject("serviceStartTime", documentEntryDTO.getServiceStartTime()));
 		slotType1.add(buildSlotObject("serviceStopTime", documentEntryDTO.getServiceStopTime()));
+		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2013:referenceIdList",null, documentEntryDTO.getReferenceIdList()));
 		return slotType1;
 	}
 	
