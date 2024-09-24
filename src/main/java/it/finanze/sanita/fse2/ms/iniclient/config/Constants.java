@@ -104,6 +104,7 @@ public final class Constants {
 		public static final String DOCUMENT_SIGNED = "true^Documento firmato";
 		public static final String DOCUMENT_ENTRY_ID = "Document1";
 		public static final String SUBMISSION_ENTRY_ID = "SubmissionSet1";
+		public static final String CLASSIFICATION_ID = "Classification1";
 
 	}
 

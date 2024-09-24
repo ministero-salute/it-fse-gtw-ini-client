@@ -11,13 +11,14 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
+
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
 
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
 import javax.xml.bind.JAXB;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,10 +82,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	 
 	@Override
-	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation,
-			IniEdsInvocationETY iniInvocationETY) {
+	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
 		final Date startingDate = new Date();
 
+//		IniEdsInvocationETY iniInvocationETY = findByWII(workflowInstanceId, operation, startingDate);
 
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {

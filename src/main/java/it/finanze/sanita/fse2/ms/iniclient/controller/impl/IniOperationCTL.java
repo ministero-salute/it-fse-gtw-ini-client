@@ -47,8 +47,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
@@ -153,8 +151,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			}
 		}
 
-		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG,
-				traceInfoDTO.getTraceID());
+		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
 
 		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
 	}
@@ -169,11 +166,11 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
 		IniResponseDTO res = null;
-		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE, new Date());
+		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
+				new Date());
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 		} else {
-			
 			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 			} else {

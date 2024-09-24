@@ -12,6 +12,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
@@ -109,7 +110,8 @@ public final class UpdateBodyBuilderUtility {
 		list.add(buildAssociation(extrinsicObject.getVersionInfo(), requestUUID));
 		
 		// 4. Classification object
-		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,null, null, null, null);
+		String classificationObjectType = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification";
+		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,CLASSIFICATION_ID,null, null, classificationObjectType, null);
 		list.add(classificationObject);
 		
 		out.getIdentifiable().addAll(list);
