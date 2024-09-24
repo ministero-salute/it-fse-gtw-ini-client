@@ -146,6 +146,7 @@ public class SubmissionSetEntryBuilderUtility {
 		//Author
 		if(classificationAuthorType!=null){
 			classificationAuthorType.setClassifiedObject(SUBMISSION_ENTRY_ID);			
+			classificationAuthorType.setId("SubmissionSet1_ClassificationAuthor");
 			out.add(classificationAuthorType);
 		} else if(!StringUtility.isNullOrEmpty(author)) {
 		 	AuthorSlotDTO authorSlotDto = CommonUtility.buildAuthorSlot(authorRole, authorInstitution, author);
