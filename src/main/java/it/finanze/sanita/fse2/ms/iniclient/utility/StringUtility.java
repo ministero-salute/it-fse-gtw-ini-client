@@ -31,7 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class StringUtility {
 
-
+	private static final String XON_CONSTANT = "&ISO^^^^";
+	
 	/**
 	 * Returns {@code true} if the String passed as parameter is null or empty.
 	 * 
@@ -99,5 +100,11 @@ public final class StringUtility {
 			sourceId = sourceId.substring(1, sourceId.length());
 		}
 		return sourceId;
+	}
+	
+	public static String trasformXonInOid(final String value) {
+		int firstIndex = value.indexOf("&");
+		String oid = value.substring(firstIndex+1, value.length()).replace(XON_CONSTANT, ".");
+		return oid;
 	}
 }

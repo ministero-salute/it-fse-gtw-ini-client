@@ -11,26 +11,38 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 
-import com.sun.xml.ws.api.message.Header;
-import com.sun.xml.ws.api.message.Headers;
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.singleton.SigningCredentialSingleton;
-import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
-import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
-import lombok.extern.slf4j.Slf4j;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.apache.ws.security.util.Base64;
 import org.bson.Document;
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.SAMLVersion;
-import org.opensaml.saml2.core.*;
-import org.opensaml.saml2.core.impl.*;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.saml2.core.Attribute;
+import org.opensaml.saml2.core.AttributeStatement;
+import org.opensaml.saml2.core.AttributeValue;
+import org.opensaml.saml2.core.AuthnContext;
+import org.opensaml.saml2.core.AuthnContextClassRef;
+import org.opensaml.saml2.core.AuthnStatement;
+import org.opensaml.saml2.core.Conditions;
+import org.opensaml.saml2.core.Issuer;
+import org.opensaml.saml2.core.NameID;
+import org.opensaml.saml2.core.Subject;
+import org.opensaml.saml2.core.impl.AssertionBuilder;
+import org.opensaml.saml2.core.impl.AttributeBuilder;
+import org.opensaml.saml2.core.impl.AttributeStatementBuilder;
+import org.opensaml.saml2.core.impl.AuthnContextBuilder;
+import org.opensaml.saml2.core.impl.AuthnContextClassRefBuilder;
+import org.opensaml.saml2.core.impl.AuthnStatementBuilder;
+import org.opensaml.saml2.core.impl.ConditionsBuilder;
+import org.opensaml.saml2.core.impl.IssuerBuilder;
+import org.opensaml.saml2.core.impl.NameIDBuilder;
+import org.opensaml.saml2.core.impl.SubjectBuilder;
 import org.opensaml.ws.wsaddressing.Action;
 import org.opensaml.ws.wsaddressing.MessageID;
 import org.opensaml.ws.wsaddressing.impl.ActionBuilder;
@@ -43,7 +55,12 @@ import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.schema.XSString;
 import org.opensaml.xml.schema.impl.XSStringBuilder;
 import org.opensaml.xml.security.x509.BasicX509Credential;
-import org.opensaml.xml.signature.*;
+import org.opensaml.xml.signature.KeyInfo;
+import org.opensaml.xml.signature.Signature;
+import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xml.signature.Signer;
+import org.opensaml.xml.signature.X509Certificate;
+import org.opensaml.xml.signature.X509Data;
 import org.opensaml.xml.signature.impl.KeyInfoBuilder;
 import org.opensaml.xml.signature.impl.SignatureBuilder;
 import org.opensaml.xml.signature.impl.X509CertificateBuilder;
@@ -53,9 +70,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List; 
+import com.sun.xml.ws.api.message.Header;
+import com.sun.xml.ws.api.message.Headers;
+
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.singleton.SigningCredentialSingleton;
+import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import lombok.extern.slf4j.Slf4j; 
 
 @Slf4j
 @Component
@@ -324,6 +351,9 @@ public class SamlHeaderBuilderUtility {
 		return attrStatement;
 	}
 
+	
+	
+	
 	/**
 	 * Build attributes from token values
 	 * urn values from documentation
@@ -343,16 +373,15 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
 
+			
 			//Controllo che il campo locality inizia con un numero di modo che posso assumere che sia un oid
-			if (!StringUtility.isNullOrEmpty(payloadTokenJwt.getLocality()) && !Character.isDigit(payloadTokenJwt.getLocality().charAt(0))) {
-				String locality = payloadTokenJwt.getLocality();
-				int firstIndextAmp = locality.indexOf('&');
-				String localityWithoutNomeStruttura = locality.substring(firstIndextAmp+1, locality.length());
-				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", localityWithoutNomeStruttura));
-			} else {
-				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
+			boolean createAndReplace = ActionEnumType.CREATE.equals(actionEnumType) ||  ActionEnumType.REPLACE.equals(actionEnumType);
+			boolean isValidXon = isValidLocalityXon(payloadTokenJwt.getLocality(), createAndReplace);
+			String locality = payloadTokenJwt.getLocality();
+			if(isValidXon) {
+				locality = StringUtility.trasformXonInOid(payloadTokenJwt.getLocality());
 			}
-
+			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", locality));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization-id", payloadTokenJwt.getSubject_organization_id()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
@@ -371,6 +400,20 @@ public class SamlHeaderBuilderUtility {
 		return out;
 	}
 
+	
+	public boolean isValidLocalityXon(String input, boolean isCreateOrReplace) {
+        String regex;
+        if (!isCreateOrReplace) {
+        	regex = "^(?:[a-zA-Z0-9]+[^\\^]*)?\\^\\^\\^\\^\\^\\&[^&]*\\&ISO\\^\\^\\^\\^[^&]*$";
+        } else {
+        	regex = "^[a-zA-Z0-9]+[^\\^]*\\^\\^\\^\\^\\^\\&[^&]*\\&ISO\\^\\^\\^\\^[^\\^&]*$";
+        }
+
+        return input.matches(regex);
+    }
+
+	
+	
 	/**
 	 * Build attribute object from given input
 	 * @param name
