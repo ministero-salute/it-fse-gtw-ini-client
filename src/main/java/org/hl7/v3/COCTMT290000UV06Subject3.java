@@ -82,7 +82,7 @@ public class COCTMT290000UV06Subject3 {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT290000UV06Subject3 {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT290000UV06Subject3 {
     }
 
     /**
-     * Recupera il valore della proprietà position.
+     * Recupera il valore della proprieta position.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT290000UV06Subject3 {
     }
 
     /**
-     * Imposta il valore della proprietà position.
+     * Imposta il valore della proprieta position.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class COCTMT290000UV06Subject3 {
     }
 
     /**
-     * Recupera il valore della proprietà typeCode.
+     * Recupera il valore della proprieta typeCode.
      * 
      * @return
      *     possible object is
@@ -200,7 +200,7 @@ public class COCTMT290000UV06Subject3 {
     }
 
     /**
-     * Imposta il valore della proprietà typeCode.
+     * Imposta il valore della proprieta typeCode.
      * 
      * @param value
      *     allowed object is

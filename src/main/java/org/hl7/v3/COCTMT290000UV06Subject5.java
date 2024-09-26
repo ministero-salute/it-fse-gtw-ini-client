@@ -85,7 +85,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Recupera il valore della proprietà patient.
+     * Recupera il valore della proprieta patient.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Imposta il valore della proprietà patient.
+     * Imposta il valore della proprieta patient.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Recupera il valore della proprietà typeCode.
+     * Recupera il valore della proprieta typeCode.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Imposta il valore della proprietà typeCode.
+     * Imposta il valore della proprieta typeCode.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Recupera il valore della proprietà contextControlCode.
+     * Recupera il valore della proprieta contextControlCode.
      * 
      * @return
      *     possible object is
@@ -227,7 +227,7 @@ public class COCTMT290000UV06Subject5 {
     }
 
     /**
-     * Imposta il valore della proprietà contextControlCode.
+     * Imposta il valore della proprieta contextControlCode.
      * 
      * @param value
      *     allowed object is

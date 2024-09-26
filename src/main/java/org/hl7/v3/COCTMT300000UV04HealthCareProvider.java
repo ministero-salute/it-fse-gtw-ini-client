@@ -80,7 +80,7 @@ public class COCTMT300000UV04HealthCareProvider {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class COCTMT300000UV04HealthCareProvider {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is

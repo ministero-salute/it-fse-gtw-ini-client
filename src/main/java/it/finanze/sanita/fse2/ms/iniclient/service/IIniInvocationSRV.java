@@ -35,5 +35,7 @@ public interface IIniInvocationSRV {
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
 	
 	IniEdsInvocationETY findByWII(String workflowInstanceId, final ProcessorOperationEnum operation, Date startingDate);
+	IniResponseDTO publishByWorkflowInstanceId(IniEdsInvocationETY iniInvocationETY, String uuid);
+	
 	
 }

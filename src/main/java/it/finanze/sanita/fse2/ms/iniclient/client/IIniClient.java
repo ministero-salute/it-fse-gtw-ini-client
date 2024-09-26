@@ -16,6 +16,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import it.finanze.sanita.fse2.ms.iniclient.service.impl.IniInvocationSRV.MutableLong;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
@@ -25,7 +26,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
  */
 public interface IIniClient {
 
-    RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntry, SubmissionSetEntryDTO submissionSetEntry, JWTTokenDTO jwtTokenDTO);
+	RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO,
+			String uuid,MutableLong startTime);
     
     RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, String uuid);
 

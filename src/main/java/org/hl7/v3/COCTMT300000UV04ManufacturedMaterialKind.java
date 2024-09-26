@@ -86,7 +86,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Recupera il valore della proprietà code.
+     * Recupera il valore della proprieta code.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Imposta il valore della proprietà code.
+     * Imposta il valore della proprieta code.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Recupera il valore della proprietà formCode.
+     * Recupera il valore della proprieta formCode.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Imposta il valore della proprietà formCode.
+     * Imposta il valore della proprieta formCode.
      * 
      * @param value
      *     allowed object is
@@ -216,7 +216,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Recupera il valore della proprietà classCode.
+     * Recupera il valore della proprieta classCode.
      * 
      * @return
      *     possible object is
@@ -228,7 +228,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Imposta il valore della proprietà classCode.
+     * Imposta il valore della proprieta classCode.
      * 
      * @param value
      *     allowed object is
@@ -240,7 +240,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Recupera il valore della proprietà determinerCode.
+     * Recupera il valore della proprieta determinerCode.
      * 
      * @return
      *     possible object is
@@ -252,7 +252,7 @@ public class COCTMT300000UV04ManufacturedMaterialKind {
     }
 
     /**
-     * Imposta il valore della proprietà determinerCode.
+     * Imposta il valore della proprieta determinerCode.
      * 
      * @param value
      *     allowed object is

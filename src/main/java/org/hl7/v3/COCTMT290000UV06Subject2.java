@@ -82,7 +82,7 @@ public class COCTMT290000UV06Subject2 {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT290000UV06Subject2 {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT290000UV06Subject2 {
     }
 
     /**
-     * Recupera il valore della proprietà billableModifier.
+     * Recupera il valore della proprieta billableModifier.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT290000UV06Subject2 {
     }
 
     /**
-     * Imposta il valore della proprietà billableModifier.
+     * Imposta il valore della proprieta billableModifier.
      * 
      * @param value
      *     allowed object is

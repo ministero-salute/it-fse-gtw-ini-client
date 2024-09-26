@@ -82,7 +82,7 @@ public class COCTMT300000UV04Product {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT300000UV04Product {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT300000UV04Product {
     }
 
     /**
-     * Recupera il valore della proprietà manufacturedProduct.
+     * Recupera il valore della proprieta manufacturedProduct.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT300000UV04Product {
     }
 
     /**
-     * Imposta il valore della proprietà manufacturedProduct.
+     * Imposta il valore della proprieta manufacturedProduct.
      * 
      * @param value
      *     allowed object is

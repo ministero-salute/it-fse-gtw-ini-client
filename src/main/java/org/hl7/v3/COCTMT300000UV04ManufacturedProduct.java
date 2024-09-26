@@ -85,7 +85,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della proprietà quantity.
+     * Recupera il valore della proprieta quantity.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della proprietà quantity.
+     * Imposta il valore della proprieta quantity.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della proprietà manufacturedMaterialKind.
+     * Recupera il valore della proprieta manufacturedMaterialKind.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della proprietà manufacturedMaterialKind.
+     * Imposta il valore della proprieta manufacturedMaterialKind.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della proprietà classCode.
+     * Recupera il valore della proprieta classCode.
      * 
      * @return
      *     possible object is
@@ -227,7 +227,7 @@ public class COCTMT300000UV04ManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della proprietà classCode.
+     * Imposta il valore della proprieta classCode.
      * 
      * @param value
      *     allowed object is

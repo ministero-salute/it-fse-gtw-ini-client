@@ -15,9 +15,12 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientCons
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.bind.JAXB;
 
@@ -85,11 +88,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
 		final Date startingDate = new Date();
 
-//		IniEdsInvocationETY iniInvocationETY = findByWII(workflowInstanceId, operation, startingDate);
 
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
-			out = publishByWorkflowInstanceId(iniInvocationETY,startingDate);
+			out = publishByWorkflowInstanceId(iniInvocationETY,"");
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
 			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate);
 		}
@@ -112,7 +114,15 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return iniInvocationETY;
 	}
 
-	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
+	public class MutableLong {
+	    public long value;
+	    public MutableLong(long value) {
+	        this.value = value;
+	    }
+	}
+	
+	@Override
+	public IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final String uuid) {
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
@@ -124,37 +134,49 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry());
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
-		
+		String oid = "2.16.840.1.113883.2.9.2.010.4.4^" + UUID.randomUUID().toString();
+		documentEntryDTO.setUniqueId(oid);
+		System.out.println("NUOVO:"+documentEntryDTO.getUniqueId());
 		try {
-			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO);
+			MutableLong startTime = new MutableLong(0L);
+
+			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO,uuid,startTime);
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-					msg.
-					append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
+					msg.append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
 					append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
 					append(SEVERITY_CODE_CONTEXT).append(error.getCodeContext());
 					
 					if (!WARNING.equals(error.getSeverity())) {
 						out.setEsito(false);
 					} 
+
 				}
 
 				if(!StringUtility.isNullOrEmpty(msg.toString())) {
 					out.setMessage(msg.toString());
-				}
+				}  
+				 
 			} 
 
 			String message = "Operazione eseguita su INI";
 			if(Boolean.FALSE.equals(out.getEsito())) {
 				message += ": " + out.getMessage();
-				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, iniInvocationETY.getWorkflowInstanceId(), message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
+				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, iniInvocationETY.getWorkflowInstanceId(), message, ProcessorOperationEnum.PUBLISH.getOperation(), new Date(), ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
 			} else {
-				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(), message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO);
-				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, documentType, fiscalCode, tokenPayloadDTO,  documentEntryDTO.getAdministrativeRequest(), documentEntryDTO.getAuthorInstitution());
+				try (BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/vincenzoingenito/Desktop/INI_TEST/"+uuid,true))) {
+					writer.write("Start time: " + startTime.value + "\n");
+
+				} catch (Exception ex) {
+					throw new BusinessException("Errore durante la registrazione", ex);
+				}
+				
+				logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(), message, ProcessorOperationEnum.PUBLISH.getOperation(), new Date(), documentType, fiscalCode, tokenPayloadDTO);
+				logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.PUBLISH.getOperation(), new Date(), documentType, fiscalCode, tokenPayloadDTO,  documentEntryDTO.getAdministrativeRequest(), documentEntryDTO.getAuthorInstitution());
 			}
 		} catch(Exception ex) {
-			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), ProcessorOperationEnum.PUBLISH.getOperation(), startingDate, ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
+			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,iniInvocationETY.getWorkflowInstanceId(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), ProcessorOperationEnum.PUBLISH.getOperation(), new Date(), ProcessorOperationEnum.PUBLISH.getErrorType(), documentType, fiscalCode, tokenPayloadDTO);
 			throw new BusinessException(ex);
 		}
 

@@ -80,7 +80,7 @@ public class COCTMT290000UV06Substitution {
     }
 
     /**
-     * Recupera il valore della proprietà typeId.
+     * Recupera il valore della proprieta typeId.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class COCTMT290000UV06Substitution {
     }
 
     /**
-     * Imposta il valore della proprietà typeId.
+     * Imposta il valore della proprieta typeId.
      * 
      * @param value
      *     allowed object is

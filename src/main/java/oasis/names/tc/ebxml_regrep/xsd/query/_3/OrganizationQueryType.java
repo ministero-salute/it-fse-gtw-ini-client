@@ -147,7 +147,7 @@ public class OrganizationQueryType
     }
 
     /**
-     * Recupera il valore della proprietà parentQuery.
+     * Recupera il valore della proprieta parentQuery.
      * 
      * @return
      *     possible object is
@@ -159,7 +159,7 @@ public class OrganizationQueryType
     }
 
     /**
-     * Imposta il valore della proprietà parentQuery.
+     * Imposta il valore della proprieta parentQuery.
      * 
      * @param value
      *     allowed object is
@@ -200,7 +200,7 @@ public class OrganizationQueryType
     }
 
     /**
-     * Recupera il valore della proprietà primaryContactQuery.
+     * Recupera il valore della proprieta primaryContactQuery.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class OrganizationQueryType
     }
 
     /**
-     * Imposta il valore della proprietà primaryContactQuery.
+     * Imposta il valore della proprieta primaryContactQuery.
      * 
      * @param value
      *     allowed object is
