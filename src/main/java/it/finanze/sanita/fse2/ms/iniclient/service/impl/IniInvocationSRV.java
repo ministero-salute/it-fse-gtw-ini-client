@@ -136,7 +136,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		String oid = "2.16.840.1.113883.2.9.2.010.4.4^" + UUID.randomUUID().toString();
 		documentEntryDTO.setUniqueId(oid);
-		System.out.println("NUOVO:"+documentEntryDTO.getUniqueId());
 		try {
 			MutableLong startTime = new MutableLong(0L);
 

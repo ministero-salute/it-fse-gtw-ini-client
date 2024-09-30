@@ -32,6 +32,7 @@ import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,13 +89,22 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 	@Autowired
 	private IniCFG iniCFG;
+	
+	@Value("${paziente.prova}")
+	private String paziente;
 
 	@PostConstruct
 	void postConstruct() {
 		String uuid = UUID.randomUUID().toString();
 		String nomeFile = uuid + "_"+ System.currentTimeMillis();
 		for(int i=0; i<100; i++) {
-			String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.97bb3fc5bee3032679f4f07419e04af6375baafa17024527a98ede920c6812ed.3533f3c475^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
+			String workflowInstanceId = "";
+			if("MRCLSN97C14H501J^^^&2.16.840.1.113883.2.9.4.3.2&ISO".equals(paziente)) {
+				workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.b0f3ffcf25ce2aafc7dc901e2febc51f43837f4ca0fe3b6d1b02194e9047b6db.53998e7943^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
+			} else {
+				workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.b0f3ffcf25ce2aafc7dc901e2febc51f43837f4ca0fe3b6d1b02194e9047b6db.97d35706bb^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";				
+			}
+			
 			IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
 			IniResponseDTO res = iniInvocationSRV.publishByWorkflowInstanceId(iniETY, nomeFile);	
 		}
@@ -122,7 +132,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			
 			Long maxMillis = map.keySet().stream().max(Long::compare).orElse(null);
 			
-			Long start = maxMillis+ 2000;
+			Long start = maxMillis;//+ 60000;
 			Long end = start + 60000;
 			int counter = 0;
 			for(Entry<Long, List<Long>> el : map.entrySet()){
