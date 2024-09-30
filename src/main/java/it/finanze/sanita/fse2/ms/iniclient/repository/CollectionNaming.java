@@ -43,8 +43,8 @@ public class CollectionNaming {
     @Bean("auditIni")
     public String getAuditIniCollection() {
         if (profileUtility.isTestProfile()) {
-            return Constants.Profile.TEST_PREFIX + Constants.Collections.INI_EDS_INVOCATION;
+            return Constants.Profile.TEST_PREFIX + Constants.Collections.AUDIT_INI;
         }
-        return Constants.Collections.INI_EDS_INVOCATION;
+        return Constants.Collections.AUDIT_INI;
     }
 }

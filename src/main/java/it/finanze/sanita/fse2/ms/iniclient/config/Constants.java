@@ -33,6 +33,7 @@ public final class Constants {
 
 		public static final String INI_EDS_INVOCATION = "ini_eds_invocation";
 		public static final String ISSUERS = "issuers";
+		public static final String AUDIT_INI = "audit_ini";
 
 	}
 

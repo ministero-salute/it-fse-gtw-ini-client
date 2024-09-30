@@ -35,6 +35,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditDto;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
@@ -48,6 +49,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
@@ -80,7 +82,10 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 	@Autowired
 	private IniCFG iniCFG;
-
+	
+	@Autowired
+	private IAuditIniSrv auditIniSrv; 
+	
 	@Override
 	public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
 		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
@@ -339,5 +344,11 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		}
  
 		return metadati;
+	}
+	
+
+	@Override
+	public IniAuditDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
+		return auditIniSrv.findByWii(workflowInstanceId);
 	}
 }
