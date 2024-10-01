@@ -100,6 +100,7 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 			message.writeTo(bout);
 			String msg = bout.toString("UTF-8");  
 			log.info(header + "\n" + msg);
+			//TODO: Analysis - when we arrive through handleFault method what happens?
 			auditIniSrv.save(workflowInstanceId, eventType, eventDate, reqOrRes, msg);
 		} catch (Exception e) {
 			log.error("Exception in handler: " + e);
