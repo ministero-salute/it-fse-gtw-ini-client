@@ -30,5 +30,10 @@ public class AuditIniRepo implements IAuditIniRepo {
 		return out;
 	}
 
-	
+	@Override
+	public void insert(AuditIniETY ety) {
+		mongoTemplate.insert(ety);
+	}
+
+
 }

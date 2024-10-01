@@ -5,4 +5,5 @@ import it.finanze.sanita.fse2.ms.iniclient.repository.entity.AuditIniETY;
 public interface IAuditIniRepo {
 
 	AuditIniETY findByWii(String wii);
+	void insert(AuditIniETY ety);
 }
