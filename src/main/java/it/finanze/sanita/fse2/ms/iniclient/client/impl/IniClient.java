@@ -112,18 +112,6 @@ public class IniClient implements IIniClient {
 				((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
-
-			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv);
-			if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-				List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-				handlerChainDocumentRegistry.add(loggingHandler);
-				((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
-
-				List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-				handlerChainDelete.add(loggingHandler);
-				((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
-			}
-
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
 			throw new BusinessException(ex);
@@ -231,6 +219,11 @@ public class IniClient implements IIniClient {
 			throw new BusinessException(sb.toString());
 		}
 		return response;
+	}
+
+	@Override
+	public BindingProvider getBindingProvider(){
+		return (BindingProvider) documentRegistryPort;
 	}
 
 

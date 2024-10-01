@@ -4,5 +4,7 @@ public enum EventType {
     INI_CREATE,
     INI_REPLACE,
     INI_UPDATE,
-    INI_DELETE
+    INI_DELETE;
+
+
 }

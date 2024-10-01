@@ -6,4 +6,5 @@ public interface IAuditIniRepo {
 
 	AuditIniETY findByWii(String wii);
 	void insert(AuditIniETY ety);
+	void updateResponseByWii(String wii, String response);
 }

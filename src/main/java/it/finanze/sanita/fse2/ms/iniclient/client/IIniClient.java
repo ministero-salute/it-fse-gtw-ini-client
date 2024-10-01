@@ -20,6 +20,8 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
+import javax.xml.ws.BindingProvider;
+
 /**
  * Interface of Ini client.
  */
@@ -38,4 +40,6 @@ public interface IIniClient {
     AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken);
 
     AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType);
+
+    BindingProvider getBindingProvider();
 }

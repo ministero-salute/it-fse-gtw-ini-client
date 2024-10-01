@@ -11,6 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
+import it.finanze.sanita.fse2.ms.iniclient.enums.EventType;
+import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.namespace.QName;
@@ -22,6 +24,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import it.finanze.sanita.fse2.ms.iniclient.service.impl.AuditIniSrv;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.Set;
 
 /*
@@ -31,12 +34,21 @@ import java.util.Set;
 @Slf4j
 public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
-	private AuditIniSrv auditIniSrv;
-	
-	SOAPLoggingHandler(AuditIniSrv inAuditIniSrv){
+	public static final String REQUEST = "request";
+	public static final String RESPONSE = "response";
+
+	private String workflowInstanceId;
+	private EventType eventType;
+	private Date eventDate;
+	private IAuditIniSrv auditIniSrv;
+
+	public SOAPLoggingHandler(IAuditIniSrv inAuditIniSrv, String workflowInstanceId, EventType eventType, Date eventDate){
 		if(auditIniSrv==null) {
 			auditIniSrv = inAuditIniSrv; 
 		}
+		this.workflowInstanceId = workflowInstanceId;
+		this.eventType = eventType;
+		this.eventDate = eventDate;
 	}
 	
 	public Set<QName> getHeaders() { 
@@ -72,21 +84,23 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 		Boolean outboundProperty = (Boolean)
 				smc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 
+		String reqOrRes = "";
 		String header = "";
-
 		if (Boolean.TRUE.equals(outboundProperty)) {
 			header = "Outbound message:";
+			reqOrRes = REQUEST;
 		} else {
 			header = "Inbound message:";
+			reqOrRes = RESPONSE;
 		}
 
 		try {
 			SOAPMessage message = smc.getMessage();
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();  
-			message.writeTo(bout);  
+			message.writeTo(bout);
 			String msg = bout.toString("UTF-8");  
 			log.info(header + "\n" + msg);
-			auditIniSrv.save(msg);
+			auditIniSrv.save(workflowInstanceId, eventType, eventDate, reqOrRes, msg);
 		} catch (Exception e) {
 			log.error("Exception in handler: " + e);
 		}
