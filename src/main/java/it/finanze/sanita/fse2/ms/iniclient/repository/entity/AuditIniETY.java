@@ -23,19 +23,26 @@ public class AuditIniETY {
     private String id;
     
     @Field(name = WORKFLOW_INSTANCE_ID)
-    private String workflowInstanceId;
+    private final String workflowInstanceId;
     
     @Field(name = EVENT_TYPE)
-    private EventType eventType;
+    private final EventType eventType;
     
     @Field(name = EVENT_DATE)
-    private Date eventDate;
+    private final Date eventDate;
     
     @Field(name = SOAP_REQUEST)
-    private String soapRequest;
+    private final String soapRequest;
     
     @Field(name = SOAP_RESPONSE)
-    private String soapResponse;
+    private final String soapResponse;
 
+    public AuditIniETY(String workflowInstanceId, EventType eventType, Date eventDate, String soapRequest, String soapResponse){
+        this.workflowInstanceId = workflowInstanceId;
+        this.eventType = eventType;
+        this.eventDate = eventDate;
+        this.soapRequest = soapRequest;
+        this.soapResponse = soapResponse;
+    }
 
 }
