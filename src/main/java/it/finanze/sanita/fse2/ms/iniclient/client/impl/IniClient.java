@@ -42,6 +42,7 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
+import it.finanze.sanita.fse2.ms.iniclient.service.impl.AuditIniSrv;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlHeaderBuilderUtility;
@@ -71,6 +72,9 @@ public class IniClient implements IIniClient {
 
 	@Autowired
 	private ISecuritySRV securitySRV;
+	
+	@Autowired
+	private AuditIniSrv auditIniSrv;
 
 	private SSLContext sslContext;
 
@@ -109,13 +113,14 @@ public class IniClient implements IIniClient {
 				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
 
+			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv);
 			if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
 				List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-				handlerChainDocumentRegistry.add(new SOAPLoggingHandler());
+				handlerChainDocumentRegistry.add(loggingHandler);
 				((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
 
 				List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-				handlerChainDelete.add(new SOAPLoggingHandler());
+				handlerChainDelete.add(loggingHandler);
 				((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 			}
 
@@ -132,9 +137,14 @@ public class IniClient implements IIniClient {
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
+		bp.getRequestContext().put(JAXWSProperties.MTOM_THRESHOLOD_VALUE, 0);
+		bp.getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, false);
 		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), null);
+		
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 	}
+	
+ 
 
 	@Override
 	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO, String uuid) {
@@ -208,7 +218,7 @@ public class IniClient implements IIniClient {
 
 		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
 		AdhocQueryResponse response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-		
+
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {

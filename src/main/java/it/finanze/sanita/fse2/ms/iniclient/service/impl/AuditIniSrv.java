@@ -23,4 +23,10 @@ public class AuditIniSrv implements IAuditIniSrv {
 		}
 		return out;
 	}
+	
+	@Override
+	public void save(String request) {
+		//TODO 
+		System.out.println("Request:"+request);
+	}
 }
