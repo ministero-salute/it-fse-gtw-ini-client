@@ -18,6 +18,9 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
+
+import it.finanze.sanita.fse2.ms.iniclient.service.impl.AuditIniSrv;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Set;
 
@@ -28,7 +31,14 @@ import java.util.Set;
 @Slf4j
 public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
-
+	private AuditIniSrv auditIniSrv;
+	
+	SOAPLoggingHandler(AuditIniSrv inAuditIniSrv){
+		if(auditIniSrv==null) {
+			auditIniSrv = inAuditIniSrv; 
+		}
+	}
+	
 	public Set<QName> getHeaders() { 
 		return null;
 	}
@@ -76,6 +86,7 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 			message.writeTo(bout);  
 			String msg = bout.toString("UTF-8");  
 			log.info(header + "\n" + msg);
+			auditIniSrv.save(msg);
 		} catch (Exception e) {
 			log.error("Exception in handler: " + e);
 		}
