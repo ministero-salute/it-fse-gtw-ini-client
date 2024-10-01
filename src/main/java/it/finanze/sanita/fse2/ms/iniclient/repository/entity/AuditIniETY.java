@@ -1,6 +1,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
 
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventType;
+import lombok.Data;
 import lombok.Getter;
 
 import org.springframework.data.annotation.Id;
@@ -10,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Date;
 
 @Document(collection = "#{@auditIni}")
-@Getter
+@Data
 public class AuditIniETY {
 
     public static final String WORKFLOW_INSTANCE_ID = "workflow_instance_id";
@@ -32,10 +33,10 @@ public class AuditIniETY {
     private final Date eventDate;
     
     @Field(name = SOAP_REQUEST)
-    private final String soapRequest;
+    private String soapRequest;
     
     @Field(name = SOAP_RESPONSE)
-    private final String soapResponse;
+    private String soapResponse;
 
     public AuditIniETY(String workflowInstanceId, EventType eventType, Date eventDate, String soapRequest, String soapResponse){
         this.workflowInstanceId = workflowInstanceId;
