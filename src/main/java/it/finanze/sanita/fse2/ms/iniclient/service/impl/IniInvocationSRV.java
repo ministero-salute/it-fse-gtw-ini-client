@@ -11,10 +11,33 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
+
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.JAXB;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.webjars.NotFoundException;
+
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
-import it.finanze.sanita.fse2.ms.iniclient.client.impl.SOAPLoggingHandler;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
@@ -36,19 +59,6 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.webjars.NotFoundException;
-
-import javax.xml.bind.JAXB;
-import java.io.StringWriter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.*;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.*;
 
 @Service
 @Slf4j
@@ -61,9 +71,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	@Autowired
 	private IConfigSRV configSRV;
-
-	@Autowired
-	private IAuditIniSrv auditIniSrv;
 
 	@Autowired
 	private IIniClient iniClient;
@@ -118,8 +125,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			SOAPLoggingHandler soapHandler = new SOAPLoggingHandler(auditIniSrv, workflowInstanceId, INI_CREATE, startingDate);
-			iniClient.getBindingProvider().getBinding().setHandlerChain(Collections.singletonList(soapHandler));
+			iniClient.getBindingProvider().getRequestContext().put("WII", workflowInstanceId);
 			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -169,8 +175,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			SOAPLoggingHandler soapHandler = new SOAPLoggingHandler(auditIniSrv, workflowInstanceId, INI_REPLACE, startingDate);
-			iniClient.getBindingProvider().getBinding().setHandlerChain(Collections.singletonList(soapHandler));
 			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni());
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -217,8 +221,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			SOAPLoggingHandler soapHandler = new SOAPLoggingHandler(auditIniSrv, deleteRequestDTO.getWorkflow_instance_id(), INI_DELETE, startingDate);
-			iniClient.getBindingProvider().getBinding().setHandlerChain(Collections.singletonList(soapHandler));
 			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -267,8 +269,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			SOAPLoggingHandler soapHandler = new SOAPLoggingHandler(auditIniSrv, updateRequestDTO.getWorkflow_instance_id(), INI_UPDATE, startingDate);
-			iniClient.getBindingProvider().getBinding().setHandlerChain(Collections.singletonList(soapHandler));
 			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
 
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {

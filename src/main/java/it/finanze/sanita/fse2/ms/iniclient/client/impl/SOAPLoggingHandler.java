@@ -11,9 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
-import it.finanze.sanita.fse2.ms.iniclient.enums.EventType;
-import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
-import lombok.extern.slf4j.Slf4j;
+import java.io.ByteArrayOutputStream;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
@@ -21,11 +20,9 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-import it.finanze.sanita.fse2.ms.iniclient.service.impl.AuditIniSrv;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Date;
-import java.util.Set;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * This simple SOAPHandler will output the contents of incoming
@@ -37,30 +34,22 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 	public static final String REQUEST = "request";
 	public static final String RESPONSE = "response";
 
-	private String workflowInstanceId;
-	private EventType eventType;
-	private Date eventDate;
 	private IAuditIniSrv auditIniSrv;
 
-	public SOAPLoggingHandler(IAuditIniSrv inAuditIniSrv, String workflowInstanceId, EventType eventType, Date eventDate){
+	public SOAPLoggingHandler(IAuditIniSrv inAuditIniSrv/*, String workflowInstanceId, EventType eventType, Date eventDate*/){
 		if(auditIniSrv==null) {
 			auditIniSrv = inAuditIniSrv; 
 		}
-		this.workflowInstanceId = workflowInstanceId;
-		this.eventType = eventType;
-		this.eventDate = eventDate;
 	}
-	
+
 	public Set<QName> getHeaders() { 
 		return null;
 	}
 
 	public boolean handleMessage(SOAPMessageContext smc) {
-		try {
-			logToSystemOut(smc); 
-		} catch (Exception ex) {
-			log.error("Error while perform handle message : " + ex.getMessage());
-		}
+		//TODO - Recuperare da qui il booleano che ti dice se abilitato o meno l'audit
+		//Il booleano settarlo per ogni chiamata di iniClient
+		logToSystemOut(smc); 
 		return true;
 	}
 
@@ -69,8 +58,9 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 		return true;
 	}
 
-	// nothing to clean up
 	public void close(MessageContext messageContext) {
+		//TODO - Capire se qui va bene
+		messageContext.remove("WII");
 	}
 
 	/*
@@ -101,9 +91,12 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 			String msg = bout.toString("UTF-8");  
 			log.info(header + "\n" + msg);
 			//TODO: Analysis - when we arrive through handleFault method what happens?
-			auditIniSrv.save(workflowInstanceId, eventType, eventDate, reqOrRes, msg);
+			//TODO - Passare altri parametri
+			String workflowInstanceId = (String)smc.get("WII");
+			auditIniSrv.save(workflowInstanceId, null, null, reqOrRes, msg);
 		} catch (Exception e) {
 			log.error("Exception in handler: " + e);
+			throw new BusinessException(e);
 		}
 	}
 }
