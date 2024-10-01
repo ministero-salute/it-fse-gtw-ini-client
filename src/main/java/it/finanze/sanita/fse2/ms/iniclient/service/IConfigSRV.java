@@ -12,5 +12,7 @@ public interface IConfigSRV {
     
     Boolean isKpiLogPersistenceEnable();
 
+    Boolean isAuditIniEnable();
+
     long getRefreshRate();
 }
