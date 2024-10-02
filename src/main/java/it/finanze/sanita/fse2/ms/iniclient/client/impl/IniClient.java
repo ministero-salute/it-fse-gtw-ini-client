@@ -20,6 +20,7 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.handler.Handler;
 
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -76,6 +77,9 @@ public class IniClient implements IIniClient {
 	@Autowired
 	private AuditIniSrv auditIniSrv;
 
+	@Autowired
+	private IConfigSRV configSRV;
+
 	private SSLContext sslContext;
 
 
@@ -113,17 +117,14 @@ public class IniClient implements IIniClient {
 				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
 			
-			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv);
-			//TODO - Eliminare props dei log, registrare sempre gli handler chain e gestire la props
-			if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
-				List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-				handlerChainDocumentRegistry.add(loggingHandler);
-				((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
+			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
+			List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
+			handlerChainDocumentRegistry.add(loggingHandler);
+			((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
 
-				List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-				handlerChainDelete.add(loggingHandler);
-				((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
-			}
+			List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
+			handlerChainDelete.add(loggingHandler);
+			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
 			throw new BusinessException(ex);

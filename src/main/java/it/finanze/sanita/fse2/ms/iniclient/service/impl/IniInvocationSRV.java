@@ -14,6 +14,7 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.*;
 
 import java.io.StringWriter;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
+import it.finanze.sanita.fse2.ms.iniclient.client.impl.SOAPLoggingHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -125,7 +127,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			iniClient.getBindingProvider().getRequestContext().put("WII", workflowInstanceId);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, workflowInstanceId);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_CREATE);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
 			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -175,6 +179,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, workflowInstanceId);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_REPLACE);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
 			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni());
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
@@ -220,6 +227,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTPayloadDTO jwtPayloadDTO = CommonUtility.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
 		
 		try {
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, deleteRequestDTO.getWorkflow_instance_id());
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_DELETE);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
 			StringBuilder errorMsg = new StringBuilder();
 			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
 
@@ -268,6 +278,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		String fiscalCode = CommonUtility.extractFiscalCodeFromJwtSub(token.getPayload().getSub());
 		
 		try {
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, updateRequestDTO.getWorkflow_instance_id());
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_UPDATE);
+			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
 			StringBuilder errorMsg = new StringBuilder();
 			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
 
