@@ -127,10 +127,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, workflowInstanceId);
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_CREATE);
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
-			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO);
+			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO,
+					workflowInstanceId,startingDate);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
@@ -179,10 +177,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, workflowInstanceId);
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_REPLACE);
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
-			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni());
+			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni(),
+					workflowInstanceId,startingDate);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
@@ -227,11 +223,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTPayloadDTO jwtPayloadDTO = CommonUtility.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
 		
 		try {
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, deleteRequestDTO.getWorkflow_instance_id());
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_DELETE);
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
+			
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
+			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO,jwtPayloadDTO,startingDate);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
@@ -278,11 +272,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		String fiscalCode = CommonUtility.extractFiscalCodeFromJwtSub(token.getPayload().getSub());
 		
 		try {
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.WII, updateRequestDTO.getWorkflow_instance_id());
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_TYPE, INI_UPDATE);
-			iniClient.getBindingProvider().getRequestContext().put(SOAPLoggingHandler.EVENT_DATE, startingDate);
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
+			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token,updateRequestDTO.getWorkflow_instance_id(),
+					startingDate);
 
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {

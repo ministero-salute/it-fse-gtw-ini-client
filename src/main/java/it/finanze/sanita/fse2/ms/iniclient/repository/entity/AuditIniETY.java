@@ -17,6 +17,7 @@ public class AuditIniETY {
     public static final String WORKFLOW_INSTANCE_ID = "workflow_instance_id";
     public static final String EVENT_TYPE = "eventType";
     public static final String EVENT_DATE = "eventDate";
+    public static final String MICROSERVICE_NAME = "microserviceName";
     public static final String SOAP_REQUEST = "soapRequest";
     public static final String SOAP_RESPONSE = "soapResponse";
 
@@ -37,6 +38,9 @@ public class AuditIniETY {
     
     @Field(name = SOAP_RESPONSE)
     private String soapResponse;
+    
+    @Field(name = MICROSERVICE_NAME)
+    private String microserviceName;
 
     public AuditIniETY(String workflowInstanceId, EventType eventType, Date eventDate, String soapRequest, String soapResponse){
         this.workflowInstanceId = workflowInstanceId;
@@ -44,6 +48,7 @@ public class AuditIniETY {
         this.eventDate = eventDate;
         this.soapRequest = soapRequest;
         this.soapResponse = soapResponse;
+        this.microserviceName = "gtw-ini-client";
     }
 
 }

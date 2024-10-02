@@ -11,6 +11,12 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_DATE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_TYPE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.REQUEST;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.RESPONSE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.WII;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.Set;
@@ -25,9 +31,7 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.EventType;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
-import it.finanze.sanita.fse2.ms.iniclient.service.impl.ConfigSRV;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /*
  * This simple SOAPHandler will output the contents of incoming
@@ -36,20 +40,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
-	public static final String REQUEST = "request";
-	public static final String RESPONSE = "response";
-	public static final String WII = "WII";
-	public static final String EVENT_TYPE = "EVENT_TYPE";
-	public static final String EVENT_DATE = "EVENT_DATE";
 
 	private IAuditIniSrv auditIniSrv;
 	private IConfigSRV configSRV;
 
-	public SOAPLoggingHandler(IAuditIniSrv inAuditIniSrv, IConfigSRV inConfigSrv/*, String workflowInstanceId, EventType eventType, Date eventDate*/){
+	public SOAPLoggingHandler(IAuditIniSrv inAuditIniSrv, IConfigSRV inConfigSrv){
 		if(auditIniSrv==null) {
 			auditIniSrv = inAuditIniSrv; 
 		}
-		configSRV = inConfigSrv;
+		
+		if(configSRV==null) {
+			configSRV = inConfigSrv;			
+		}
 	}
 
 	public Set<QName> getHeaders() { 
@@ -60,17 +62,17 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 		if(configSRV.isAuditIniEnable()){
 			logToSystemOut(smc);
 		}
-		//Il booleano settarlo per ogni chiamata di iniClient - ????
 		return true;
 	}
 
 	public boolean handleFault(SOAPMessageContext smc) {
-		logToSystemOut(smc);
+		if(configSRV.isAuditIniEnable()){
+			logToSystemOut(smc);	
+		}
 		return true;
 	}
 
 	public void close(MessageContext messageContext) {
-		//TODO: rimuoviamo i metadati una volta che la richiesta è stata mandata
 		messageContext.remove(WII);
 		messageContext.remove(EVENT_TYPE);
 		messageContext.remove(EVENT_DATE);
@@ -84,8 +86,7 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 	 * SOAPException or IOException
 	 */
 	private void logToSystemOut(SOAPMessageContext smc) {
-		Boolean outboundProperty = (Boolean)
-				smc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+		Boolean outboundProperty = (Boolean)smc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 
 		String reqOrRes = "";
 		String header = "";

@@ -11,6 +11,9 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client;
 
+import java.util.Date;
+
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
@@ -20,20 +23,21 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
-import javax.xml.ws.BindingProvider;
-
 /**
  * Interface of Ini client.
  */
 public interface IIniClient {
 
-    RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntry, SubmissionSetEntryDTO submissionSetEntry, JWTTokenDTO jwtTokenDTO);
+	RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO,
+			String workflowInstanceId,Date startingDate);
     
-    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, String uuid);
+	RegistryResponseType sendDeleteData(DeleteRequestDTO deleteRequestDto, JWTPayloadDTO jwtPayloadDTO,Date startingDate);
 
-    RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO);
+	RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,
+			String workflowInstanceId,Date startingDate);
     
-    RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO, String uuid);
+    RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO,
+			JWTTokenDTO jwtTokenDTO, String uuid,String workflowInstanceId,Date startingDate);
     
     AdhocQueryResponse getReferenceUUID(String idDoc, String tipoRicerca,JWTTokenDTO tokenDTO);
     
@@ -41,5 +45,4 @@ public interface IIniClient {
 
     AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType);
 
-    BindingProvider getBindingProvider();
 }
