@@ -314,7 +314,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	@Override
-	public GetReferenceResponseDTO getReference(final String oid, final JWTTokenDTO tokenDTO) {
+	public GetReferenceResponseDTO getReference(final String oid, final JWTTokenDTO tokenDTO,
+			String workflowInstanceId) {
+		final Date startingDate = new Date();
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);

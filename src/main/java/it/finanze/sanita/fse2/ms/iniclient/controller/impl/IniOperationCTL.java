@@ -191,10 +191,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc, GetMetadatiReqDTO req,
-			HttpServletRequest request) {
-		log.warn(
-				"Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
+	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc, GetMetadatiReqDTO req,HttpServletRequest request) {
+		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 
@@ -218,17 +216,17 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO req,
-			HttpServletRequest request) {
+	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO requestBody,HttpServletRequest request) {
 		// DELETE
 		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(RequestUtility.buildPayloadFromReq(req));
+		token.setPayload(requestBody.getToken());
+//		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 		GetReferenceResponseDTO out = null;
 		if (!iniCFG.isMockEnable()) {
-			out = iniInvocationSRV.getReference(idDoc, token);
+			out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
 		} else {
-			if (!issuserSRV.isMocked(req.getIss())) {
-				out = iniInvocationSRV.getReference(idDoc, token);
+			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+				out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
 			} else {
 				out = iniMockInvocationSRV.getReference(idDoc, token);
 			}
@@ -238,8 +236,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,
-			HttpServletRequest request) {
+	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,HttpServletRequest request) {
 		log.debug("Call merged metadati");
 		GetMergedMetadatiDTO mergedMetadati = null;
 		if (!iniCFG.isMockEnable()) {
