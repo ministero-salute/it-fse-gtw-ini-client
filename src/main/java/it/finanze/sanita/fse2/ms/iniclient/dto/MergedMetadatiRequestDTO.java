@@ -25,4 +25,6 @@ public class MergedMetadatiRequestDTO {
     private JWTPayloadDTO token;
     
     private PublicationMetadataReqDTO body;
+    
+    private String workflow_instance_id;
 }

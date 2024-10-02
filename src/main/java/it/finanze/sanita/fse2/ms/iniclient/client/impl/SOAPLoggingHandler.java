@@ -109,7 +109,7 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 			Date eventDate = (Date) smc.get(EVENT_DATE);
 			auditIniSrv.save(workflowInstanceId, eventType, eventDate, reqOrRes, msg);
 		} catch (Exception e) {
-			log.error("Exception in handler: " + e);
+			log.error("Exception in handler: ",e);
 			throw new BusinessException(e);
 		}
 	}

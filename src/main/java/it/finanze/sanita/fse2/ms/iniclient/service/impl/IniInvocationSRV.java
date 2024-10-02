@@ -314,14 +314,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	@Override
-	public GetReferenceResponseDTO getReference(final String oid, final JWTTokenDTO tokenDTO,
-			String workflowInstanceId) {
+	public GetReferenceResponseDTO getReference(final String oid, final JWTTokenDTO tokenDTO,String workflowInstanceId) {
 		final Date startingDate = new Date();
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 
-		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REFERENCE);
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REFERENCE,
+				workflowInstanceId,startingDate);
 		StringBuilder sb = buildReferenceResponse(response);
 
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
@@ -361,7 +361,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(newMetadataDTO.getToken());
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(newMetadataDTO.getToken()), ActionEnumType.READ_REFERENCE);
-		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken,newMetadataDTO.getWorkflow_instance_id());
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));

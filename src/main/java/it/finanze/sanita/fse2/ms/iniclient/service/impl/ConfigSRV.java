@@ -1,5 +1,25 @@
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_AUDIT_INI_ENABLED;
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_CONTROL_LOG_ENABLED;
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_EXP_DAYS;
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_ISSUER_CF;
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_KPI_LOG_ENABLED;
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_REMOVE_METADATA_ENABLE;
+import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_SUBJECT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.INI_CLIENT;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO.ConfigDataItemDTO;
@@ -7,18 +27,6 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.*;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.INI_CLIENT;
 
 @Service
 @Slf4j
@@ -128,6 +136,22 @@ public class ConfigSRV implements IConfigSRV {
 		}
 		return Boolean.parseBoolean(props.get(PROPS_NAME_AUDIT_INI_ENABLED).getValue());
 	}
+	
+
+	@Override
+	public Integer getExpirationDate() {
+		long lastUpdate = props.get(PROPS_NAME_EXP_DAYS).getKey();
+		if (new Date().getTime() - lastUpdate >= getRefreshRate()) {
+			synchronized(Locks.EXP_DAYS) {
+				if (new Date().getTime() - lastUpdate >= getRefreshRate()) {
+					refresh(PROPS_NAME_EXP_DAYS);
+				}
+			}
+		}
+		return Integer.parseInt(
+			props.get(PROPS_NAME_EXP_DAYS).getValue()
+		);
+	}
 
 	private void refresh(String name) {
 		String previous = props.getOrDefault(name, Pair.of(0L, null)).getValue();
@@ -177,6 +201,7 @@ public class ConfigSRV implements IConfigSRV {
 		public static final Object ISSUER_CF_CLEANING = new Object();
 		public static final Object SUBJECT_CLEANING = new Object();
 		public static final Object AUDIT_INI_ENABLED = new Object();
+		public static final Object EXP_DAYS = new Object();
 	}
 
 }

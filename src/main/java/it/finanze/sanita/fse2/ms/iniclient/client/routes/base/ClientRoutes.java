@@ -39,6 +39,7 @@ public final class ClientRoutes {
         public static final String PROPS_NAME_CONTROL_LOG_ENABLED = "control-log-persistence-enabled";
         public static final String PROPS_NAME_KPI_LOG_ENABLED = "kpi-log-persistence-enabled";
         public static final String PROPS_NAME_AUDIT_INI_ENABLED = "audit-ini-enabled";
+        public static final String PROPS_NAME_EXP_DAYS = "expiring-date-day";
 
     }
 

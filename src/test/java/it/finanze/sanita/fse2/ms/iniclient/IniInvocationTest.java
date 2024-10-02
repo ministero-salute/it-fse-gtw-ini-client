@@ -157,7 +157,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
         Mockito.when(iniClient.sendUpdateData(any(), any(), any(),any())).thenReturn(registryResponseType);
@@ -175,7 +175,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         Mockito.when(iniClient.sendUpdateData(any(), any(), any(),any()))
                 .thenThrow(new BusinessException(""));
@@ -189,7 +189,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(),any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(),any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendUpdateData(any(), any(), any(),any())).thenReturn(registryResponseType);
@@ -205,7 +205,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(), any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
                 .thenReturn(new RegistryResponseType());
@@ -221,7 +221,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
                 .thenThrow(new BusinessException(""));
@@ -235,7 +235,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
@@ -252,7 +252,7 @@ class IniInvocationTest {
         AdhocQueryResponse response = TestUtility.mockQueryResponse();
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenReturn(response);
-        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class)))
+        Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         AdhocQueryResponse apiResponse = iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken());
         assertEquals(response, apiResponse);
