@@ -35,7 +35,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditDto;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditsDto;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
@@ -345,7 +345,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	
 
 	@Override
-	public IniAuditDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
+	public IniAuditsDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
 		return auditIniSrv.findByWii(workflowInstanceId);
 	}
 }

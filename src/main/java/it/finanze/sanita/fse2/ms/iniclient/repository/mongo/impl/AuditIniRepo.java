@@ -24,15 +24,10 @@ public class AuditIniRepo implements IAuditIniRepo {
 	
 	
 	@Override
-	public AuditIniETY findByWii(String wii) {
-		AuditIniETY out = null;
+	public List<AuditIniETY> findByWii(final String wii) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where(WORKFLOW_INSTANCE_ID).is(wii));
-		List<AuditIniETY> results = mongoTemplate.find(query, AuditIniETY.class);
-		if(!results.isEmpty()) {
-			out = results.get(0);			
-		}
-		return out;
+		return mongoTemplate.find(query, AuditIniETY.class);
 	}
 
 	@Override
