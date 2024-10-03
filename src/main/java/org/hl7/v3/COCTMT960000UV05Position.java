@@ -118,7 +118,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -130,7 +130,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -200,7 +200,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -224,7 +224,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -236,7 +236,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -248,7 +248,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -260,7 +260,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -272,7 +272,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ activityTime.
+     * Recupera il valore della propriet√† activityTime.
      * 
      * @return
      *     possible object is
@@ -284,7 +284,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ activityTime.
+     * Imposta il valore della propriet√† activityTime.
      * 
      * @param value
      *     allowed object is
@@ -296,7 +296,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -308,7 +308,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -349,7 +349,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -361,7 +361,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is
@@ -402,7 +402,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ component2.
+     * Recupera il valore della propriet√† component2.
      * 
      * @return
      *     possible object is
@@ -414,7 +414,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ component2.
+     * Imposta il valore della propriet√† component2.
      * 
      * @param value
      *     allowed object is
@@ -455,7 +455,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -467,7 +467,7 @@ public class COCTMT960000UV05Position {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

@@ -125,7 +125,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -137,7 +137,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -178,7 +178,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -190,7 +190,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -202,7 +202,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -214,7 +214,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -284,7 +284,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ performer.
+     * Recupera il valore della propriet√† performer.
      * 
      * @return
      *     possible object is
@@ -296,7 +296,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ performer.
+     * Imposta il valore della propriet√† performer.
      * 
      * @param value
      *     allowed object is
@@ -308,7 +308,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ origin.
+     * Recupera il valore della propriet√† origin.
      * 
      * @return
      *     possible object is
@@ -320,7 +320,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ origin.
+     * Imposta il valore della propriet√† origin.
      * 
      * @param value
      *     allowed object is
@@ -332,7 +332,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ destination.
+     * Recupera il valore della propriet√† destination.
      * 
      * @return
      *     possible object is
@@ -344,7 +344,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ destination.
+     * Imposta il valore della propriet√† destination.
      * 
      * @param value
      *     allowed object is
@@ -356,7 +356,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -368,7 +368,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -409,7 +409,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ pertinentInformation2.
+     * Recupera il valore della propriet√† pertinentInformation2.
      * 
      * @return
      *     possible object is
@@ -421,7 +421,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ pertinentInformation2.
+     * Imposta il valore della propriet√† pertinentInformation2.
      * 
      * @param value
      *     allowed object is
@@ -491,7 +491,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -503,7 +503,7 @@ public class COCTMT600000UV06SupplyEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

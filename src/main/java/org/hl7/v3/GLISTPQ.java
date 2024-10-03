@@ -50,7 +50,7 @@ public class GLISTPQ
     protected BigInteger denominator;
 
     /**
-     * Recupera il valore della propriet‡ head.
+     * Recupera il valore della propriet√† head.
      * 
      * @return
      *     possible object is
@@ -62,7 +62,7 @@ public class GLISTPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ head.
+     * Imposta il valore della propriet√† head.
      * 
      * @param value
      *     allowed object is
@@ -74,7 +74,7 @@ public class GLISTPQ
     }
 
     /**
-     * Recupera il valore della propriet‡ increment.
+     * Recupera il valore della propriet√† increment.
      * 
      * @return
      *     possible object is
@@ -86,7 +86,7 @@ public class GLISTPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ increment.
+     * Imposta il valore della propriet√† increment.
      * 
      * @param value
      *     allowed object is
@@ -98,7 +98,7 @@ public class GLISTPQ
     }
 
     /**
-     * Recupera il valore della propriet‡ period.
+     * Recupera il valore della propriet√† period.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class GLISTPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ period.
+     * Imposta il valore della propriet√† period.
      * 
      * @param value
      *     allowed object is
@@ -122,7 +122,7 @@ public class GLISTPQ
     }
 
     /**
-     * Recupera il valore della propriet‡ denominator.
+     * Recupera il valore della propriet√† denominator.
      * 
      * @return
      *     possible object is
@@ -134,7 +134,7 @@ public class GLISTPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ denominator.
+     * Imposta il valore della propriet√† denominator.
      * 
      * @param value
      *     allowed object is

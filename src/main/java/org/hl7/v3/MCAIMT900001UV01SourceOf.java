@@ -85,7 +85,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Recupera il valore della propriet‡ detectedIssueManagement.
+     * Recupera il valore della propriet√† detectedIssueManagement.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Imposta il valore della propriet‡ detectedIssueManagement.
+     * Imposta il valore della propriet√† detectedIssueManagement.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -231,7 +231,7 @@ public class MCAIMT900001UV01SourceOf {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is

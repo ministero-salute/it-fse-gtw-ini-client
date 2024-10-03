@@ -20,7 +20,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 @WebService(name = "XDSDeletetWS", targetNamespace = "urn:ihe:iti:xds-b:2010")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
-    ihe.iti.xds_b._2007.ObjectFactory.class,
+//    ihe.iti.xds_b._2007.ObjectFactory.class,
     ihe.iti.xds_b._2010.ObjectFactory.class,
     oasis.names.tc.ebxml_regrep.xsd.lcm._3.ObjectFactory.class,
     oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory.class,

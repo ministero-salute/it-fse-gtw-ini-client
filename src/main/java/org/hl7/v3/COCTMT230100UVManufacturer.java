@@ -97,7 +97,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -150,7 +150,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -162,7 +162,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -174,7 +174,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ name.
+     * Recupera il valore della propriet√† name.
      * 
      * @return
      *     possible object is
@@ -186,7 +186,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ name.
+     * Imposta il valore della propriet√† name.
      * 
      * @param value
      *     allowed object is
@@ -198,7 +198,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ telecom.
+     * Recupera il valore della propriet√† telecom.
      * 
      * @return
      *     possible object is
@@ -210,7 +210,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ telecom.
+     * Imposta il valore della propriet√† telecom.
      * 
      * @param value
      *     allowed object is
@@ -222,7 +222,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ addr.
+     * Recupera il valore della propriet√† addr.
      * 
      * @return
      *     possible object is
@@ -234,7 +234,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ addr.
+     * Imposta il valore della propriet√† addr.
      * 
      * @param value
      *     allowed object is
@@ -304,7 +304,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -316,7 +316,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -328,7 +328,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -344,7 +344,7 @@ public class COCTMT230100UVManufacturer {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

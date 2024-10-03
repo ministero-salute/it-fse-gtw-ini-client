@@ -51,6 +51,18 @@ public interface DocumentRegistryPortType {
      * 
      * @param body
      * @return
+     *     returns oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType
+     */
+    @WebMethod(operationName = "DocumentRegistry_UpdateDocumentSet", action = "urn:ihe:iti:2010:UpdateDocumentSet")
+    @WebResult(name = "RegistryResponse", targetNamespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", partName = "body")
+    public RegistryResponseType documentRegistryUpdateDocumentSet(
+        @WebParam(name = "SubmitObjectsRequest", targetNamespace = "urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0", partName = "body")
+        SubmitObjectsRequest body);
+
+    /**
+     * 
+     * @param body
+     * @return
      *     returns oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse
      */
     @WebMethod(operationName = "DocumentRegistry_RegistryStoredQuery", action = "urn:ihe:iti:2007:RegistryStoredQuery")

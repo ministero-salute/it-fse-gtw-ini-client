@@ -82,7 +82,7 @@ public class MFMIMT700701UV01ReplacementOf {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class MFMIMT700701UV01ReplacementOf {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class MFMIMT700701UV01ReplacementOf {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorRegistration.
+     * Recupera il valore della propriet√† priorRegistration.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class MFMIMT700701UV01ReplacementOf {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorRegistration.
+     * Imposta il valore della propriet√† priorRegistration.
      * 
      * @param value
      *     allowed object is

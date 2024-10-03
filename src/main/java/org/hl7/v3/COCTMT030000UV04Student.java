@@ -98,7 +98,7 @@ public class COCTMT030000UV04Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class COCTMT030000UV04Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -267,7 +267,7 @@ public class COCTMT030000UV04Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -279,7 +279,7 @@ public class COCTMT030000UV04Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -291,7 +291,7 @@ public class COCTMT030000UV04Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ schoolOrganization.
+     * Recupera il valore della propriet√† schoolOrganization.
      * 
      * @return
      *     possible object is
@@ -303,7 +303,7 @@ public class COCTMT030000UV04Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ schoolOrganization.
+     * Imposta il valore della propriet√† schoolOrganization.
      * 
      * @param value
      *     allowed object is

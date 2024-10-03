@@ -123,7 +123,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -135,7 +135,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -205,7 +205,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -217,7 +217,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -287,7 +287,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ relatedPerson.
+     * Recupera il valore della propriet√† relatedPerson.
      * 
      * @return
      *     possible object is
@@ -299,7 +299,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ relatedPerson.
+     * Imposta il valore della propriet√† relatedPerson.
      * 
      * @param value
      *     allowed object is
@@ -311,7 +311,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ relatedAnimal.
+     * Recupera il valore della propriet√† relatedAnimal.
      * 
      * @return
      *     possible object is
@@ -323,7 +323,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ relatedAnimal.
+     * Imposta il valore della propriet√† relatedAnimal.
      * 
      * @param value
      *     allowed object is
@@ -335,7 +335,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ relatedEntity.
+     * Recupera il valore della propriet√† relatedEntity.
      * 
      * @return
      *     possible object is
@@ -347,7 +347,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ relatedEntity.
+     * Imposta il valore della propriet√† relatedEntity.
      * 
      * @param value
      *     allowed object is
@@ -359,7 +359,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ scopingPerson.
+     * Recupera il valore della propriet√† scopingPerson.
      * 
      * @return
      *     possible object is
@@ -371,7 +371,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ scopingPerson.
+     * Imposta il valore della propriet√† scopingPerson.
      * 
      * @param value
      *     allowed object is
@@ -383,7 +383,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ scopingAnimal.
+     * Recupera il valore della propriet√† scopingAnimal.
      * 
      * @return
      *     possible object is
@@ -395,7 +395,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ scopingAnimal.
+     * Imposta il valore della propriet√† scopingAnimal.
      * 
      * @param value
      *     allowed object is
@@ -407,7 +407,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ scopingEntity.
+     * Recupera il valore della propriet√† scopingEntity.
      * 
      * @return
      *     possible object is
@@ -419,7 +419,7 @@ public class COCTMT530000UVRelatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ scopingEntity.
+     * Imposta il valore della propriet√† scopingEntity.
      * 
      * @param value
      *     allowed object is

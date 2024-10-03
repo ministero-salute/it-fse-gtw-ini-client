@@ -88,7 +88,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedPerson.
+     * Recupera il valore della propriet√† assignedPerson.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedPerson.
+     * Imposta il valore della propriet√† assignedPerson.
      * 
      * @param value
      *     allowed object is
@@ -218,7 +218,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -230,7 +230,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -242,7 +242,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -258,7 +258,7 @@ public class MFMIMT700701UV01InformationRecipient {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

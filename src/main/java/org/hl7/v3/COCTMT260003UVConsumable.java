@@ -82,7 +82,7 @@ public class COCTMT260003UVConsumable {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT260003UVConsumable {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT260003UVConsumable {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturedProduct.
+     * Recupera il valore della propriet√† manufacturedProduct.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT260003UVConsumable {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturedProduct.
+     * Imposta il valore della propriet√† manufacturedProduct.
      * 
      * @param value
      *     allowed object is

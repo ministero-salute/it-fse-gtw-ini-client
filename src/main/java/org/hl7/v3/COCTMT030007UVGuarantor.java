@@ -104,7 +104,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -244,7 +244,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -256,7 +256,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -268,7 +268,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -280,7 +280,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -292,7 +292,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ guarantorPerson.
+     * Recupera il valore della propriet√† guarantorPerson.
      * 
      * @return
      *     possible object is
@@ -304,7 +304,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ guarantorPerson.
+     * Imposta il valore della propriet√† guarantorPerson.
      * 
      * @param value
      *     allowed object is
@@ -316,7 +316,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ guarantorOrganization.
+     * Recupera il valore della propriet√† guarantorOrganization.
      * 
      * @return
      *     possible object is
@@ -328,7 +328,7 @@ public class COCTMT030007UVGuarantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ guarantorOrganization.
+     * Imposta il valore della propriet√† guarantorOrganization.
      * 
      * @param value
      *     allowed object is

@@ -83,7 +83,7 @@ public class MCCIMT000100UV01LocatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class MCCIMT000100UV01LocatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -136,7 +136,7 @@ public class MCCIMT000100UV01LocatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -148,7 +148,7 @@ public class MCCIMT000100UV01LocatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -189,7 +189,7 @@ public class MCCIMT000100UV01LocatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -201,7 +201,7 @@ public class MCCIMT000100UV01LocatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

@@ -82,7 +82,7 @@ public class COCTMT500000UV04Holder {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT500000UV04Holder {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT500000UV04Holder {
     }
 
     /**
-     * Recupera il valore della propriet‡ policyHolder.
+     * Recupera il valore della propriet√† policyHolder.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT500000UV04Holder {
     }
 
     /**
-     * Imposta il valore della propriet‡ policyHolder.
+     * Imposta il valore della propriet√† policyHolder.
      * 
      * @param value
      *     allowed object is

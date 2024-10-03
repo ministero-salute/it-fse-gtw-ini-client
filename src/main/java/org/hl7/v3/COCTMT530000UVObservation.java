@@ -199,7 +199,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -211,7 +211,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -281,7 +281,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -293,7 +293,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -305,7 +305,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ derivationExpr.
+     * Recupera il valore della propriet√† derivationExpr.
      * 
      * @return
      *     possible object is
@@ -317,7 +317,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ derivationExpr.
+     * Imposta il valore della propriet√† derivationExpr.
      * 
      * @param value
      *     allowed object is
@@ -329,7 +329,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -341,7 +341,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -353,7 +353,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -365,7 +365,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -406,7 +406,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ availabilityTime.
+     * Recupera il valore della propriet√† availabilityTime.
      * 
      * @return
      *     possible object is
@@ -418,7 +418,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ availabilityTime.
+     * Imposta il valore della propriet√† availabilityTime.
      * 
      * @param value
      *     allowed object is
@@ -430,7 +430,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorityCode.
+     * Recupera il valore della propriet√† priorityCode.
      * 
      * @return
      *     possible object is
@@ -442,7 +442,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorityCode.
+     * Imposta il valore della propriet√† priorityCode.
      * 
      * @param value
      *     allowed object is
@@ -483,7 +483,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ repeatNumber.
+     * Recupera il valore della propriet√† repeatNumber.
      * 
      * @return
      *     possible object is
@@ -495,7 +495,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ repeatNumber.
+     * Imposta il valore della propriet√† repeatNumber.
      * 
      * @param value
      *     allowed object is
@@ -507,7 +507,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ uncertaintyCode.
+     * Recupera il valore della propriet√† uncertaintyCode.
      * 
      * @return
      *     possible object is
@@ -519,7 +519,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ uncertaintyCode.
+     * Imposta il valore della propriet√† uncertaintyCode.
      * 
      * @param value
      *     allowed object is
@@ -531,7 +531,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ languageCode.
+     * Recupera il valore della propriet√† languageCode.
      * 
      * @return
      *     possible object is
@@ -543,7 +543,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ languageCode.
+     * Imposta il valore della propriet√† languageCode.
      * 
      * @param value
      *     allowed object is
@@ -555,7 +555,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -567,7 +567,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -695,7 +695,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ recordTarget.
+     * Recupera il valore della propriet√† recordTarget.
      * 
      * @return
      *     possible object is
@@ -707,7 +707,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ recordTarget.
+     * Imposta il valore della propriet√† recordTarget.
      * 
      * @param value
      *     allowed object is
@@ -806,7 +806,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ dataEnterer.
+     * Recupera il valore della propriet√† dataEnterer.
      * 
      * @return
      *     possible object is
@@ -818,7 +818,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ dataEnterer.
+     * Imposta il valore della propriet√† dataEnterer.
      * 
      * @param value
      *     allowed object is
@@ -917,7 +917,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ definition.
+     * Recupera il valore della propriet√† definition.
      * 
      * @return
      *     possible object is
@@ -929,7 +929,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ definition.
+     * Imposta il valore della propriet√† definition.
      * 
      * @param value
      *     allowed object is
@@ -1057,7 +1057,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ subjectOf.
+     * Recupera il valore della propriet√† subjectOf.
      * 
      * @return
      *     possible object is
@@ -1069,7 +1069,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ subjectOf.
+     * Imposta il valore della propriet√† subjectOf.
      * 
      * @param value
      *     allowed object is
@@ -1168,7 +1168,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -1180,7 +1180,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is
@@ -1192,7 +1192,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -1204,7 +1204,7 @@ public class COCTMT530000UVObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

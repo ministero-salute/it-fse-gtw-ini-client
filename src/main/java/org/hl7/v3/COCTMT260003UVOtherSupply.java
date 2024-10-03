@@ -95,7 +95,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +148,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -160,7 +160,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +172,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -184,7 +184,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ expectedUseTime.
+     * Recupera il valore della propriet√† expectedUseTime.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ expectedUseTime.
+     * Imposta il valore della propriet√† expectedUseTime.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -232,7 +232,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -273,7 +273,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -285,7 +285,7 @@ public class COCTMT260003UVOtherSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

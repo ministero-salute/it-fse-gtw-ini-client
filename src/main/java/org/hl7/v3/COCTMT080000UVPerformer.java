@@ -94,7 +94,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -147,7 +147,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -159,7 +159,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ noteText.
+     * Recupera il valore della propriet√† noteText.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ noteText.
+     * Imposta il valore della propriet√† noteText.
      * 
      * @param value
      *     allowed object is
@@ -195,7 +195,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -207,7 +207,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -219,7 +219,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedEntity.
+     * Recupera il valore della propriet√† assignedEntity.
      * 
      * @return
      *     possible object is
@@ -231,7 +231,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedEntity.
+     * Imposta il valore della propriet√† assignedEntity.
      * 
      * @param value
      *     allowed object is
@@ -272,7 +272,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -288,7 +288,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -300,7 +300,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -316,7 +316,7 @@ public class COCTMT080000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

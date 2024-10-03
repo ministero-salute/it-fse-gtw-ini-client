@@ -144,7 +144,7 @@ public class OrganizationType
     }
 
     /**
-     * Recupera il valore della propriet‡ parent.
+     * Recupera il valore della propriet√† parent.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class OrganizationType
     }
 
     /**
-     * Imposta il valore della propriet‡ parent.
+     * Imposta il valore della propriet√† parent.
      * 
      * @param value
      *     allowed object is
@@ -168,7 +168,7 @@ public class OrganizationType
     }
 
     /**
-     * Recupera il valore della propriet‡ primaryContact.
+     * Recupera il valore della propriet√† primaryContact.
      * 
      * @return
      *     possible object is
@@ -180,7 +180,7 @@ public class OrganizationType
     }
 
     /**
-     * Imposta il valore della propriet‡ primaryContact.
+     * Imposta il valore della propriet√† primaryContact.
      * 
      * @param value
      *     allowed object is

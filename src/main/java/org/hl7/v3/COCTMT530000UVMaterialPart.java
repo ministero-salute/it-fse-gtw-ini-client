@@ -82,7 +82,7 @@ public class COCTMT530000UVMaterialPart {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT530000UVMaterialPart {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT530000UVMaterialPart {
     }
 
     /**
-     * Recupera il valore della propriet‡ partMaterialKind.
+     * Recupera il valore della propriet√† partMaterialKind.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT530000UVMaterialPart {
     }
 
     /**
-     * Imposta il valore della propriet‡ partMaterialKind.
+     * Imposta il valore della propriet√† partMaterialKind.
      * 
      * @param value
      *     allowed object is

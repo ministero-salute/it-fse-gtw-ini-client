@@ -86,7 +86,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ accommodationRequestor.
+     * Recupera il valore della propriet√† accommodationRequestor.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ accommodationRequestor.
+     * Imposta il valore della propriet√† accommodationRequestor.
      * 
      * @param value
      *     allowed object is
@@ -216,7 +216,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -228,7 +228,7 @@ public class COCTMT310000UV04AccommodationRequestorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

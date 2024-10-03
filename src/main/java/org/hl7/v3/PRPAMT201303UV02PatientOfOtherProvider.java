@@ -82,7 +82,7 @@ public class PRPAMT201303UV02PatientOfOtherProvider {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class PRPAMT201303UV02PatientOfOtherProvider {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class PRPAMT201303UV02PatientOfOtherProvider {
     }
 
     /**
-     * Recupera il valore della propriet‡ subjectOf.
+     * Recupera il valore della propriet√† subjectOf.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class PRPAMT201303UV02PatientOfOtherProvider {
     }
 
     /**
-     * Imposta il valore della propriet‡ subjectOf.
+     * Imposta il valore della propriet√† subjectOf.
      * 
      * @param value
      *     allowed object is

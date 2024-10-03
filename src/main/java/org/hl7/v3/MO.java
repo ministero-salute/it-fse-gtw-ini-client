@@ -56,7 +56,7 @@ public class MO
     protected String currency;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -68,7 +68,7 @@ public class MO
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -80,7 +80,7 @@ public class MO
     }
 
     /**
-     * Recupera il valore della propriet‡ currency.
+     * Recupera il valore della propriet√† currency.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class MO
     }
 
     /**
-     * Imposta il valore della propriet‡ currency.
+     * Imposta il valore della propriet√† currency.
      * 
      * @param value
      *     allowed object is

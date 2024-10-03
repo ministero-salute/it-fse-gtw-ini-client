@@ -86,7 +86,7 @@ public class COCTMT740000UV04OralHealthSubstanceAdministration {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT740000UV04OralHealthSubstanceAdministration {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT740000UV04OralHealthSubstanceAdministration {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT740000UV04OralHealthSubstanceAdministration {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is

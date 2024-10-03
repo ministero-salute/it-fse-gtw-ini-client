@@ -85,7 +85,7 @@ public class MCCIMT000100UV01RespondTo {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class MCCIMT000100UV01RespondTo {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class MCCIMT000100UV01RespondTo {
     }
 
     /**
-     * Recupera il valore della propriet‡ telecom.
+     * Recupera il valore della propriet√† telecom.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class MCCIMT000100UV01RespondTo {
     }
 
     /**
-     * Imposta il valore della propriet‡ telecom.
+     * Imposta il valore della propriet√† telecom.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class MCCIMT000100UV01RespondTo {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -232,7 +232,7 @@ public class MCCIMT000100UV01RespondTo {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

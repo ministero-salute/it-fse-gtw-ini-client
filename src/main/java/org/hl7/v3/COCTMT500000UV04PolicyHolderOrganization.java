@@ -86,7 +86,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Recupera il valore della propriet‡ name.
+     * Recupera il valore della propriet√† name.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Imposta il valore della propriet‡ name.
+     * Imposta il valore della propriet√† name.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Recupera il valore della propriet‡ addr.
+     * Recupera il valore della propriet√† addr.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Imposta il valore della propriet‡ addr.
+     * Imposta il valore della propriet√† addr.
      * 
      * @param value
      *     allowed object is
@@ -216,7 +216,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -228,7 +228,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -240,7 +240,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -256,7 +256,7 @@ public class COCTMT500000UV04PolicyHolderOrganization {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

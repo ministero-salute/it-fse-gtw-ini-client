@@ -62,9 +62,9 @@ public class QueryExpressionType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
+     * {@link String }
      * {@link Element }
      * {@link Object }
-     * {@link String }
      * 
      * 
      */
@@ -76,7 +76,7 @@ public class QueryExpressionType {
     }
 
     /**
-     * Recupera il valore della propriet‡ queryLanguage.
+     * Recupera il valore della propriet√† queryLanguage.
      * 
      * @return
      *     possible object is
@@ -88,7 +88,7 @@ public class QueryExpressionType {
     }
 
     /**
-     * Imposta il valore della propriet‡ queryLanguage.
+     * Imposta il valore della propriet√† queryLanguage.
      * 
      * @param value
      *     allowed object is

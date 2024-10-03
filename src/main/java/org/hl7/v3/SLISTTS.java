@@ -51,7 +51,7 @@ public class SLISTTS
     protected List<BigInteger> digits;
 
     /**
-     * Recupera il valore della propriet‡ origin.
+     * Recupera il valore della propriet√† origin.
      * 
      * @return
      *     possible object is
@@ -63,7 +63,7 @@ public class SLISTTS
     }
 
     /**
-     * Imposta il valore della propriet‡ origin.
+     * Imposta il valore della propriet√† origin.
      * 
      * @param value
      *     allowed object is
@@ -75,7 +75,7 @@ public class SLISTTS
     }
 
     /**
-     * Recupera il valore della propriet‡ scale.
+     * Recupera il valore della propriet√† scale.
      * 
      * @return
      *     possible object is
@@ -87,7 +87,7 @@ public class SLISTTS
     }
 
     /**
-     * Imposta il valore della propriet‡ scale.
+     * Imposta il valore della propriet√† scale.
      * 
      * @param value
      *     allowed object is

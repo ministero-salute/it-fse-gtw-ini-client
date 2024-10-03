@@ -101,7 +101,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -113,7 +113,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -183,7 +183,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -195,7 +195,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -265,7 +265,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -277,7 +277,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -289,7 +289,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ serviceProviderOrganization.
+     * Recupera il valore della propriet√† serviceProviderOrganization.
      * 
      * @return
      *     possible object is
@@ -301,7 +301,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ serviceProviderOrganization.
+     * Imposta il valore della propriet√† serviceProviderOrganization.
      * 
      * @param value
      *     allowed object is
@@ -342,7 +342,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -354,7 +354,7 @@ public class COCTMT240003UV02ServiceDeliveryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

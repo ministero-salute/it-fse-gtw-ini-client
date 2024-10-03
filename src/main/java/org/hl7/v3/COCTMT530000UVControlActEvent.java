@@ -109,7 +109,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -121,7 +121,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -186,7 +186,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -198,7 +198,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -210,7 +210,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -222,7 +222,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -234,7 +234,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -246,7 +246,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -258,7 +258,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ reasonCode.
+     * Recupera il valore della propriet√† reasonCode.
      * 
      * @return
      *     possible object is
@@ -270,7 +270,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ reasonCode.
+     * Imposta il valore della propriet√† reasonCode.
      * 
      * @param value
      *     allowed object is
@@ -282,7 +282,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ responsibleParty.
+     * Recupera il valore della propriet√† responsibleParty.
      * 
      * @return
      *     possible object is
@@ -294,7 +294,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ responsibleParty.
+     * Imposta il valore della propriet√† responsibleParty.
      * 
      * @param value
      *     allowed object is
@@ -364,7 +364,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -380,7 +380,7 @@ public class COCTMT530000UVControlActEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

@@ -82,7 +82,7 @@ public class COCTMT310000UV04Author {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT310000UV04Author {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT310000UV04Author {
     }
 
     /**
-     * Recupera il valore della propriet‡ accommodationRequestorRole.
+     * Recupera il valore della propriet√† accommodationRequestorRole.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT310000UV04Author {
     }
 
     /**
-     * Imposta il valore della propriet‡ accommodationRequestorRole.
+     * Imposta il valore della propriet√† accommodationRequestorRole.
      * 
      * @param value
      *     allowed object is

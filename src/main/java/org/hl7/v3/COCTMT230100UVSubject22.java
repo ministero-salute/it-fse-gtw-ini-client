@@ -82,7 +82,7 @@ public class COCTMT230100UVSubject22 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT230100UVSubject22 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT230100UVSubject22 {
     }
 
     /**
-     * Recupera il valore della propriet‡ characteristic.
+     * Recupera il valore della propriet√† characteristic.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT230100UVSubject22 {
     }
 
     /**
-     * Imposta il valore della propriet‡ characteristic.
+     * Imposta il valore della propriet√† characteristic.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class COCTMT230100UVSubject22 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -200,7 +200,7 @@ public class COCTMT230100UVSubject22 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

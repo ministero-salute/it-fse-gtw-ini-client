@@ -139,7 +139,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -221,7 +221,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -233,7 +233,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -245,7 +245,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -257,7 +257,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -269,7 +269,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -281,7 +281,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -322,7 +322,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ coveredParty.
+     * Recupera il valore della propriet√† coveredParty.
      * 
      * @return
      *     possible object is
@@ -334,7 +334,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ coveredParty.
+     * Imposta il valore della propriet√† coveredParty.
      * 
      * @param value
      *     allowed object is
@@ -346,7 +346,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ holder.
+     * Recupera il valore della propriet√† holder.
      * 
      * @return
      *     possible object is
@@ -358,7 +358,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ holder.
+     * Imposta il valore della propriet√† holder.
      * 
      * @param value
      *     allowed object is
@@ -370,7 +370,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ responsibleParty.
+     * Recupera il valore della propriet√† responsibleParty.
      * 
      * @return
      *     possible object is
@@ -382,7 +382,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ responsibleParty.
+     * Imposta il valore della propriet√† responsibleParty.
      * 
      * @param value
      *     allowed object is
@@ -452,7 +452,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ definition.
+     * Recupera il valore della propriet√† definition.
      * 
      * @return
      *     possible object is
@@ -464,7 +464,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ definition.
+     * Imposta il valore della propriet√† definition.
      * 
      * @param value
      *     allowed object is
@@ -476,7 +476,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ replacementOf.
+     * Recupera il valore della propriet√† replacementOf.
      * 
      * @return
      *     possible object is
@@ -488,7 +488,7 @@ public class COCTMT510000UV06PolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ replacementOf.
+     * Imposta il valore della propriet√† replacementOf.
      * 
      * @param value
      *     allowed object is

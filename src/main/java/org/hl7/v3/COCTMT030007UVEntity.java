@@ -98,7 +98,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -180,7 +180,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -192,7 +192,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -233,7 +233,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -245,7 +245,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -257,7 +257,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -269,7 +269,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -281,7 +281,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ existenceTime.
+     * Recupera il valore della propriet√† existenceTime.
      * 
      * @return
      *     possible object is
@@ -293,7 +293,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ existenceTime.
+     * Imposta il valore della propriet√† existenceTime.
      * 
      * @param value
      *     allowed object is
@@ -363,7 +363,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -379,7 +379,7 @@ public class COCTMT030007UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

@@ -91,7 +91,7 @@ public class COCTMT600000UV06HealthCareProvider {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class COCTMT600000UV06HealthCareProvider {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -173,7 +173,7 @@ public class COCTMT600000UV06HealthCareProvider {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -185,7 +185,7 @@ public class COCTMT600000UV06HealthCareProvider {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -197,7 +197,7 @@ public class COCTMT600000UV06HealthCareProvider {
     }
 
     /**
-     * Recupera il valore della propriet‡ healthCareProviderPerson.
+     * Recupera il valore della propriet√† healthCareProviderPerson.
      * 
      * @return
      *     possible object is
@@ -209,7 +209,7 @@ public class COCTMT600000UV06HealthCareProvider {
     }
 
     /**
-     * Imposta il valore della propriet‡ healthCareProviderPerson.
+     * Imposta il valore della propriet√† healthCareProviderPerson.
      * 
      * @param value
      *     allowed object is

@@ -85,7 +85,7 @@ public class COCTMT810000UVInformationProvision {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT810000UVInformationProvision {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT810000UVInformationProvision {
     }
 
     /**
-     * Recupera il valore della propriet‡ performer.
+     * Recupera il valore della propriet√† performer.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT810000UVInformationProvision {
     }
 
     /**
-     * Imposta il valore della propriet‡ performer.
+     * Imposta il valore della propriet√† performer.
      * 
      * @param value
      *     allowed object is

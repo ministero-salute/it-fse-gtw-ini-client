@@ -90,7 +90,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -102,7 +102,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -143,7 +143,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Recupera il valore della propriet‡ addr.
+     * Recupera il valore della propriet√† addr.
      * 
      * @return
      *     possible object is
@@ -155,7 +155,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Imposta il valore della propriet‡ addr.
+     * Imposta il valore della propriet√† addr.
      * 
      * @param value
      *     allowed object is
@@ -167,7 +167,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Recupera il valore della propriet‡ birthplace.
+     * Recupera il valore della propriet√† birthplace.
      * 
      * @return
      *     possible object is
@@ -179,7 +179,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Imposta il valore della propriet‡ birthplace.
+     * Imposta il valore della propriet√† birthplace.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Recupera il valore della propriet‡ subjectOf.
+     * Recupera il valore della propriet√† subjectOf.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class PRPAMT201302UV02BirthPlace {
     }
 
     /**
-     * Imposta il valore della propriet‡ subjectOf.
+     * Imposta il valore della propriet√† subjectOf.
      * 
      * @param value
      *     allowed object is

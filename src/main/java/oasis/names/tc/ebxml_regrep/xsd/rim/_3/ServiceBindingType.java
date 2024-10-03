@@ -81,7 +81,7 @@ public class ServiceBindingType
     }
 
     /**
-     * Recupera il valore della propriet‡ service.
+     * Recupera il valore della propriet√† service.
      * 
      * @return
      *     possible object is
@@ -93,7 +93,7 @@ public class ServiceBindingType
     }
 
     /**
-     * Imposta il valore della propriet‡ service.
+     * Imposta il valore della propriet√† service.
      * 
      * @param value
      *     allowed object is
@@ -105,7 +105,7 @@ public class ServiceBindingType
     }
 
     /**
-     * Recupera il valore della propriet‡ accessURI.
+     * Recupera il valore della propriet√† accessURI.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class ServiceBindingType
     }
 
     /**
-     * Imposta il valore della propriet‡ accessURI.
+     * Imposta il valore della propriet√† accessURI.
      * 
      * @param value
      *     allowed object is
@@ -129,7 +129,7 @@ public class ServiceBindingType
     }
 
     /**
-     * Recupera il valore della propriet‡ targetBinding.
+     * Recupera il valore della propriet√† targetBinding.
      * 
      * @return
      *     possible object is
@@ -141,7 +141,7 @@ public class ServiceBindingType
     }
 
     /**
-     * Imposta il valore della propriet‡ targetBinding.
+     * Imposta il valore della propriet√† targetBinding.
      * 
      * @param value
      *     allowed object is

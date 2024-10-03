@@ -89,7 +89,7 @@ public class COCTMT150000UV02Person {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT150000UV02Person {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class COCTMT150000UV02Person {
     }
 
     /**
-     * Recupera il valore della propriet‡ asLocatedEntity.
+     * Recupera il valore della propriet√† asLocatedEntity.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class COCTMT150000UV02Person {
     }
 
     /**
-     * Imposta il valore della propriet‡ asLocatedEntity.
+     * Imposta il valore della propriet√† asLocatedEntity.
      * 
      * @param value
      *     allowed object is
@@ -253,7 +253,7 @@ public class COCTMT150000UV02Person {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -269,7 +269,7 @@ public class COCTMT150000UV02Person {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

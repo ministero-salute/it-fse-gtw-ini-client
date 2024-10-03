@@ -82,7 +82,7 @@ public class COCTMT510000UV06Reference2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT510000UV06Reference2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT510000UV06Reference2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ coverageChargePolicy.
+     * Recupera il valore della propriet√† coverageChargePolicy.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT510000UV06Reference2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ coverageChargePolicy.
+     * Imposta il valore della propriet√† coverageChargePolicy.
      * 
      * @param value
      *     allowed object is

@@ -105,7 +105,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -158,7 +158,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ functionCode.
+     * Recupera il valore della propriet√† functionCode.
      * 
      * @return
      *     possible object is
@@ -170,7 +170,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ functionCode.
+     * Imposta il valore della propriet√† functionCode.
      * 
      * @param value
      *     allowed object is
@@ -182,7 +182,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -194,7 +194,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -206,7 +206,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ modeCode.
+     * Recupera il valore della propriet√† modeCode.
      * 
      * @return
      *     possible object is
@@ -218,7 +218,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ modeCode.
+     * Imposta il valore della propriet√† modeCode.
      * 
      * @param value
      *     allowed object is
@@ -230,7 +230,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ relatedEntity.
+     * Recupera il valore della propriet√† relatedEntity.
      * 
      * @return
      *     possible object is
@@ -242,7 +242,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ relatedEntity.
+     * Imposta il valore della propriet√† relatedEntity.
      * 
      * @param value
      *     allowed object is
@@ -254,7 +254,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ patient.
+     * Recupera il valore della propriet√† patient.
      * 
      * @return
      *     possible object is
@@ -266,7 +266,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ patient.
+     * Imposta il valore della propriet√† patient.
      * 
      * @param value
      *     allowed object is
@@ -278,7 +278,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedEntity.
+     * Recupera il valore della propriet√† assignedEntity.
      * 
      * @return
      *     possible object is
@@ -290,7 +290,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedEntity.
+     * Imposta il valore della propriet√† assignedEntity.
      * 
      * @param value
      *     allowed object is
@@ -360,7 +360,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -376,7 +376,7 @@ public class COCTMT530000UVInformant {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

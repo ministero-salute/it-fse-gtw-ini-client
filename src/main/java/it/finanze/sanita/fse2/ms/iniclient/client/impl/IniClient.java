@@ -211,13 +211,13 @@ public class IniClient implements IIniClient {
 		
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
-			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-				if (error.getCodeContext().equals("No results from the query")) {
-					throw new IdDocumentNotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
-				} else {
-					sb.append(error.getCodeContext());
-				}
-			}
+//			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+//				if (error.getCodeContext().equals("No results from the query")) {
+//					throw new IdDocumentNotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
+//				} else {
+//					sb.append(error.getCodeContext());
+//				}
+//			}
 			throw new BusinessException(sb.toString());
 		}
 		return response;

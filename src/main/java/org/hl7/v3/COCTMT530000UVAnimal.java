@@ -116,7 +116,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -128,7 +128,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -169,7 +169,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -181,7 +181,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -193,7 +193,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -205,7 +205,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -246,7 +246,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -258,7 +258,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -270,7 +270,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ administrativeGenderCode.
+     * Recupera il valore della propriet√† administrativeGenderCode.
      * 
      * @return
      *     possible object is
@@ -282,7 +282,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ administrativeGenderCode.
+     * Imposta il valore della propriet√† administrativeGenderCode.
      * 
      * @param value
      *     allowed object is
@@ -294,7 +294,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ birthTime.
+     * Recupera il valore della propriet√† birthTime.
      * 
      * @return
      *     possible object is
@@ -306,7 +306,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ birthTime.
+     * Imposta il valore della propriet√† birthTime.
      * 
      * @param value
      *     allowed object is
@@ -318,7 +318,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ strainText.
+     * Recupera il valore della propriet√† strainText.
      * 
      * @return
      *     possible object is
@@ -330,7 +330,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ strainText.
+     * Imposta il valore della propriet√† strainText.
      * 
      * @param value
      *     allowed object is
@@ -342,7 +342,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ genderStatusCode.
+     * Recupera il valore della propriet√† genderStatusCode.
      * 
      * @return
      *     possible object is
@@ -354,7 +354,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ genderStatusCode.
+     * Imposta il valore della propriet√† genderStatusCode.
      * 
      * @param value
      *     allowed object is
@@ -395,7 +395,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ birthplace.
+     * Recupera il valore della propriet√† birthplace.
      * 
      * @return
      *     possible object is
@@ -407,7 +407,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ birthplace.
+     * Imposta il valore della propriet√† birthplace.
      * 
      * @param value
      *     allowed object is
@@ -477,7 +477,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -493,7 +493,7 @@ public class COCTMT530000UVAnimal {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

@@ -104,7 +104,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -186,7 +186,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -198,7 +198,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -210,7 +210,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedProviderPerson.
+     * Recupera il valore della propriet√† assignedProviderPerson.
      * 
      * @return
      *     possible object is
@@ -222,7 +222,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedProviderPerson.
+     * Imposta il valore della propriet√† assignedProviderPerson.
      * 
      * @param value
      *     allowed object is
@@ -234,7 +234,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedNonPersonLivingSubject.
+     * Recupera il valore della propriet√† assignedNonPersonLivingSubject.
      * 
      * @return
      *     possible object is
@@ -246,7 +246,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedNonPersonLivingSubject.
+     * Imposta il valore della propriet√† assignedNonPersonLivingSubject.
      * 
      * @param value
      *     allowed object is
@@ -258,7 +258,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedDevice.
+     * Recupera il valore della propriet√† assignedDevice.
      * 
      * @return
      *     possible object is
@@ -270,7 +270,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedDevice.
+     * Imposta il valore della propriet√† assignedDevice.
      * 
      * @param value
      *     allowed object is
@@ -340,7 +340,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -352,7 +352,7 @@ public class COCTMT290000UV06AssignedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

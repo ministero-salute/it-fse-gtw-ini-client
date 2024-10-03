@@ -107,7 +107,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -119,7 +119,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -189,7 +189,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -201,7 +201,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -271,7 +271,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -283,7 +283,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -295,7 +295,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ certificateText.
+     * Recupera il valore della propriet√† certificateText.
      * 
      * @return
      *     possible object is
@@ -307,7 +307,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ certificateText.
+     * Imposta il valore della propriet√† certificateText.
      * 
      * @param value
      *     allowed object is
@@ -319,7 +319,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedPerson.
+     * Recupera il valore della propriet√† assignedPerson.
      * 
      * @return
      *     possible object is
@@ -331,7 +331,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedPerson.
+     * Imposta il valore della propriet√† assignedPerson.
      * 
      * @param value
      *     allowed object is
@@ -343,7 +343,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ representedOrganization.
+     * Recupera il valore della propriet√† representedOrganization.
      * 
      * @return
      *     possible object is
@@ -355,7 +355,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ representedOrganization.
+     * Imposta il valore della propriet√† representedOrganization.
      * 
      * @param value
      *     allowed object is
@@ -396,7 +396,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -408,7 +408,7 @@ public class COCTMT090100UV01AssignedPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

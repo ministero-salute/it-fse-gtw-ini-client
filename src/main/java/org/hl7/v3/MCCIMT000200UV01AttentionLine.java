@@ -80,7 +80,7 @@ public class MCCIMT000200UV01AttentionLine {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class MCCIMT000200UV01AttentionLine {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -133,7 +133,7 @@ public class MCCIMT000200UV01AttentionLine {
     }
 
     /**
-     * Recupera il valore della propriet‡ keyWordText.
+     * Recupera il valore della propriet√† keyWordText.
      * 
      * @return
      *     possible object is
@@ -145,7 +145,7 @@ public class MCCIMT000200UV01AttentionLine {
     }
 
     /**
-     * Imposta il valore della propriet‡ keyWordText.
+     * Imposta il valore della propriet√† keyWordText.
      * 
      * @param value
      *     allowed object is
@@ -157,7 +157,7 @@ public class MCCIMT000200UV01AttentionLine {
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -169,7 +169,7 @@ public class MCCIMT000200UV01AttentionLine {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

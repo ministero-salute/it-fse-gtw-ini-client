@@ -85,7 +85,7 @@ public class PRPAIN201301UV02MFMIMT700701UV01Subject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class PRPAIN201301UV02MFMIMT700701UV01Subject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class PRPAIN201301UV02MFMIMT700701UV01Subject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ registrationEvent.
+     * Recupera il valore della propriet√† registrationEvent.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class PRPAIN201301UV02MFMIMT700701UV01Subject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ registrationEvent.
+     * Imposta il valore della propriet√† registrationEvent.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class PRPAIN201301UV02MFMIMT700701UV01Subject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -236,7 +236,7 @@ public class PRPAIN201301UV02MFMIMT700701UV01Subject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is

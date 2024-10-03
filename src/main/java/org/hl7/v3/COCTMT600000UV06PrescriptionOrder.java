@@ -92,7 +92,7 @@ public class COCTMT600000UV06PrescriptionOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -104,7 +104,7 @@ public class COCTMT600000UV06PrescriptionOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -174,7 +174,7 @@ public class COCTMT600000UV06PrescriptionOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -186,7 +186,7 @@ public class COCTMT600000UV06PrescriptionOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -198,7 +198,7 @@ public class COCTMT600000UV06PrescriptionOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -210,7 +210,7 @@ public class COCTMT600000UV06PrescriptionOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is

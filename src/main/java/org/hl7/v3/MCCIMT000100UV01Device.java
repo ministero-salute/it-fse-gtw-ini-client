@@ -113,7 +113,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -125,7 +125,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -224,7 +224,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -236,7 +236,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -248,7 +248,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ existenceTime.
+     * Recupera il valore della propriet√† existenceTime.
      * 
      * @return
      *     possible object is
@@ -260,7 +260,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ existenceTime.
+     * Imposta il valore della propriet√† existenceTime.
      * 
      * @param value
      *     allowed object is
@@ -301,7 +301,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturerModelName.
+     * Recupera il valore della propriet√† manufacturerModelName.
      * 
      * @return
      *     possible object is
@@ -313,7 +313,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturerModelName.
+     * Imposta il valore della propriet√† manufacturerModelName.
      * 
      * @param value
      *     allowed object is
@@ -325,7 +325,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ softwareName.
+     * Recupera il valore della propriet√† softwareName.
      * 
      * @return
      *     possible object is
@@ -337,7 +337,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ softwareName.
+     * Imposta il valore della propriet√† softwareName.
      * 
      * @param value
      *     allowed object is
@@ -349,7 +349,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ asAgent.
+     * Recupera il valore della propriet√† asAgent.
      * 
      * @return
      *     possible object is
@@ -361,7 +361,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ asAgent.
+     * Imposta il valore della propriet√† asAgent.
      * 
      * @param value
      *     allowed object is
@@ -431,7 +431,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -443,7 +443,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -455,7 +455,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -471,7 +471,7 @@ public class MCCIMT000100UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

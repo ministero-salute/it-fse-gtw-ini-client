@@ -85,7 +85,7 @@ public class COCTMT260003UVOtherMedication {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT260003UVOtherMedication {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT260003UVOtherMedication {
     }
 
     /**
-     * Recupera il valore della propriet‡ consumable.
+     * Recupera il valore della propriet√† consumable.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT260003UVOtherMedication {
     }
 
     /**
-     * Imposta il valore della propriet‡ consumable.
+     * Imposta il valore della propriet√† consumable.
      * 
      * @param value
      *     allowed object is

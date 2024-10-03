@@ -112,7 +112,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -124,7 +124,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ addr.
+     * Recupera il valore della propriet√† addr.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ addr.
+     * Imposta il valore della propriet√† addr.
      * 
      * @param value
      *     allowed object is
@@ -218,7 +218,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ telecom.
+     * Recupera il valore della propriet√† telecom.
      * 
      * @return
      *     possible object is
@@ -230,7 +230,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ telecom.
+     * Imposta il valore della propriet√† telecom.
      * 
      * @param value
      *     allowed object is
@@ -242,7 +242,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -254,7 +254,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -266,7 +266,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -278,7 +278,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -290,7 +290,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ guarantorPerson.
+     * Recupera il valore della propriet√† guarantorPerson.
      * 
      * @return
      *     possible object is
@@ -302,7 +302,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ guarantorPerson.
+     * Imposta il valore della propriet√† guarantorPerson.
      * 
      * @param value
      *     allowed object is
@@ -314,7 +314,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ guarantorOrganization.
+     * Recupera il valore della propriet√† guarantorOrganization.
      * 
      * @return
      *     possible object is
@@ -326,7 +326,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ guarantorOrganization.
+     * Imposta il valore della propriet√† guarantorOrganization.
      * 
      * @param value
      *     allowed object is
@@ -425,7 +425,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -437,7 +437,7 @@ public class COCTMT670000UV04GuarantorRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

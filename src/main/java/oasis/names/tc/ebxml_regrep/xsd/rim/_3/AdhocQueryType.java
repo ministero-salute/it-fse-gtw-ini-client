@@ -43,7 +43,7 @@ public class AdhocQueryType
     protected QueryExpressionType queryExpression;
 
     /**
-     * Recupera il valore della propriet‡ queryExpression.
+     * Recupera il valore della propriet√† queryExpression.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class AdhocQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ queryExpression.
+     * Imposta il valore della propriet√† queryExpression.
      * 
      * @param value
      *     allowed object is

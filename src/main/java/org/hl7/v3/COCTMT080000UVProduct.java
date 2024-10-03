@@ -95,7 +95,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +148,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -160,7 +160,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +172,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ process.
+     * Recupera il valore della propriet√† process.
      * 
      * @return
      *     possible object is
@@ -184,7 +184,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ process.
+     * Imposta il valore della propriet√† process.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ actRef.
+     * Recupera il valore della propriet√† actRef.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ actRef.
+     * Imposta il valore della propriet√† actRef.
      * 
      * @param value
      *     allowed object is
@@ -278,7 +278,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -294,7 +294,7 @@ public class COCTMT080000UVProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

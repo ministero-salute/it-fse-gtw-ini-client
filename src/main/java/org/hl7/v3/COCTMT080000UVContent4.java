@@ -88,7 +88,7 @@ public class COCTMT080000UVContent4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT080000UVContent4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT080000UVContent4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT080000UVContent4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class COCTMT080000UVContent4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ containerHolder.
+     * Recupera il valore della propriet√† containerHolder.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class COCTMT080000UVContent4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ containerHolder.
+     * Imposta il valore della propriet√† containerHolder.
      * 
      * @param value
      *     allowed object is

@@ -55,7 +55,7 @@ public class ENXP
     protected List<String> qualifier;
 
     /**
-     * Recupera il valore della propriet‡ partType.
+     * Recupera il valore della propriet√† partType.
      * 
      * @return
      *     possible object is
@@ -67,7 +67,7 @@ public class ENXP
     }
 
     /**
-     * Imposta il valore della propriet‡ partType.
+     * Imposta il valore della propriet√† partType.
      * 
      * @param value
      *     allowed object is

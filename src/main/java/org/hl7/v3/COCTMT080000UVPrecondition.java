@@ -97,7 +97,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -150,7 +150,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -162,7 +162,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -174,7 +174,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorityNumber.
+     * Recupera il valore della propriet√† priorityNumber.
      * 
      * @return
      *     possible object is
@@ -186,7 +186,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorityNumber.
+     * Imposta il valore della propriet√† priorityNumber.
      * 
      * @param value
      *     allowed object is
@@ -198,7 +198,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ conjunctionCode.
+     * Recupera il valore della propriet√† conjunctionCode.
      * 
      * @return
      *     possible object is
@@ -210,7 +210,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ conjunctionCode.
+     * Imposta il valore della propriet√† conjunctionCode.
      * 
      * @param value
      *     allowed object is
@@ -222,7 +222,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ criterion.
+     * Recupera il valore della propriet√† criterion.
      * 
      * @return
      *     possible object is
@@ -234,7 +234,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ criterion.
+     * Imposta il valore della propriet√† criterion.
      * 
      * @param value
      *     allowed object is
@@ -304,7 +304,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -320,7 +320,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is
@@ -332,7 +332,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -348,7 +348,7 @@ public class COCTMT080000UVPrecondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is

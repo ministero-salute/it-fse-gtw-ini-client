@@ -55,8 +55,8 @@ public class IVLPPDTS
 
     @XmlElementRefs({
         @XmlElementRef(name = "low", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "center", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "high", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "center", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "width", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false)
     })
     protected List<JAXBElement<? extends QTY>> rest;
@@ -65,12 +65,12 @@ public class IVLPPDTS
      * Recupera il resto del modello di contenuto. 
      * 
      * <p>
-     * Questa propriet‡ "catch-all" viene recuperata per il seguente motivo: 
-     * Il nome di campo "High" Ë usato da due diverse parti di uno schema. Vedere: 
-     * riga 448 di file:/C:/Users/066070758/Desktop/INI_NEW/schema/HL7V3/NE2008/coreschemas/datatypes.xsd
-     * riga 439 di file:/C:/Users/066070758/Desktop/INI_NEW/schema/HL7V3/NE2008/coreschemas/datatypes.xsd
+     * Questa propriet√† "catch-all" viene recuperata per il seguente motivo: 
+     * Il nome di campo "High" √® usato da due diverse parti di uno schema. Vedere: 
+     * riga 453 di file:/Users/vincenzoingenito/Desktop/CLIENT_INI_NEW/WSDL_e_SCHEMA_INI/schema/HL7V3/NE2008/coreschemas/datatypes.xsd
+     * riga 444 di file:/Users/vincenzoingenito/Desktop/CLIENT_INI_NEW/WSDL_e_SCHEMA_INI/schema/HL7V3/NE2008/coreschemas/datatypes.xsd
      * <p>
-     * Per eliminare questa propriet‡, applicare una personalizzazione della propriet‡ a una 
+     * Per eliminare questa propriet√†, applicare una personalizzazione della propriet√† a una 
      * delle seguenti due dichiarazioni per modificarne il nome: 
      * Gets the value of the rest property.
      * 

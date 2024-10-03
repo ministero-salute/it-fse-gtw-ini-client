@@ -116,7 +116,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -128,7 +128,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -169,7 +169,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -181,7 +181,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -193,7 +193,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -205,7 +205,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -246,7 +246,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ formCode.
+     * Recupera il valore della propriet√† formCode.
      * 
      * @return
      *     possible object is
@@ -258,7 +258,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ formCode.
+     * Imposta il valore della propriet√† formCode.
      * 
      * @param value
      *     allowed object is
@@ -270,7 +270,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ lotNumberText.
+     * Recupera il valore della propriet√† lotNumberText.
      * 
      * @return
      *     possible object is
@@ -282,7 +282,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ lotNumberText.
+     * Imposta il valore della propriet√† lotNumberText.
      * 
      * @param value
      *     allowed object is
@@ -294,7 +294,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ capacityQuantity.
+     * Recupera il valore della propriet√† capacityQuantity.
      * 
      * @return
      *     possible object is
@@ -306,7 +306,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ capacityQuantity.
+     * Imposta il valore della propriet√† capacityQuantity.
      * 
      * @param value
      *     allowed object is
@@ -318,7 +318,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ capTypeCode.
+     * Recupera il valore della propriet√† capTypeCode.
      * 
      * @return
      *     possible object is
@@ -330,7 +330,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ capTypeCode.
+     * Imposta il valore della propriet√† capTypeCode.
      * 
      * @param value
      *     allowed object is
@@ -371,7 +371,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ asSuperContent.
+     * Recupera il valore della propriet√† asSuperContent.
      * 
      * @return
      *     possible object is
@@ -383,7 +383,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ asSuperContent.
+     * Imposta il valore della propriet√† asSuperContent.
      * 
      * @param value
      *     allowed object is
@@ -395,7 +395,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ subContent.
+     * Recupera il valore della propriet√† subContent.
      * 
      * @return
      *     possible object is
@@ -407,7 +407,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ subContent.
+     * Imposta il valore della propriet√† subContent.
      * 
      * @param value
      *     allowed object is
@@ -448,7 +448,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -460,7 +460,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -472,7 +472,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -484,7 +484,7 @@ public class COCTMT230100UVPackagedMedicine {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

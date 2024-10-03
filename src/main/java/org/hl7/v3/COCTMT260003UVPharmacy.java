@@ -82,7 +82,7 @@ public class COCTMT260003UVPharmacy {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT260003UVPharmacy {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT260003UVPharmacy {
     }
 
     /**
-     * Recupera il valore della propriet‡ telecom.
+     * Recupera il valore della propriet√† telecom.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT260003UVPharmacy {
     }
 
     /**
-     * Imposta il valore della propriet‡ telecom.
+     * Imposta il valore della propriet√† telecom.
      * 
      * @param value
      *     allowed object is

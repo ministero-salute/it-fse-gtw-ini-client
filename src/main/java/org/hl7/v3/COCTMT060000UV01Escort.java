@@ -85,7 +85,7 @@ public class COCTMT060000UV01Escort {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT060000UV01Escort {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT060000UV01Escort {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT060000UV01Escort {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT060000UV01Escort {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedPerson.
+     * Recupera il valore della propriet√† assignedPerson.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT060000UV01Escort {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedPerson.
+     * Imposta il valore della propriet√† assignedPerson.
      * 
      * @param value
      *     allowed object is

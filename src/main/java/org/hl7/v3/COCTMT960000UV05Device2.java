@@ -85,7 +85,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedDevice.
+     * Recupera il valore della propriet√† assignedDevice.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedDevice.
+     * Imposta il valore della propriet√† assignedDevice.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -231,7 +231,7 @@ public class COCTMT960000UV05Device2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

@@ -34,7 +34,7 @@ public class IVXBPQ
     protected Boolean inclusive;
 
     /**
-     * Recupera il valore della propriet‡ inclusive.
+     * Recupera il valore della propriet√† inclusive.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class IVXBPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ inclusive.
+     * Imposta il valore della propriet√† inclusive.
      * 
      * @param value
      *     allowed object is

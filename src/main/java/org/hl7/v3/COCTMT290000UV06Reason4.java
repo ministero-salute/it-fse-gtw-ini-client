@@ -85,7 +85,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ patientCareProvisionRequest.
+     * Recupera il valore della propriet√† patientCareProvisionRequest.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ patientCareProvisionRequest.
+     * Imposta il valore della propriet√† patientCareProvisionRequest.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -227,7 +227,7 @@ public class COCTMT290000UV06Reason4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

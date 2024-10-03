@@ -76,62 +76,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SlotListType }
-     * 
-     */
-    public SlotListType createSlotListType() {
-        return new SlotListType();
-    }
-
-    /**
-     * Create an instance of {@link RegistryObjectListType }
-     * 
-     */
-    public RegistryObjectListType createRegistryObjectListType() {
-        return new RegistryObjectListType();
-    }
-
-    /**
-     * Create an instance of {@link AdhocQueryType }
-     * 
-     */
-    public AdhocQueryType createAdhocQueryType() {
-        return new AdhocQueryType();
-    }
-
-    /**
-     * Create an instance of {@link RegistryObjectType }
-     * 
-     */
-    public RegistryObjectType createRegistryObjectType() {
-        return new RegistryObjectType();
-    }
-
-    /**
-     * Create an instance of {@link IdentifiableType }
-     * 
-     */
-    public IdentifiableType createIdentifiableType() {
-        return new IdentifiableType();
-    }
-
-    /**
-     * Create an instance of {@link ObjectRefType }
-     * 
-     */
-    public ObjectRefType createObjectRefType() {
-        return new ObjectRefType();
-    }
-
-    /**
-     * Create an instance of {@link ObjectRefListType }
-     * 
-     */
-    public ObjectRefListType createObjectRefListType() {
-        return new ObjectRefListType();
-    }
-
-    /**
      * Create an instance of {@link InternationalStringType }
      * 
      */
@@ -145,6 +89,14 @@ public class ObjectFactory {
      */
     public OrganizationType createOrganizationType() {
         return new OrganizationType();
+    }
+
+    /**
+     * Create an instance of {@link IdentifiableType }
+     * 
+     */
+    public IdentifiableType createIdentifiableType() {
+        return new IdentifiableType();
     }
 
     /**
@@ -169,6 +121,14 @@ public class ObjectFactory {
      */
     public ValueListType createValueListType() {
         return new ValueListType();
+    }
+
+    /**
+     * Create an instance of {@link ObjectRefListType }
+     * 
+     */
+    public ObjectRefListType createObjectRefListType() {
+        return new ObjectRefListType();
     }
 
     /**
@@ -212,6 +172,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link SlotListType }
+     * 
+     */
+    public SlotListType createSlotListType() {
+        return new SlotListType();
+    }
+
+    /**
      * Create an instance of {@link AuditableEventType }
      * 
      */
@@ -249,6 +217,14 @@ public class ObjectFactory {
      */
     public ClassificationType createClassificationType() {
         return new ClassificationType();
+    }
+
+    /**
+     * Create an instance of {@link ObjectRefType }
+     * 
+     */
+    public ObjectRefType createObjectRefType() {
+        return new ObjectRefType();
     }
 
     /**
@@ -300,6 +276,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AdhocQueryType }
+     * 
+     */
+    public AdhocQueryType createAdhocQueryType() {
+        return new AdhocQueryType();
+    }
+
+    /**
+     * Create an instance of {@link RegistryObjectType }
+     * 
+     */
+    public RegistryObjectType createRegistryObjectType() {
+        return new RegistryObjectType();
+    }
+
+    /**
      * Create an instance of {@link ServiceType }
      * 
      */
@@ -345,6 +337,14 @@ public class ObjectFactory {
      */
     public SlotType1 createSlotType1() {
         return new SlotType1();
+    }
+
+    /**
+     * Create an instance of {@link RegistryObjectListType }
+     * 
+     */
+    public RegistryObjectListType createRegistryObjectListType() {
+        return new RegistryObjectListType();
     }
 
     /**

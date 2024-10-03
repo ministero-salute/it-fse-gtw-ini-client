@@ -42,7 +42,7 @@ public class RTOPQPQ
     protected PQ denominator;
 
     /**
-     * Recupera il valore della propriet‡ numerator.
+     * Recupera il valore della propriet√† numerator.
      * 
      * @return
      *     possible object is
@@ -54,7 +54,7 @@ public class RTOPQPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ numerator.
+     * Imposta il valore della propriet√† numerator.
      * 
      * @param value
      *     allowed object is
@@ -66,7 +66,7 @@ public class RTOPQPQ
     }
 
     /**
-     * Recupera il valore della propriet‡ denominator.
+     * Recupera il valore della propriet√† denominator.
      * 
      * @return
      *     possible object is
@@ -78,7 +78,7 @@ public class RTOPQPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ denominator.
+     * Imposta il valore della propriet√† denominator.
      * 
      * @param value
      *     allowed object is

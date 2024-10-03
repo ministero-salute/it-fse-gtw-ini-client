@@ -89,7 +89,7 @@ public class COCTMT510000UV06CoverageDefinition {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT510000UV06CoverageDefinition {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class COCTMT510000UV06CoverageDefinition {
     }
 
     /**
-     * Recupera il valore della propriet‡ title.
+     * Recupera il valore della propriet√† title.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class COCTMT510000UV06CoverageDefinition {
     }
 
     /**
-     * Imposta il valore della propriet‡ title.
+     * Imposta il valore della propriet√† title.
      * 
      * @param value
      *     allowed object is
@@ -195,7 +195,7 @@ public class COCTMT510000UV06CoverageDefinition {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -207,7 +207,7 @@ public class COCTMT510000UV06CoverageDefinition {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is

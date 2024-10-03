@@ -115,7 +115,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -168,7 +168,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ observation.
+     * Recupera il valore della propriet√† observation.
      * 
      * @return
      *     possible object is
@@ -180,7 +180,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ observation.
+     * Imposta il valore della propriet√† observation.
      * 
      * @param value
      *     allowed object is
@@ -192,7 +192,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ substanceAdministration.
+     * Recupera il valore della propriet√† substanceAdministration.
      * 
      * @return
      *     possible object is
@@ -204,7 +204,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ substanceAdministration.
+     * Imposta il valore della propriet√† substanceAdministration.
      * 
      * @param value
      *     allowed object is
@@ -216,7 +216,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ supply.
+     * Recupera il valore della propriet√† supply.
      * 
      * @return
      *     possible object is
@@ -228,7 +228,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ supply.
+     * Imposta il valore della propriet√† supply.
      * 
      * @param value
      *     allowed object is
@@ -240,7 +240,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ procedure.
+     * Recupera il valore della propriet√† procedure.
      * 
      * @return
      *     possible object is
@@ -252,7 +252,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ procedure.
+     * Imposta il valore della propriet√† procedure.
      * 
      * @param value
      *     allowed object is
@@ -264,7 +264,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ encounter.
+     * Recupera il valore della propriet√† encounter.
      * 
      * @return
      *     possible object is
@@ -276,7 +276,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ encounter.
+     * Imposta il valore della propriet√† encounter.
      * 
      * @param value
      *     allowed object is
@@ -288,7 +288,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ act.
+     * Recupera il valore della propriet√† act.
      * 
      * @return
      *     possible object is
@@ -300,7 +300,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ act.
+     * Imposta il valore della propriet√† act.
      * 
      * @param value
      *     allowed object is
@@ -312,7 +312,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ organizer.
+     * Recupera il valore della propriet√† organizer.
      * 
      * @return
      *     possible object is
@@ -324,7 +324,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ organizer.
+     * Imposta il valore della propriet√† organizer.
      * 
      * @param value
      *     allowed object is
@@ -336,7 +336,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Recupera il valore della propriet‡ actReference.
+     * Recupera il valore della propriet√† actReference.
      * 
      * @return
      *     possible object is
@@ -348,7 +348,7 @@ public class COCTMT510000UV06Precondition {
     }
 
     /**
-     * Imposta il valore della propriet‡ actReference.
+     * Imposta il valore della propriet√† actReference.
      * 
      * @param value
      *     allowed object is

@@ -86,7 +86,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ repeatNumber.
+     * Recupera il valore della propriet√† repeatNumber.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ repeatNumber.
+     * Imposta il valore della propriet√† repeatNumber.
      * 
      * @param value
      *     allowed object is
@@ -216,7 +216,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -228,7 +228,7 @@ public class COCTMT300000UV04SupplyOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

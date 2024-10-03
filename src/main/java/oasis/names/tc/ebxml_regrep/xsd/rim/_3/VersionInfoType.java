@@ -35,7 +35,7 @@ public class VersionInfoType {
     protected String comment;
 
     /**
-     * Recupera il valore della propriet‡ versionName.
+     * Recupera il valore della propriet√† versionName.
      * 
      * @return
      *     possible object is
@@ -51,7 +51,7 @@ public class VersionInfoType {
     }
 
     /**
-     * Imposta il valore della propriet‡ versionName.
+     * Imposta il valore della propriet√† versionName.
      * 
      * @param value
      *     allowed object is
@@ -63,7 +63,7 @@ public class VersionInfoType {
     }
 
     /**
-     * Recupera il valore della propriet‡ comment.
+     * Recupera il valore della propriet√† comment.
      * 
      * @return
      *     possible object is
@@ -75,7 +75,7 @@ public class VersionInfoType {
     }
 
     /**
-     * Imposta il valore della propriet‡ comment.
+     * Imposta il valore della propriet√† comment.
      * 
      * @param value
      *     allowed object is

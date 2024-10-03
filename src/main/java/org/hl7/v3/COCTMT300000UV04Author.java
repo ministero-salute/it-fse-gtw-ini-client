@@ -82,7 +82,7 @@ public class COCTMT300000UV04Author {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT300000UV04Author {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT300000UV04Author {
     }
 
     /**
-     * Recupera il valore della propriet‡ prescriberRole.
+     * Recupera il valore della propriet√† prescriberRole.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT300000UV04Author {
     }
 
     /**
-     * Imposta il valore della propriet‡ prescriberRole.
+     * Imposta il valore della propriet√† prescriberRole.
      * 
      * @param value
      *     allowed object is

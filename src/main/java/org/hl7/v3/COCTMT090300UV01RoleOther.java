@@ -88,7 +88,7 @@ public class COCTMT090300UV01RoleOther {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT090300UV01RoleOther {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -170,7 +170,7 @@ public class COCTMT090300UV01RoleOther {
     }
 
     /**
-     * Recupera il valore della propriet‡ scopingOrganization.
+     * Recupera il valore della propriet√† scopingOrganization.
      * 
      * @return
      *     possible object is
@@ -182,7 +182,7 @@ public class COCTMT090300UV01RoleOther {
     }
 
     /**
-     * Imposta il valore della propriet‡ scopingOrganization.
+     * Imposta il valore della propriet√† scopingOrganization.
      * 
      * @param value
      *     allowed object is
