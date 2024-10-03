@@ -59,7 +59,7 @@ public class RelocateObjectsRequest
     protected ObjectRefType ownerAtDestination;
 
     /**
-     * Recupera il valore della propriet‡ adhocQuery.
+     * Recupera il valore della propriet√† adhocQuery.
      * 
      * @return
      *     possible object is
@@ -71,7 +71,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ adhocQuery.
+     * Imposta il valore della propriet√† adhocQuery.
      * 
      * @param value
      *     allowed object is
@@ -83,7 +83,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ sourceRegistry.
+     * Recupera il valore della propriet√† sourceRegistry.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ sourceRegistry.
+     * Imposta il valore della propriet√† sourceRegistry.
      * 
      * @param value
      *     allowed object is
@@ -107,7 +107,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ destinationRegistry.
+     * Recupera il valore della propriet√† destinationRegistry.
      * 
      * @return
      *     possible object is
@@ -119,7 +119,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ destinationRegistry.
+     * Imposta il valore della propriet√† destinationRegistry.
      * 
      * @param value
      *     allowed object is
@@ -131,7 +131,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ ownerAtSource.
+     * Recupera il valore della propriet√† ownerAtSource.
      * 
      * @return
      *     possible object is
@@ -143,7 +143,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ ownerAtSource.
+     * Imposta il valore della propriet√† ownerAtSource.
      * 
      * @param value
      *     allowed object is
@@ -155,7 +155,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ ownerAtDestination.
+     * Recupera il valore della propriet√† ownerAtDestination.
      * 
      * @return
      *     possible object is
@@ -167,7 +167,7 @@ public class RelocateObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ ownerAtDestination.
+     * Imposta il valore della propriet√† ownerAtDestination.
      * 
      * @param value
      *     allowed object is
