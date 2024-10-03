@@ -104,7 +104,23 @@ public final class StringUtility {
 	
 	public static String trasformXonInOid(final String value) {
 		int firstIndex = value.indexOf("&");
-		String oid = value.substring(firstIndex+1, value.length()).replace(XON_CONSTANT, ".");
-		return oid;
+		String valueWithoutLastZero = rimuoviZeroDopoOid(value);
+		return valueWithoutLastZero.substring(firstIndex+1, valueWithoutLastZero.length()).replace(XON_CONSTANT, ".");
 	}
+
+	private static String rimuoviZeroDopoOid(String input) {
+        int lastDotIndex = input.indexOf(XON_CONSTANT);
+        
+        if (lastDotIndex == -1) {
+            return input;
+        }
+
+        String beforeDot = input.substring(0, lastDotIndex);
+        String afterDot = input.substring(lastDotIndex + 8);
+
+        if (afterDot.startsWith("0")) {
+            afterDot = afterDot.substring(1);
+        }
+        return beforeDot + "." + afterDot;
+    }
 }
