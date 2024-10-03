@@ -62,7 +62,7 @@ public class AdhocQueryRequest
     protected BigInteger maxResults;
 
     /**
-     * Recupera il valore della propriet‡ responseOption.
+     * Recupera il valore della propriet√† responseOption.
      * 
      * @return
      *     possible object is
@@ -74,7 +74,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ responseOption.
+     * Imposta il valore della propriet√† responseOption.
      * 
      * @param value
      *     allowed object is
@@ -86,7 +86,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ adhocQuery.
+     * Recupera il valore della propriet√† adhocQuery.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ adhocQuery.
+     * Imposta il valore della propriet√† adhocQuery.
      * 
      * @param value
      *     allowed object is
@@ -110,7 +110,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ federated.
+     * Recupera il valore della propriet√† federated.
      * 
      * @return
      *     possible object is
@@ -126,7 +126,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ federated.
+     * Imposta il valore della propriet√† federated.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ federation.
+     * Recupera il valore della propriet√† federation.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ federation.
+     * Imposta il valore della propriet√† federation.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ startIndex.
+     * Recupera il valore della propriet√† startIndex.
      * 
      * @return
      *     possible object is
@@ -178,7 +178,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ startIndex.
+     * Imposta il valore della propriet√† startIndex.
      * 
      * @param value
      *     allowed object is
@@ -190,7 +190,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ maxResults.
+     * Recupera il valore della propriet√† maxResults.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class AdhocQueryRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ maxResults.
+     * Imposta il valore della propriet√† maxResults.
      * 
      * @param value
      *     allowed object is

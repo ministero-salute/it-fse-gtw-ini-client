@@ -56,7 +56,7 @@ public class CompoundFilterType
     protected String logicalOperator;
 
     /**
-     * Recupera il valore della propriet‡ leftFilter.
+     * Recupera il valore della propriet√† leftFilter.
      * 
      * @return
      *     possible object is
@@ -68,7 +68,7 @@ public class CompoundFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ leftFilter.
+     * Imposta il valore della propriet√† leftFilter.
      * 
      * @param value
      *     allowed object is
@@ -80,7 +80,7 @@ public class CompoundFilterType
     }
 
     /**
-     * Recupera il valore della propriet‡ rightFilter.
+     * Recupera il valore della propriet√† rightFilter.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class CompoundFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ rightFilter.
+     * Imposta il valore della propriet√† rightFilter.
      * 
      * @param value
      *     allowed object is
@@ -104,7 +104,7 @@ public class CompoundFilterType
     }
 
     /**
-     * Recupera il valore della propriet‡ logicalOperator.
+     * Recupera il valore della propriet√† logicalOperator.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class CompoundFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ logicalOperator.
+     * Imposta il valore della propriet√† logicalOperator.
      * 
      * @param value
      *     allowed object is

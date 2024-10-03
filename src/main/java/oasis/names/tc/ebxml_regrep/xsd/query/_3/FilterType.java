@@ -37,7 +37,7 @@ public class FilterType {
     protected Boolean negate;
 
     /**
-     * Recupera il valore della propriet‡ negate.
+     * Recupera il valore della propriet√† negate.
      * 
      * @return
      *     possible object is
@@ -53,7 +53,7 @@ public class FilterType {
     }
 
     /**
-     * Imposta il valore della propriet‡ negate.
+     * Imposta il valore della propriet√† negate.
      * 
      * @param value
      *     allowed object is

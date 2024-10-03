@@ -37,7 +37,7 @@ public class DateTimeFilterType
     protected XMLGregorianCalendar value;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class DateTimeFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

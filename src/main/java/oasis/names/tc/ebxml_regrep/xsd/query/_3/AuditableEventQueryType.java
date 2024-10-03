@@ -77,7 +77,7 @@ public class AuditableEventQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ eventTypeQuery.
+     * Recupera il valore della propriet√† eventTypeQuery.
      * 
      * @return
      *     possible object is
@@ -89,7 +89,7 @@ public class AuditableEventQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ eventTypeQuery.
+     * Imposta il valore della propriet√† eventTypeQuery.
      * 
      * @param value
      *     allowed object is
@@ -101,7 +101,7 @@ public class AuditableEventQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ userQuery.
+     * Recupera il valore della propriet√† userQuery.
      * 
      * @return
      *     possible object is
@@ -113,7 +113,7 @@ public class AuditableEventQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ userQuery.
+     * Imposta il valore della propriet√† userQuery.
      * 
      * @param value
      *     allowed object is

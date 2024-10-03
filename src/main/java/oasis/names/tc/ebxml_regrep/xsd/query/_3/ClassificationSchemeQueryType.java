@@ -73,7 +73,7 @@ public class ClassificationSchemeQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ nodeTypeQuery.
+     * Recupera il valore della propriet√† nodeTypeQuery.
      * 
      * @return
      *     possible object is
@@ -85,7 +85,7 @@ public class ClassificationSchemeQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ nodeTypeQuery.
+     * Imposta il valore della propriet√† nodeTypeQuery.
      * 
      * @param value
      *     allowed object is

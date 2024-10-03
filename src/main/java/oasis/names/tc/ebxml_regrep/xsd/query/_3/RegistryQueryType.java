@@ -38,7 +38,7 @@ public class RegistryQueryType
     protected OrganizationQueryType operatorQuery;
 
     /**
-     * Recupera il valore della propriet‡ operatorQuery.
+     * Recupera il valore della propriet√† operatorQuery.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class RegistryQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ operatorQuery.
+     * Imposta il valore della propriet√† operatorQuery.
      * 
      * @param value
      *     allowed object is

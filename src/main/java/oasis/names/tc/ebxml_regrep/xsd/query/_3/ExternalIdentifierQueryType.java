@@ -42,7 +42,7 @@ public class ExternalIdentifierQueryType
     protected ClassificationSchemeQueryType identificationSchemeQuery;
 
     /**
-     * Recupera il valore della propriet‡ registryObjectQuery.
+     * Recupera il valore della propriet√† registryObjectQuery.
      * 
      * @return
      *     possible object is
@@ -54,7 +54,7 @@ public class ExternalIdentifierQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ registryObjectQuery.
+     * Imposta il valore della propriet√† registryObjectQuery.
      * 
      * @param value
      *     allowed object is
@@ -66,7 +66,7 @@ public class ExternalIdentifierQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ identificationSchemeQuery.
+     * Recupera il valore della propriet√† identificationSchemeQuery.
      * 
      * @return
      *     possible object is
@@ -78,7 +78,7 @@ public class ExternalIdentifierQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ identificationSchemeQuery.
+     * Imposta il valore della propriet√† identificationSchemeQuery.
      * 
      * @param value
      *     allowed object is

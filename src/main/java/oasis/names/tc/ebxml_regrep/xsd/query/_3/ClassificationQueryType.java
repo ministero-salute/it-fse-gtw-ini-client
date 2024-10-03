@@ -46,7 +46,7 @@ public class ClassificationQueryType
     protected ClassificationNodeQueryType classificationNodeQuery;
 
     /**
-     * Recupera il valore della propriet‡ classificationSchemeQuery.
+     * Recupera il valore della propriet√† classificationSchemeQuery.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class ClassificationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ classificationSchemeQuery.
+     * Imposta il valore della propriet√† classificationSchemeQuery.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class ClassificationQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ classifiedObjectQuery.
+     * Recupera il valore della propriet√† classifiedObjectQuery.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class ClassificationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ classifiedObjectQuery.
+     * Imposta il valore della propriet√† classifiedObjectQuery.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class ClassificationQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ classificationNodeQuery.
+     * Recupera il valore della propriet√† classificationNodeQuery.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class ClassificationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ classificationNodeQuery.
+     * Imposta il valore della propriet√† classificationNodeQuery.
      * 
      * @param value
      *     allowed object is

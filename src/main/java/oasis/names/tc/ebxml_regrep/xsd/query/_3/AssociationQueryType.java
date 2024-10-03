@@ -46,7 +46,7 @@ public class AssociationQueryType
     protected RegistryObjectQueryType targetObjectQuery;
 
     /**
-     * Recupera il valore della propriet‡ associationTypeQuery.
+     * Recupera il valore della propriet√† associationTypeQuery.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class AssociationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ associationTypeQuery.
+     * Imposta il valore della propriet√† associationTypeQuery.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class AssociationQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ sourceObjectQuery.
+     * Recupera il valore della propriet√† sourceObjectQuery.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class AssociationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ sourceObjectQuery.
+     * Imposta il valore della propriet√† sourceObjectQuery.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class AssociationQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ targetObjectQuery.
+     * Recupera il valore della propriet√† targetObjectQuery.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class AssociationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ targetObjectQuery.
+     * Imposta il valore della propriet√† targetObjectQuery.
      * 
      * @param value
      *     allowed object is

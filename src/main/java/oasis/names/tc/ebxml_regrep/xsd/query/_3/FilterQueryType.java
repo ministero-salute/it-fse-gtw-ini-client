@@ -41,7 +41,7 @@ public abstract class FilterQueryType {
     protected FilterType primaryFilter;
 
     /**
-     * Recupera il valore della propriet‡ primaryFilter.
+     * Recupera il valore della propriet√† primaryFilter.
      * 
      * @return
      *     possible object is
@@ -53,7 +53,7 @@ public abstract class FilterQueryType {
     }
 
     /**
-     * Imposta il valore della propriet‡ primaryFilter.
+     * Imposta il valore della propriet√† primaryFilter.
      * 
      * @param value
      *     allowed object is

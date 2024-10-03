@@ -38,7 +38,7 @@ public class ExtrinsicObjectQueryType
     protected FilterType contentVersionInfoFilter;
 
     /**
-     * Recupera il valore della propriet‡ contentVersionInfoFilter.
+     * Recupera il valore della propriet√† contentVersionInfoFilter.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class ExtrinsicObjectQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ contentVersionInfoFilter.
+     * Imposta il valore della propriet√† contentVersionInfoFilter.
      * 
      * @param value
      *     allowed object is
