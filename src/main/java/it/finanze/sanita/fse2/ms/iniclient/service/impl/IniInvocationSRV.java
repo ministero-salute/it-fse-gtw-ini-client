@@ -11,7 +11,6 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.*;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
@@ -29,7 +28,16 @@ import org.webjars.NotFoundException;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
@@ -246,7 +254,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
  
 	@Override
-	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO) {
+	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO,
+			final boolean callUpdateV2) {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
@@ -256,7 +265,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
+			RegistryResponseType registryResponse = null;
+			if(callUpdateV2) {
+				registryResponse = iniClient.sendUpdateV2Data(submitObjectRequest,token);
+			} else {
+				registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
+			}
+			 
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
 					if (!WARNING.equals(error.getSeverity())) {

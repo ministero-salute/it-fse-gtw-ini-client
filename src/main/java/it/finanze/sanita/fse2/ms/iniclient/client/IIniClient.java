@@ -30,6 +30,7 @@ public interface IIniClient {
     RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, String uuid);
 
     RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO);
+    RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO);
     
     RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO, String uuid);
     

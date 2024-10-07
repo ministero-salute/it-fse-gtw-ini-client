@@ -63,10 +63,10 @@ public class IniOperation_V2CTL extends AbstractCTL implements IIniOperation_V2C
 		IniResponseDTO res = null;
 		SubmitObjectsRequest req = JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.updateByRequestBody(req, requestBody);
+			res = iniInvocationSRV.updateByRequestBody(req, requestBody,true);
 		} else {
 			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
-				res = iniInvocationSRV.updateByRequestBody(req, requestBody);
+				res = iniInvocationSRV.updateByRequestBody(req, requestBody,true);
 			} else {
 				res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
 			}

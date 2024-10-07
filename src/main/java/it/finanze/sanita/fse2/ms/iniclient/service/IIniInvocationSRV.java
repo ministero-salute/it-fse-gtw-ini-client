@@ -26,7 +26,7 @@ public interface IIniInvocationSRV {
 	
 	IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO);
 
-	IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO);
+	IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO, boolean callUpdateV2);
 	
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 

@@ -152,11 +152,21 @@ public class IniClient implements IIniClient {
 		deletePort.documentRegistryDeleteDocumentSet(removeObjectsRequest, holder);
 		return holder.value;
 	}
+	
+	@Override
+	public RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO) {
+		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,ActionEnumType.UPDATE_V2);
+	}
+	
 
 	@Override
 	public RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO) {
+		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,ActionEnumType.UPDATE);
+	}
+	
+	private RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,ActionEnumType actionEnum) {
 		log.debug("Call to INI update");
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
+		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, actionEnum);
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 

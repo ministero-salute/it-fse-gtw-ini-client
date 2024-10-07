@@ -161,7 +161,7 @@ class IniInvocationTest {
 
         String json = TestConstants.TEST_UPDATE_REQ_NEW ;
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(json, UpdateRequestDTO.class);
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO,false);
         assertTrue(iniResponse.getEsito());
         assertNull(iniResponse.getMessage());
     }
@@ -177,7 +177,7 @@ class IniInvocationTest {
         Mockito.when(iniClient.sendUpdateData(any(), any()))
                 .thenThrow(new BusinessException(""));
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO));
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.updateByRequestBody(new SubmitObjectsRequest(),updateRequestDTO,false));
     }
 
     @Test
@@ -191,7 +191,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendUpdateData(any(), any())).thenReturn(registryResponseType);
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO);
+        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO,false);
         assertFalse(iniResponse.getEsito());
         assertNotNull(iniResponse.getMessage());
     }
