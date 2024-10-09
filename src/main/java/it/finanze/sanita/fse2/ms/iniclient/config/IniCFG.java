@@ -24,6 +24,9 @@ public class IniCFG {
 
 	@Value("${ini.client.delete-service}")
 	private String urlWsdlDeletetService;
+	
+	@Value("${ini.client.recupero-riferimento-service}")
+	private String urlWsdlRecuperoRiferimentoService;
 
 	@Value("${ini.client.enable-log}")
 	private boolean enableLog;

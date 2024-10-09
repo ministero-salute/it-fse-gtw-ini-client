@@ -74,11 +74,11 @@ public class IniClient implements IIniClient {
 
 	private SSLContext sslContext;
 
-
 	private XDSDeletetWS deletePort;
 
-
 	private DocumentRegistryPortType documentRegistryPort;
+	
+	private DocumentRegistryPortType recuperoRiferimentoPort;
 
 
 	@PostConstruct
@@ -103,10 +103,18 @@ public class IniClient implements IIniClient {
 				BindingProvider bindingProvider = (BindingProvider) deletePort;
 				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDeletetService());
 			}
+			
+			DocumentRegistryService recuperoRiferimentoService = new DocumentRegistryService();
+			recuperoRiferimentoPort = recuperoRiferimentoService.getDocumentRegistryPortSoap12();
+			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlRecuperoRiferimentoService())) {
+				BindingProvider bindingProvider = (BindingProvider) recuperoRiferimentoPort;
+				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlRecuperoRiferimentoService());
+			} 
 
 			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
 				((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+				((BindingProvider) recuperoRiferimentoPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
 
 			if (Boolean.TRUE.equals(iniCFG.isEnableLog())) {
@@ -117,6 +125,11 @@ public class IniClient implements IIniClient {
 				List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
 				handlerChainDelete.add(new SOAPLoggingHandler());
 				((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
+				
+
+				List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
+				handlerChainRecuperoRiferimento.add(new SOAPLoggingHandler());
+				((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
 			}
 
 		} catch(Exception ex) {
@@ -203,11 +216,21 @@ public class IniClient implements IIniClient {
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, actionEnumType);
 
-		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
-		bp.setOutboundHeaders(headers);
+		
 
 		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
-		AdhocQueryResponse response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
+		
+		AdhocQueryResponse response = null;
+		if(ActionEnumType.READ_METADATA.equals(actionEnumType)) {
+			WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
+			bp.setOutboundHeaders(headers);
+			response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);	
+		} else {
+			WSBindingProvider bp = (WSBindingProvider)recuperoRiferimentoPort;
+			bp.setOutboundHeaders(headers);
+			response = recuperoRiferimentoPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
+		}
+		 
 		
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
