@@ -73,8 +73,7 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
 		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId())); 
-		//slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
-		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", documentEntryDTO.getRepositoryType()));
+		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
 		slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", DOCUMENT_SIGNED));
 		slotType1.add(buildSlotObject("urn:ita:2022:description", null, documentEntryDTO.getDescription()));
 		slotType1.add(buildSlotObject("urn:ita:2022:administrativeRequest",null, documentEntryDTO.getAdministrativeRequest()));

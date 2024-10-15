@@ -82,14 +82,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 	 
 	@Override
-	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY, final String repositoryType) {
+	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
 		final Date startingDate = new Date();
 
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
-			out = publishByWorkflowInstanceId(iniInvocationETY,startingDate,repositoryType);
+			out = publishByWorkflowInstanceId(iniInvocationETY,startingDate);
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
-			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate,repositoryType);
+			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate);
 		}
 
 		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
@@ -110,7 +110,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return iniInvocationETY;
 	}
 
-	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String repositoryType) {
+	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
@@ -121,7 +121,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry());
-		documentEntryDTO.setRepositoryType(repositoryType);
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
@@ -160,7 +159,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return out;
 	}
 	
-	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String repositoryType) {
+	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
@@ -170,9 +169,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO jwtTokenDTO = samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry());
 		JWTPayloadDTO tokenPayloadDTO = jwtTokenDTO.getPayload();
 		DocumentEntryDTO documentEntryDTO = CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry());
-		documentEntryDTO.setRepositoryType(repositoryType);
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
-
+		
 		try {
 			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni());
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
