@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.request.PublishOrReplaceIniReq;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,6 +71,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 @RestController
 public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
+	public static List<String> VALID_REPOSITORY_TYPES = Arrays.asList("CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO");
 	@Autowired
 	private IIniInvocationSRV iniInvocationSRV;
 
@@ -82,7 +85,14 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	private IniCFG iniCFG;
 
 	@Override
-	public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
+	public IniTraceResponseDTO create(final PublishOrReplaceIniReq requestBody, HttpServletRequest request) {
+		String workflowInstanceId = requestBody.getWorkflowInstanceId();
+		String repositoryType = requestBody.getRepositoryType();
+
+		if(!VALID_REPOSITORY_TYPES.contains(repositoryType)){
+			throw new BusinessException("Invalid repository type");
+		}
+
 		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
 		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
@@ -92,10 +102,10 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		IniResponseDTO res = null;
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
+			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY,repositoryType.toString());
 		} else {
 			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
+				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY,repositoryType.toString());
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
 			}
@@ -157,7 +167,14 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public IniTraceResponseDTO replace(final String workflowInstanceId, HttpServletRequest request) {
+	public IniTraceResponseDTO replace(final PublishOrReplaceIniReq requestBody, HttpServletRequest request) {
+		String workflowInstanceId = requestBody.getWorkflowInstanceId();
+		String repositoryType = requestBody.getRepositoryType();
+
+		if(!VALID_REPOSITORY_TYPES.contains(repositoryType)){
+			throw new BusinessException("Invalid repository type");
+		}
+
 		log.debug("Workflow instance id received replace:" + workflowInstanceId + ", calling ini invocation client...");
 		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
@@ -169,10 +186,10 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
 				new Date());
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
+			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY, repositoryType.toString());
 		} else {
 			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
+				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY,repositoryType.toString());
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
 			}

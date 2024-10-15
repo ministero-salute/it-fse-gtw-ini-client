@@ -22,7 +22,7 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 public interface IIniInvocationSRV {
 
-	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation, IniEdsInvocationETY ety);
+	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation, IniEdsInvocationETY ety, String repositoryType);
 	
 	IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO);
 

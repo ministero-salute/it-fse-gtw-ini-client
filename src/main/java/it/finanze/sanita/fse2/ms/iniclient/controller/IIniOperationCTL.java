@@ -12,9 +12,12 @@
 package it.finanze.sanita.fse2.ms.iniclient.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.request.PublishOrReplaceIniReq;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +50,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
  */
 @RequestMapping(path = "/v1")
 @Tag(name = "Servizio pubblicazione verso INI")
+@Validated
 public interface IIniOperationCTL {
 
     @PostMapping("/ini-publish")
@@ -55,7 +59,7 @@ public interface IIniOperationCTL {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Pubblicazione eseguita con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
-	IniTraceResponseDTO create(@RequestBody String workflowInstanceId, HttpServletRequest request);
+	IniTraceResponseDTO create(@RequestBody @Valid PublishOrReplaceIniReq requestBody, HttpServletRequest request);
 
 	@DeleteMapping("/ini-delete")
 	@Operation(summary = "Cancellazione metadati su INI", description = "Cancella i metadati di una risorsa FHIR su INI.")
@@ -79,7 +83,7 @@ public interface IIniOperationCTL {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Aggiornamento eseguito con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
-	IniTraceResponseDTO replace(@RequestBody String workflowInstanceId, HttpServletRequest request);
+	IniTraceResponseDTO replace(@RequestBody @Valid PublishOrReplaceIniReq requestBody, HttpServletRequest request);
 	
 	@PostMapping("/get-metadati/{idDoc}")
 	@Operation(summary = "Get metadati INI", description = "Get dei metadati dato un oid in input.")

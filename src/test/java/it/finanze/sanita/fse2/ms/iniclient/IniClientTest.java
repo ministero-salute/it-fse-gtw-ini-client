@@ -47,7 +47,7 @@ class IniClientTest extends AbstractTest {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(false);
         mockResponse.setMessage("error");
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class), anyString()))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
@@ -62,7 +62,7 @@ class IniClientTest extends AbstractTest {
     void successPublishTest() {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class), anyString()))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
@@ -117,7 +117,7 @@ class IniClientTest extends AbstractTest {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(false);
         mockResponse.setMessage("error");
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class), anyString()))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
@@ -132,7 +132,7 @@ class IniClientTest extends AbstractTest {
     void successReplaceTest() {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class), anyString()))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);

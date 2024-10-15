@@ -57,4 +57,5 @@ public class DocumentEntryDTO {
     private String serviceStartTime;
     private String serviceStopTime;
     private String conservazioneANorma;
+    private String repositoryType;
 }
