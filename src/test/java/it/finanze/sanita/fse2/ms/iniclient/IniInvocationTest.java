@@ -11,7 +11,6 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import static it.finanze.sanita.fse2.ms.iniclient.controller.impl.IniOperationCTL.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -24,7 +23,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 
 import javax.xml.bind.JAXBException;
 
-import it.finanze.sanita.fse2.ms.iniclient.controller.impl.IniOperationCTL;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterEach;
@@ -91,7 +89,7 @@ class IniInvocationTest {
     void publishSuccessTest() {
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class)))
                 .thenReturn(new RegistryResponseType());
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null, VALID_REPOSITORY_TYPES.get(0));
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null);
         assertTrue(response.getEsito());
         assertNull(response.getMessage());
     }
@@ -101,7 +99,7 @@ class IniInvocationTest {
     void publishErrorTest() {
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class)))
                 .thenThrow(new BusinessException(""));
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null, VALID_REPOSITORY_TYPES.get(0)));
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null));
     }
 
     @Test
@@ -110,7 +108,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class)))
                 .thenReturn(registryResponseType);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null, VALID_REPOSITORY_TYPES.get(0));
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null);
         assertFalse(response.getEsito());
         assertNotNull(response.getMessage());
     }
@@ -121,7 +119,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
         Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any()))
                 .thenReturn(registryResponseType);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null, VALID_REPOSITORY_TYPES.get(0));
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null);
         assertTrue(response.getEsito());
         assertNull(response.getMessage());
     }
@@ -133,7 +131,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null, VALID_REPOSITORY_TYPES.get(0)));
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null));
     }
 
     @Test
@@ -145,7 +143,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null, VALID_REPOSITORY_TYPES.get(0));
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null);
         assertFalse(response.getEsito());
         assertNotNull(response.getMessage());
     }
