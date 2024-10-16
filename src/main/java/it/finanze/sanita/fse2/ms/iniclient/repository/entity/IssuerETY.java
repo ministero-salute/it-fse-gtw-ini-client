@@ -1,8 +1,14 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
 
 import com.mongodb.lang.Nullable;
+
+import it.finanze.sanita.fse2.ms.iniclient.enums.TestTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -21,6 +27,7 @@ public class IssuerETY {
     public static final String PAZIENTE_CF = "pazienteCf";
     public static final String EMAIL_SENT = "isEmailSent";
     public static final String READY_TO_SCAN = "readyToScan";
+    public static final String MANDATORY_TESTS = "mandatoryTests";
 
 
 
@@ -55,5 +62,8 @@ public class IssuerETY {
 
     @Field(name = EMAIL_SENT)
     private boolean emailSent;
+
+    @Field(name = MANDATORY_TESTS)
+    private List<TestTypeEnum> mandatoryTests = Arrays.asList(TestTypeEnum.values());
     
 } 

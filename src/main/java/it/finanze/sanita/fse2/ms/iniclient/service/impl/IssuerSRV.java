@@ -15,6 +15,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuersDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.TestTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
@@ -61,6 +62,9 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
         entity.setPazienteCf(issuerDTO.getPazienteCf());
         entity.setReadyToScan(issuerDTO.isReadyToScan());
+        List<TestTypeEnum> mandatoryTests = issuerDTO.getMandatoryTests();
+        if(mandatoryTests!=null && !mandatoryTests.isEmpty())
+            entity.setMandatoryTests(mandatoryTests);
 
         IssuerETY asl = null;
         if (!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) {
@@ -116,6 +120,9 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setPazienteCf(issuerDTO.getPazienteCf());
         entity.setReadyToScan(issuerDTO.isReadyToScan());
         entity.setEmailSent(issuerETY.isEmailSent());
+        List<TestTypeEnum> mandatoryTests = issuerDTO.getMandatoryTests();
+        if(mandatoryTests!=null && !mandatoryTests.isEmpty())
+            entity.setMandatoryTests(mandatoryTests);
 
         if (issuerDTO.getNomeDocumentRepository() != null && entity.getMiddleware())
             throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
