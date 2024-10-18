@@ -6,6 +6,7 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.TestTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,6 +65,6 @@ public class IssuerETY {
     private boolean emailSent;
 
     @Field(name = MANDATORY_TESTS)
-    private List<TestTypeEnum> mandatoryTests = Arrays.asList(TestTypeEnum.values());
+    private List<TestTypeEnum> mandatoryTests;
     
 } 
