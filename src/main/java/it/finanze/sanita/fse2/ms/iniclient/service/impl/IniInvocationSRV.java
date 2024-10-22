@@ -16,11 +16,14 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientCons
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -56,6 +59,7 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtili
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
@@ -325,7 +329,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
 
 			List<String> administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
-			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
+			List<String> uuids = new ArrayList<>();
+			List<JAXBElement<? extends IdentifiableType>> elements = response.getRegistryObjectList().getIdentifiable();
+			for(int i=0; i<elements.size(); i++){
+				String uuid = elements.get(i).getValue().getId();
+				uuids.add(uuid);
+			}
+			out.setUuid(uuids);
 			out.setDocumentType(documentType);
 			out.setAuthorInstitution(authorInstitution);
 			out.setAdministrativeRequest(administrativeRequest);
@@ -359,7 +369,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
-		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
+		ExtrinsicObjectType val = (ExtrinsicObjectType)oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue();
+		String uuid = val.getId();
+		if(!StringUtility.isNullOrEmpty(val.getLid())){
+			uuid = val.getLid();
+		}
 		try (StringWriter sw = new StringWriter()) {
 			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(oldMetadata.getRegistryObjectList(),newMetadataDTO, uuid,token,oidToUpdate);
 			JAXB.marshal(req, sw);
