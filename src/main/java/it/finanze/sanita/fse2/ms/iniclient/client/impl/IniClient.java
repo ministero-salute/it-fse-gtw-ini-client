@@ -150,7 +150,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO, String uuid) {
+	public RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtPayloadDTO, List<String> uuid) {
 		log.debug("Call to INI delete");
 
 		JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);

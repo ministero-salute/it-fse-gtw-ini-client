@@ -58,6 +58,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 
+import java.util.Arrays;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -185,7 +187,7 @@ class RequestBuilderTest {
     @Test
     @DisplayName("Delete - success test")
     void deleteBodyBuilderSuccessTest() {
-        assertDoesNotThrow(() -> DeleteBodyBuilderUtility.buildRemoveObjectsRequest(TestConstants.TEST_UUID));
+        assertDoesNotThrow(() -> DeleteBodyBuilderUtility.buildRemoveObjectsRequest(Arrays.asList(TestConstants.TEST_UUID)));
     }
 
     @Test

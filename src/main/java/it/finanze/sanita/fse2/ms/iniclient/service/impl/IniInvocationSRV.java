@@ -16,11 +16,14 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientCons
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -319,8 +322,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
 
 			List<String> administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
-			String uuid = response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
-			out.setUuid(uuid);
+			List<String> uuids = new ArrayList<>();
+			List<JAXBElement<? extends IdentifiableType>> elements = response.getRegistryObjectList().getIdentifiable();
+			for(int i=0; i<elements.size(); i++){
+				String uuid = elements.get(i).getValue().getId();
+				uuids.add(uuid);
+			}
+			out.setUuid(uuids);
 			out.setDocumentType(documentType);
 			out.setAuthorInstitution(authorInstitution);
 			out.setAdministrativeRequest(administrativeRequest);
