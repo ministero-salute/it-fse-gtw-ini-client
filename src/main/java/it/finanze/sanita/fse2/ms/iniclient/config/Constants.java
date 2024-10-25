@@ -33,6 +33,7 @@ public final class Constants {
 
 		public static final String INI_EDS_INVOCATION = "ini_eds_invocation";
 		public static final String ISSUERS = "issuers";
+		public static final String AUDIT_INI = "audit_ini";
 
 	}
 
@@ -55,6 +56,15 @@ public final class Constants {
 		public static final String DOCKER = "docker";
 
 
+	}
+	
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
+	public static final class IniAudit {
+		public static final String REQUEST = "request";
+		public static final String RESPONSE = "response";
+		public static final String WII = "workflow_instance_id";
+		public static final String EVENT_TYPE = "event_type";
+		public static final String EVENT_DATE = "event_date";
 	}
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)

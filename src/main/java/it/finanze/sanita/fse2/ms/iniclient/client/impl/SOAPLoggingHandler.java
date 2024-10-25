@@ -11,15 +11,27 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client.impl;
 
-import lombok.extern.slf4j.Slf4j;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_DATE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_TYPE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.REQUEST;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.RESPONSE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.WII;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
-import java.io.ByteArrayOutputStream;
-import java.util.Set;
+
+import it.finanze.sanita.fse2.ms.iniclient.enums.EventType;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
+import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * This simple SOAPHandler will output the contents of incoming
@@ -29,26 +41,41 @@ import java.util.Set;
 public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
 
+	private IAuditIniSrv auditIniSrv;
+	private IConfigSRV configSRV;
+
+	public SOAPLoggingHandler(IAuditIniSrv inAuditIniSrv, IConfigSRV inConfigSrv){
+		if(auditIniSrv==null) {
+			auditIniSrv = inAuditIniSrv; 
+		}
+		
+		if(configSRV==null) {
+			configSRV = inConfigSrv;			
+		}
+	}
+
 	public Set<QName> getHeaders() { 
 		return null;
 	}
 
 	public boolean handleMessage(SOAPMessageContext smc) {
-		try {
-			logToSystemOut(smc); 
-		} catch (Exception ex) {
-			log.error("Error while perform handle message : " + ex.getMessage());
+		if(configSRV.isAuditIniEnable()){
+			logToSystemOut(smc);
 		}
 		return true;
 	}
 
 	public boolean handleFault(SOAPMessageContext smc) {
-		logToSystemOut(smc);
+		if(configSRV.isAuditIniEnable()){
+			logToSystemOut(smc);	
+		}
 		return true;
 	}
 
-	// nothing to clean up
 	public void close(MessageContext messageContext) {
+		messageContext.remove(WII);
+		messageContext.remove(EVENT_TYPE);
+		messageContext.remove(EVENT_DATE);
 	}
 
 	/*
@@ -59,25 +86,31 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 	 * SOAPException or IOException
 	 */
 	private void logToSystemOut(SOAPMessageContext smc) {
-		Boolean outboundProperty = (Boolean)
-				smc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+		Boolean outboundProperty = (Boolean)smc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 
+		String reqOrRes = "";
 		String header = "";
-
 		if (Boolean.TRUE.equals(outboundProperty)) {
 			header = "Outbound message:";
+			reqOrRes = REQUEST;
 		} else {
 			header = "Inbound message:";
+			reqOrRes = RESPONSE;
 		}
 
 		try {
 			SOAPMessage message = smc.getMessage();
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();  
-			message.writeTo(bout);  
+			message.writeTo(bout);
 			String msg = bout.toString("UTF-8");  
 			log.info(header + "\n" + msg);
+			String workflowInstanceId = (String)smc.get(WII);
+			EventType eventType = (EventType) smc.get(EVENT_TYPE);
+			Date eventDate = (Date) smc.get(EVENT_DATE);
+			auditIniSrv.save(workflowInstanceId, eventType, eventDate, reqOrRes, msg);
 		} catch (Exception e) {
-			log.error("Exception in handler: " + e);
+			log.error("Exception in handler: ",e);
+			throw new BusinessException(e);
 		}
 	}
 }

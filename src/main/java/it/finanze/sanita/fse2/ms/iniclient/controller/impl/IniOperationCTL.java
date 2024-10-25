@@ -35,6 +35,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditsDto;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
@@ -48,6 +49,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
@@ -80,7 +82,10 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 	@Autowired
 	private IniCFG iniCFG;
-
+	
+	@Autowired
+	private IAuditIniSrv auditIniSrv; 
+	
 	@Override
 	public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
 		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
@@ -186,10 +191,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc, GetMetadatiReqDTO req,
-			HttpServletRequest request) {
-		log.warn(
-				"Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
+	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc, GetMetadatiReqDTO req,HttpServletRequest request) {
+		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 
@@ -213,17 +216,17 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO req,
-			HttpServletRequest request) {
-		// DELETE
+	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO requestBody,HttpServletRequest request) {
+		// DELETE - REPLACE
 		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(RequestUtility.buildPayloadFromReq(req));
+		token.setPayload(requestBody.getToken());
+//		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 		GetReferenceResponseDTO out = null;
 		if (!iniCFG.isMockEnable()) {
-			out = iniInvocationSRV.getReference(idDoc, token);
+			out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
 		} else {
-			if (!issuserSRV.isMocked(req.getIss())) {
-				out = iniInvocationSRV.getReference(idDoc, token);
+			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+				out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
 			} else {
 				out = iniMockInvocationSRV.getReference(idDoc, token);
 			}
@@ -233,8 +236,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,
-			HttpServletRequest request) {
+	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,HttpServletRequest request) {
 		log.debug("Call merged metadati");
 		GetMergedMetadatiDTO mergedMetadati = null;
 		if (!iniCFG.isMockEnable()) {
@@ -339,5 +341,11 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		}
  
 		return metadati;
+	}
+	
+
+	@Override
+	public IniAuditsDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
+		return auditIniSrv.findByWii(workflowInstanceId);
 	}
 }
