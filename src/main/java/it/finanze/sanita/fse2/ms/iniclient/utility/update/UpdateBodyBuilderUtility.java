@@ -11,8 +11,8 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_ID;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildClassificationObjectJax;
@@ -20,10 +20,10 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilder
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeAdministrativeRequest;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeClassCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeDescription;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeHealthcareFacilityTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergePracticeSettingCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeServiceTime;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +36,8 @@ import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ExternalIdentifierEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuilderUtility;
@@ -154,7 +156,7 @@ public final class UpdateBodyBuilderUtility {
 		mergeClassCode(updateRequestBodyDTO, extrinsicObject);
 		mergePracticeSettingCode(updateRequestBodyDTO, extrinsicObject);
 		mergeEventTypeCode(updateRequestBodyDTO, extrinsicObject);
-		
+
 		// 2 Merge slot extrinsic object
 		mergeServiceTime(updateRequestBodyDTO, extrinsicObject);
 		mergeDescription(updateRequestBodyDTO, extrinsicObject);
@@ -163,10 +165,22 @@ public final class UpdateBodyBuilderUtility {
 		extrinsicObject.setId(DOCUMENT_ENTRY_ID);
 		for(ClassificationType classification : extrinsicObject.getClassification()) {
 			classification.setClassifiedObject(DOCUMENT_ENTRY_ID);
-		}
+			for(ClassificationEnum val : ClassificationEnum.values()) {
+				if(classification.getClassificationScheme().equals(val.getClassificationScheme())){
+					classification.setId(val.getId());
+					break;
+				}	
+			}
+ 		}
 		
 		for(ExternalIdentifierType external : extrinsicObject.getExternalIdentifier()) {
 			external.setRegistryObject(DOCUMENT_ENTRY_ID);
+
+			for(ExternalIdentifierEnum externalIdentifierEnum : ExternalIdentifierEnum.values()) {
+				if(external.getIdentificationScheme().equals(externalIdentifierEnum.getClassificationScheme())) {
+					external.setId(externalIdentifierEnum.getId());		
+				}
+			}
 		}
 		
 		return extrinsicObject;
