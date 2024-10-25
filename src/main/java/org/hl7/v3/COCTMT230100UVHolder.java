@@ -82,7 +82,7 @@ public class COCTMT230100UVHolder {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT230100UVHolder {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT230100UVHolder {
     }
 
     /**
-     * Recupera il valore della propriet‡ role.
+     * Recupera il valore della propriet√† role.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT230100UVHolder {
     }
 
     /**
-     * Imposta il valore della propriet‡ role.
+     * Imposta il valore della propriet√† role.
      * 
      * @param value
      *     allowed object is

@@ -44,7 +44,7 @@ public class NotificationType
     protected String subscription;
 
     /**
-     * Recupera il valore della propriet‡ registryObjectList.
+     * Recupera il valore della propriet√† registryObjectList.
      * 
      * @return
      *     possible object is
@@ -56,7 +56,7 @@ public class NotificationType
     }
 
     /**
-     * Imposta il valore della propriet‡ registryObjectList.
+     * Imposta il valore della propriet√† registryObjectList.
      * 
      * @param value
      *     allowed object is
@@ -68,7 +68,7 @@ public class NotificationType
     }
 
     /**
-     * Recupera il valore della propriet‡ subscription.
+     * Recupera il valore della propriet√† subscription.
      * 
      * @return
      *     possible object is
@@ -80,7 +80,7 @@ public class NotificationType
     }
 
     /**
-     * Imposta il valore della propriet‡ subscription.
+     * Imposta il valore della propriet√† subscription.
      * 
      * @param value
      *     allowed object is

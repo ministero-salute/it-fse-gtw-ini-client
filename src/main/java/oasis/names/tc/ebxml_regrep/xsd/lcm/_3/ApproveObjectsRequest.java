@@ -47,7 +47,7 @@ public class ApproveObjectsRequest
     protected ObjectRefListType objectRefList;
 
     /**
-     * Recupera il valore della propriet‡ adhocQuery.
+     * Recupera il valore della propriet√† adhocQuery.
      * 
      * @return
      *     possible object is
@@ -59,7 +59,7 @@ public class ApproveObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ adhocQuery.
+     * Imposta il valore della propriet√† adhocQuery.
      * 
      * @param value
      *     allowed object is
@@ -71,7 +71,7 @@ public class ApproveObjectsRequest
     }
 
     /**
-     * Recupera il valore della propriet‡ objectRefList.
+     * Recupera il valore della propriet√† objectRefList.
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public class ApproveObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ objectRefList.
+     * Imposta il valore della propriet√† objectRefList.
      * 
      * @param value
      *     allowed object is

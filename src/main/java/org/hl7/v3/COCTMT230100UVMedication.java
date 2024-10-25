@@ -104,7 +104,7 @@ public class COCTMT230100UVMedication {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class COCTMT230100UVMedication {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -157,7 +157,7 @@ public class COCTMT230100UVMedication {
     }
 
     /**
-     * Recupera il valore della propriet‡ administerableMedicine.
+     * Recupera il valore della propriet√† administerableMedicine.
      * 
      * @return
      *     possible object is
@@ -169,7 +169,7 @@ public class COCTMT230100UVMedication {
     }
 
     /**
-     * Imposta il valore della propriet‡ administerableMedicine.
+     * Imposta il valore della propriet√† administerableMedicine.
      * 
      * @param value
      *     allowed object is
@@ -297,7 +297,7 @@ public class COCTMT230100UVMedication {
     }
 
     /**
-     * Recupera il valore della propriet‡ subjectOf5.
+     * Recupera il valore della propriet√† subjectOf5.
      * 
      * @return
      *     possible object is
@@ -309,7 +309,7 @@ public class COCTMT230100UVMedication {
     }
 
     /**
-     * Imposta il valore della propriet‡ subjectOf5.
+     * Imposta il valore della propriet√† subjectOf5.
      * 
      * @param value
      *     allowed object is

@@ -51,7 +51,7 @@ public class SpecificationLinkType
     protected String specificationObject;
 
     /**
-     * Recupera il valore della propriet‡ usageDescription.
+     * Recupera il valore della propriet√† usageDescription.
      * 
      * @return
      *     possible object is
@@ -63,7 +63,7 @@ public class SpecificationLinkType
     }
 
     /**
-     * Imposta il valore della propriet‡ usageDescription.
+     * Imposta il valore della propriet√† usageDescription.
      * 
      * @param value
      *     allowed object is
@@ -104,7 +104,7 @@ public class SpecificationLinkType
     }
 
     /**
-     * Recupera il valore della propriet‡ serviceBinding.
+     * Recupera il valore della propriet√† serviceBinding.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class SpecificationLinkType
     }
 
     /**
-     * Imposta il valore della propriet‡ serviceBinding.
+     * Imposta il valore della propriet√† serviceBinding.
      * 
      * @param value
      *     allowed object is
@@ -128,7 +128,7 @@ public class SpecificationLinkType
     }
 
     /**
-     * Recupera il valore della propriet‡ specificationObject.
+     * Recupera il valore della propriet√† specificationObject.
      * 
      * @return
      *     possible object is
@@ -140,7 +140,7 @@ public class SpecificationLinkType
     }
 
     /**
-     * Imposta il valore della propriet‡ specificationObject.
+     * Imposta il valore della propriet√† specificationObject.
      * 
      * @param value
      *     allowed object is

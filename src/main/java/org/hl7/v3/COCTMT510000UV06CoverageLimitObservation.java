@@ -92,7 +92,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -104,7 +104,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -174,7 +174,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -186,7 +186,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -198,7 +198,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -210,7 +210,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -222,7 +222,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -234,7 +234,7 @@ public class COCTMT510000UV06CoverageLimitObservation {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

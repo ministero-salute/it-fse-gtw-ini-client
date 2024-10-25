@@ -48,7 +48,7 @@ public class ServiceBindingQueryType
     protected ServiceBindingQueryType targetBindingQuery;
 
     /**
-     * Recupera il valore della propriet‡ serviceQuery.
+     * Recupera il valore della propriet√† serviceQuery.
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public class ServiceBindingQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ serviceQuery.
+     * Imposta il valore della propriet√† serviceQuery.
      * 
      * @param value
      *     allowed object is
@@ -101,7 +101,7 @@ public class ServiceBindingQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ targetBindingQuery.
+     * Recupera il valore della propriet√† targetBindingQuery.
      * 
      * @return
      *     possible object is
@@ -113,7 +113,7 @@ public class ServiceBindingQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ targetBindingQuery.
+     * Imposta il valore della propriet√† targetBindingQuery.
      * 
      * @param value
      *     allowed object is

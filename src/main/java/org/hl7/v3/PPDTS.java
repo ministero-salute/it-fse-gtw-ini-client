@@ -45,7 +45,7 @@ public class PPDTS
     protected ProbabilityDistributionType distributionType;
 
     /**
-     * Recupera il valore della propriet‡ standardDeviation.
+     * Recupera il valore della propriet√† standardDeviation.
      * 
      * @return
      *     possible object is
@@ -57,7 +57,7 @@ public class PPDTS
     }
 
     /**
-     * Imposta il valore della propriet‡ standardDeviation.
+     * Imposta il valore della propriet√† standardDeviation.
      * 
      * @param value
      *     allowed object is
@@ -69,7 +69,7 @@ public class PPDTS
     }
 
     /**
-     * Recupera il valore della propriet‡ distributionType.
+     * Recupera il valore della propriet√† distributionType.
      * 
      * @return
      *     possible object is
@@ -81,7 +81,7 @@ public class PPDTS
     }
 
     /**
-     * Imposta il valore della propriet‡ distributionType.
+     * Imposta il valore della propriet√† distributionType.
      * 
      * @param value
      *     allowed object is

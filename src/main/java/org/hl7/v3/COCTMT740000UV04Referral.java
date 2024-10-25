@@ -91,7 +91,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +144,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Recupera il valore della propriet‡ reasonCode.
+     * Recupera il valore della propriet√† reasonCode.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Imposta il valore della propriet‡ reasonCode.
+     * Imposta il valore della propriet√† reasonCode.
      * 
      * @param value
      *     allowed object is
@@ -168,7 +168,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Recupera il valore della propriet‡ referrer.
+     * Recupera il valore della propriet√† referrer.
      * 
      * @return
      *     possible object is
@@ -180,7 +180,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Imposta il valore della propriet‡ referrer.
+     * Imposta il valore della propriet√† referrer.
      * 
      * @param value
      *     allowed object is
@@ -221,7 +221,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -233,7 +233,7 @@ public class COCTMT740000UV04Referral {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

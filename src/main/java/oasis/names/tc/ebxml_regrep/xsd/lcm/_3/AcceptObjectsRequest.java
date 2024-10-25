@@ -39,7 +39,7 @@ public class AcceptObjectsRequest
     protected String correlationId;
 
     /**
-     * Recupera il valore della propriet‡ correlationId.
+     * Recupera il valore della propriet√† correlationId.
      * 
      * @return
      *     possible object is
@@ -51,7 +51,7 @@ public class AcceptObjectsRequest
     }
 
     /**
-     * Imposta il valore della propriet‡ correlationId.
+     * Imposta il valore della propriet√† correlationId.
      * 
      * @param value
      *     allowed object is

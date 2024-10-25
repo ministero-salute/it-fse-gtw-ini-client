@@ -95,7 +95,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +148,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -160,7 +160,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +172,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ reason.
+     * Recupera il valore della propriet√† reason.
      * 
      * @return
      *     possible object is
@@ -184,7 +184,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ reason.
+     * Imposta il valore della propriet√† reason.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Recupera il valore della propriet‡ pertinentInformation.
+     * Recupera il valore della propriet√† pertinentInformation.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class COCTMT300000UV04SubstanceAdministrationOrder {
     }
 
     /**
-     * Imposta il valore della propriet‡ pertinentInformation.
+     * Imposta il valore della propriet√† pertinentInformation.
      * 
      * @param value
      *     allowed object is

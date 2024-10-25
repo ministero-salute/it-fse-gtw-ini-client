@@ -89,7 +89,7 @@ public class PQ
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class PQ
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -113,7 +113,7 @@ public class PQ
     }
 
     /**
-     * Recupera il valore della propriet‡ unit.
+     * Recupera il valore della propriet√† unit.
      * 
      * @return
      *     possible object is
@@ -129,7 +129,7 @@ public class PQ
     }
 
     /**
-     * Imposta il valore della propriet‡ unit.
+     * Imposta il valore della propriet√† unit.
      * 
      * @param value
      *     allowed object is

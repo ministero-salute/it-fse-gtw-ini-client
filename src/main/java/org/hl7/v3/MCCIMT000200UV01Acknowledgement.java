@@ -96,7 +96,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -149,7 +149,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -161,7 +161,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -173,7 +173,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Recupera il valore della propriet‡ expectedSequenceNumber.
+     * Recupera il valore della propriet√† expectedSequenceNumber.
      * 
      * @return
      *     possible object is
@@ -185,7 +185,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Imposta il valore della propriet‡ expectedSequenceNumber.
+     * Imposta il valore della propriet√† expectedSequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -197,7 +197,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Recupera il valore della propriet‡ messageWaitingNumber.
+     * Recupera il valore della propriet√† messageWaitingNumber.
      * 
      * @return
      *     possible object is
@@ -209,7 +209,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Imposta il valore della propriet‡ messageWaitingNumber.
+     * Imposta il valore della propriet√† messageWaitingNumber.
      * 
      * @param value
      *     allowed object is
@@ -221,7 +221,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Recupera il valore della propriet‡ messageWaitingPriorityCode.
+     * Recupera il valore della propriet√† messageWaitingPriorityCode.
      * 
      * @return
      *     possible object is
@@ -233,7 +233,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Imposta il valore della propriet‡ messageWaitingPriorityCode.
+     * Imposta il valore della propriet√† messageWaitingPriorityCode.
      * 
      * @param value
      *     allowed object is
@@ -245,7 +245,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Recupera il valore della propriet‡ targetMessage.
+     * Recupera il valore della propriet√† targetMessage.
      * 
      * @return
      *     possible object is
@@ -257,7 +257,7 @@ public class MCCIMT000200UV01Acknowledgement {
     }
 
     /**
-     * Imposta il valore della propriet‡ targetMessage.
+     * Imposta il valore della propriet√† targetMessage.
      * 
      * @param value
      *     allowed object is

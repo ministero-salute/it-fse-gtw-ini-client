@@ -82,7 +82,7 @@ public class COCTMT310000UV04PertinentInformation3 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT310000UV04PertinentInformation3 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT310000UV04PertinentInformation3 {
     }
 
     /**
-     * Recupera il valore della propriet‡ medicalService.
+     * Recupera il valore della propriet√† medicalService.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT310000UV04PertinentInformation3 {
     }
 
     /**
-     * Imposta il valore della propriet‡ medicalService.
+     * Imposta il valore della propriet√† medicalService.
      * 
      * @param value
      *     allowed object is

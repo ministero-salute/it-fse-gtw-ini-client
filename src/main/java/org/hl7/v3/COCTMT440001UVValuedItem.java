@@ -100,7 +100,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -112,7 +112,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -182,7 +182,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -194,7 +194,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -206,7 +206,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -218,7 +218,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -230,7 +230,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Recupera il valore della propriet‡ unitQuantity.
+     * Recupera il valore della propriet√† unitQuantity.
      * 
      * @return
      *     possible object is
@@ -242,7 +242,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Imposta il valore della propriet‡ unitQuantity.
+     * Imposta il valore della propriet√† unitQuantity.
      * 
      * @param value
      *     allowed object is
@@ -254,7 +254,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Recupera il valore della propriet‡ unitPriceAmt.
+     * Recupera il valore della propriet√† unitPriceAmt.
      * 
      * @return
      *     possible object is
@@ -266,7 +266,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Imposta il valore della propriet‡ unitPriceAmt.
+     * Imposta il valore della propriet√† unitPriceAmt.
      * 
      * @param value
      *     allowed object is
@@ -278,7 +278,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Recupera il valore della propriet‡ netAmt.
+     * Recupera il valore della propriet√† netAmt.
      * 
      * @return
      *     possible object is
@@ -290,7 +290,7 @@ public class COCTMT440001UVValuedItem {
     }
 
     /**
-     * Imposta il valore della propriet‡ netAmt.
+     * Imposta il valore della propriet√† netAmt.
      * 
      * @param value
      *     allowed object is

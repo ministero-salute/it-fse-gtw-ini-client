@@ -21,6 +21,8 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.RemoveObjectsRequestType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectRefListType;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DeleteBodyBuilderUtility {
 
@@ -31,7 +33,7 @@ public final class DeleteBodyBuilderUtility {
 	 * @param uuid
 	 * @return
 	 */
-	public static RemoveObjectsRequestType buildRemoveObjectsRequest(final String uuid) {
+	public static RemoveObjectsRequestType buildRemoveObjectsRequest(final List<String> uuid) {
 		RemoveObjectsRequestType removeObjectsRequestType = new RemoveObjectsRequestType();
 		ObjectRefListType objectRefList = buildObjectRefList(uuid);
 		removeObjectsRequestType.setObjectRefList(objectRefList);

@@ -37,7 +37,7 @@ public class FederationType
     protected Duration replicationSyncLatency;
 
     /**
-     * Recupera il valore della propriet‡ replicationSyncLatency.
+     * Recupera il valore della propriet√† replicationSyncLatency.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class FederationType
     }
 
     /**
-     * Imposta il valore della propriet‡ replicationSyncLatency.
+     * Imposta il valore della propriet√† replicationSyncLatency.
      * 
      * @param value
      *     allowed object is

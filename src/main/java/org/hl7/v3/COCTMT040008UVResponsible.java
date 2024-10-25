@@ -114,7 +114,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -126,7 +126,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -232,7 +232,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -244,7 +244,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ agentOrganization.
+     * Recupera il valore della propriet√† agentOrganization.
      * 
      * @return
      *     possible object is
@@ -256,7 +256,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ agentOrganization.
+     * Imposta il valore della propriet√† agentOrganization.
      * 
      * @param value
      *     allowed object is
@@ -268,7 +268,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ agentPerson.
+     * Recupera il valore della propriet√† agentPerson.
      * 
      * @return
      *     possible object is
@@ -280,7 +280,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ agentPerson.
+     * Imposta il valore della propriet√† agentPerson.
      * 
      * @param value
      *     allowed object is
@@ -292,7 +292,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ agentDevice.
+     * Recupera il valore della propriet√† agentDevice.
      * 
      * @return
      *     possible object is
@@ -304,7 +304,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ agentDevice.
+     * Imposta il valore della propriet√† agentDevice.
      * 
      * @param value
      *     allowed object is
@@ -316,7 +316,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ representedOrganization.
+     * Recupera il valore della propriet√† representedOrganization.
      * 
      * @return
      *     possible object is
@@ -328,7 +328,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ representedOrganization.
+     * Imposta il valore della propriet√† representedOrganization.
      * 
      * @param value
      *     allowed object is
@@ -340,7 +340,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Recupera il valore della propriet‡ representedPerson.
+     * Recupera il valore della propriet√† representedPerson.
      * 
      * @return
      *     possible object is
@@ -352,7 +352,7 @@ public class COCTMT040008UVResponsible {
     }
 
     /**
-     * Imposta il valore della propriet‡ representedPerson.
+     * Imposta il valore della propriet√† representedPerson.
      * 
      * @param value
      *     allowed object is

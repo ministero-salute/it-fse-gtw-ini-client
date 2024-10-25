@@ -138,7 +138,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ creationTime.
+     * Recupera il valore della propriet√† creationTime.
      * 
      * @return
      *     possible object is
@@ -227,7 +227,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ creationTime.
+     * Imposta il valore della propriet√† creationTime.
      * 
      * @param value
      *     allowed object is
@@ -239,7 +239,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ securityText.
+     * Recupera il valore della propriet√† securityText.
      * 
      * @return
      *     possible object is
@@ -251,7 +251,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ securityText.
+     * Imposta il valore della propriet√† securityText.
      * 
      * @param value
      *     allowed object is
@@ -263,7 +263,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ versionCode.
+     * Recupera il valore della propriet√† versionCode.
      * 
      * @return
      *     possible object is
@@ -275,7 +275,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ versionCode.
+     * Imposta il valore della propriet√† versionCode.
      * 
      * @param value
      *     allowed object is
@@ -287,7 +287,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ interactionId.
+     * Recupera il valore della propriet√† interactionId.
      * 
      * @return
      *     possible object is
@@ -299,7 +299,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ interactionId.
+     * Imposta il valore della propriet√† interactionId.
      * 
      * @param value
      *     allowed object is
@@ -340,7 +340,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ processingCode.
+     * Recupera il valore della propriet√† processingCode.
      * 
      * @return
      *     possible object is
@@ -352,7 +352,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ processingCode.
+     * Imposta il valore della propriet√† processingCode.
      * 
      * @param value
      *     allowed object is
@@ -364,7 +364,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ processingModeCode.
+     * Recupera il valore della propriet√† processingModeCode.
      * 
      * @return
      *     possible object is
@@ -376,7 +376,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ processingModeCode.
+     * Imposta il valore della propriet√† processingModeCode.
      * 
      * @param value
      *     allowed object is
@@ -388,7 +388,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ acceptAckCode.
+     * Recupera il valore della propriet√† acceptAckCode.
      * 
      * @return
      *     possible object is
@@ -400,7 +400,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ acceptAckCode.
+     * Imposta il valore della propriet√† acceptAckCode.
      * 
      * @param value
      *     allowed object is
@@ -412,7 +412,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -424,7 +424,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -523,7 +523,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ sender.
+     * Recupera il valore della propriet√† sender.
      * 
      * @return
      *     possible object is
@@ -535,7 +535,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ sender.
+     * Imposta il valore della propriet√† sender.
      * 
      * @param value
      *     allowed object is
@@ -576,7 +576,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Recupera il valore della propriet‡ controlActProcess.
+     * Recupera il valore della propriet√† controlActProcess.
      * 
      * @return
      *     possible object is
@@ -588,7 +588,7 @@ public class PRPAIN201301UV02MCCIMT000100UV01Message {
     }
 
     /**
-     * Imposta il valore della propriet‡ controlActProcess.
+     * Imposta il valore della propriet√† controlActProcess.
      * 
      * @param value
      *     allowed object is

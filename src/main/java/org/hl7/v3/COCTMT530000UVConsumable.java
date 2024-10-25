@@ -92,7 +92,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -104,7 +104,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -145,7 +145,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Recupera il valore della propriet‡ administerableMaterial.
+     * Recupera il valore della propriet√† administerableMaterial.
      * 
      * @return
      *     possible object is
@@ -157,7 +157,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Imposta il valore della propriet‡ administerableMaterial.
+     * Imposta il valore della propriet√† administerableMaterial.
      * 
      * @param value
      *     allowed object is
@@ -169,7 +169,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Recupera il valore della propriet‡ medication.
+     * Recupera il valore della propriet√† medication.
      * 
      * @return
      *     possible object is
@@ -181,7 +181,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Imposta il valore della propriet‡ medication.
+     * Imposta il valore della propriet√† medication.
      * 
      * @param value
      *     allowed object is
@@ -251,7 +251,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -263,7 +263,7 @@ public class COCTMT530000UVConsumable {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

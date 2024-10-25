@@ -20,6 +20,8 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
+import java.util.List;
+
 /**
  * Interface of Ini client.
  */
@@ -27,9 +29,10 @@ public interface IIniClient {
 
     RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntry, SubmissionSetEntryDTO submissionSetEntry, JWTTokenDTO jwtTokenDTO);
     
-    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, String uuid);
+    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, List<String> uuid);
 
     RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO);
+    RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO);
     
     RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO, String uuid);
     

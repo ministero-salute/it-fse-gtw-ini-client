@@ -89,7 +89,7 @@ public class COCTMT260003UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT260003UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class COCTMT260003UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ otherMedication.
+     * Recupera il valore della propriet√† otherMedication.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class COCTMT260003UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ otherMedication.
+     * Imposta il valore della propriet√† otherMedication.
      * 
      * @param value
      *     allowed object is
@@ -166,7 +166,7 @@ public class COCTMT260003UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ otherSupply.
+     * Recupera il valore della propriet√† otherSupply.
      * 
      * @return
      *     possible object is
@@ -178,7 +178,7 @@ public class COCTMT260003UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ otherSupply.
+     * Imposta il valore della propriet√† otherSupply.
      * 
      * @param value
      *     allowed object is

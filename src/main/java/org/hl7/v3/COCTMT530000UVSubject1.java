@@ -88,7 +88,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ controlActEvent.
+     * Recupera il valore della propriet√† controlActEvent.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ controlActEvent.
+     * Imposta il valore della propriet√† controlActEvent.
      * 
      * @param value
      *     allowed object is
@@ -223,7 +223,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -235,7 +235,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is
@@ -247,7 +247,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -263,7 +263,7 @@ public class COCTMT530000UVSubject1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is

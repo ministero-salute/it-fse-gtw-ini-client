@@ -35,7 +35,7 @@ public class BXITIVLPQ
     protected BigInteger qty;
 
     /**
-     * Recupera il valore della propriet‡ qty.
+     * Recupera il valore della propriet√† qty.
      * 
      * @return
      *     possible object is
@@ -51,7 +51,7 @@ public class BXITIVLPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ qty.
+     * Imposta il valore della propriet√† qty.
      * 
      * @param value
      *     allowed object is

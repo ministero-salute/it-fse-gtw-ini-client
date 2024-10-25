@@ -82,7 +82,7 @@ public class COCTMT740000UV04ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT740000UV04ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT740000UV04ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ healthCareProvider.
+     * Recupera il valore della propriet√† healthCareProvider.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT740000UV04ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ healthCareProvider.
+     * Imposta il valore della propriet√† healthCareProvider.
      * 
      * @param value
      *     allowed object is

@@ -87,7 +87,7 @@ public class COCTMT230100UVTerritorialAuthority {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -99,7 +99,7 @@ public class COCTMT230100UVTerritorialAuthority {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -140,7 +140,7 @@ public class COCTMT230100UVTerritorialAuthority {
     }
 
     /**
-     * Recupera il valore della propriet‡ territory.
+     * Recupera il valore della propriet√† territory.
      * 
      * @return
      *     possible object is
@@ -152,7 +152,7 @@ public class COCTMT230100UVTerritorialAuthority {
     }
 
     /**
-     * Imposta il valore della propriet‡ territory.
+     * Imposta il valore della propriet√† territory.
      * 
      * @param value
      *     allowed object is
@@ -164,7 +164,7 @@ public class COCTMT230100UVTerritorialAuthority {
     }
 
     /**
-     * Recupera il valore della propriet‡ governingCountry.
+     * Recupera il valore della propriet√† governingCountry.
      * 
      * @return
      *     possible object is
@@ -176,7 +176,7 @@ public class COCTMT230100UVTerritorialAuthority {
     }
 
     /**
-     * Imposta il valore della propriet‡ governingCountry.
+     * Imposta il valore della propriet√† governingCountry.
      * 
      * @param value
      *     allowed object is

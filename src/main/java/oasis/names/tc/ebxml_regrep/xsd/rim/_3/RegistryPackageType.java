@@ -44,7 +44,7 @@ public class RegistryPackageType
     protected RegistryObjectListType registryObjectList;
 
     /**
-     * Recupera il valore della propriet‡ registryObjectList.
+     * Recupera il valore della propriet√† registryObjectList.
      * 
      * @return
      *     possible object is
@@ -56,7 +56,7 @@ public class RegistryPackageType
     }
 
     /**
-     * Imposta il valore della propriet‡ registryObjectList.
+     * Imposta il valore della propriet√† registryObjectList.
      * 
      * @param value
      *     allowed object is

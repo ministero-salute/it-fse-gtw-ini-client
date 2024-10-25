@@ -136,7 +136,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -148,7 +148,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -218,7 +218,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -230,7 +230,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -300,7 +300,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -312,7 +312,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -324,7 +324,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ coveredOrganization1.
+     * Recupera il valore della propriet√† coveredOrganization1.
      * 
      * @return
      *     possible object is
@@ -336,7 +336,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ coveredOrganization1.
+     * Imposta il valore della propriet√† coveredOrganization1.
      * 
      * @param value
      *     allowed object is
@@ -348,7 +348,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ coveredPerson.
+     * Recupera il valore della propriet√† coveredPerson.
      * 
      * @return
      *     possible object is
@@ -360,7 +360,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ coveredPerson.
+     * Imposta il valore della propriet√† coveredPerson.
      * 
      * @param value
      *     allowed object is
@@ -372,7 +372,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ coveredNonPersonLivingSubject.
+     * Recupera il valore della propriet√† coveredNonPersonLivingSubject.
      * 
      * @return
      *     possible object is
@@ -384,7 +384,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ coveredNonPersonLivingSubject.
+     * Imposta il valore della propriet√† coveredNonPersonLivingSubject.
      * 
      * @param value
      *     allowed object is
@@ -396,7 +396,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ underwritingOrganization.
+     * Recupera il valore della propriet√† underwritingOrganization.
      * 
      * @return
      *     possible object is
@@ -408,7 +408,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ underwritingOrganization.
+     * Imposta il valore della propriet√† underwritingOrganization.
      * 
      * @param value
      *     allowed object is
@@ -536,7 +536,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ indirectAuthority2.
+     * Recupera il valore della propriet√† indirectAuthority2.
      * 
      * @return
      *     possible object is
@@ -548,7 +548,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ indirectAuthority2.
+     * Imposta il valore della propriet√† indirectAuthority2.
      * 
      * @param value
      *     allowed object is
@@ -589,7 +589,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -601,7 +601,7 @@ public class COCTMT510000UV06CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

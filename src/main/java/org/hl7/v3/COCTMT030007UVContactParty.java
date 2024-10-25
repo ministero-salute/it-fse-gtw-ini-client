@@ -109,7 +109,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -121,7 +121,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -273,7 +273,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -285,7 +285,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -297,7 +297,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -309,7 +309,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -321,7 +321,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ contactPerson.
+     * Recupera il valore della propriet√† contactPerson.
      * 
      * @return
      *     possible object is
@@ -333,7 +333,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ contactPerson.
+     * Imposta il valore della propriet√† contactPerson.
      * 
      * @param value
      *     allowed object is
@@ -345,7 +345,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ contactOrganization.
+     * Recupera il valore della propriet√† contactOrganization.
      * 
      * @return
      *     possible object is
@@ -357,7 +357,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ contactOrganization.
+     * Imposta il valore della propriet√† contactOrganization.
      * 
      * @param value
      *     allowed object is
@@ -398,7 +398,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -410,7 +410,7 @@ public class COCTMT030007UVContactParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

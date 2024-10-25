@@ -88,7 +88,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ specimen.
+     * Recupera il valore della propriet√† specimen.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ specimen.
+     * Imposta il valore della propriet√† specimen.
      * 
      * @param value
      *     allowed object is
@@ -247,7 +247,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -259,7 +259,7 @@ public class COCTMT530000UVProduct2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

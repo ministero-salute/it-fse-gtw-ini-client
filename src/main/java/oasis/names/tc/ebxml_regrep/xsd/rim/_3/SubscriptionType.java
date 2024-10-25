@@ -78,8 +78,8 @@ public class SubscriptionType
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link ActionType }{@code >}
      * {@link JAXBElement }{@code <}{@link NotifyActionType }{@code >}
+     * {@link JAXBElement }{@code <}{@link ActionType }{@code >}
      * 
      * 
      */
@@ -91,7 +91,7 @@ public class SubscriptionType
     }
 
     /**
-     * Recupera il valore della propriet‡ selector.
+     * Recupera il valore della propriet√† selector.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class SubscriptionType
     }
 
     /**
-     * Imposta il valore della propriet‡ selector.
+     * Imposta il valore della propriet√† selector.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class SubscriptionType
     }
 
     /**
-     * Recupera il valore della propriet‡ startTime.
+     * Recupera il valore della propriet√† startTime.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class SubscriptionType
     }
 
     /**
-     * Imposta il valore della propriet‡ startTime.
+     * Imposta il valore della propriet√† startTime.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class SubscriptionType
     }
 
     /**
-     * Recupera il valore della propriet‡ endTime.
+     * Recupera il valore della propriet√† endTime.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class SubscriptionType
     }
 
     /**
-     * Imposta il valore della propriet‡ endTime.
+     * Imposta il valore della propriet√† endTime.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class SubscriptionType
     }
 
     /**
-     * Recupera il valore della propriet‡ notificationInterval.
+     * Recupera il valore della propriet√† notificationInterval.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class SubscriptionType
     }
 
     /**
-     * Imposta il valore della propriet‡ notificationInterval.
+     * Imposta il valore della propriet√† notificationInterval.
      * 
      * @param value
      *     allowed object is

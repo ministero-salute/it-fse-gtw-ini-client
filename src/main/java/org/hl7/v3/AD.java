@@ -78,32 +78,32 @@ public class AD {
 
     @XmlElementRefs({
         @XmlElementRef(name = "deliveryInstallationType", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "buildingNumberSuffix", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "postalCode", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "county", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "careOf", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "postBox", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "unitType", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "state", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "streetNameBase", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "precinct", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "deliveryMode", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "useablePeriod", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "streetName", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "censusTract", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "deliveryInstallationArea", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "streetNameBase", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "country", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "additionalLocator", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "unitID", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "deliveryAddressLine", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "streetNameType", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "houseNumber", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "streetAddressLine", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "delimiter", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "houseNumberNumeric", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "state", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "city", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "unitType", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "deliveryModeIdentifier", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "county", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "buildingNumberSuffix", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "postBox", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "careOf", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "postalCode", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "streetName", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "deliveryAddressLine", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "useablePeriod", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "country", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "streetAddressLine", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "direction", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "unitID", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "deliveryModeIdentifier", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "delimiter", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "censusTract", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "houseNumber", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "city", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "streetNameType", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "deliveryInstallationArea", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "deliveryInstallationQualifier", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false)
     })
     @XmlMixed
@@ -136,33 +136,33 @@ public class AD {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link AdxpDeliveryInstallationType }{@code >}
-     * {@link String }
+     * {@link JAXBElement }{@code <}{@link AdxpBuildingNumberSuffix }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpPostalCode }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpCounty }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpCareOf }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpPostBox }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpUnitType }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpState }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpStreetNameBase }{@code >}
      * {@link JAXBElement }{@code <}{@link AdxpPrecinct }{@code >}
      * {@link JAXBElement }{@code <}{@link AdxpDeliveryMode }{@code >}
-     * {@link JAXBElement }{@code <}{@link SXCMTS }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpStreetName }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpCensusTract }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpDeliveryInstallationArea }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpStreetNameBase }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpCountry }{@code >}
      * {@link JAXBElement }{@code <}{@link AdxpAdditionalLocator }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpUnitID }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpDeliveryAddressLine }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpStreetNameType }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpHouseNumber }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpStreetAddressLine }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpDelimiter }{@code >}
      * {@link JAXBElement }{@code <}{@link AdxpHouseNumberNumeric }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpState }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpCity }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpUnitType }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpDeliveryModeIdentifier }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpCounty }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpBuildingNumberSuffix }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpPostBox }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpCareOf }{@code >}
-     * {@link JAXBElement }{@code <}{@link AdxpPostalCode }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpStreetName }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpDeliveryAddressLine }{@code >}
+     * {@link JAXBElement }{@code <}{@link SXCMTS }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpCountry }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpStreetAddressLine }{@code >}
      * {@link JAXBElement }{@code <}{@link AdxpDirection }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpUnitID }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpDeliveryModeIdentifier }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpDelimiter }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpCensusTract }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpHouseNumber }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpCity }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdxpStreetNameType }{@code >}
+     * {@link String }
+     * {@link JAXBElement }{@code <}{@link AdxpDeliveryInstallationArea }{@code >}
      * {@link JAXBElement }{@code <}{@link AdxpDeliveryInstallationQualifier }{@code >}
      * 
      * 
@@ -204,7 +204,7 @@ public class AD {
     }
 
     /**
-     * Recupera il valore della propriet‡ isNotOrdered.
+     * Recupera il valore della propriet√† isNotOrdered.
      * 
      * @return
      *     possible object is
@@ -216,7 +216,7 @@ public class AD {
     }
 
     /**
-     * Imposta il valore della propriet‡ isNotOrdered.
+     * Imposta il valore della propriet√† isNotOrdered.
      * 
      * @param value
      *     allowed object is

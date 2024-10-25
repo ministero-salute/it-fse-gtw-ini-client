@@ -88,7 +88,7 @@ public class COCTMT500000UV04CarrierRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT500000UV04CarrierRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT500000UV04CarrierRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT500000UV04CarrierRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class COCTMT500000UV04CarrierRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ underwritingCarrierOrganization.
+     * Recupera il valore della propriet√† underwritingCarrierOrganization.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class COCTMT500000UV04CarrierRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ underwritingCarrierOrganization.
+     * Imposta il valore della propriet√† underwritingCarrierOrganization.
      * 
      * @param value
      *     allowed object is

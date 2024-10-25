@@ -125,7 +125,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -137,7 +137,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -265,7 +265,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -277,7 +277,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -289,7 +289,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -301,7 +301,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -342,7 +342,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ veryImportantPersonCode.
+     * Recupera il valore della propriet√† veryImportantPersonCode.
      * 
      * @return
      *     possible object is
@@ -354,7 +354,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ veryImportantPersonCode.
+     * Imposta il valore della propriet√† veryImportantPersonCode.
      * 
      * @param value
      *     allowed object is
@@ -366,7 +366,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ patientPerson.
+     * Recupera il valore della propriet√† patientPerson.
      * 
      * @return
      *     possible object is
@@ -378,7 +378,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ patientPerson.
+     * Imposta il valore della propriet√† patientPerson.
      * 
      * @param value
      *     allowed object is
@@ -390,7 +390,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ patientNonPersonLivingSubject.
+     * Recupera il valore della propriet√† patientNonPersonLivingSubject.
      * 
      * @return
      *     possible object is
@@ -402,7 +402,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ patientNonPersonLivingSubject.
+     * Imposta il valore della propriet√† patientNonPersonLivingSubject.
      * 
      * @param value
      *     allowed object is
@@ -414,7 +414,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Recupera il valore della propriet‡ providerOrganization.
+     * Recupera il valore della propriet√† providerOrganization.
      * 
      * @return
      *     possible object is
@@ -426,7 +426,7 @@ public class PRPAMT201302UV02Patient {
     }
 
     /**
-     * Imposta il valore della propriet‡ providerOrganization.
+     * Imposta il valore della propriet√† providerOrganization.
      * 
      * @param value
      *     allowed object is

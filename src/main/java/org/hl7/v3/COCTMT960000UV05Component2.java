@@ -88,7 +88,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ positionAccuracy.
+     * Recupera il valore della propriet√† positionAccuracy.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ positionAccuracy.
+     * Imposta il valore della propriet√† positionAccuracy.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -218,7 +218,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -234,7 +234,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is
@@ -246,7 +246,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -262,7 +262,7 @@ public class COCTMT960000UV05Component2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is

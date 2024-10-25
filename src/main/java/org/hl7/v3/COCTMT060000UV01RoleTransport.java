@@ -83,7 +83,7 @@ public class COCTMT060000UV01RoleTransport {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class COCTMT060000UV01RoleTransport {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -136,7 +136,7 @@ public class COCTMT060000UV01RoleTransport {
     }
 
     /**
-     * Recupera il valore della propriet‡ playingEntity.
+     * Recupera il valore della propriet√† playingEntity.
      * 
      * @return
      *     possible object is
@@ -148,7 +148,7 @@ public class COCTMT060000UV01RoleTransport {
     }
 
     /**
-     * Imposta il valore della propriet‡ playingEntity.
+     * Imposta il valore della propriet√† playingEntity.
      * 
      * @param value
      *     allowed object is

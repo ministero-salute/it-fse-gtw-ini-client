@@ -82,7 +82,7 @@ public class COCTMT290000UV06ReusableDevice {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT290000UV06ReusableDevice {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT290000UV06ReusableDevice {
     }
 
     /**
-     * Recupera il valore della propriet‡ device.
+     * Recupera il valore della propriet√† device.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT290000UV06ReusableDevice {
     }
 
     /**
-     * Imposta il valore della propriet‡ device.
+     * Imposta il valore della propriet√† device.
      * 
      * @param value
      *     allowed object is

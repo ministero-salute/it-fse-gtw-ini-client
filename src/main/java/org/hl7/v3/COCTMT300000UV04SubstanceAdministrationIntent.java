@@ -104,7 +104,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -157,7 +157,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -169,7 +169,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -181,7 +181,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -193,7 +193,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -205,7 +205,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorityCode.
+     * Recupera il valore della propriet√† priorityCode.
      * 
      * @return
      *     possible object is
@@ -217,7 +217,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorityCode.
+     * Imposta il valore della propriet√† priorityCode.
      * 
      * @param value
      *     allowed object is
@@ -229,7 +229,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ inFulfillmentOf.
+     * Recupera il valore della propriet√† inFulfillmentOf.
      * 
      * @return
      *     possible object is
@@ -241,7 +241,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ inFulfillmentOf.
+     * Imposta il valore della propriet√† inFulfillmentOf.
      * 
      * @param value
      *     allowed object is
@@ -253,7 +253,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ pertinentInformation.
+     * Recupera il valore della propriet√† pertinentInformation.
      * 
      * @return
      *     possible object is
@@ -265,7 +265,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ pertinentInformation.
+     * Imposta il valore della propriet√† pertinentInformation.
      * 
      * @param value
      *     allowed object is
@@ -364,7 +364,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -376,7 +376,7 @@ public class COCTMT300000UV04SubstanceAdministrationIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

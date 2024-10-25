@@ -44,7 +44,7 @@ public abstract class BIN
     protected BinaryDataEncoding representation;
 
     /**
-     * Recupera il valore della propriet‡ representation.
+     * Recupera il valore della propriet√† representation.
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public abstract class BIN
     }
 
     /**
-     * Imposta il valore della propriet‡ representation.
+     * Imposta il valore della propriet√† representation.
      * 
      * @param value
      *     allowed object is

@@ -117,7 +117,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -129,7 +129,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -199,7 +199,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -211,7 +211,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -223,7 +223,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -235,7 +235,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -247,7 +247,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ subject1.
+     * Recupera il valore della propriet√† subject1.
      * 
      * @return
      *     possible object is
@@ -259,7 +259,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ subject1.
+     * Imposta il valore della propriet√† subject1.
      * 
      * @param value
      *     allowed object is
@@ -271,7 +271,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -283,7 +283,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is
@@ -295,7 +295,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Recupera il valore della propriet‡ custodian.
+     * Recupera il valore della propriet√† custodian.
      * 
      * @return
      *     possible object is
@@ -307,7 +307,7 @@ public class PRPAIN201304UV02MFMIMT700701UV01RegistrationEvent {
     }
 
     /**
-     * Imposta il valore della propriet‡ custodian.
+     * Imposta il valore della propriet√† custodian.
      * 
      * @param value
      *     allowed object is

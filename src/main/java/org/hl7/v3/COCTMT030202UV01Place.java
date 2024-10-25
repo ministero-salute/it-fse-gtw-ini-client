@@ -95,7 +95,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -107,7 +107,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -177,7 +177,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ addr.
+     * Recupera il valore della propriet√† addr.
      * 
      * @return
      *     possible object is
@@ -189,7 +189,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ addr.
+     * Imposta il valore della propriet√† addr.
      * 
      * @param value
      *     allowed object is
@@ -201,7 +201,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ directionsText.
+     * Recupera il valore della propriet√† directionsText.
      * 
      * @return
      *     possible object is
@@ -213,7 +213,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ directionsText.
+     * Imposta il valore della propriet√† directionsText.
      * 
      * @param value
      *     allowed object is
@@ -225,7 +225,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ positionText.
+     * Recupera il valore della propriet√† positionText.
      * 
      * @return
      *     possible object is
@@ -237,7 +237,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ positionText.
+     * Imposta il valore della propriet√† positionText.
      * 
      * @param value
      *     allowed object is
@@ -249,7 +249,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ gpsText.
+     * Recupera il valore della propriet√† gpsText.
      * 
      * @return
      *     possible object is
@@ -261,7 +261,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ gpsText.
+     * Imposta il valore della propriet√† gpsText.
      * 
      * @param value
      *     allowed object is
@@ -302,7 +302,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -314,7 +314,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -326,7 +326,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -342,7 +342,7 @@ public class COCTMT030202UV01Place {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

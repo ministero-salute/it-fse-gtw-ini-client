@@ -115,11 +115,12 @@ public class DocumentEntryBuilderUtility {
 
 		//Event code list
 		if (!CollectionUtils.isEmpty(documentEntryDTO.getEventCodeList())) {
+			int i=0; 
 			for (String eventCode : documentEntryDTO.getEventCodeList()) {
 				SlotType1 eventCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.3");
 				InternationalStringType nameEventCode = buildInternationalStringType(EventCodeEnum.fromValue(eventCode).getDescription());
 				ClassificationType eventCodeClassification = buildClassificationObject(EVENT_CODE.getClassificationScheme(),
-						id, EVENT_CODE.getId(), nameEventCode, eventCodeSlot, eventCode);
+						id, EVENT_CODE.getId()+"_"+i++, nameEventCode, eventCodeSlot, eventCode);
 				out.add(eventCodeClassification);
 			}
 		}

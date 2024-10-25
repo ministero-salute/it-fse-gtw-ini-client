@@ -96,7 +96,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -178,7 +178,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -190,7 +190,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -202,7 +202,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Recupera il valore della propriet‡ subject1.
+     * Recupera il valore della propriet√† subject1.
      * 
      * @return
      *     possible object is
@@ -214,7 +214,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Imposta il valore della propriet‡ subject1.
+     * Imposta il valore della propriet√† subject1.
      * 
      * @param value
      *     allowed object is
@@ -226,7 +226,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Recupera il valore della propriet‡ subject2.
+     * Recupera il valore della propriet√† subject2.
      * 
      * @return
      *     possible object is
@@ -238,7 +238,7 @@ public class MFMIMT700701UV01PriorRegistration {
     }
 
     /**
-     * Imposta il valore della propriet‡ subject2.
+     * Imposta il valore della propriet√† subject2.
      * 
      * @param value
      *     allowed object is

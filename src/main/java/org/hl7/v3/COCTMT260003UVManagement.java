@@ -91,7 +91,7 @@ public class COCTMT260003UVManagement {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class COCTMT260003UVManagement {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +144,7 @@ public class COCTMT260003UVManagement {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class COCTMT260003UVManagement {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -168,7 +168,7 @@ public class COCTMT260003UVManagement {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -180,7 +180,7 @@ public class COCTMT260003UVManagement {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is

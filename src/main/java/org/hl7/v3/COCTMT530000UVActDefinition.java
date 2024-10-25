@@ -88,7 +88,7 @@ public class COCTMT530000UVActDefinition {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT530000UVActDefinition {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT530000UVActDefinition {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT530000UVActDefinition {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class COCTMT530000UVActDefinition {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class COCTMT530000UVActDefinition {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is

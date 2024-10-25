@@ -85,7 +85,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Recupera il valore della propriet‡ telecom.
+     * Recupera il valore della propriet√† telecom.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Imposta il valore della propriet‡ telecom.
+     * Imposta il valore della propriet√† telecom.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Recupera il valore della propriet‡ device.
+     * Recupera il valore della propriet√† device.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Imposta il valore della propriet‡ device.
+     * Imposta il valore della propriet√† device.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -227,7 +227,7 @@ public class MCCIMT000200UV01Receiver {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

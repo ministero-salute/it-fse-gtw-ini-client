@@ -98,7 +98,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -238,7 +238,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -250,7 +250,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -262,7 +262,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -274,7 +274,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -286,7 +286,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Recupera il valore della propriet‡ schoolOrganization.
+     * Recupera il valore della propriet√† schoolOrganization.
      * 
      * @return
      *     possible object is
@@ -298,7 +298,7 @@ public class PRPAMT201303UV02Student {
     }
 
     /**
-     * Imposta il valore della propriet‡ schoolOrganization.
+     * Imposta il valore della propriet√† schoolOrganization.
      * 
      * @param value
      *     allowed object is

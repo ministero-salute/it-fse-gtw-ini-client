@@ -88,7 +88,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -189,7 +189,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ coverageRecord.
+     * Recupera il valore della propriet√† coverageRecord.
      * 
      * @return
      *     possible object is
@@ -201,7 +201,7 @@ public class PRPAMT201301UV02CoveredParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ coverageRecord.
+     * Imposta il valore della propriet√† coverageRecord.
      * 
      * @param value
      *     allowed object is

@@ -89,7 +89,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -166,7 +166,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Recupera il valore della propriet‡ partMedicine.
+     * Recupera il valore della propriet√† partMedicine.
      * 
      * @return
      *     possible object is
@@ -178,7 +178,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Imposta il valore della propriet‡ partMedicine.
+     * Imposta il valore della propriet√† partMedicine.
      * 
      * @param value
      *     allowed object is
@@ -248,7 +248,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -260,7 +260,7 @@ public class COCTMT230100UVPart {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

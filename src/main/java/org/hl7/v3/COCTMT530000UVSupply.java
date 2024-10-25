@@ -186,7 +186,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -198,7 +198,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -268,7 +268,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -280,7 +280,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -292,7 +292,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -304,7 +304,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -316,7 +316,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -328,7 +328,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -369,7 +369,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ availabilityTime.
+     * Recupera il valore della propriet√† availabilityTime.
      * 
      * @return
      *     possible object is
@@ -381,7 +381,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ availabilityTime.
+     * Imposta il valore della propriet√† availabilityTime.
      * 
      * @param value
      *     allowed object is
@@ -451,7 +451,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ repeatNumber.
+     * Recupera il valore della propriet√† repeatNumber.
      * 
      * @return
      *     possible object is
@@ -463,7 +463,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ repeatNumber.
+     * Imposta il valore della propriet√† repeatNumber.
      * 
      * @param value
      *     allowed object is
@@ -475,7 +475,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ independentInd.
+     * Recupera il valore della propriet√† independentInd.
      * 
      * @return
      *     possible object is
@@ -487,7 +487,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ independentInd.
+     * Imposta il valore della propriet√† independentInd.
      * 
      * @param value
      *     allowed object is
@@ -499,7 +499,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ languageCode.
+     * Recupera il valore della propriet√† languageCode.
      * 
      * @return
      *     possible object is
@@ -511,7 +511,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ languageCode.
+     * Imposta il valore della propriet√† languageCode.
      * 
      * @param value
      *     allowed object is
@@ -523,7 +523,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -535,7 +535,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -547,7 +547,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ expectedUseTime.
+     * Recupera il valore della propriet√† expectedUseTime.
      * 
      * @return
      *     possible object is
@@ -559,7 +559,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ expectedUseTime.
+     * Imposta il valore della propriet√† expectedUseTime.
      * 
      * @param value
      *     allowed object is
@@ -629,7 +629,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ recordTarget.
+     * Recupera il valore della propriet√† recordTarget.
      * 
      * @return
      *     possible object is
@@ -641,7 +641,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ recordTarget.
+     * Imposta il valore della propriet√† recordTarget.
      * 
      * @param value
      *     allowed object is
@@ -740,7 +740,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ dataEnterer.
+     * Recupera il valore della propriet√† dataEnterer.
      * 
      * @return
      *     possible object is
@@ -752,7 +752,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ dataEnterer.
+     * Imposta il valore della propriet√† dataEnterer.
      * 
      * @param value
      *     allowed object is
@@ -851,7 +851,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ definition.
+     * Recupera il valore della propriet√† definition.
      * 
      * @return
      *     possible object is
@@ -863,7 +863,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ definition.
+     * Imposta il valore della propriet√† definition.
      * 
      * @param value
      *     allowed object is
@@ -962,7 +962,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ subjectOf.
+     * Recupera il valore della propriet√† subjectOf.
      * 
      * @return
      *     possible object is
@@ -974,7 +974,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ subjectOf.
+     * Imposta il valore della propriet√† subjectOf.
      * 
      * @param value
      *     allowed object is
@@ -1044,7 +1044,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -1056,7 +1056,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -1068,7 +1068,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -1080,7 +1080,7 @@ public class COCTMT530000UVSupply {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

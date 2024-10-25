@@ -81,7 +81,7 @@ public class ClassificationSchemeType
     }
 
     /**
-     * Recupera il valore della propriet‡ isInternal.
+     * Recupera il valore della propriet√† isInternal.
      * 
      */
     public boolean isIsInternal() {
@@ -89,7 +89,7 @@ public class ClassificationSchemeType
     }
 
     /**
-     * Imposta il valore della propriet‡ isInternal.
+     * Imposta il valore della propriet√† isInternal.
      * 
      */
     public void setIsInternal(boolean value) {
@@ -97,7 +97,7 @@ public class ClassificationSchemeType
     }
 
     /**
-     * Recupera il valore della propriet‡ nodeType.
+     * Recupera il valore della propriet√† nodeType.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class ClassificationSchemeType
     }
 
     /**
-     * Imposta il valore della propriet‡ nodeType.
+     * Imposta il valore della propriet√† nodeType.
      * 
      * @param value
      *     allowed object is

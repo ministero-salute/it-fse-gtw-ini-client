@@ -87,7 +87,7 @@ public class PersonType
     }
 
     /**
-     * Recupera il valore della propriet‡ personName.
+     * Recupera il valore della propriet√† personName.
      * 
      * @return
      *     possible object is
@@ -99,7 +99,7 @@ public class PersonType
     }
 
     /**
-     * Imposta il valore della propriet‡ personName.
+     * Imposta il valore della propriet√† personName.
      * 
      * @param value
      *     allowed object is

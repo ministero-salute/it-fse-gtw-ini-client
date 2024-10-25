@@ -90,7 +90,7 @@ public class IdentifiableType {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -102,7 +102,7 @@ public class IdentifiableType {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -114,7 +114,7 @@ public class IdentifiableType {
     }
 
     /**
-     * Recupera il valore della propriet‡ home.
+     * Recupera il valore della propriet√† home.
      * 
      * @return
      *     possible object is
@@ -126,7 +126,7 @@ public class IdentifiableType {
     }
 
     /**
-     * Imposta il valore della propriet‡ home.
+     * Imposta il valore della propriet√† home.
      * 
      * @param value
      *     allowed object is

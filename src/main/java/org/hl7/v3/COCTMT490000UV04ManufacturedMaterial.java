@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *       &lt;/sequence>
  *       &lt;attGroup ref="{urn:hl7-org:v3}InfrastructureRootAttributes"/>
  *       &lt;attribute name="nullFlavor" type="{urn:hl7-org:v3}NullFlavor" />
- *       &lt;attribute name="classCode" use="required" type="{urn:hl7-org:v3}EntityClass" fixed="MMAT" />
+ *       &lt;attribute name="classCode" use="required" type="{urn:hl7-org:v3}EntityClass" fixed="MMAT " />
  *       &lt;attribute name="determinerCode" use="required" type="{urn:hl7-org:v3}cs" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -98,7 +98,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -110,7 +110,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -151,7 +151,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -163,7 +163,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -175,7 +175,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -187,7 +187,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -315,7 +315,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -327,7 +327,7 @@ public class COCTMT490000UV04ManufacturedMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

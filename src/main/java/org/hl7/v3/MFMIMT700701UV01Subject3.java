@@ -82,7 +82,7 @@ public class MFMIMT700701UV01Subject3 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class MFMIMT700701UV01Subject3 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class MFMIMT700701UV01Subject3 {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorRegisteredRole.
+     * Recupera il valore della propriet√† priorRegisteredRole.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class MFMIMT700701UV01Subject3 {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorRegisteredRole.
+     * Imposta il valore della propriet√† priorRegisteredRole.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class MFMIMT700701UV01Subject3 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -200,7 +200,7 @@ public class MFMIMT700701UV01Subject3 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

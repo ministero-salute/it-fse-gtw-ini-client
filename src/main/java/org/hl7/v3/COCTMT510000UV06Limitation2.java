@@ -89,7 +89,7 @@ public class COCTMT510000UV06Limitation2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT510000UV06Limitation2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class COCTMT510000UV06Limitation2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ coverageCharge.
+     * Recupera il valore della propriet√† coverageCharge.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class COCTMT510000UV06Limitation2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ coverageCharge.
+     * Imposta il valore della propriet√† coverageCharge.
      * 
      * @param value
      *     allowed object is
@@ -166,7 +166,7 @@ public class COCTMT510000UV06Limitation2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ financialParticipationCharge.
+     * Recupera il valore della propriet√† financialParticipationCharge.
      * 
      * @return
      *     possible object is
@@ -178,7 +178,7 @@ public class COCTMT510000UV06Limitation2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ financialParticipationCharge.
+     * Imposta il valore della propriet√† financialParticipationCharge.
      * 
      * @param value
      *     allowed object is

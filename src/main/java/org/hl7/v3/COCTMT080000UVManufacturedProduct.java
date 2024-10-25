@@ -82,7 +82,7 @@ public class COCTMT080000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT080000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT080000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturerOrganization.
+     * Recupera il valore della propriet√† manufacturerOrganization.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT080000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturerOrganization.
+     * Imposta il valore della propriet√† manufacturerOrganization.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class COCTMT080000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -200,7 +200,7 @@ public class COCTMT080000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

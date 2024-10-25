@@ -36,7 +36,7 @@ public class HXITPQ
     protected IVLTS validTime;
 
     /**
-     * Recupera il valore della propriet‡ validTime.
+     * Recupera il valore della propriet√† validTime.
      * 
      * @return
      *     possible object is
@@ -48,7 +48,7 @@ public class HXITPQ
     }
 
     /**
-     * Imposta il valore della propriet‡ validTime.
+     * Imposta il valore della propriet√† validTime.
      * 
      * @param value
      *     allowed object is

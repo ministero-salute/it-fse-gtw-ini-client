@@ -88,7 +88,7 @@ public class COCTMT490000UV04Warrantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT490000UV04Warrantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT490000UV04Warrantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT490000UV04Warrantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class COCTMT490000UV04Warrantor {
     }
 
     /**
-     * Recupera il valore della propriet‡ warrantingWarrantorOrganization.
+     * Recupera il valore della propriet√† warrantingWarrantorOrganization.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class COCTMT490000UV04Warrantor {
     }
 
     /**
-     * Imposta il valore della propriet‡ warrantingWarrantorOrganization.
+     * Imposta il valore della propriet√† warrantingWarrantorOrganization.
      * 
      * @param value
      *     allowed object is

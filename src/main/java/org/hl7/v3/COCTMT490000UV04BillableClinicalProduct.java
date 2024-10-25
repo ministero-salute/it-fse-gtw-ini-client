@@ -122,7 +122,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -134,7 +134,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -175,7 +175,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -187,7 +187,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -199,7 +199,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -211,7 +211,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -223,7 +223,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -235,7 +235,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -247,7 +247,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ product.
+     * Recupera il valore della propriet√† product.
      * 
      * @return
      *     possible object is
@@ -259,7 +259,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ product.
+     * Imposta il valore della propriet√† product.
      * 
      * @param value
      *     allowed object is
@@ -271,7 +271,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ referrer.
+     * Recupera il valore della propriet√† referrer.
      * 
      * @return
      *     possible object is
@@ -283,7 +283,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ referrer.
+     * Imposta il valore della propriet√† referrer.
      * 
      * @param value
      *     allowed object is
@@ -295,7 +295,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ consultant.
+     * Recupera il valore della propriet√† consultant.
      * 
      * @return
      *     possible object is
@@ -307,7 +307,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ consultant.
+     * Imposta il valore della propriet√† consultant.
      * 
      * @param value
      *     allowed object is
@@ -319,7 +319,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ origin.
+     * Recupera il valore della propriet√† origin.
      * 
      * @return
      *     possible object is
@@ -331,7 +331,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ origin.
+     * Imposta il valore della propriet√† origin.
      * 
      * @param value
      *     allowed object is
@@ -343,7 +343,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ destination.
+     * Recupera il valore della propriet√† destination.
      * 
      * @return
      *     possible object is
@@ -355,7 +355,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ destination.
+     * Imposta il valore della propriet√† destination.
      * 
      * @param value
      *     allowed object is
@@ -367,7 +367,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -379,7 +379,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -449,7 +449,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -461,7 +461,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -473,7 +473,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -485,7 +485,7 @@ public class COCTMT490000UV04BillableClinicalProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

@@ -89,7 +89,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -166,7 +166,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Recupera il valore della propriet‡ ingredient.
+     * Recupera il valore della propriet√† ingredient.
      * 
      * @return
      *     possible object is
@@ -178,7 +178,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Imposta il valore della propriet‡ ingredient.
+     * Imposta il valore della propriet√† ingredient.
      * 
      * @param value
      *     allowed object is
@@ -219,7 +219,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -231,7 +231,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -243,7 +243,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -259,7 +259,7 @@ public class COCTMT230100UVSubIngredient {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

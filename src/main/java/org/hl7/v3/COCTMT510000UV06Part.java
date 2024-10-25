@@ -88,7 +88,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorityNumber.
+     * Recupera il valore della propriet√† priorityNumber.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorityNumber.
+     * Imposta il valore della propriet√† priorityNumber.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -189,7 +189,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Recupera il valore della propriet‡ personalRelationship.
+     * Recupera il valore della propriet√† personalRelationship.
      * 
      * @return
      *     possible object is
@@ -201,7 +201,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Imposta il valore della propriet‡ personalRelationship.
+     * Imposta il valore della propriet√† personalRelationship.
      * 
      * @param value
      *     allowed object is
@@ -242,7 +242,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -258,7 +258,7 @@ public class COCTMT510000UV06Part {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

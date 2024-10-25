@@ -85,7 +85,7 @@ public class COCTMT510000UV06Author2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT510000UV06Author2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT510000UV06Author2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ functionCode.
+     * Recupera il valore della propriet√† functionCode.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT510000UV06Author2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ functionCode.
+     * Imposta il valore della propriet√† functionCode.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT510000UV06Author2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ underwriter.
+     * Recupera il valore della propriet√† underwriter.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT510000UV06Author2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ underwriter.
+     * Imposta il valore della propriet√† underwriter.
      * 
      * @param value
      *     allowed object is

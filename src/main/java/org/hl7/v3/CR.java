@@ -53,7 +53,7 @@ public class CR
     protected Boolean inverted;
 
     /**
-     * Recupera il valore della propriet‡ name.
+     * Recupera il valore della propriet√† name.
      * 
      * @return
      *     possible object is
@@ -65,7 +65,7 @@ public class CR
     }
 
     /**
-     * Imposta il valore della propriet‡ name.
+     * Imposta il valore della propriet√† name.
      * 
      * @param value
      *     allowed object is
@@ -77,7 +77,7 @@ public class CR
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -89,7 +89,7 @@ public class CR
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -101,7 +101,7 @@ public class CR
     }
 
     /**
-     * Recupera il valore della propriet‡ inverted.
+     * Recupera il valore della propriet√† inverted.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class CR
     }
 
     /**
-     * Imposta il valore della propriet‡ inverted.
+     * Imposta il valore della propriet√† inverted.
      * 
      * @param value
      *     allowed object is

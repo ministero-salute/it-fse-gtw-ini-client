@@ -85,7 +85,7 @@ public class COCTMT530000UVRecordTarget {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT530000UVRecordTarget {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT530000UVRecordTarget {
     }
 
     /**
-     * Recupera il valore della propriet‡ patient.
+     * Recupera il valore della propriet√† patient.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT530000UVRecordTarget {
     }
 
     /**
-     * Imposta il valore della propriet‡ patient.
+     * Imposta il valore della propriet√† patient.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class COCTMT530000UVRecordTarget {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -236,7 +236,7 @@ public class COCTMT530000UVRecordTarget {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

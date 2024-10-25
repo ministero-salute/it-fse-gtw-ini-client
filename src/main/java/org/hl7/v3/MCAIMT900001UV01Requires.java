@@ -88,7 +88,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Recupera il valore della propriet‡ actOrderRequired.
+     * Recupera il valore della propriet√† actOrderRequired.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Imposta il valore della propriet‡ actOrderRequired.
+     * Imposta il valore della propriet√† actOrderRequired.
      * 
      * @param value
      *     allowed object is
@@ -223,7 +223,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -235,7 +235,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is
@@ -247,7 +247,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -259,7 +259,7 @@ public class MCAIMT900001UV01Requires {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

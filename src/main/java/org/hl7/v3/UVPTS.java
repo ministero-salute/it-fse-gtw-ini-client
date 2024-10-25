@@ -34,7 +34,7 @@ public class UVPTS
     protected Double probability;
 
     /**
-     * Recupera il valore della propriet‡ probability.
+     * Recupera il valore della propriet√† probability.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class UVPTS
     }
 
     /**
-     * Imposta il valore della propriet‡ probability.
+     * Imposta il valore della propriet√† probability.
      * 
      * @param value
      *     allowed object is

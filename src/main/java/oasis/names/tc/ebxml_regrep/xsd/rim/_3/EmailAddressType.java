@@ -37,7 +37,7 @@ public class EmailAddressType {
     protected String type;
 
     /**
-     * Recupera il valore della propriet‡ address.
+     * Recupera il valore della propriet√† address.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class EmailAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ address.
+     * Imposta il valore della propriet√† address.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class EmailAddressType {
     }
 
     /**
-     * Recupera il valore della propriet‡ type.
+     * Recupera il valore della propriet√† type.
      * 
      * @return
      *     possible object is
@@ -73,7 +73,7 @@ public class EmailAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ type.
+     * Imposta il valore della propriet√† type.
      * 
      * @param value
      *     allowed object is

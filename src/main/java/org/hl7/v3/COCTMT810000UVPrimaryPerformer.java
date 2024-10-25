@@ -88,7 +88,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -141,7 +141,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ signatureCode.
+     * Recupera il valore della propriet√† signatureCode.
      * 
      * @return
      *     possible object is
@@ -153,7 +153,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ signatureCode.
+     * Imposta il valore della propriet√† signatureCode.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ signatureText.
+     * Recupera il valore della propriet√† signatureText.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ signatureText.
+     * Imposta il valore della propriet√† signatureText.
      * 
      * @param value
      *     allowed object is
@@ -189,7 +189,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedEntity.
+     * Recupera il valore della propriet√† assignedEntity.
      * 
      * @return
      *     possible object is
@@ -201,7 +201,7 @@ public class COCTMT810000UVPrimaryPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedEntity.
+     * Imposta il valore della propriet√† assignedEntity.
      * 
      * @param value
      *     allowed object is

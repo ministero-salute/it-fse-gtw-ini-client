@@ -50,7 +50,7 @@ public class EIVLTS
     protected IVLPQ offset;
 
     /**
-     * Recupera il valore della propriet‡ event.
+     * Recupera il valore della propriet√† event.
      * 
      * @return
      *     possible object is
@@ -62,7 +62,7 @@ public class EIVLTS
     }
 
     /**
-     * Imposta il valore della propriet‡ event.
+     * Imposta il valore della propriet√† event.
      * 
      * @param value
      *     allowed object is
@@ -74,7 +74,7 @@ public class EIVLTS
     }
 
     /**
-     * Recupera il valore della propriet‡ offset.
+     * Recupera il valore della propriet√† offset.
      * 
      * @return
      *     possible object is
@@ -86,7 +86,7 @@ public class EIVLTS
     }
 
     /**
-     * Imposta il valore della propriet‡ offset.
+     * Imposta il valore della propriet√† offset.
      * 
      * @param value
      *     allowed object is

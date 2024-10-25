@@ -82,7 +82,7 @@ public class COCTMT510000UV06Limitation {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT510000UV06Limitation {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT510000UV06Limitation {
     }
 
     /**
-     * Recupera il valore della propriet‡ coverageLimitObservation.
+     * Recupera il valore della propriet√† coverageLimitObservation.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT510000UV06Limitation {
     }
 
     /**
-     * Imposta il valore della propriet‡ coverageLimitObservation.
+     * Imposta il valore della propriet√† coverageLimitObservation.
      * 
      * @param value
      *     allowed object is

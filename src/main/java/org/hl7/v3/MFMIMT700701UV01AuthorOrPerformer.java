@@ -107,7 +107,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -119,7 +119,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -160,7 +160,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ noteText.
+     * Recupera il valore della propriet√† noteText.
      * 
      * @return
      *     possible object is
@@ -172,7 +172,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ noteText.
+     * Imposta il valore della propriet√† noteText.
      * 
      * @param value
      *     allowed object is
@@ -184,7 +184,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -196,7 +196,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -208,7 +208,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ modeCode.
+     * Recupera il valore della propriet√† modeCode.
      * 
      * @return
      *     possible object is
@@ -220,7 +220,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ modeCode.
+     * Imposta il valore della propriet√† modeCode.
      * 
      * @param value
      *     allowed object is
@@ -232,7 +232,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ signatureCode.
+     * Recupera il valore della propriet√† signatureCode.
      * 
      * @return
      *     possible object is
@@ -244,7 +244,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ signatureCode.
+     * Imposta il valore della propriet√† signatureCode.
      * 
      * @param value
      *     allowed object is
@@ -256,7 +256,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ signatureText.
+     * Recupera il valore della propriet√† signatureText.
      * 
      * @return
      *     possible object is
@@ -268,7 +268,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ signatureText.
+     * Imposta il valore della propriet√† signatureText.
      * 
      * @param value
      *     allowed object is
@@ -280,7 +280,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedDevice.
+     * Recupera il valore della propriet√† assignedDevice.
      * 
      * @return
      *     possible object is
@@ -292,7 +292,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedDevice.
+     * Imposta il valore della propriet√† assignedDevice.
      * 
      * @param value
      *     allowed object is
@@ -304,7 +304,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedPerson.
+     * Recupera il valore della propriet√† assignedPerson.
      * 
      * @return
      *     possible object is
@@ -316,7 +316,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedPerson.
+     * Imposta il valore della propriet√† assignedPerson.
      * 
      * @param value
      *     allowed object is
@@ -357,7 +357,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -369,7 +369,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -381,7 +381,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -397,7 +397,7 @@ public class MFMIMT700701UV01AuthorOrPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

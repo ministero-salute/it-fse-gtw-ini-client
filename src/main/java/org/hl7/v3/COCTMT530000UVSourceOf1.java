@@ -106,7 +106,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -118,7 +118,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -159,7 +159,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -171,7 +171,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -183,7 +183,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ pauseQuantity.
+     * Recupera il valore della propriet√† pauseQuantity.
      * 
      * @return
      *     possible object is
@@ -195,7 +195,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ pauseQuantity.
+     * Imposta il valore della propriet√† pauseQuantity.
      * 
      * @param value
      *     allowed object is
@@ -207,7 +207,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ conjunctionCode.
+     * Recupera il valore della propriet√† conjunctionCode.
      * 
      * @return
      *     possible object is
@@ -219,7 +219,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ conjunctionCode.
+     * Imposta il valore della propriet√† conjunctionCode.
      * 
      * @param value
      *     allowed object is
@@ -231,7 +231,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ seperatableInd.
+     * Recupera il valore della propriet√† seperatableInd.
      * 
      * @return
      *     possible object is
@@ -243,7 +243,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ seperatableInd.
+     * Imposta il valore della propriet√† seperatableInd.
      * 
      * @param value
      *     allowed object is
@@ -255,7 +255,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ actReference.
+     * Recupera il valore della propriet√† actReference.
      * 
      * @return
      *     possible object is
@@ -267,7 +267,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ actReference.
+     * Imposta il valore della propriet√† actReference.
      * 
      * @param value
      *     allowed object is
@@ -337,7 +337,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ inversionInd.
+     * Recupera il valore della propriet√† inversionInd.
      * 
      * @return
      *     possible object is
@@ -349,7 +349,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ inversionInd.
+     * Imposta il valore della propriet√† inversionInd.
      * 
      * @param value
      *     allowed object is
@@ -361,7 +361,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -373,7 +373,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is
@@ -385,7 +385,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -401,7 +401,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is
@@ -413,7 +413,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -425,7 +425,7 @@ public class COCTMT530000UVSourceOf1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

@@ -112,7 +112,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -124,7 +124,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturerModelName.
+     * Recupera il valore della propriet√† manufacturerModelName.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturerModelName.
+     * Imposta il valore della propriet√† manufacturerModelName.
      * 
      * @param value
      *     allowed object is
@@ -218,7 +218,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ softwareName.
+     * Recupera il valore della propriet√† softwareName.
      * 
      * @return
      *     possible object is
@@ -230,7 +230,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ softwareName.
+     * Imposta il valore della propriet√† softwareName.
      * 
      * @param value
      *     allowed object is
@@ -329,7 +329,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ asLocatedEntity.
+     * Recupera il valore della propriet√† asLocatedEntity.
      * 
      * @return
      *     possible object is
@@ -341,7 +341,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ asLocatedEntity.
+     * Imposta il valore della propriet√† asLocatedEntity.
      * 
      * @param value
      *     allowed object is
@@ -411,7 +411,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -423,7 +423,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -435,7 +435,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -451,7 +451,7 @@ public class COCTMT090000UV01Device {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

@@ -43,7 +43,7 @@ public class SlotType1 {
     protected String slotType;
 
     /**
-     * Recupera il valore della propriet‡ valueList.
+     * Recupera il valore della propriet√† valueList.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class SlotType1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ valueList.
+     * Imposta il valore della propriet√† valueList.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class SlotType1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ name.
+     * Recupera il valore della propriet√† name.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class SlotType1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ name.
+     * Imposta il valore della propriet√† name.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class SlotType1 {
     }
 
     /**
-     * Recupera il valore della propriet‡ slotType.
+     * Recupera il valore della propriet√† slotType.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class SlotType1 {
     }
 
     /**
-     * Imposta il valore della propriet‡ slotType.
+     * Imposta il valore della propriet√† slotType.
      * 
      * @param value
      *     allowed object is
