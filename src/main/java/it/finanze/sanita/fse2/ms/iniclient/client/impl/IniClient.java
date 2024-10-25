@@ -68,6 +68,15 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_DATE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_TYPE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.WII;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_CREATE_SOAP;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_DELETE_SOAP;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_REPLACE_SOAP;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_UPDATE_SOAP;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_RIFERIMENTO_SOAP;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_GET_METADATI_SOAP;
 
 /**
  * Production implemention of Ini Client.
@@ -146,7 +155,7 @@ public class IniClient implements IIniClient {
 			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 
 			List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
-			handlerChainRecuperoRiferimento.add(new SOAPLoggingHandler());
+			handlerChainRecuperoRiferimento.add(loggingHandler);
 			((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
@@ -253,8 +262,7 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType,
-			String workflowInstanceId,Date startingDate) {
+	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType, String workflowInstanceId,Date startingDate) {
 		log.debug("Call to INI get reference metadata");
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
@@ -263,23 +271,24 @@ public class IniClient implements IIniClient {
 		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
 		
 		AdhocQueryResponse response = null;
+		WSBindingProvider bp = null;
+		Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP : INI_GET_METADATI_SOAP; 
 		if(ActionEnumType.READ_METADATA.equals(actionEnumType)) {
-			WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
+			bp = (WSBindingProvider)documentRegistryPort;
+			bp.getRequestContext().put(WII, workflowInstanceId);
+			bp.getRequestContext().put(EVENT_TYPE, eventType);
+			bp.getRequestContext().put(EVENT_DATE, startingDate);
 			bp.setOutboundHeaders(headers);
 			response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);	
 		} else {
-			WSBindingProvider bp = (WSBindingProvider)recuperoRiferimentoPort;
+			bp = (WSBindingProvider)recuperoRiferimentoPort;
+			bp.getRequestContext().put(WII, workflowInstanceId);
+			bp.getRequestContext().put(EVENT_TYPE, eventType);
+			bp.getRequestContext().put(EVENT_DATE, startingDate);
 			bp.setOutboundHeaders(headers);
 			response = recuperoRiferimentoPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 		}
 		 
-		
-		Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP : INI_GET_METADATI_SOAP; 
-		bp.getRequestContext().put(WII, workflowInstanceId);
-		bp.getRequestContext().put(EVENT_TYPE, eventType);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		AdhocQueryResponse response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 //			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {

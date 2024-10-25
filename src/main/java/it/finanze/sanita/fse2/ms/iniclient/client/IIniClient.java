@@ -14,6 +14,7 @@ package it.finanze.sanita.fse2.ms.iniclient.client;
 import java.util.Date;
 import java.util.List;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
@@ -31,8 +32,9 @@ public interface IIniClient {
 	RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO,
 			String workflowInstanceId,Date startingDate);
     
-    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, List<String> uuid,Date startingDate);
-
+    RegistryResponseType sendDeleteData(DeleteRequestDTO requestDto, JWTPayloadDTO jwtToken, List<String> uuid,Date startingDate);
+    
+    
     RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate);
     RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate);
     

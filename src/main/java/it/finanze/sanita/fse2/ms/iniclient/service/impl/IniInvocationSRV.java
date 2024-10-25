@@ -227,7 +227,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		try {
 			
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO,jwtPayloadDTO,startingDate);
+			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO,jwtPayloadDTO,deleteRequestDTO.getUuid(),startingDate);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {

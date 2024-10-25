@@ -207,7 +207,7 @@ class IniInvocationTest {
                 .thenReturn(response);
         Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
-        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any(), any()))
                 .thenReturn(new RegistryResponseType());
         DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
@@ -223,7 +223,7 @@ class IniInvocationTest {
                 .thenReturn(response);
         Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
-        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any(), any()))
                 .thenThrow(new BusinessException(""));
         DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
         assertThrows(BusinessException.class, () ->iniInvocationSRV.deleteByDocumentId(deleteRequestDTO));
@@ -238,7 +238,7 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceMetadata(anyString(),anyString(), any(JWTTokenDTO.class),anyString()))
                 .thenReturn(response);
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendDeleteData(any(), any(), any()))
+        Mockito.when(iniClient.sendDeleteData(any(), any(), any(), any()))
                 .thenReturn(registryResponseType);
         DeleteRequestDTO deleteRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_DELETE_REQ, DeleteRequestDTO.class);
         IniResponseDTO iniResponse = iniInvocationSRV.deleteByDocumentId(deleteRequestDTO);
