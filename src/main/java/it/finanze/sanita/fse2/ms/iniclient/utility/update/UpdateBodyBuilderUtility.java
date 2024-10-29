@@ -165,6 +165,7 @@ public final class UpdateBodyBuilderUtility {
 		extrinsicObject.setId(DOCUMENT_ENTRY_ID);
 		for(ClassificationType classification : extrinsicObject.getClassification()) {
 			classification.setClassifiedObject(DOCUMENT_ENTRY_ID);
+			classification.setLid(null);			
 			for(ClassificationEnum val : ClassificationEnum.values()) {
 				if(classification.getClassificationScheme().equals(val.getClassificationScheme())){
 					classification.setId(val.getId());
@@ -175,7 +176,7 @@ public final class UpdateBodyBuilderUtility {
 		
 		for(ExternalIdentifierType external : extrinsicObject.getExternalIdentifier()) {
 			external.setRegistryObject(DOCUMENT_ENTRY_ID);
-
+			external.setLid(null);
 			for(ExternalIdentifierEnum externalIdentifierEnum : ExternalIdentifierEnum.values()) {
 				if(external.getIdentificationScheme().equals(externalIdentifierEnum.getClassificationScheme())) {
 					external.setId(externalIdentifierEnum.getId());		
