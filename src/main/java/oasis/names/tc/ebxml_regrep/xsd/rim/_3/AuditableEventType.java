@@ -56,7 +56,7 @@ public class AuditableEventType
     protected String requestId;
 
     /**
-     * Recupera il valore della propriet‡ affectedObjects.
+     * Recupera il valore della propriet√† affectedObjects.
      * 
      * @return
      *     possible object is
@@ -68,7 +68,7 @@ public class AuditableEventType
     }
 
     /**
-     * Imposta il valore della propriet‡ affectedObjects.
+     * Imposta il valore della propriet√† affectedObjects.
      * 
      * @param value
      *     allowed object is
@@ -80,7 +80,7 @@ public class AuditableEventType
     }
 
     /**
-     * Recupera il valore della propriet‡ eventType.
+     * Recupera il valore della propriet√† eventType.
      * 
      * @return
      *     possible object is
@@ -92,7 +92,7 @@ public class AuditableEventType
     }
 
     /**
-     * Imposta il valore della propriet‡ eventType.
+     * Imposta il valore della propriet√† eventType.
      * 
      * @param value
      *     allowed object is
@@ -104,7 +104,7 @@ public class AuditableEventType
     }
 
     /**
-     * Recupera il valore della propriet‡ timestamp.
+     * Recupera il valore della propriet√† timestamp.
      * 
      * @return
      *     possible object is
@@ -116,7 +116,7 @@ public class AuditableEventType
     }
 
     /**
-     * Imposta il valore della propriet‡ timestamp.
+     * Imposta il valore della propriet√† timestamp.
      * 
      * @param value
      *     allowed object is
@@ -128,7 +128,7 @@ public class AuditableEventType
     }
 
     /**
-     * Recupera il valore della propriet‡ user.
+     * Recupera il valore della propriet√† user.
      * 
      * @return
      *     possible object is
@@ -140,7 +140,7 @@ public class AuditableEventType
     }
 
     /**
-     * Imposta il valore della propriet‡ user.
+     * Imposta il valore della propriet√† user.
      * 
      * @param value
      *     allowed object is
@@ -152,7 +152,7 @@ public class AuditableEventType
     }
 
     /**
-     * Recupera il valore della propriet‡ requestId.
+     * Recupera il valore della propriet√† requestId.
      * 
      * @return
      *     possible object is
@@ -164,7 +164,7 @@ public class AuditableEventType
     }
 
     /**
-     * Imposta il valore della propriet‡ requestId.
+     * Imposta il valore della propriet√† requestId.
      * 
      * @param value
      *     allowed object is

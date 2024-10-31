@@ -89,7 +89,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -195,7 +195,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ name.
+     * Recupera il valore della propriet√† name.
      * 
      * @return
      *     possible object is
@@ -207,7 +207,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ name.
+     * Imposta il valore della propriet√† name.
      * 
      * @param value
      *     allowed object is
@@ -248,7 +248,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -260,7 +260,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -272,7 +272,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -288,7 +288,7 @@ public class COCTMT290000UV06NonPersonLivingSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

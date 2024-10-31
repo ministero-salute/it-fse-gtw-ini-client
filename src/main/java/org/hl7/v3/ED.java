@@ -77,7 +77,7 @@ public class ED
     protected IntegrityCheckAlgorithm integrityCheckAlgorithm;
 
     /**
-     * Recupera il valore della propriet‡ reference.
+     * Recupera il valore della propriet√† reference.
      * 
      * @return
      *     possible object is
@@ -89,7 +89,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ reference.
+     * Imposta il valore della propriet√† reference.
      * 
      * @param value
      *     allowed object is
@@ -101,7 +101,7 @@ public class ED
     }
 
     /**
-     * Recupera il valore della propriet‡ thumbnail.
+     * Recupera il valore della propriet√† thumbnail.
      * 
      * @return
      *     possible object is
@@ -113,7 +113,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ thumbnail.
+     * Imposta il valore della propriet√† thumbnail.
      * 
      * @param value
      *     allowed object is
@@ -125,7 +125,7 @@ public class ED
     }
 
     /**
-     * Recupera il valore della propriet‡ mediaType.
+     * Recupera il valore della propriet√† mediaType.
      * 
      * @return
      *     possible object is
@@ -141,7 +141,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ mediaType.
+     * Imposta il valore della propriet√† mediaType.
      * 
      * @param value
      *     allowed object is
@@ -153,7 +153,7 @@ public class ED
     }
 
     /**
-     * Recupera il valore della propriet‡ language.
+     * Recupera il valore della propriet√† language.
      * 
      * @return
      *     possible object is
@@ -165,7 +165,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ language.
+     * Imposta il valore della propriet√† language.
      * 
      * @param value
      *     allowed object is
@@ -177,7 +177,7 @@ public class ED
     }
 
     /**
-     * Recupera il valore della propriet‡ compression.
+     * Recupera il valore della propriet√† compression.
      * 
      * @return
      *     possible object is
@@ -189,7 +189,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ compression.
+     * Imposta il valore della propriet√† compression.
      * 
      * @param value
      *     allowed object is
@@ -201,7 +201,7 @@ public class ED
     }
 
     /**
-     * Recupera il valore della propriet‡ integrityCheck.
+     * Recupera il valore della propriet√† integrityCheck.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ integrityCheck.
+     * Imposta il valore della propriet√† integrityCheck.
      * 
      * @param value
      *     allowed object is
@@ -223,7 +223,7 @@ public class ED
     }
 
     /**
-     * Recupera il valore della propriet‡ integrityCheckAlgorithm.
+     * Recupera il valore della propriet√† integrityCheckAlgorithm.
      * 
      * @return
      *     possible object is
@@ -239,7 +239,7 @@ public class ED
     }
 
     /**
-     * Imposta il valore della propriet‡ integrityCheckAlgorithm.
+     * Imposta il valore della propriet√† integrityCheckAlgorithm.
      * 
      * @param value
      *     allowed object is

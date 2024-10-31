@@ -108,7 +108,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -120,7 +120,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -190,7 +190,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -202,7 +202,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -214,7 +214,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -226,7 +226,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -238,7 +238,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -250,7 +250,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -262,7 +262,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ holder.
+     * Recupera il valore della propriet√† holder.
      * 
      * @return
      *     possible object is
@@ -274,7 +274,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ holder.
+     * Imposta il valore della propriet√† holder.
      * 
      * @param value
      *     allowed object is
@@ -286,7 +286,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -298,7 +298,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is
@@ -310,7 +310,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Recupera il valore della propriet‡ limitation.
+     * Recupera il valore della propriet√† limitation.
      * 
      * @return
      *     possible object is
@@ -322,7 +322,7 @@ public class COCTMT500000UV04PolicyOrAccount {
     }
 
     /**
-     * Imposta il valore della propriet‡ limitation.
+     * Imposta il valore della propriet√† limitation.
      * 
      * @param value
      *     allowed object is

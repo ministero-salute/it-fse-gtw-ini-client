@@ -174,7 +174,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -186,7 +186,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -256,7 +256,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -268,7 +268,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -280,7 +280,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -292,7 +292,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -362,7 +362,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ repeatNumber.
+     * Recupera il valore della propriet√† repeatNumber.
      * 
      * @return
      *     possible object is
@@ -374,7 +374,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ repeatNumber.
+     * Imposta il valore della propriet√† repeatNumber.
      * 
      * @param value
      *     allowed object is
@@ -444,7 +444,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ reusableDevice.
+     * Recupera il valore della propriet√† reusableDevice.
      * 
      * @return
      *     possible object is
@@ -456,7 +456,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ reusableDevice.
+     * Imposta il valore della propriet√† reusableDevice.
      * 
      * @param value
      *     allowed object is
@@ -497,7 +497,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ responsibleParty.
+     * Recupera il valore della propriet√† responsibleParty.
      * 
      * @return
      *     possible object is
@@ -509,7 +509,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ responsibleParty.
+     * Imposta il valore della propriet√† responsibleParty.
      * 
      * @param value
      *     allowed object is
@@ -550,7 +550,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ performer.
+     * Recupera il valore della propriet√† performer.
      * 
      * @return
      *     possible object is
@@ -562,7 +562,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ performer.
+     * Imposta il valore della propriet√† performer.
      * 
      * @param value
      *     allowed object is
@@ -574,7 +574,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ author.
+     * Recupera il valore della propriet√† author.
      * 
      * @return
      *     possible object is
@@ -586,7 +586,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ author.
+     * Imposta il valore della propriet√† author.
      * 
      * @param value
      *     allowed object is
@@ -627,7 +627,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -639,7 +639,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -767,7 +767,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ component.
+     * Recupera il valore della propriet√† component.
      * 
      * @return
      *     possible object is
@@ -779,7 +779,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ component.
+     * Imposta il valore della propriet√† component.
      * 
      * @param value
      *     allowed object is
@@ -820,7 +820,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Recupera il valore della propriet‡ subjectOf2.
+     * Recupera il valore della propriet√† subjectOf2.
      * 
      * @return
      *     possible object is
@@ -832,7 +832,7 @@ public class COCTMT290000UV06BillableClinicalService {
     }
 
     /**
-     * Imposta il valore della propriet‡ subjectOf2.
+     * Imposta il valore della propriet√† subjectOf2.
      * 
      * @param value
      *     allowed object is

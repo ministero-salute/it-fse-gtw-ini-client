@@ -82,7 +82,7 @@ public class MFMIMT700701UV01Definition {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class MFMIMT700701UV01Definition {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class MFMIMT700701UV01Definition {
     }
 
     /**
-     * Recupera il valore della propriet‡ actDefinition.
+     * Recupera il valore della propriet√† actDefinition.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class MFMIMT700701UV01Definition {
     }
 
     /**
-     * Imposta il valore della propriet‡ actDefinition.
+     * Imposta il valore della propriet√† actDefinition.
      * 
      * @param value
      *     allowed object is

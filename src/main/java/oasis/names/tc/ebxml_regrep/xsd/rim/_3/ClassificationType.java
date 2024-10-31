@@ -51,7 +51,7 @@ public class ClassificationType
     protected String nodeRepresentation;
 
     /**
-     * Recupera il valore della propriet‡ classificationScheme.
+     * Recupera il valore della propriet√† classificationScheme.
      * 
      * @return
      *     possible object is
@@ -63,7 +63,7 @@ public class ClassificationType
     }
 
     /**
-     * Imposta il valore della propriet‡ classificationScheme.
+     * Imposta il valore della propriet√† classificationScheme.
      * 
      * @param value
      *     allowed object is
@@ -75,7 +75,7 @@ public class ClassificationType
     }
 
     /**
-     * Recupera il valore della propriet‡ classifiedObject.
+     * Recupera il valore della propriet√† classifiedObject.
      * 
      * @return
      *     possible object is
@@ -87,7 +87,7 @@ public class ClassificationType
     }
 
     /**
-     * Imposta il valore della propriet‡ classifiedObject.
+     * Imposta il valore della propriet√† classifiedObject.
      * 
      * @param value
      *     allowed object is
@@ -99,7 +99,7 @@ public class ClassificationType
     }
 
     /**
-     * Recupera il valore della propriet‡ classificationNode.
+     * Recupera il valore della propriet√† classificationNode.
      * 
      * @return
      *     possible object is
@@ -111,7 +111,7 @@ public class ClassificationType
     }
 
     /**
-     * Imposta il valore della propriet‡ classificationNode.
+     * Imposta il valore della propriet√† classificationNode.
      * 
      * @param value
      *     allowed object is
@@ -123,7 +123,7 @@ public class ClassificationType
     }
 
     /**
-     * Recupera il valore della propriet‡ nodeRepresentation.
+     * Recupera il valore della propriet√† nodeRepresentation.
      * 
      * @return
      *     possible object is
@@ -135,7 +135,7 @@ public class ClassificationType
     }
 
     /**
-     * Imposta il valore della propriet‡ nodeRepresentation.
+     * Imposta il valore della propriet√† nodeRepresentation.
      * 
      * @param value
      *     allowed object is

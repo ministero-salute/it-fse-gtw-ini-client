@@ -47,7 +47,7 @@ public class ResponseOptionType {
     protected Boolean returnComposedObjects;
 
     /**
-     * Recupera il valore della propriet‡ returnType.
+     * Recupera il valore della propriet√† returnType.
      * 
      * @return
      *     possible object is
@@ -63,7 +63,7 @@ public class ResponseOptionType {
     }
 
     /**
-     * Imposta il valore della propriet‡ returnType.
+     * Imposta il valore della propriet√† returnType.
      * 
      * @param value
      *     allowed object is
@@ -75,7 +75,7 @@ public class ResponseOptionType {
     }
 
     /**
-     * Recupera il valore della propriet‡ returnComposedObjects.
+     * Recupera il valore della propriet√† returnComposedObjects.
      * 
      * @return
      *     possible object is
@@ -91,7 +91,7 @@ public class ResponseOptionType {
     }
 
     /**
-     * Imposta il valore della propriet‡ returnComposedObjects.
+     * Imposta il valore della propriet√† returnComposedObjects.
      * 
      * @param value
      *     allowed object is

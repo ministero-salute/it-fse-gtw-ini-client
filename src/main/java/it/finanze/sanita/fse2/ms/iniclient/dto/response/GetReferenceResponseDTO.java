@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 public class GetReferenceResponseDTO extends ResponseDTO {
 
-	private String uuid;
+	private List<String> uuid;
 	
 	private String documentType;
 

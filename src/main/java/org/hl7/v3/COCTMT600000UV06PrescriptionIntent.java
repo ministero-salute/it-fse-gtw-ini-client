@@ -85,7 +85,7 @@ public class COCTMT600000UV06PrescriptionIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT600000UV06PrescriptionIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT600000UV06PrescriptionIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ inFulfillmentOf.
+     * Recupera il valore della propriet√† inFulfillmentOf.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT600000UV06PrescriptionIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ inFulfillmentOf.
+     * Imposta il valore della propriet√† inFulfillmentOf.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class COCTMT600000UV06PrescriptionIntent {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -232,7 +232,7 @@ public class COCTMT600000UV06PrescriptionIntent {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

@@ -91,7 +91,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +144,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -168,7 +168,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -180,7 +180,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -192,7 +192,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Recupera il valore della propriet‡ scopingOrganization.
+     * Recupera il valore della propriet√† scopingOrganization.
      * 
      * @return
      *     possible object is
@@ -204,7 +204,7 @@ public class COCTMT530000UVRole {
     }
 
     /**
-     * Imposta il valore della propriet‡ scopingOrganization.
+     * Imposta il valore della propriet√† scopingOrganization.
      * 
      * @param value
      *     allowed object is

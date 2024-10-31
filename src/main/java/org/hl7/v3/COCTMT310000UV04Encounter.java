@@ -92,7 +92,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -104,7 +104,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -145,7 +145,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -157,7 +157,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -169,7 +169,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -181,7 +181,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -193,7 +193,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ pertinentInformation.
+     * Recupera il valore della propriet√† pertinentInformation.
      * 
      * @return
      *     possible object is
@@ -205,7 +205,7 @@ public class COCTMT310000UV04Encounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ pertinentInformation.
+     * Imposta il valore della propriet√† pertinentInformation.
      * 
      * @param value
      *     allowed object is

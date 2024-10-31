@@ -41,7 +41,7 @@ public class SXCMTS
     protected SetOperator operator;
 
     /**
-     * Recupera il valore della propriet‡ operator.
+     * Recupera il valore della propriet√† operator.
      * 
      * @return
      *     possible object is
@@ -57,7 +57,7 @@ public class SXCMTS
     }
 
     /**
-     * Imposta il valore della propriet‡ operator.
+     * Imposta il valore della propriet√† operator.
      * 
      * @param value
      *     allowed object is

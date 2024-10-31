@@ -38,7 +38,7 @@ public class NotificationQueryType
     protected RegistryObjectQueryType registryObjectQuery;
 
     /**
-     * Recupera il valore della propriet‡ registryObjectQuery.
+     * Recupera il valore della propriet√† registryObjectQuery.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class NotificationQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ registryObjectQuery.
+     * Imposta il valore della propriet√† registryObjectQuery.
      * 
      * @param value
      *     allowed object is

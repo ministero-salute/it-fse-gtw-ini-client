@@ -112,7 +112,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -124,7 +124,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -276,7 +276,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -288,7 +288,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -300,7 +300,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -312,7 +312,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -324,7 +324,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ relationshipHolder1.
+     * Recupera il valore della propriet√† relationshipHolder1.
      * 
      * @return
      *     possible object is
@@ -336,7 +336,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ relationshipHolder1.
+     * Imposta il valore della propriet√† relationshipHolder1.
      * 
      * @param value
      *     allowed object is
@@ -348,7 +348,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ relationshipHolder2.
+     * Recupera il valore della propriet√† relationshipHolder2.
      * 
      * @return
      *     possible object is
@@ -360,7 +360,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ relationshipHolder2.
+     * Imposta il valore della propriet√† relationshipHolder2.
      * 
      * @param value
      *     allowed object is
@@ -430,7 +430,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -442,7 +442,7 @@ public class PRPAMT201302UV02PersonalRelationship {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

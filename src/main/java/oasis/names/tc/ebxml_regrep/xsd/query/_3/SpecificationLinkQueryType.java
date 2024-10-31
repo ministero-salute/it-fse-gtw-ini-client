@@ -46,7 +46,7 @@ public class SpecificationLinkQueryType
     protected RegistryObjectQueryType specificationObjectQuery;
 
     /**
-     * Recupera il valore della propriet‡ usageDescriptionBranch.
+     * Recupera il valore della propriet√† usageDescriptionBranch.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class SpecificationLinkQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ usageDescriptionBranch.
+     * Imposta il valore della propriet√† usageDescriptionBranch.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class SpecificationLinkQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ serviceBindingQuery.
+     * Recupera il valore della propriet√† serviceBindingQuery.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class SpecificationLinkQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ serviceBindingQuery.
+     * Imposta il valore della propriet√† serviceBindingQuery.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class SpecificationLinkQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ specificationObjectQuery.
+     * Recupera il valore della propriet√† specificationObjectQuery.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class SpecificationLinkQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ specificationObjectQuery.
+     * Imposta il valore della propriet√† specificationObjectQuery.
      * 
      * @param value
      *     allowed object is

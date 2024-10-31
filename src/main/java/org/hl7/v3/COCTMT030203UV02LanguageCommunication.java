@@ -86,7 +86,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Recupera il valore della propriet‡ languageCode.
+     * Recupera il valore della propriet√† languageCode.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Imposta il valore della propriet‡ languageCode.
+     * Imposta il valore della propriet√† languageCode.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Recupera il valore della propriet‡ modeCode.
+     * Recupera il valore della propriet√† modeCode.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Imposta il valore della propriet‡ modeCode.
+     * Imposta il valore della propriet√† modeCode.
      * 
      * @param value
      *     allowed object is
@@ -187,7 +187,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Recupera il valore della propriet‡ proficiencyLevelCode.
+     * Recupera il valore della propriet√† proficiencyLevelCode.
      * 
      * @return
      *     possible object is
@@ -199,7 +199,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Imposta il valore della propriet‡ proficiencyLevelCode.
+     * Imposta il valore della propriet√† proficiencyLevelCode.
      * 
      * @param value
      *     allowed object is
@@ -211,7 +211,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Recupera il valore della propriet‡ preferenceInd.
+     * Recupera il valore della propriet√† preferenceInd.
      * 
      * @return
      *     possible object is
@@ -223,7 +223,7 @@ public class COCTMT030203UV02LanguageCommunication {
     }
 
     /**
-     * Imposta il valore della propriet‡ preferenceInd.
+     * Imposta il valore della propriet√† preferenceInd.
      * 
      * @param value
      *     allowed object is

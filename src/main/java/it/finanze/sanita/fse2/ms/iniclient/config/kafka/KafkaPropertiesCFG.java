@@ -9,7 +9,7 @@
  * 
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package it.finanze.sanita.fse2.ms.iniclient.config;
+package it.finanze.sanita.fse2.ms.iniclient.config.kafka;
 
 import java.util.Properties;
 
@@ -24,18 +24,19 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.Data;
 
 /**
- *
  *	Kafka properties configuration.
  */
 @Data
 @Configuration
 public class KafkaPropertiesCFG {
   
+
 	/**
 	 *  Boostrap server.
 	 */
 	@Value("${kafka.bootstrap-servers}")
 	private String producerBootstrapServers;
+	  
 	
 	/**
 	 * Security protocol.
@@ -67,6 +68,8 @@ public class KafkaPropertiesCFG {
 	@Value("${kafka.properties.ssl.truststore.password}")
 	private transient char[] trustorePassword;
 	 
+	  
+
 	@Autowired
 	private ProfileUtility profileUtility;
 

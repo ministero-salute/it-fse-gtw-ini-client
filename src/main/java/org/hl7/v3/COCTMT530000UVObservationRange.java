@@ -99,7 +99,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -111,7 +111,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -152,7 +152,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -164,7 +164,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -176,7 +176,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -188,7 +188,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -200,7 +200,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ interpretationCode.
+     * Recupera il valore della propriet√† interpretationCode.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ interpretationCode.
+     * Imposta il valore della propriet√† interpretationCode.
      * 
      * @param value
      *     allowed object is
@@ -340,7 +340,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -356,7 +356,7 @@ public class COCTMT530000UVObservationRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

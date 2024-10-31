@@ -118,7 +118,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -130,7 +130,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -200,7 +200,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -212,7 +212,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -224,7 +224,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -236,7 +236,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -248,7 +248,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -260,7 +260,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -533,7 +533,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -545,7 +545,7 @@ public class COCTMT060000UV01Transportation {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

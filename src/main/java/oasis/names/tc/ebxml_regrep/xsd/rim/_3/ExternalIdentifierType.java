@@ -45,7 +45,7 @@ public class ExternalIdentifierType
     protected String value;
 
     /**
-     * Recupera il valore della propriet‡ registryObject.
+     * Recupera il valore della propriet√† registryObject.
      * 
      * @return
      *     possible object is
@@ -57,7 +57,7 @@ public class ExternalIdentifierType
     }
 
     /**
-     * Imposta il valore della propriet‡ registryObject.
+     * Imposta il valore della propriet√† registryObject.
      * 
      * @param value
      *     allowed object is
@@ -69,7 +69,7 @@ public class ExternalIdentifierType
     }
 
     /**
-     * Recupera il valore della propriet‡ identificationScheme.
+     * Recupera il valore della propriet√† identificationScheme.
      * 
      * @return
      *     possible object is
@@ -81,7 +81,7 @@ public class ExternalIdentifierType
     }
 
     /**
-     * Imposta il valore della propriet‡ identificationScheme.
+     * Imposta il valore della propriet√† identificationScheme.
      * 
      * @param value
      *     allowed object is
@@ -93,7 +93,7 @@ public class ExternalIdentifierType
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -105,7 +105,7 @@ public class ExternalIdentifierType
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

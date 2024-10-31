@@ -105,7 +105,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -187,7 +187,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -199,7 +199,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -269,7 +269,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ agentPerson.
+     * Recupera il valore della propriet√† agentPerson.
      * 
      * @return
      *     possible object is
@@ -281,7 +281,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ agentPerson.
+     * Imposta il valore della propriet√† agentPerson.
      * 
      * @param value
      *     allowed object is
@@ -293,7 +293,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ representedPerson.
+     * Recupera il valore della propriet√† representedPerson.
      * 
      * @return
      *     possible object is
@@ -305,7 +305,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ representedPerson.
+     * Imposta il valore della propriet√† representedPerson.
      * 
      * @param value
      *     allowed object is
@@ -317,7 +317,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Recupera il valore della propriet‡ representedOrganization.
+     * Recupera il valore della propriet√† representedOrganization.
      * 
      * @return
      *     possible object is
@@ -329,7 +329,7 @@ public class COCTMT510000UV06ResponsibleParty {
     }
 
     /**
-     * Imposta il valore della propriet‡ representedOrganization.
+     * Imposta il valore della propriet√† representedOrganization.
      * 
      * @param value
      *     allowed object is

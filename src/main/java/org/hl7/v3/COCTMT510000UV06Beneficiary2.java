@@ -92,7 +92,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -104,7 +104,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -145,7 +145,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ patient.
+     * Recupera il valore della propriet√† patient.
      * 
      * @return
      *     possible object is
@@ -157,7 +157,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ patient.
+     * Imposta il valore della propriet√† patient.
      * 
      * @param value
      *     allowed object is
@@ -169,7 +169,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ beneficiary.
+     * Recupera il valore della propriet√† beneficiary.
      * 
      * @return
      *     possible object is
@@ -181,7 +181,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ beneficiary.
+     * Imposta il valore della propriet√† beneficiary.
      * 
      * @param value
      *     allowed object is
@@ -251,7 +251,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -263,7 +263,7 @@ public class COCTMT510000UV06Beneficiary2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

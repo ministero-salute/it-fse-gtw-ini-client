@@ -46,7 +46,7 @@ public class TelephoneNumberType {
     protected String phoneType;
 
     /**
-     * Recupera il valore della propriet‡ areaCode.
+     * Recupera il valore della propriet√† areaCode.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Imposta il valore della propriet‡ areaCode.
+     * Imposta il valore della propriet√† areaCode.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Recupera il valore della propriet‡ countryCode.
+     * Recupera il valore della propriet√† countryCode.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Imposta il valore della propriet‡ countryCode.
+     * Imposta il valore della propriet√† countryCode.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Recupera il valore della propriet‡ extension.
+     * Recupera il valore della propriet√† extension.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Imposta il valore della propriet‡ extension.
+     * Imposta il valore della propriet√† extension.
      * 
      * @param value
      *     allowed object is
@@ -118,7 +118,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Recupera il valore della propriet‡ number.
+     * Recupera il valore della propriet√† number.
      * 
      * @return
      *     possible object is
@@ -130,7 +130,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Imposta il valore della propriet‡ number.
+     * Imposta il valore della propriet√† number.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Recupera il valore della propriet‡ phoneType.
+     * Recupera il valore della propriet√† phoneType.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class TelephoneNumberType {
     }
 
     /**
-     * Imposta il valore della propriet‡ phoneType.
+     * Imposta il valore della propriet√† phoneType.
      * 
      * @param value
      *     allowed object is

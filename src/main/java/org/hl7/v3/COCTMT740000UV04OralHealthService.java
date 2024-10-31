@@ -124,7 +124,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -136,7 +136,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -177,7 +177,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -189,7 +189,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -201,7 +201,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -213,7 +213,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -225,7 +225,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -237,7 +237,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -307,7 +307,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ responsibleParty.
+     * Recupera il valore della propriet√† responsibleParty.
      * 
      * @return
      *     possible object is
@@ -319,7 +319,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ responsibleParty.
+     * Imposta il valore della propriet√† responsibleParty.
      * 
      * @param value
      *     allowed object is
@@ -331,7 +331,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ performer.
+     * Recupera il valore della propriet√† performer.
      * 
      * @return
      *     possible object is
@@ -343,7 +343,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ performer.
+     * Imposta il valore della propriet√† performer.
      * 
      * @param value
      *     allowed object is
@@ -442,7 +442,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ referencedBy.
+     * Recupera il valore della propriet√† referencedBy.
      * 
      * @return
      *     possible object is
@@ -454,7 +454,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ referencedBy.
+     * Imposta il valore della propriet√† referencedBy.
      * 
      * @param value
      *     allowed object is
@@ -495,7 +495,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -507,7 +507,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -519,7 +519,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -531,7 +531,7 @@ public class COCTMT740000UV04OralHealthService {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

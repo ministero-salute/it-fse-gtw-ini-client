@@ -59,7 +59,7 @@ public class PIVLTS
     protected Boolean institutionSpecified;
 
     /**
-     * Recupera il valore della propriet‡ phase.
+     * Recupera il valore della propriet√† phase.
      * 
      * @return
      *     possible object is
@@ -71,7 +71,7 @@ public class PIVLTS
     }
 
     /**
-     * Imposta il valore della propriet‡ phase.
+     * Imposta il valore della propriet√† phase.
      * 
      * @param value
      *     allowed object is
@@ -83,7 +83,7 @@ public class PIVLTS
     }
 
     /**
-     * Recupera il valore della propriet‡ period.
+     * Recupera il valore della propriet√† period.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class PIVLTS
     }
 
     /**
-     * Imposta il valore della propriet‡ period.
+     * Imposta il valore della propriet√† period.
      * 
      * @param value
      *     allowed object is
@@ -136,7 +136,7 @@ public class PIVLTS
     }
 
     /**
-     * Recupera il valore della propriet‡ institutionSpecified.
+     * Recupera il valore della propriet√† institutionSpecified.
      * 
      * @return
      *     possible object is
@@ -152,7 +152,7 @@ public class PIVLTS
     }
 
     /**
-     * Imposta il valore della propriet‡ institutionSpecified.
+     * Imposta il valore della propriet√† institutionSpecified.
      * 
      * @param value
      *     allowed object is

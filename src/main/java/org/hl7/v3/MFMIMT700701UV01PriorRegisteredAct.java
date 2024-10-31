@@ -85,7 +85,7 @@ public class MFMIMT700701UV01PriorRegisteredAct {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class MFMIMT700701UV01PriorRegisteredAct {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is

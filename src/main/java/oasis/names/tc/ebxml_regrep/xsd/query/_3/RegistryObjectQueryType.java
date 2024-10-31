@@ -127,7 +127,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ nameBranch.
+     * Recupera il valore della propriet√† nameBranch.
      * 
      * @return
      *     possible object is
@@ -139,7 +139,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ nameBranch.
+     * Imposta il valore della propriet√† nameBranch.
      * 
      * @param value
      *     allowed object is
@@ -151,7 +151,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ descriptionBranch.
+     * Recupera il valore della propriet√† descriptionBranch.
      * 
      * @return
      *     possible object is
@@ -163,7 +163,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ descriptionBranch.
+     * Imposta il valore della propriet√† descriptionBranch.
      * 
      * @param value
      *     allowed object is
@@ -175,7 +175,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ versionInfoFilter.
+     * Recupera il valore della propriet√† versionInfoFilter.
      * 
      * @return
      *     possible object is
@@ -187,7 +187,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ versionInfoFilter.
+     * Imposta il valore della propriet√† versionInfoFilter.
      * 
      * @param value
      *     allowed object is
@@ -257,7 +257,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ objectTypeQuery.
+     * Recupera il valore della propriet√† objectTypeQuery.
      * 
      * @return
      *     possible object is
@@ -269,7 +269,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ objectTypeQuery.
+     * Imposta il valore della propriet√† objectTypeQuery.
      * 
      * @param value
      *     allowed object is
@@ -281,7 +281,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ statusQuery.
+     * Recupera il valore della propriet√† statusQuery.
      * 
      * @return
      *     possible object is
@@ -293,7 +293,7 @@ public class RegistryObjectQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ statusQuery.
+     * Imposta il valore della propriet√† statusQuery.
      * 
      * @param value
      *     allowed object is

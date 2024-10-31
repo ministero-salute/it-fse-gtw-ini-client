@@ -59,7 +59,7 @@ public class RegistryType
     protected String conformanceProfile;
 
     /**
-     * Recupera il valore della propriet‡ operator.
+     * Recupera il valore della propriet√† operator.
      * 
      * @return
      *     possible object is
@@ -71,7 +71,7 @@ public class RegistryType
     }
 
     /**
-     * Imposta il valore della propriet‡ operator.
+     * Imposta il valore della propriet√† operator.
      * 
      * @param value
      *     allowed object is
@@ -83,7 +83,7 @@ public class RegistryType
     }
 
     /**
-     * Recupera il valore della propriet‡ specificationVersion.
+     * Recupera il valore della propriet√† specificationVersion.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class RegistryType
     }
 
     /**
-     * Imposta il valore della propriet‡ specificationVersion.
+     * Imposta il valore della propriet√† specificationVersion.
      * 
      * @param value
      *     allowed object is
@@ -107,7 +107,7 @@ public class RegistryType
     }
 
     /**
-     * Recupera il valore della propriet‡ replicationSyncLatency.
+     * Recupera il valore della propriet√† replicationSyncLatency.
      * 
      * @return
      *     possible object is
@@ -119,7 +119,7 @@ public class RegistryType
     }
 
     /**
-     * Imposta il valore della propriet‡ replicationSyncLatency.
+     * Imposta il valore della propriet√† replicationSyncLatency.
      * 
      * @param value
      *     allowed object is
@@ -131,7 +131,7 @@ public class RegistryType
     }
 
     /**
-     * Recupera il valore della propriet‡ catalogingLatency.
+     * Recupera il valore della propriet√† catalogingLatency.
      * 
      * @return
      *     possible object is
@@ -143,7 +143,7 @@ public class RegistryType
     }
 
     /**
-     * Imposta il valore della propriet‡ catalogingLatency.
+     * Imposta il valore della propriet√† catalogingLatency.
      * 
      * @param value
      *     allowed object is
@@ -155,7 +155,7 @@ public class RegistryType
     }
 
     /**
-     * Recupera il valore della propriet‡ conformanceProfile.
+     * Recupera il valore della propriet√† conformanceProfile.
      * 
      * @return
      *     possible object is
@@ -171,7 +171,7 @@ public class RegistryType
     }
 
     /**
-     * Imposta il valore della propriet‡ conformanceProfile.
+     * Imposta il valore della propriet√† conformanceProfile.
      * 
      * @param value
      *     allowed object is

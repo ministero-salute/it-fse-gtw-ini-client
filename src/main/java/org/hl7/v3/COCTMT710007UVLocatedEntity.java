@@ -77,7 +77,7 @@ public class COCTMT710007UVLocatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -89,7 +89,7 @@ public class COCTMT710007UVLocatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -159,7 +159,7 @@ public class COCTMT710007UVLocatedEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -171,7 +171,7 @@ public class COCTMT710007UVLocatedEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

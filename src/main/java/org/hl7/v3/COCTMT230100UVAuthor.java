@@ -85,7 +85,7 @@ public class COCTMT230100UVAuthor {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT230100UVAuthor {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT230100UVAuthor {
     }
 
     /**
-     * Recupera il valore della propriet‡ time.
+     * Recupera il valore della propriet√† time.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT230100UVAuthor {
     }
 
     /**
-     * Imposta il valore della propriet‡ time.
+     * Imposta il valore della propriet√† time.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT230100UVAuthor {
     }
 
     /**
-     * Recupera il valore della propriet‡ territorialAuthority.
+     * Recupera il valore della propriet√† territorialAuthority.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT230100UVAuthor {
     }
 
     /**
-     * Imposta il valore della propriet‡ territorialAuthority.
+     * Imposta il valore della propriet√† territorialAuthority.
      * 
      * @param value
      *     allowed object is

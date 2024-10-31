@@ -83,7 +83,7 @@ public class CD
     protected String displayName;
 
     /**
-     * Recupera il valore della propriet‡ originalText.
+     * Recupera il valore della propriet√† originalText.
      * 
      * @return
      *     possible object is
@@ -95,7 +95,7 @@ public class CD
     }
 
     /**
-     * Imposta il valore della propriet‡ originalText.
+     * Imposta il valore della propriet√† originalText.
      * 
      * @param value
      *     allowed object is
@@ -165,7 +165,7 @@ public class CD
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -177,7 +177,7 @@ public class CD
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -189,7 +189,7 @@ public class CD
     }
 
     /**
-     * Recupera il valore della propriet‡ codeSystem.
+     * Recupera il valore della propriet√† codeSystem.
      * 
      * @return
      *     possible object is
@@ -201,7 +201,7 @@ public class CD
     }
 
     /**
-     * Imposta il valore della propriet‡ codeSystem.
+     * Imposta il valore della propriet√† codeSystem.
      * 
      * @param value
      *     allowed object is
@@ -213,7 +213,7 @@ public class CD
     }
 
     /**
-     * Recupera il valore della propriet‡ codeSystemName.
+     * Recupera il valore della propriet√† codeSystemName.
      * 
      * @return
      *     possible object is
@@ -225,7 +225,7 @@ public class CD
     }
 
     /**
-     * Imposta il valore della propriet‡ codeSystemName.
+     * Imposta il valore della propriet√† codeSystemName.
      * 
      * @param value
      *     allowed object is
@@ -237,7 +237,7 @@ public class CD
     }
 
     /**
-     * Recupera il valore della propriet‡ codeSystemVersion.
+     * Recupera il valore della propriet√† codeSystemVersion.
      * 
      * @return
      *     possible object is
@@ -249,7 +249,7 @@ public class CD
     }
 
     /**
-     * Imposta il valore della propriet‡ codeSystemVersion.
+     * Imposta il valore della propriet√† codeSystemVersion.
      * 
      * @param value
      *     allowed object is
@@ -261,7 +261,7 @@ public class CD
     }
 
     /**
-     * Recupera il valore della propriet‡ displayName.
+     * Recupera il valore della propriet√† displayName.
      * 
      * @return
      *     possible object is
@@ -273,7 +273,7 @@ public class CD
     }
 
     /**
-     * Imposta il valore della propriet‡ displayName.
+     * Imposta il valore della propriet√† displayName.
      * 
      * @param value
      *     allowed object is

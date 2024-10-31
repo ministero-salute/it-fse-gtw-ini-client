@@ -125,7 +125,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -137,7 +137,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -178,7 +178,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -190,7 +190,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -231,7 +231,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -243,7 +243,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -255,7 +255,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ riskCode.
+     * Recupera il valore della propriet√† riskCode.
      * 
      * @return
      *     possible object is
@@ -267,7 +267,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ riskCode.
+     * Imposta il valore della propriet√† riskCode.
      * 
      * @param value
      *     allowed object is
@@ -279,7 +279,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ handlingCode.
+     * Recupera il valore della propriet√† handlingCode.
      * 
      * @return
      *     possible object is
@@ -291,7 +291,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ handlingCode.
+     * Imposta il valore della propriet√† handlingCode.
      * 
      * @param value
      *     allowed object is
@@ -303,7 +303,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ lotNumberText.
+     * Recupera il valore della propriet√† lotNumberText.
      * 
      * @return
      *     possible object is
@@ -315,7 +315,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ lotNumberText.
+     * Imposta il valore della propriet√† lotNumberText.
      * 
      * @param value
      *     allowed object is
@@ -327,7 +327,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ expirationTime.
+     * Recupera il valore della propriet√† expirationTime.
      * 
      * @return
      *     possible object is
@@ -339,7 +339,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ expirationTime.
+     * Imposta il valore della propriet√† expirationTime.
      * 
      * @param value
      *     allowed object is
@@ -380,7 +380,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ asManufacturedProduct.
+     * Recupera il valore della propriet√† asManufacturedProduct.
      * 
      * @return
      *     possible object is
@@ -392,7 +392,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ asManufacturedProduct.
+     * Imposta il valore della propriet√† asManufacturedProduct.
      * 
      * @param value
      *     allowed object is
@@ -433,7 +433,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ asContent.
+     * Recupera il valore della propriet√† asContent.
      * 
      * @return
      *     possible object is
@@ -445,7 +445,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ asContent.
+     * Imposta il valore della propriet√† asContent.
      * 
      * @param value
      *     allowed object is
@@ -515,7 +515,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -527,7 +527,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -539,7 +539,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -555,7 +555,7 @@ public class COCTMT080000UVManufactured {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

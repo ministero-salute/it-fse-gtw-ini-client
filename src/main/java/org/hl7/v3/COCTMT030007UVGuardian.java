@@ -107,7 +107,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -119,7 +119,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -247,7 +247,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -259,7 +259,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -271,7 +271,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -283,7 +283,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -295,7 +295,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Recupera il valore della propriet‡ certificateText.
+     * Recupera il valore della propriet√† certificateText.
      * 
      * @return
      *     possible object is
@@ -307,7 +307,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Imposta il valore della propriet‡ certificateText.
+     * Imposta il valore della propriet√† certificateText.
      * 
      * @param value
      *     allowed object is
@@ -319,7 +319,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Recupera il valore della propriet‡ guardianPerson.
+     * Recupera il valore della propriet√† guardianPerson.
      * 
      * @return
      *     possible object is
@@ -331,7 +331,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Imposta il valore della propriet‡ guardianPerson.
+     * Imposta il valore della propriet√† guardianPerson.
      * 
      * @param value
      *     allowed object is
@@ -343,7 +343,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Recupera il valore della propriet‡ guardianOrganization.
+     * Recupera il valore della propriet√† guardianOrganization.
      * 
      * @return
      *     possible object is
@@ -355,7 +355,7 @@ public class COCTMT030007UVGuardian {
     }
 
     /**
-     * Imposta il valore della propriet‡ guardianOrganization.
+     * Imposta il valore della propriet√† guardianOrganization.
      * 
      * @param value
      *     allowed object is

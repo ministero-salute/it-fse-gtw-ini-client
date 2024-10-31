@@ -36,7 +36,7 @@ public class PRPAIN201304UV02
     protected String itsVersion;
 
     /**
-     * Recupera il valore della propriet‡ itsVersion.
+     * Recupera il valore della propriet√† itsVersion.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class PRPAIN201304UV02
     }
 
     /**
-     * Imposta il valore della propriet‡ itsVersion.
+     * Imposta il valore della propriet√† itsVersion.
      * 
      * @param value
      *     allowed object is

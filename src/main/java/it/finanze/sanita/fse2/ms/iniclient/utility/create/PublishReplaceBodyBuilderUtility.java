@@ -14,6 +14,7 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.URN_UUID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public final class PublishReplaceBodyBuilderUtility {
 		ClassificationType classificationObject = new ClassificationType();
 		classificationObject.setClassificationNode("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd");
 		classificationObject.setClassifiedObject(SUBMISSION_ENTRY_ID);
-		classificationObject.setId("Classification1");
+		classificationObject.setId(CLASSIFICATION_ID);
 		classificationObject.setObjectType("urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification");
 		
 		return objectFactory.createClassification(classificationObject);

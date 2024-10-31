@@ -126,7 +126,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -138,7 +138,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -208,7 +208,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -220,7 +220,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -232,7 +232,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -244,7 +244,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -256,7 +256,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -268,7 +268,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -338,7 +338,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ languageCode.
+     * Recupera il valore della propriet√† languageCode.
      * 
      * @return
      *     possible object is
@@ -350,7 +350,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ languageCode.
+     * Imposta il valore della propriet√† languageCode.
      * 
      * @param value
      *     allowed object is
@@ -565,7 +565,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -577,7 +577,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -589,7 +589,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -601,7 +601,7 @@ public class PRPAIN201302UV02MFMIMT700701UV01ControlActProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

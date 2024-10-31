@@ -18,8 +18,7 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 @Getter
 @Setter
 public class GetMetadatiResponseDTO extends ResponseDTO {
-
-
+ 
 	private AdhocQueryResponse response;
 
 	private String errorMessage;

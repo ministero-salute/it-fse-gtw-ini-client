@@ -73,7 +73,8 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
 		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId())); 
-		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
+		//slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
+		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", documentEntryDTO.getConservazioneANorma()));
 		slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", DOCUMENT_SIGNED));
 		slotType1.add(buildSlotObject("urn:ita:2022:description", null, documentEntryDTO.getDescription()));
 		slotType1.add(buildSlotObject("urn:ita:2022:administrativeRequest",null, documentEntryDTO.getAdministrativeRequest()));
@@ -82,6 +83,7 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("creationTime", documentEntryDTO.getCreationTime()));
 		slotType1.add(buildSlotObject("serviceStartTime", documentEntryDTO.getServiceStartTime()));
 		slotType1.add(buildSlotObject("serviceStopTime", documentEntryDTO.getServiceStopTime()));
+		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2013:referenceIdList",null, documentEntryDTO.getReferenceIdList()));
 		return slotType1;
 	}
 	
@@ -113,11 +115,12 @@ public class DocumentEntryBuilderUtility {
 
 		//Event code list
 		if (!CollectionUtils.isEmpty(documentEntryDTO.getEventCodeList())) {
+			int i=0; 
 			for (String eventCode : documentEntryDTO.getEventCodeList()) {
 				SlotType1 eventCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.3");
 				InternationalStringType nameEventCode = buildInternationalStringType(EventCodeEnum.fromValue(eventCode).getDescription());
 				ClassificationType eventCodeClassification = buildClassificationObject(EVENT_CODE.getClassificationScheme(),
-						id, EVENT_CODE.getId(), nameEventCode, eventCodeSlot, eventCode);
+						id, EVENT_CODE.getId()+"_"+i++, nameEventCode, eventCodeSlot, eventCode);
 				out.add(eventCodeClassification);
 			}
 		}

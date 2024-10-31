@@ -67,7 +67,7 @@ public class II
     protected Boolean displayable;
 
     /**
-     * Recupera il valore della propriet‡ root.
+     * Recupera il valore della propriet√† root.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class II
     }
 
     /**
-     * Imposta il valore della propriet‡ root.
+     * Imposta il valore della propriet√† root.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class II
     }
 
     /**
-     * Recupera il valore della propriet‡ extension.
+     * Recupera il valore della propriet√† extension.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class II
     }
 
     /**
-     * Imposta il valore della propriet‡ extension.
+     * Imposta il valore della propriet√† extension.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class II
     }
 
     /**
-     * Recupera il valore della propriet‡ assigningAuthorityName.
+     * Recupera il valore della propriet√† assigningAuthorityName.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class II
     }
 
     /**
-     * Imposta il valore della propriet‡ assigningAuthorityName.
+     * Imposta il valore della propriet√† assigningAuthorityName.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class II
     }
 
     /**
-     * Recupera il valore della propriet‡ displayable.
+     * Recupera il valore della propriet√† displayable.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class II
     }
 
     /**
-     * Imposta il valore della propriet‡ displayable.
+     * Imposta il valore della propriet√† displayable.
      * 
      * @param value
      *     allowed object is

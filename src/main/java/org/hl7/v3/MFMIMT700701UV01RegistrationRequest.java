@@ -88,7 +88,7 @@ public class MFMIMT700701UV01RegistrationRequest {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class MFMIMT700701UV01RegistrationRequest {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is

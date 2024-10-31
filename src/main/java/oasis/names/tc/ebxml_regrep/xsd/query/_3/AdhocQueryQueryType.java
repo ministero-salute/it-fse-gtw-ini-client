@@ -38,7 +38,7 @@ public class AdhocQueryQueryType
     protected QueryExpressionBranchType queryExpressionBranch;
 
     /**
-     * Recupera il valore della propriet‡ queryExpressionBranch.
+     * Recupera il valore della propriet√† queryExpressionBranch.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class AdhocQueryQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ queryExpressionBranch.
+     * Imposta il valore della propriet√† queryExpressionBranch.
      * 
      * @param value
      *     allowed object is

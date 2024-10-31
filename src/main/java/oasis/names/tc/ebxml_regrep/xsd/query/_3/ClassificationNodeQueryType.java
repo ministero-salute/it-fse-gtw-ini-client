@@ -44,7 +44,7 @@ public class ClassificationNodeQueryType
     protected List<ClassificationNodeQueryType> childrenQuery;
 
     /**
-     * Recupera il valore della propriet‡ parentQuery.
+     * Recupera il valore della propriet√† parentQuery.
      * 
      * @return
      *     possible object is
@@ -56,7 +56,7 @@ public class ClassificationNodeQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ parentQuery.
+     * Imposta il valore della propriet√† parentQuery.
      * 
      * @param value
      *     allowed object is

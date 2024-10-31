@@ -11,22 +11,38 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Size;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.GetReferenceReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditDto;
+import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditsDto;
+import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -84,7 +100,7 @@ public interface IIniOperationCTL {
 		@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class)))
 	})
-	ResponseEntity<GetReferenceResponseDTO> getReference(@PathVariable String idDoc, @RequestBody GetReferenceReqDTO jwtPayload, HttpServletRequest request);
+	ResponseEntity<GetReferenceResponseDTO> getReference(@PathVariable String idDoc, @RequestBody GetReferenceReqDTO requestBody, HttpServletRequest request);
 
 	@PutMapping("/get-merged-metadati")
 	@Operation(summary = "Aggiornamento metadati ad INI", description = "Invia i metadati di una risorsa FHIR ad INI.")
@@ -93,5 +109,24 @@ public interface IIniOperationCTL {
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
 	GetMergedMetadatiResponseDTO getMergedMetadati(@RequestBody MergedMetadatiRequestDTO requestBody, HttpServletRequest request);
+
+	@PostMapping("/get-metadati-post-crash/{idDoc}")
+	@Operation(summary = "Get metadati INI", description = "Get dei metadati dato un oid in input.")
+	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiCrashProgramResponseDTO.class)))
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetMetadatiCrashProgramResponseDTO.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
+	ResponseEntity<GetMetadatiCrashProgramResponseDTO> getMetadatiPostCrash(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
+
+	
+	@GetMapping(value = "/{workflowInstanceId}")
+	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniAuditDto.class)))
+	@Operation(summary = "Recupero eventi del workflow instance id", description = "Recupera il dettaglio degli eventi tramite il workflow instance id.")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Eventi recuperati", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IniAuditsDto.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
+			@ApiResponse(responseCode = "404", description = "Record not found", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))) })
+	IniAuditsDto getEventByWii(@PathVariable(required = true, name = "workflowInstanceId") @Schema(description = "Identificativo del workflow") @Size(min = 0, max = 1000) String workflowInstanceId,HttpServletRequest request);
 
 }

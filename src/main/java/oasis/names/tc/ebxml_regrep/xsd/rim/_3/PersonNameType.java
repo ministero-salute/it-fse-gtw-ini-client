@@ -40,7 +40,7 @@ public class PersonNameType {
     protected String lastName;
 
     /**
-     * Recupera il valore della propriet‡ firstName.
+     * Recupera il valore della propriet√† firstName.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class PersonNameType {
     }
 
     /**
-     * Imposta il valore della propriet‡ firstName.
+     * Imposta il valore della propriet√† firstName.
      * 
      * @param value
      *     allowed object is
@@ -64,7 +64,7 @@ public class PersonNameType {
     }
 
     /**
-     * Recupera il valore della propriet‡ middleName.
+     * Recupera il valore della propriet√† middleName.
      * 
      * @return
      *     possible object is
@@ -76,7 +76,7 @@ public class PersonNameType {
     }
 
     /**
-     * Imposta il valore della propriet‡ middleName.
+     * Imposta il valore della propriet√† middleName.
      * 
      * @param value
      *     allowed object is
@@ -88,7 +88,7 @@ public class PersonNameType {
     }
 
     /**
-     * Recupera il valore della propriet‡ lastName.
+     * Recupera il valore della propriet√† lastName.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class PersonNameType {
     }
 
     /**
-     * Imposta il valore della propriet‡ lastName.
+     * Imposta il valore della propriet√† lastName.
      * 
      * @param value
      *     allowed object is

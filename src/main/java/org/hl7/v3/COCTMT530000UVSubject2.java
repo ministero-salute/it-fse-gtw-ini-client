@@ -102,7 +102,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -114,7 +114,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -155,7 +155,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -167,7 +167,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -179,7 +179,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ awarenessCode.
+     * Recupera il valore della propriet√† awarenessCode.
      * 
      * @return
      *     possible object is
@@ -191,7 +191,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ awarenessCode.
+     * Imposta il valore della propriet√† awarenessCode.
      * 
      * @param value
      *     allowed object is
@@ -203,7 +203,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ patient.
+     * Recupera il valore della propriet√† patient.
      * 
      * @return
      *     possible object is
@@ -215,7 +215,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ patient.
+     * Imposta il valore della propriet√† patient.
      * 
      * @param value
      *     allowed object is
@@ -227,7 +227,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ relatedEntity.
+     * Recupera il valore della propriet√† relatedEntity.
      * 
      * @return
      *     possible object is
@@ -239,7 +239,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ relatedEntity.
+     * Imposta il valore della propriet√† relatedEntity.
      * 
      * @param value
      *     allowed object is
@@ -251,7 +251,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ specimen.
+     * Recupera il valore della propriet√† specimen.
      * 
      * @return
      *     possible object is
@@ -263,7 +263,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ specimen.
+     * Imposta il valore della propriet√† specimen.
      * 
      * @param value
      *     allowed object is
@@ -304,7 +304,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -316,7 +316,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is
@@ -328,7 +328,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -344,7 +344,7 @@ public class COCTMT530000UVSubject2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is

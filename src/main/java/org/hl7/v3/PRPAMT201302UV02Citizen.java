@@ -88,7 +88,7 @@ public class PRPAMT201302UV02Citizen {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class PRPAMT201302UV02Citizen {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -170,7 +170,7 @@ public class PRPAMT201302UV02Citizen {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -182,7 +182,7 @@ public class PRPAMT201302UV02Citizen {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -194,7 +194,7 @@ public class PRPAMT201302UV02Citizen {
     }
 
     /**
-     * Recupera il valore della propriet‡ politicalNation.
+     * Recupera il valore della propriet√† politicalNation.
      * 
      * @return
      *     possible object is
@@ -206,7 +206,7 @@ public class PRPAMT201302UV02Citizen {
     }
 
     /**
-     * Imposta il valore della propriet‡ politicalNation.
+     * Imposta il valore della propriet√† politicalNation.
      * 
      * @param value
      *     allowed object is

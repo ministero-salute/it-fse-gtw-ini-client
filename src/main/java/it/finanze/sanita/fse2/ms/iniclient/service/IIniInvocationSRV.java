@@ -22,17 +22,19 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 public interface IIniInvocationSRV {
 
-	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation);
+	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation, IniEdsInvocationETY ety);
 	
 	IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO);
 
-	IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO);
+	IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO, boolean callUpdateV2);
 	
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
-    GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO);
+    GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO,String workflowInstanceId);
 
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
 	
 	IniEdsInvocationETY findByWII(String workflowInstanceId, final ProcessorOperationEnum operation, Date startingDate);
+	
+	
 }

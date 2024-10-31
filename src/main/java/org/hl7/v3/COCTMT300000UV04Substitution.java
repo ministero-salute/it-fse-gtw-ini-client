@@ -94,7 +94,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -147,7 +147,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -159,7 +159,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Recupera il valore della propriet‡ reasonCode.
+     * Recupera il valore della propriet√† reasonCode.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Imposta il valore della propriet‡ reasonCode.
+     * Imposta il valore della propriet√† reasonCode.
      * 
      * @param value
      *     allowed object is
@@ -195,7 +195,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Recupera il valore della propriet‡ performer.
+     * Recupera il valore della propriet√† performer.
      * 
      * @return
      *     possible object is
@@ -207,7 +207,7 @@ public class COCTMT300000UV04Substitution {
     }
 
     /**
-     * Imposta il valore della propriet‡ performer.
+     * Imposta il valore della propriet√† performer.
      * 
      * @param value
      *     allowed object is

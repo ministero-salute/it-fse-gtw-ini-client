@@ -85,7 +85,7 @@ public class PersonQueryType
     }
 
     /**
-     * Recupera il valore della propriet‡ personNameFilter.
+     * Recupera il valore della propriet√† personNameFilter.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class PersonQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ personNameFilter.
+     * Imposta il valore della propriet√† personNameFilter.
      * 
      * @param value
      *     allowed object is

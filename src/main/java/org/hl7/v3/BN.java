@@ -40,7 +40,7 @@ public class BN
     protected Boolean value;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class BN
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

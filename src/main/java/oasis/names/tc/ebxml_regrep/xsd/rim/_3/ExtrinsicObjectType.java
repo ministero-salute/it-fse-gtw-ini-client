@@ -50,7 +50,7 @@ public class ExtrinsicObjectType
     protected Boolean isOpaque;
 
     /**
-     * Recupera il valore della propriet‡ contentVersionInfo.
+     * Recupera il valore della propriet√† contentVersionInfo.
      * 
      * @return
      *     possible object is
@@ -62,7 +62,7 @@ public class ExtrinsicObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ contentVersionInfo.
+     * Imposta il valore della propriet√† contentVersionInfo.
      * 
      * @param value
      *     allowed object is
@@ -74,7 +74,7 @@ public class ExtrinsicObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ mimeType.
+     * Recupera il valore della propriet√† mimeType.
      * 
      * @return
      *     possible object is
@@ -90,7 +90,7 @@ public class ExtrinsicObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ mimeType.
+     * Imposta il valore della propriet√† mimeType.
      * 
      * @param value
      *     allowed object is
@@ -102,7 +102,7 @@ public class ExtrinsicObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ isOpaque.
+     * Recupera il valore della propriet√† isOpaque.
      * 
      * @return
      *     possible object is
@@ -118,7 +118,7 @@ public class ExtrinsicObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ isOpaque.
+     * Imposta il valore della propriet√† isOpaque.
      * 
      * @param value
      *     allowed object is

@@ -34,7 +34,7 @@ public class BooleanFilterType
     protected boolean value;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      */
     public boolean isValue() {
@@ -42,7 +42,7 @@ public class BooleanFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      */
     public void setValue(boolean value) {

@@ -91,7 +91,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +144,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ seperatableInd.
+     * Recupera il valore della propriet√† seperatableInd.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ seperatableInd.
+     * Imposta il valore della propriet√† seperatableInd.
      * 
      * @param value
      *     allowed object is
@@ -168,7 +168,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ observationRange.
+     * Recupera il valore della propriet√† observationRange.
      * 
      * @return
      *     possible object is
@@ -180,7 +180,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ observationRange.
+     * Imposta il valore della propriet√† observationRange.
      * 
      * @param value
      *     allowed object is
@@ -250,7 +250,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextControlCode.
+     * Recupera il valore della propriet√† contextControlCode.
      * 
      * @return
      *     possible object is
@@ -266,7 +266,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextControlCode.
+     * Imposta il valore della propriet√† contextControlCode.
      * 
      * @param value
      *     allowed object is
@@ -278,7 +278,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Recupera il valore della propriet‡ contextConductionInd.
+     * Recupera il valore della propriet√† contextConductionInd.
      * 
      * @return
      *     possible object is
@@ -294,7 +294,7 @@ public class COCTMT530000UVReferenceRange {
     }
 
     /**
-     * Imposta il valore della propriet‡ contextConductionInd.
+     * Imposta il valore della propriet√† contextConductionInd.
      * 
      * @param value
      *     allowed object is

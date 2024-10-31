@@ -11,26 +11,33 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
 
 /**
  *	Exceptions Handler.
  */
 @ControllerAdvice
+@Slf4j
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
@@ -48,10 +55,10 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	/**
 	 * Management record not found exception received by clients.
-	 * 
+	 *
 	 * @param ex		exception
 	 * @param request	request
-	 * @return			
+	 * @return
 	 */
 	@ExceptionHandler(value = {NotFoundException.class, IdDocumentNotFoundException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final NotFoundException ex, final WebRequest request) {
@@ -60,6 +67,26 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
 
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(value = InputValidationException.class)
+	protected ResponseEntity<ErrorResponseDTO> handleInputValidationException(final InputValidationException ex){
+
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		ErrorDTO inError = new ErrorDTO(CONFLICT.getType(), CONFLICT.getTitle(), ex.getMessage(), CONFLICT.getInstance());
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
+
+		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(value = BadRequestException.class)
+	protected ResponseEntity<ErrorResponseDTO> handleBadRequestException(final BadRequestException ex){
+
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		ErrorDTO inError = new ErrorDTO(VALIDATION.getType(), VALIDATION.getTitle(), ex.getMessage(), VALIDATION.getInstance());
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
+
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 	
 
@@ -70,17 +97,25 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @param request	request
 	 * @return			
 	 */
-	@ExceptionHandler(value = {Exception.class, BusinessException.class})
+	@ExceptionHandler(value = {BusinessException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-		ErrorDTO error = new ErrorDTO(ErrorClassEnum.GENERIC.getType(), ErrorClassEnum.GENERIC.getTitle(), ex.getMessage(), "error/generic");
+		ErrorDTO error = new ErrorDTO(GENERIC.getType(), GENERIC.getTitle(), ex.getMessage(), "error/generic");
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
- 
- 
- 
+
+	@Override
+	protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+
+		ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+
 }

@@ -11,14 +11,18 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.*;
+
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +59,8 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtili
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
@@ -79,18 +85,16 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	@Autowired
 	private SamlHeaderBuilderUtility samlHeaderBuilderUtility;
 
-	 
-	@Override
-	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation) {
-		final Date startingDate = new Date();
 
-		IniEdsInvocationETY iniInvocationETY = findByWII(workflowInstanceId, operation, startingDate);
+	@Override
+	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
+		final Date startingDate = new Date();
 
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
-			out = publishByWorkflowInstanceId(iniInvocationETY,startingDate);
+			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId);
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
-			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate);
+			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate, workflowInstanceId);
 		}
 
 		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
@@ -111,7 +115,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return iniInvocationETY;
 	}
 
-	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
+	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId) {
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
@@ -125,7 +129,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO);
+			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO,
+					workflowInstanceId,startingDate);
+
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
@@ -159,8 +165,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 		return out;
 	}
-	
-	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate) {
+
+	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId) {
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
@@ -173,7 +179,9 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		SubmissionSetEntryDTO submissionSetEntryDTO = CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry());
 		
 		try {
-			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni());
+			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni(),
+					workflowInstanceId,startingDate);
+
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
@@ -217,8 +225,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTPayloadDTO jwtPayloadDTO = CommonUtility.buildJwtPayloadFromDeleteRequest(deleteRequestDTO);
 		
 		try {
+			
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO.getIdDoc(),jwtPayloadDTO, deleteRequestDTO.getUuid());
+			RegistryResponseType res = iniClient.sendDeleteData(deleteRequestDTO,jwtPayloadDTO,deleteRequestDTO.getUuid(),startingDate);
+
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
 					errorMsg.
@@ -255,7 +265,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
  
 	@Override
-	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO) {
+	public IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, final UpdateRequestDTO updateRequestDTO,
+			final boolean callUpdateV2) {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
@@ -265,7 +276,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType registryResponse = iniClient.sendUpdateData(submitObjectRequest,token);
+			RegistryResponseType registryResponse = null;
+			if(callUpdateV2) {
+				registryResponse = iniClient.sendUpdateV2Data(submitObjectRequest,token,updateRequestDTO.getWorkflow_instance_id(),startingDate);
+			} else {
+				registryResponse = iniClient.sendUpdateData(submitObjectRequest,token,updateRequestDTO.getWorkflow_instance_id(),startingDate);
+			}
+			 
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
 					if (!WARNING.equals(error.getSeverity())) {
@@ -304,21 +321,30 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	@Override
-	public GetReferenceResponseDTO getReference(final String oid, final JWTTokenDTO tokenDTO) {
+	public GetReferenceResponseDTO getReference(final String oid, final JWTTokenDTO tokenDTO,String workflowInstanceId) {
+		final Date startingDate = new Date();
 		GetReferenceResponseDTO out = new GetReferenceResponseDTO();
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_REFERENCE);
 
-		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REFERENCE);
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.OBJECT_REF.getSearchKey(), reconfiguredToken, ActionEnumType.READ_REFERENCE,
+				workflowInstanceId,startingDate);
 		StringBuilder sb = buildReferenceResponse(response);
 
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
 			out.setErrorMessage(sb.toString());
 		} else {
-			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response);
+			String documentType = CommonUtility.extractDocumentTypeFromQueryResponse(response); 
 			String authorInstitution = CommonUtility.extractAuthorInstitutionFromQueryResponse(response);
+
 			List<String> administrativeRequest = CommonUtility.extractAdministrativeRequestFromQueryResponse(response);
-			out.setUuid(response.getRegistryObjectList().getIdentifiable().get(0).getValue().getId());
+			List<String> uuids = new ArrayList<>();
+			List<JAXBElement<? extends IdentifiableType>> elements = response.getRegistryObjectList().getIdentifiable();
+			for(int i=0; i<elements.size(); i++){
+				String uuid = elements.get(i).getValue().getId();
+				uuids.add(uuid);
+			}
+			out.setUuid(uuids);
 			out.setDocumentType(documentType);
 			out.setAuthorInstitution(authorInstitution);
 			out.setAdministrativeRequest(administrativeRequest);
@@ -348,11 +374,15 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		JWTTokenDTO token = new JWTTokenDTO(newMetadataDTO.getToken());
 
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(new JWTTokenDTO(newMetadataDTO.getToken()), ActionEnumType.READ_REFERENCE);
-		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken);
+		AdhocQueryResponse oldMetadata = iniClient.getReferenceMetadata(oidToUpdate,SearchTypeEnum.LEAF_CLASS.getSearchKey(), reconfiguredToken,newMetadataDTO.getWorkflow_instance_id());
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
-		String uuid = oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue().getId();
+		ExtrinsicObjectType val = (ExtrinsicObjectType)oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue();
+		String uuid = val.getId();
+		if(!StringUtility.isNullOrEmpty(val.getLid())){
+			uuid = val.getLid();
+		}
 		try (StringWriter sw = new StringWriter()) {
 			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(oldMetadata.getRegistryObjectList(),newMetadataDTO, uuid,token,oidToUpdate);
 			JAXB.marshal(req, sw);

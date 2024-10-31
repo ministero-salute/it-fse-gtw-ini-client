@@ -38,7 +38,7 @@ public class QueryExpressionBranchType
     protected ClassificationNodeQueryType queryLanguageQuery;
 
     /**
-     * Recupera il valore della propriet‡ queryLanguageQuery.
+     * Recupera il valore della propriet√† queryLanguageQuery.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class QueryExpressionBranchType
     }
 
     /**
-     * Imposta il valore della propriet‡ queryLanguageQuery.
+     * Imposta il valore della propriet√† queryLanguageQuery.
      * 
      * @param value
      *     allowed object is

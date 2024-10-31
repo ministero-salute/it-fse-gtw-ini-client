@@ -114,7 +114,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -126,7 +126,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +196,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -208,7 +208,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -307,7 +307,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -319,7 +319,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -331,7 +331,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Recupera il valore della propriet‡ underwritingOrganization.
+     * Recupera il valore della propriet√† underwritingOrganization.
      * 
      * @return
      *     possible object is
@@ -343,7 +343,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Imposta il valore della propriet‡ underwritingOrganization.
+     * Imposta il valore della propriet√† underwritingOrganization.
      * 
      * @param value
      *     allowed object is
@@ -355,7 +355,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Recupera il valore della propriet‡ scoperOrganization.
+     * Recupera il valore della propriet√† scoperOrganization.
      * 
      * @return
      *     possible object is
@@ -367,7 +367,7 @@ public class COCTMT510000UV06Underwriter {
     }
 
     /**
-     * Imposta il valore della propriet‡ scoperOrganization.
+     * Imposta il valore della propriet√† scoperOrganization.
      * 
      * @param value
      *     allowed object is

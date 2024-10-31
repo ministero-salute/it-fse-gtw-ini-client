@@ -47,7 +47,6 @@ import javax.xml.bind.annotation.XmlType;
     "externalIdentifier"
 })
 @XmlSeeAlso({
-    AdhocQueryType.class,
     OrganizationType.class,
     SpecificationLinkType.class,
     ExtrinsicObjectType.class,
@@ -61,6 +60,7 @@ import javax.xml.bind.annotation.XmlType;
     ClassificationNodeType.class,
     ServiceBindingType.class,
     ExternalIdentifierType.class,
+    AdhocQueryType.class,
     ServiceType.class,
     RegistryType.class,
     ExternalLinkType.class,
@@ -90,7 +90,7 @@ public class RegistryObjectType
     protected String status;
 
     /**
-     * Recupera il valore della propriet‡ name.
+     * Recupera il valore della propriet√† name.
      * 
      * @return
      *     possible object is
@@ -102,7 +102,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ name.
+     * Imposta il valore della propriet√† name.
      * 
      * @param value
      *     allowed object is
@@ -114,7 +114,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ description.
+     * Recupera il valore della propriet√† description.
      * 
      * @return
      *     possible object is
@@ -126,7 +126,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ description.
+     * Imposta il valore della propriet√† description.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ versionInfo.
+     * Recupera il valore della propriet√† versionInfo.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ versionInfo.
+     * Imposta il valore della propriet√† versionInfo.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +220,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ lid.
+     * Recupera il valore della propriet√† lid.
      * 
      * @return
      *     possible object is
@@ -232,7 +232,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ lid.
+     * Imposta il valore della propriet√† lid.
      * 
      * @param value
      *     allowed object is
@@ -244,7 +244,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ objectType.
+     * Recupera il valore della propriet√† objectType.
      * 
      * @return
      *     possible object is
@@ -256,7 +256,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ objectType.
+     * Imposta il valore della propriet√† objectType.
      * 
      * @param value
      *     allowed object is
@@ -268,7 +268,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Recupera il valore della propriet‡ status.
+     * Recupera il valore della propriet√† status.
      * 
      * @return
      *     possible object is
@@ -280,7 +280,7 @@ public class RegistryObjectType
     }
 
     /**
-     * Imposta il valore della propriet‡ status.
+     * Imposta il valore della propriet√† status.
      * 
      * @param value
      *     allowed object is

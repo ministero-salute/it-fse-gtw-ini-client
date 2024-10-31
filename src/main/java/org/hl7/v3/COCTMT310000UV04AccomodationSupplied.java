@@ -111,7 +111,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -123,7 +123,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -164,7 +164,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -176,7 +176,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -200,7 +200,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -212,7 +212,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ reasonCode.
+     * Recupera il valore della propriet√† reasonCode.
      * 
      * @return
      *     possible object is
@@ -224,7 +224,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ reasonCode.
+     * Imposta il valore della propriet√† reasonCode.
      * 
      * @param value
      *     allowed object is
@@ -236,7 +236,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -248,7 +248,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -260,7 +260,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ inFulfillmentOf.
+     * Recupera il valore della propriet√† inFulfillmentOf.
      * 
      * @return
      *     possible object is
@@ -272,7 +272,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ inFulfillmentOf.
+     * Imposta il valore della propriet√† inFulfillmentOf.
      * 
      * @param value
      *     allowed object is
@@ -284,7 +284,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ pertinentInformation1.
+     * Recupera il valore della propriet√† pertinentInformation1.
      * 
      * @return
      *     possible object is
@@ -296,7 +296,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ pertinentInformation1.
+     * Imposta il valore della propriet√† pertinentInformation1.
      * 
      * @param value
      *     allowed object is
@@ -308,7 +308,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ pertinentInformation2.
+     * Recupera il valore della propriet√† pertinentInformation2.
      * 
      * @return
      *     possible object is
@@ -320,7 +320,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ pertinentInformation2.
+     * Imposta il valore della propriet√† pertinentInformation2.
      * 
      * @param value
      *     allowed object is
@@ -390,7 +390,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -402,7 +402,7 @@ public class COCTMT310000UV04AccomodationSupplied {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

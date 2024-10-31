@@ -49,7 +49,7 @@ public class PostalAddressType {
     protected String streetNumber;
 
     /**
-     * Recupera il valore della propriet‡ city.
+     * Recupera il valore della propriet√† city.
      * 
      * @return
      *     possible object is
@@ -61,7 +61,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ city.
+     * Imposta il valore della propriet√† city.
      * 
      * @param value
      *     allowed object is
@@ -73,7 +73,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Recupera il valore della propriet‡ country.
+     * Recupera il valore della propriet√† country.
      * 
      * @return
      *     possible object is
@@ -85,7 +85,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ country.
+     * Imposta il valore della propriet√† country.
      * 
      * @param value
      *     allowed object is
@@ -97,7 +97,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Recupera il valore della propriet‡ postalCode.
+     * Recupera il valore della propriet√† postalCode.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ postalCode.
+     * Imposta il valore della propriet√† postalCode.
      * 
      * @param value
      *     allowed object is
@@ -121,7 +121,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Recupera il valore della propriet‡ stateOrProvince.
+     * Recupera il valore della propriet√† stateOrProvince.
      * 
      * @return
      *     possible object is
@@ -133,7 +133,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ stateOrProvince.
+     * Imposta il valore della propriet√† stateOrProvince.
      * 
      * @param value
      *     allowed object is
@@ -145,7 +145,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Recupera il valore della propriet‡ street.
+     * Recupera il valore della propriet√† street.
      * 
      * @return
      *     possible object is
@@ -157,7 +157,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ street.
+     * Imposta il valore della propriet√† street.
      * 
      * @param value
      *     allowed object is
@@ -169,7 +169,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Recupera il valore della propriet‡ streetNumber.
+     * Recupera il valore della propriet√† streetNumber.
      * 
      * @return
      *     possible object is
@@ -181,7 +181,7 @@ public class PostalAddressType {
     }
 
     /**
-     * Imposta il valore della propriet‡ streetNumber.
+     * Imposta il valore della propriet√† streetNumber.
      * 
      * @param value
      *     allowed object is

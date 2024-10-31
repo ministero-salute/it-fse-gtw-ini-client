@@ -38,7 +38,7 @@ public class SubscriptionQueryType
     protected AdhocQueryQueryType selectorQuery;
 
     /**
-     * Recupera il valore della propriet‡ selectorQuery.
+     * Recupera il valore della propriet√† selectorQuery.
      * 
      * @return
      *     possible object is
@@ -50,7 +50,7 @@ public class SubscriptionQueryType
     }
 
     /**
-     * Imposta il valore della propriet‡ selectorQuery.
+     * Imposta il valore della propriet√† selectorQuery.
      * 
      * @param value
      *     allowed object is

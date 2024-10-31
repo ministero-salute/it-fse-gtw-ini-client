@@ -86,7 +86,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -98,7 +98,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -139,7 +139,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Recupera il valore della propriet‡ languageCode.
+     * Recupera il valore della propriet√† languageCode.
      * 
      * @return
      *     possible object is
@@ -151,7 +151,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Imposta il valore della propriet‡ languageCode.
+     * Imposta il valore della propriet√† languageCode.
      * 
      * @param value
      *     allowed object is
@@ -163,7 +163,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Recupera il valore della propriet‡ modeCode.
+     * Recupera il valore della propriet√† modeCode.
      * 
      * @return
      *     possible object is
@@ -175,7 +175,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Imposta il valore della propriet‡ modeCode.
+     * Imposta il valore della propriet√† modeCode.
      * 
      * @param value
      *     allowed object is
@@ -187,7 +187,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Recupera il valore della propriet‡ preferenceInd.
+     * Recupera il valore della propriet√† preferenceInd.
      * 
      * @return
      *     possible object is
@@ -199,7 +199,7 @@ public class COCTMT670000UV04GuarantorLanguage {
     }
 
     /**
-     * Imposta il valore della propriet‡ preferenceInd.
+     * Imposta il valore della propriet√† preferenceInd.
      * 
      * @param value
      *     allowed object is

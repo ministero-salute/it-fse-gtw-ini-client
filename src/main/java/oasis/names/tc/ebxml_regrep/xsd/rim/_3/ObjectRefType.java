@@ -41,7 +41,7 @@ public class ObjectRefType
     protected Boolean createReplica;
 
     /**
-     * Recupera il valore della propriet‡ createReplica.
+     * Recupera il valore della propriet√† createReplica.
      * 
      * @return
      *     possible object is
@@ -57,7 +57,7 @@ public class ObjectRefType
     }
 
     /**
-     * Imposta il valore della propriet‡ createReplica.
+     * Imposta il valore della propriet√† createReplica.
      * 
      * @param value
      *     allowed object is

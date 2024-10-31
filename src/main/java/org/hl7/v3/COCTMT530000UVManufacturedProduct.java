@@ -96,7 +96,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -178,7 +178,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturedLabeledDrug.
+     * Recupera il valore della propriet√† manufacturedLabeledDrug.
      * 
      * @return
      *     possible object is
@@ -190,7 +190,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturedLabeledDrug.
+     * Imposta il valore della propriet√† manufacturedLabeledDrug.
      * 
      * @param value
      *     allowed object is
@@ -202,7 +202,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturedMaterial.
+     * Recupera il valore della propriet√† manufacturedMaterial.
      * 
      * @return
      *     possible object is
@@ -214,7 +214,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturedMaterial.
+     * Imposta il valore della propriet√† manufacturedMaterial.
      * 
      * @param value
      *     allowed object is
@@ -226,7 +226,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ manufacturerOrganization.
+     * Recupera il valore della propriet√† manufacturerOrganization.
      * 
      * @return
      *     possible object is
@@ -238,7 +238,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ manufacturerOrganization.
+     * Imposta il valore della propriet√† manufacturerOrganization.
      * 
      * @param value
      *     allowed object is
@@ -279,7 +279,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -291,7 +291,7 @@ public class COCTMT530000UVManufacturedProduct {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

@@ -87,7 +87,7 @@ public class ClassificationNodeType
     }
 
     /**
-     * Recupera il valore della propriet‡ parent.
+     * Recupera il valore della propriet√† parent.
      * 
      * @return
      *     possible object is
@@ -99,7 +99,7 @@ public class ClassificationNodeType
     }
 
     /**
-     * Imposta il valore della propriet‡ parent.
+     * Imposta il valore della propriet√† parent.
      * 
      * @param value
      *     allowed object is
@@ -111,7 +111,7 @@ public class ClassificationNodeType
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -123,7 +123,7 @@ public class ClassificationNodeType
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class ClassificationNodeType
     }
 
     /**
-     * Recupera il valore della propriet‡ path.
+     * Recupera il valore della propriet√† path.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class ClassificationNodeType
     }
 
     /**
-     * Imposta il valore della propriet‡ path.
+     * Imposta il valore della propriet√† path.
      * 
      * @param value
      *     allowed object is

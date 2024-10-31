@@ -111,7 +111,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -123,7 +123,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -193,7 +193,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -205,7 +205,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -217,7 +217,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ text.
+     * Recupera il valore della propriet√† text.
      * 
      * @return
      *     possible object is
@@ -229,7 +229,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ text.
+     * Imposta il valore della propriet√† text.
      * 
      * @param value
      *     allowed object is
@@ -241,7 +241,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -253,7 +253,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -294,7 +294,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ approachSiteCode.
+     * Recupera il valore della propriet√† approachSiteCode.
      * 
      * @return
      *     possible object is
@@ -306,7 +306,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ approachSiteCode.
+     * Imposta il valore della propriet√† approachSiteCode.
      * 
      * @param value
      *     allowed object is
@@ -318,7 +318,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ targetSiteCode.
+     * Recupera il valore della propriet√† targetSiteCode.
      * 
      * @return
      *     possible object is
@@ -330,7 +330,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ targetSiteCode.
+     * Imposta il valore della propriet√† targetSiteCode.
      * 
      * @param value
      *     allowed object is
@@ -429,7 +429,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -441,7 +441,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -453,7 +453,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Recupera il valore della propriet‡ moodCode.
+     * Recupera il valore della propriet√† moodCode.
      * 
      * @return
      *     possible object is
@@ -465,7 +465,7 @@ public class COCTMT080000UVProcess {
     }
 
     /**
-     * Imposta il valore della propriet‡ moodCode.
+     * Imposta il valore della propriet√† moodCode.
      * 
      * @param value
      *     allowed object is

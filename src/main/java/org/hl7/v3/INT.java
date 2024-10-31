@@ -49,7 +49,7 @@ public class INT
     protected BigInteger value;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -61,7 +61,7 @@ public class INT
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

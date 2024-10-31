@@ -85,7 +85,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ functionCode.
+     * Recupera il valore della propriet√† functionCode.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ functionCode.
+     * Imposta il valore della propriet√† functionCode.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ assignedProvider.
+     * Recupera il valore della propriet√† assignedProvider.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ assignedProvider.
+     * Imposta il valore della propriet√† assignedProvider.
      * 
      * @param value
      *     allowed object is
@@ -215,7 +215,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -227,7 +227,7 @@ public class COCTMT820000UVPerformer {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

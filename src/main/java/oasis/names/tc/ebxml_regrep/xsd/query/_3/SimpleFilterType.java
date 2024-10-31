@@ -61,7 +61,7 @@ public abstract class SimpleFilterType
     protected String comparator;
 
     /**
-     * Recupera il valore della propriet‡ domainAttribute.
+     * Recupera il valore della propriet√† domainAttribute.
      * 
      * @return
      *     possible object is
@@ -73,7 +73,7 @@ public abstract class SimpleFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ domainAttribute.
+     * Imposta il valore della propriet√† domainAttribute.
      * 
      * @param value
      *     allowed object is
@@ -85,7 +85,7 @@ public abstract class SimpleFilterType
     }
 
     /**
-     * Recupera il valore della propriet‡ comparator.
+     * Recupera il valore della propriet√† comparator.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public abstract class SimpleFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ comparator.
+     * Imposta il valore della propriet√† comparator.
      * 
      * @param value
      *     allowed object is

@@ -11,6 +11,10 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.client;
 
+import java.util.Date;
+import java.util.List;
+
+import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
@@ -25,17 +29,23 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
  */
 public interface IIniClient {
 
-    RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntry, SubmissionSetEntryDTO submissionSetEntry, JWTTokenDTO jwtTokenDTO);
+	RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO,
+			String workflowInstanceId,Date startingDate);
     
-    RegistryResponseType sendDeleteData(String idDoc, JWTPayloadDTO jwtToken, String uuid);
-
-    RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO);
+    RegistryResponseType sendDeleteData(DeleteRequestDTO requestDto, JWTPayloadDTO jwtToken, List<String> uuid,Date startingDate);
     
-    RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO, String uuid);
+    
+    RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate);
+    RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate);
+    
+    RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO,
+			JWTTokenDTO jwtTokenDTO, String uuid,String workflowInstanceId,Date startingDate);
     
     AdhocQueryResponse getReferenceUUID(String idDoc, String tipoRicerca,JWTTokenDTO tokenDTO);
     
-    AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken);
+    AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,String workflowInstanceId);
+    
+    AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType,
+			String workflowInstanceId,Date startingDate);
 
-    AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType);
 }

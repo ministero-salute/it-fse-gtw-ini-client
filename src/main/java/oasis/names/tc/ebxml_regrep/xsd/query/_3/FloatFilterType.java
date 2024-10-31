@@ -34,7 +34,7 @@ public class FloatFilterType
     protected float value;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      */
     public float getValue() {
@@ -42,7 +42,7 @@ public class FloatFilterType
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      */
     public void setValue(float value) {

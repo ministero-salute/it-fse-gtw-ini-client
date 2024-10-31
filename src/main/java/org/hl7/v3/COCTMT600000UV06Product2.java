@@ -82,7 +82,7 @@ public class COCTMT600000UV06Product2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT600000UV06Product2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT600000UV06Product2 {
     }
 
     /**
-     * Recupera il valore della propriet‡ supplyObservationEvent.
+     * Recupera il valore della propriet√† supplyObservationEvent.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT600000UV06Product2 {
     }
 
     /**
-     * Imposta il valore della propriet‡ supplyObservationEvent.
+     * Imposta il valore della propriet√† supplyObservationEvent.
      * 
      * @param value
      *     allowed object is

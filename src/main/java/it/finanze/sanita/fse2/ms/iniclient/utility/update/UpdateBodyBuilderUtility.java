@@ -11,6 +11,7 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility.update;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
@@ -19,14 +20,15 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilder
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeAdministrativeRequest;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeClassCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeDescription;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeHealthcareFacilityTypeCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergePracticeSettingCode;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeServiceTime;
-import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUtility.mergeEventTypeCode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBElement;
 
@@ -34,6 +36,8 @@ import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ExternalIdentifierEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuilderUtility;
@@ -92,21 +96,34 @@ public final class UpdateBodyBuilderUtility {
 		ExtrinsicObjectType extrinsicObject = mergeExtrinsicObjectMetadata(list, updateReq,requestUUID);
 		extrinsicObject.setLid(uuid);
 		
+        Optional<ClassificationType> classificationAuthor = findClassificationById(extrinsicObject, "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d");
+		ClassificationType classificationAuthorType = null;
+		if(classificationAuthor.isPresent()){
+			ClassificationType extrinsicObjAuthor = classificationAuthor.get();
+			classificationAuthorType = buildClassificationObjectJax(extrinsicObjAuthor.getClassificationNode(), "urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
+			extrinsicObjAuthor.getClassifiedObject(), extrinsicObjAuthor.getId(), extrinsicObjAuthor.getName(), extrinsicObjAuthor.getSlot(), extrinsicObjAuthor.getObjectType(), extrinsicObjAuthor.getNodeRepresentation()).getValue();
+		}
+
 		// 2. registry package
-		JAXBElement<RegistryPackageType> registryPackage = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(updateReq, jwtTokenDTO.getPayload(), requestUUID);
+		JAXBElement<RegistryPackageType> registryPackage = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(updateReq, jwtTokenDTO.getPayload(), requestUUID,classificationAuthorType);
 		list.add(registryPackage);
 		
 		// 3. Association
 		list.add(buildAssociation(extrinsicObject.getVersionInfo(), requestUUID));
 		
 		// 4. Classification object
-		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,null, null, null, null);
+		String classificationObjectType = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification";
+		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,CLASSIFICATION_ID,null, null, classificationObjectType, null);
 		list.add(classificationObject);
 		
 		out.getIdentifiable().addAll(list);
 		return out;
 	}
 	
+	public static Optional<ClassificationType> findClassificationById(ExtrinsicObjectType extrinsicObject, String classificationScheme) {
+        return extrinsicObject.getClassification().stream().filter(c -> c.getClassificationScheme().equals(classificationScheme)).findFirst();
+    }
+
 	private static JAXBElement<AssociationType1> buildAssociation(VersionInfoType versionInfoType, String requestUUID) {
 		List<SlotType1> associationObject1Slots = new ArrayList<>();
 		SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject("SubmissionSetStatus",null,Collections.singletonList("Original"));
@@ -139,7 +156,7 @@ public final class UpdateBodyBuilderUtility {
 		mergeClassCode(updateRequestBodyDTO, extrinsicObject);
 		mergePracticeSettingCode(updateRequestBodyDTO, extrinsicObject);
 		mergeEventTypeCode(updateRequestBodyDTO, extrinsicObject);
-		
+
 		// 2 Merge slot extrinsic object
 		mergeServiceTime(updateRequestBodyDTO, extrinsicObject);
 		mergeDescription(updateRequestBodyDTO, extrinsicObject);
@@ -148,10 +165,23 @@ public final class UpdateBodyBuilderUtility {
 		extrinsicObject.setId(DOCUMENT_ENTRY_ID);
 		for(ClassificationType classification : extrinsicObject.getClassification()) {
 			classification.setClassifiedObject(DOCUMENT_ENTRY_ID);
-		}
+			classification.setLid(null);			
+			for(ClassificationEnum val : ClassificationEnum.values()) {
+				if(classification.getClassificationScheme().equals(val.getClassificationScheme())){
+					classification.setId(val.getId());
+					break;
+				}	
+			}
+ 		}
 		
 		for(ExternalIdentifierType external : extrinsicObject.getExternalIdentifier()) {
 			external.setRegistryObject(DOCUMENT_ENTRY_ID);
+			external.setLid(null);
+			for(ExternalIdentifierEnum externalIdentifierEnum : ExternalIdentifierEnum.values()) {
+				if(external.getIdentificationScheme().equals(externalIdentifierEnum.getClassificationScheme())) {
+					external.setId(externalIdentifierEnum.getId());		
+				}
+			}
 		}
 		
 		return extrinsicObject;

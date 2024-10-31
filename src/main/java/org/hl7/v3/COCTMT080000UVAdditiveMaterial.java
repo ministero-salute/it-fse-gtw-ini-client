@@ -89,7 +89,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -101,7 +101,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -171,7 +171,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -183,7 +183,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -195,7 +195,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -207,7 +207,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -277,7 +277,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -293,7 +293,7 @@ public class COCTMT080000UVAdditiveMaterial {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

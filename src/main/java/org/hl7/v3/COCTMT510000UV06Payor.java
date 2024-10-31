@@ -110,7 +110,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -122,7 +122,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -192,7 +192,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -204,7 +204,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -303,7 +303,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -315,7 +315,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -327,7 +327,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Recupera il valore della propriet‡ invoicePayorOrganization.
+     * Recupera il valore della propriet√† invoicePayorOrganization.
      * 
      * @return
      *     possible object is
@@ -339,7 +339,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Imposta il valore della propriet‡ invoicePayorOrganization.
+     * Imposta il valore della propriet√† invoicePayorOrganization.
      * 
      * @param value
      *     allowed object is
@@ -351,7 +351,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Recupera il valore della propriet‡ underwritingOrganization.
+     * Recupera il valore della propriet√† underwritingOrganization.
      * 
      * @return
      *     possible object is
@@ -363,7 +363,7 @@ public class COCTMT510000UV06Payor {
     }
 
     /**
-     * Imposta il valore della propriet‡ underwritingOrganization.
+     * Imposta il valore della propriet√† underwritingOrganization.
      * 
      * @param value
      *     allowed object is

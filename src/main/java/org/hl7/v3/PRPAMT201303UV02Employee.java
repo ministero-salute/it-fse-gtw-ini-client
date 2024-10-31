@@ -109,7 +109,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -121,7 +121,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -249,7 +249,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -261,7 +261,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -273,7 +273,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -285,7 +285,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -297,7 +297,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ jobTitleName.
+     * Recupera il valore della propriet√† jobTitleName.
      * 
      * @return
      *     possible object is
@@ -309,7 +309,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ jobTitleName.
+     * Imposta il valore della propriet√† jobTitleName.
      * 
      * @param value
      *     allowed object is
@@ -321,7 +321,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ jobClassCode.
+     * Recupera il valore della propriet√† jobClassCode.
      * 
      * @return
      *     possible object is
@@ -333,7 +333,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ jobClassCode.
+     * Imposta il valore della propriet√† jobClassCode.
      * 
      * @param value
      *     allowed object is
@@ -345,7 +345,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ occupationCode.
+     * Recupera il valore della propriet√† occupationCode.
      * 
      * @return
      *     possible object is
@@ -357,7 +357,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ occupationCode.
+     * Imposta il valore della propriet√† occupationCode.
      * 
      * @param value
      *     allowed object is
@@ -369,7 +369,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ employerOrganization.
+     * Recupera il valore della propriet√† employerOrganization.
      * 
      * @return
      *     possible object is
@@ -381,7 +381,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ employerOrganization.
+     * Imposta il valore della propriet√† employerOrganization.
      * 
      * @param value
      *     allowed object is
@@ -422,7 +422,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -434,7 +434,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is
@@ -446,7 +446,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Recupera il valore della propriet‡ negationInd.
+     * Recupera il valore della propriet√† negationInd.
      * 
      * @return
      *     possible object is
@@ -458,7 +458,7 @@ public class PRPAMT201303UV02Employee {
     }
 
     /**
-     * Imposta il valore della propriet‡ negationInd.
+     * Imposta il valore della propriet√† negationInd.
      * 
      * @param value
      *     allowed object is

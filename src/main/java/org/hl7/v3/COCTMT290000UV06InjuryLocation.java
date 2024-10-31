@@ -103,7 +103,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -115,7 +115,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -185,7 +185,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -197,7 +197,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -238,7 +238,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ addr.
+     * Recupera il valore della propriet√† addr.
      * 
      * @return
      *     possible object is
@@ -250,7 +250,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ addr.
+     * Imposta il valore della propriet√† addr.
      * 
      * @param value
      *     allowed object is
@@ -291,7 +291,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ locatedInjuryPlace.
+     * Recupera il valore della propriet√† locatedInjuryPlace.
      * 
      * @return
      *     possible object is
@@ -303,7 +303,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ locatedInjuryPlace.
+     * Imposta il valore della propriet√† locatedInjuryPlace.
      * 
      * @param value
      *     allowed object is
@@ -373,7 +373,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -385,7 +385,7 @@ public class COCTMT290000UV06InjuryLocation {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

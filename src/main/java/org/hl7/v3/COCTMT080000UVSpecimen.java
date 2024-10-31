@@ -132,7 +132,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -144,7 +144,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -185,7 +185,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -197,7 +197,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -209,7 +209,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -221,7 +221,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -233,7 +233,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ specimenNatural.
+     * Recupera il valore della propriet√† specimenNatural.
      * 
      * @return
      *     possible object is
@@ -245,7 +245,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ specimenNatural.
+     * Imposta il valore della propriet√† specimenNatural.
      * 
      * @param value
      *     allowed object is
@@ -257,7 +257,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ specimenManufactured.
+     * Recupera il valore della propriet√† specimenManufactured.
      * 
      * @return
      *     possible object is
@@ -269,7 +269,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ specimenManufactured.
+     * Imposta il valore della propriet√† specimenManufactured.
      * 
      * @param value
      *     allowed object is
@@ -281,7 +281,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ specimenNonPersonLivingSubject.
+     * Recupera il valore della propriet√† specimenNonPersonLivingSubject.
      * 
      * @return
      *     possible object is
@@ -293,7 +293,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ specimenNonPersonLivingSubject.
+     * Imposta il valore della propriet√† specimenNonPersonLivingSubject.
      * 
      * @param value
      *     allowed object is
@@ -305,7 +305,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ specimenPerson.
+     * Recupera il valore della propriet√† specimenPerson.
      * 
      * @return
      *     possible object is
@@ -317,7 +317,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ specimenPerson.
+     * Imposta il valore della propriet√† specimenPerson.
      * 
      * @param value
      *     allowed object is
@@ -329,7 +329,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ sourceNatural.
+     * Recupera il valore della propriet√† sourceNatural.
      * 
      * @return
      *     possible object is
@@ -341,7 +341,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ sourceNatural.
+     * Imposta il valore della propriet√† sourceNatural.
      * 
      * @param value
      *     allowed object is
@@ -353,7 +353,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ sourceManufactured.
+     * Recupera il valore della propriet√† sourceManufactured.
      * 
      * @return
      *     possible object is
@@ -365,7 +365,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ sourceManufactured.
+     * Imposta il valore della propriet√† sourceManufactured.
      * 
      * @param value
      *     allowed object is
@@ -377,7 +377,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ sourceNonPersonLivingSubject.
+     * Recupera il valore della propriet√† sourceNonPersonLivingSubject.
      * 
      * @return
      *     possible object is
@@ -389,7 +389,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ sourceNonPersonLivingSubject.
+     * Imposta il valore della propriet√† sourceNonPersonLivingSubject.
      * 
      * @param value
      *     allowed object is
@@ -401,7 +401,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ sourcePerson.
+     * Recupera il valore della propriet√† sourcePerson.
      * 
      * @return
      *     possible object is
@@ -413,7 +413,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ sourcePerson.
+     * Imposta il valore della propriet√† sourcePerson.
      * 
      * @param value
      *     allowed object is
@@ -483,7 +483,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ productOf.
+     * Recupera il valore della propriet√† productOf.
      * 
      * @return
      *     possible object is
@@ -495,7 +495,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ productOf.
+     * Imposta il valore della propriet√† productOf.
      * 
      * @param value
      *     allowed object is
@@ -536,7 +536,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Recupera il valore della propriet‡ classCode.
+     * Recupera il valore della propriet√† classCode.
      * 
      * @return
      *     possible object is
@@ -548,7 +548,7 @@ public class COCTMT080000UVSpecimen {
     }
 
     /**
-     * Imposta il valore della propriet‡ classCode.
+     * Imposta il valore della propriet√† classCode.
      * 
      * @param value
      *     allowed object is

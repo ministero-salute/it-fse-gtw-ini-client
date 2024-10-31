@@ -206,12 +206,14 @@ public class SamlBodyBuilderCommonUtility {
 	 * @param uuid
 	 * @return
 	 */
-	public static ObjectRefListType buildObjectRefList(String uuid) {
+	public static ObjectRefListType buildObjectRefList(List<String> uuid) {
 		ObjectRefListType objectRefListType = new ObjectRefListType();
 
-		ObjectRefType objectRef = new ObjectRefType();
-		objectRef.setId(uuid);
-		objectRefListType.getObjectRef().add(objectRef);
+		for(String id : uuid){
+			ObjectRefType objectRef = new ObjectRefType();
+			objectRef.setId(id);
+			objectRefListType.getObjectRef().add(objectRef);
+		}
 		return objectRefListType;
 
 	}

@@ -85,7 +85,7 @@ public class COCTMT080000UVAdditive {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT080000UVAdditive {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT080000UVAdditive {
     }
 
     /**
-     * Recupera il valore della propriet‡ quantity.
+     * Recupera il valore della propriet√† quantity.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT080000UVAdditive {
     }
 
     /**
-     * Imposta il valore della propriet‡ quantity.
+     * Imposta il valore della propriet√† quantity.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT080000UVAdditive {
     }
 
     /**
-     * Recupera il valore della propriet‡ additive.
+     * Recupera il valore della propriet√† additive.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT080000UVAdditive {
     }
 
     /**
-     * Imposta il valore della propriet‡ additive.
+     * Imposta il valore della propriet√† additive.
      * 
      * @param value
      *     allowed object is

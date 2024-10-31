@@ -40,7 +40,7 @@ public class LocalizedStringType {
     protected String value;
 
     /**
-     * Recupera il valore della propriet‡ lang.
+     * Recupera il valore della propriet√† lang.
      * 
      * @return
      *     possible object is
@@ -56,7 +56,7 @@ public class LocalizedStringType {
     }
 
     /**
-     * Imposta il valore della propriet‡ lang.
+     * Imposta il valore della propriet√† lang.
      * 
      * @param value
      *     allowed object is
@@ -68,7 +68,7 @@ public class LocalizedStringType {
     }
 
     /**
-     * Recupera il valore della propriet‡ charset.
+     * Recupera il valore della propriet√† charset.
      * 
      * @return
      *     possible object is
@@ -84,7 +84,7 @@ public class LocalizedStringType {
     }
 
     /**
-     * Imposta il valore della propriet‡ charset.
+     * Imposta il valore della propriet√† charset.
      * 
      * @param value
      *     allowed object is
@@ -96,7 +96,7 @@ public class LocalizedStringType {
     }
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class LocalizedStringType {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is

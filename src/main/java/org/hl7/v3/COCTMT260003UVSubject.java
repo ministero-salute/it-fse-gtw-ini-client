@@ -82,7 +82,7 @@ public class COCTMT260003UVSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT260003UVSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT260003UVSubject {
     }
 
     /**
-     * Recupera il valore della propriet‡ severityObservation.
+     * Recupera il valore della propriet√† severityObservation.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT260003UVSubject {
     }
 
     /**
-     * Imposta il valore della propriet‡ severityObservation.
+     * Imposta il valore della propriet√† severityObservation.
      * 
      * @param value
      *     allowed object is

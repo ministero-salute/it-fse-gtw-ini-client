@@ -106,7 +106,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -118,7 +118,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -200,7 +200,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -212,7 +212,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -224,7 +224,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is
@@ -236,7 +236,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ activityTime.
+     * Recupera il valore della propriet√† activityTime.
      * 
      * @return
      *     possible object is
@@ -248,7 +248,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ activityTime.
+     * Imposta il valore della propriet√† activityTime.
      * 
      * @param value
      *     allowed object is
@@ -260,7 +260,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ priorityCode.
+     * Recupera il valore della propriet√† priorityCode.
      * 
      * @return
      *     possible object is
@@ -272,7 +272,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ priorityCode.
+     * Imposta il valore della propriet√† priorityCode.
      * 
      * @param value
      *     allowed object is
@@ -284,7 +284,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ admissionReferralSourceCode.
+     * Recupera il valore della propriet√† admissionReferralSourceCode.
      * 
      * @return
      *     possible object is
@@ -296,7 +296,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ admissionReferralSourceCode.
+     * Imposta il valore della propriet√† admissionReferralSourceCode.
      * 
      * @param value
      *     allowed object is
@@ -308,7 +308,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Recupera il valore della propriet‡ dischargeDispositionCode.
+     * Recupera il valore della propriet√† dischargeDispositionCode.
      * 
      * @return
      *     possible object is
@@ -320,7 +320,7 @@ public class COCTMT290000UV06PatientEncounter {
     }
 
     /**
-     * Imposta il valore della propriet‡ dischargeDispositionCode.
+     * Imposta il valore della propriet√† dischargeDispositionCode.
      * 
      * @param value
      *     allowed object is

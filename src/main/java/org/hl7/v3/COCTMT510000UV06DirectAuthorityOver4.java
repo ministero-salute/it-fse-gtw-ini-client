@@ -82,7 +82,7 @@ public class COCTMT510000UV06DirectAuthorityOver4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT510000UV06DirectAuthorityOver4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT510000UV06DirectAuthorityOver4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ payor.
+     * Recupera il valore della propriet√† payor.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT510000UV06DirectAuthorityOver4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ payor.
+     * Imposta il valore della propriet√† payor.
      * 
      * @param value
      *     allowed object is
@@ -188,7 +188,7 @@ public class COCTMT510000UV06DirectAuthorityOver4 {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeCode.
+     * Recupera il valore della propriet√† typeCode.
      * 
      * @return
      *     possible object is
@@ -204,7 +204,7 @@ public class COCTMT510000UV06DirectAuthorityOver4 {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeCode.
+     * Imposta il valore della propriet√† typeCode.
      * 
      * @param value
      *     allowed object is

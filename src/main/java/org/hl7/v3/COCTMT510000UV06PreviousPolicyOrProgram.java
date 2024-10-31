@@ -91,7 +91,7 @@ public class COCTMT510000UV06PreviousPolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class COCTMT510000UV06PreviousPolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -173,7 +173,7 @@ public class COCTMT510000UV06PreviousPolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -185,7 +185,7 @@ public class COCTMT510000UV06PreviousPolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -197,7 +197,7 @@ public class COCTMT510000UV06PreviousPolicyOrProgram {
     }
 
     /**
-     * Recupera il valore della propriet‡ effectiveTime.
+     * Recupera il valore della propriet√† effectiveTime.
      * 
      * @return
      *     possible object is
@@ -209,7 +209,7 @@ public class COCTMT510000UV06PreviousPolicyOrProgram {
     }
 
     /**
-     * Imposta il valore della propriet‡ effectiveTime.
+     * Imposta il valore della propriet√† effectiveTime.
      * 
      * @param value
      *     allowed object is

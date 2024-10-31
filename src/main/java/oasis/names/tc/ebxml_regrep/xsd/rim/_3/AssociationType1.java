@@ -49,7 +49,7 @@ public class AssociationType1
     protected String targetObject;
 
     /**
-     * Recupera il valore della propriet‡ associationType.
+     * Recupera il valore della propriet√† associationType.
      * 
      * @return
      *     possible object is
@@ -61,7 +61,7 @@ public class AssociationType1
     }
 
     /**
-     * Imposta il valore della propriet‡ associationType.
+     * Imposta il valore della propriet√† associationType.
      * 
      * @param value
      *     allowed object is
@@ -73,7 +73,7 @@ public class AssociationType1
     }
 
     /**
-     * Recupera il valore della propriet‡ sourceObject.
+     * Recupera il valore della propriet√† sourceObject.
      * 
      * @return
      *     possible object is
@@ -85,7 +85,7 @@ public class AssociationType1
     }
 
     /**
-     * Imposta il valore della propriet‡ sourceObject.
+     * Imposta il valore della propriet√† sourceObject.
      * 
      * @param value
      *     allowed object is
@@ -97,7 +97,7 @@ public class AssociationType1
     }
 
     /**
-     * Recupera il valore della propriet‡ targetObject.
+     * Recupera il valore della propriet√† targetObject.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class AssociationType1
     }
 
     /**
-     * Imposta il valore della propriet‡ targetObject.
+     * Imposta il valore della propriet√† targetObject.
      * 
      * @param value
      *     allowed object is

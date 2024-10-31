@@ -41,7 +41,7 @@ public class ExternalLinkType
     protected String externalURI;
 
     /**
-     * Recupera il valore della propriet‡ externalURI.
+     * Recupera il valore della propriet√† externalURI.
      * 
      * @return
      *     possible object is
@@ -53,7 +53,7 @@ public class ExternalLinkType
     }
 
     /**
-     * Imposta il valore della propriet‡ externalURI.
+     * Imposta il valore della propriet√† externalURI.
      * 
      * @param value
      *     allowed object is

@@ -34,7 +34,7 @@ public class PRPAMT201302UV02StudentId
     protected PRPAMT201302UV02StudentIdUpdateMode updateMode;
 
     /**
-     * Recupera il valore della propriet‡ updateMode.
+     * Recupera il valore della propriet√† updateMode.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class PRPAMT201302UV02StudentId
     }
 
     /**
-     * Imposta il valore della propriet‡ updateMode.
+     * Imposta il valore della propriet√† updateMode.
      * 
      * @param value
      *     allowed object is

@@ -109,7 +109,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -121,7 +121,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -191,7 +191,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ code.
+     * Recupera il valore della propriet√† code.
      * 
      * @return
      *     possible object is
@@ -203,7 +203,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ code.
+     * Imposta il valore della propriet√† code.
      * 
      * @param value
      *     allowed object is
@@ -273,7 +273,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ desc.
+     * Recupera il valore della propriet√† desc.
      * 
      * @return
      *     possible object is
@@ -285,7 +285,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ desc.
+     * Imposta il valore della propriet√† desc.
      * 
      * @param value
      *     allowed object is
@@ -297,7 +297,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ statusCode.
+     * Recupera il valore della propriet√† statusCode.
      * 
      * @return
      *     possible object is
@@ -309,7 +309,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ statusCode.
+     * Imposta il valore della propriet√† statusCode.
      * 
      * @param value
      *     allowed object is
@@ -321,7 +321,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ riskCode.
+     * Recupera il valore della propriet√† riskCode.
      * 
      * @return
      *     possible object is
@@ -333,7 +333,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ riskCode.
+     * Imposta il valore della propriet√† riskCode.
      * 
      * @param value
      *     allowed object is
@@ -345,7 +345,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ handlingCode.
+     * Recupera il valore della propriet√† handlingCode.
      * 
      * @return
      *     possible object is
@@ -357,7 +357,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ handlingCode.
+     * Imposta il valore della propriet√† handlingCode.
      * 
      * @param value
      *     allowed object is
@@ -456,7 +456,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -472,7 +472,7 @@ public class COCTMT530000UVEntity {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

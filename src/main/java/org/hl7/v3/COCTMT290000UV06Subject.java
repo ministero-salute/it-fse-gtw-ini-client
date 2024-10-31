@@ -82,7 +82,7 @@ public class COCTMT290000UV06Subject {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT290000UV06Subject {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT290000UV06Subject {
     }
 
     /**
-     * Recupera il valore della propriet‡ substitution.
+     * Recupera il valore della propriet√† substitution.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT290000UV06Subject {
     }
 
     /**
-     * Imposta il valore della propriet‡ substitution.
+     * Imposta il valore della propriet√† substitution.
      * 
      * @param value
      *     allowed object is

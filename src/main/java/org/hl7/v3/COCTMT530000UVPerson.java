@@ -121,7 +121,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -133,7 +133,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -232,7 +232,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ administrativeGenderCode.
+     * Recupera il valore della propriet√† administrativeGenderCode.
      * 
      * @return
      *     possible object is
@@ -244,7 +244,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ administrativeGenderCode.
+     * Imposta il valore della propriet√† administrativeGenderCode.
      * 
      * @param value
      *     allowed object is
@@ -256,7 +256,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ birthTime.
+     * Recupera il valore della propriet√† birthTime.
      * 
      * @return
      *     possible object is
@@ -268,7 +268,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ birthTime.
+     * Imposta il valore della propriet√† birthTime.
      * 
      * @param value
      *     allowed object is
@@ -280,7 +280,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ multipleBirthInd.
+     * Recupera il valore della propriet√† multipleBirthInd.
      * 
      * @return
      *     possible object is
@@ -292,7 +292,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ multipleBirthInd.
+     * Imposta il valore della propriet√† multipleBirthInd.
      * 
      * @param value
      *     allowed object is
@@ -304,7 +304,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ multipleBirthOrderNumber.
+     * Recupera il valore della propriet√† multipleBirthOrderNumber.
      * 
      * @return
      *     possible object is
@@ -316,7 +316,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ multipleBirthOrderNumber.
+     * Imposta il valore della propriet√† multipleBirthOrderNumber.
      * 
      * @param value
      *     allowed object is
@@ -328,7 +328,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ maritalStatusCode.
+     * Recupera il valore della propriet√† maritalStatusCode.
      * 
      * @return
      *     possible object is
@@ -340,7 +340,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ maritalStatusCode.
+     * Imposta il valore della propriet√† maritalStatusCode.
      * 
      * @param value
      *     allowed object is
@@ -352,7 +352,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ religiousAffiliationCode.
+     * Recupera il valore della propriet√† religiousAffiliationCode.
      * 
      * @return
      *     possible object is
@@ -364,7 +364,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ religiousAffiliationCode.
+     * Imposta il valore della propriet√† religiousAffiliationCode.
      * 
      * @param value
      *     allowed object is
@@ -376,7 +376,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ raceCode.
+     * Recupera il valore della propriet√† raceCode.
      * 
      * @return
      *     possible object is
@@ -388,7 +388,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ raceCode.
+     * Imposta il valore della propriet√† raceCode.
      * 
      * @param value
      *     allowed object is
@@ -400,7 +400,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ ethnicGroupCode.
+     * Recupera il valore della propriet√† ethnicGroupCode.
      * 
      * @return
      *     possible object is
@@ -412,7 +412,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ ethnicGroupCode.
+     * Imposta il valore della propriet√† ethnicGroupCode.
      * 
      * @param value
      *     allowed object is
@@ -453,7 +453,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ birthplace.
+     * Recupera il valore della propriet√† birthplace.
      * 
      * @return
      *     possible object is
@@ -465,7 +465,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ birthplace.
+     * Imposta il valore della propriet√† birthplace.
      * 
      * @param value
      *     allowed object is
@@ -535,7 +535,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Recupera il valore della propriet‡ determinerCode.
+     * Recupera il valore della propriet√† determinerCode.
      * 
      * @return
      *     possible object is
@@ -551,7 +551,7 @@ public class COCTMT530000UVPerson {
     }
 
     /**
-     * Imposta il valore della propriet‡ determinerCode.
+     * Imposta il valore della propriet√† determinerCode.
      * 
      * @param value
      *     allowed object is

@@ -41,7 +41,7 @@ public class NotifyActionType
     protected String endPoint;
 
     /**
-     * Recupera il valore della propriet‡ notificationOption.
+     * Recupera il valore della propriet√† notificationOption.
      * 
      * @return
      *     possible object is
@@ -57,7 +57,7 @@ public class NotifyActionType
     }
 
     /**
-     * Imposta il valore della propriet‡ notificationOption.
+     * Imposta il valore della propriet√† notificationOption.
      * 
      * @param value
      *     allowed object is
@@ -69,7 +69,7 @@ public class NotifyActionType
     }
 
     /**
-     * Recupera il valore della propriet‡ endPoint.
+     * Recupera il valore della propriet√† endPoint.
      * 
      * @return
      *     possible object is
@@ -81,7 +81,7 @@ public class NotifyActionType
     }
 
     /**
-     * Imposta il valore della propriet‡ endPoint.
+     * Imposta il valore della propriet√† endPoint.
      * 
      * @param value
      *     allowed object is

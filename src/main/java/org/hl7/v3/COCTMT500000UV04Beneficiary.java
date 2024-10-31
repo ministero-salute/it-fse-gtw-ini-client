@@ -85,7 +85,7 @@ public class COCTMT500000UV04Beneficiary {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -97,7 +97,7 @@ public class COCTMT500000UV04Beneficiary {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -138,7 +138,7 @@ public class COCTMT500000UV04Beneficiary {
     }
 
     /**
-     * Recupera il valore della propriet‡ sequenceNumber.
+     * Recupera il valore della propriet√† sequenceNumber.
      * 
      * @return
      *     possible object is
@@ -150,7 +150,7 @@ public class COCTMT500000UV04Beneficiary {
     }
 
     /**
-     * Imposta il valore della propriet‡ sequenceNumber.
+     * Imposta il valore della propriet√† sequenceNumber.
      * 
      * @param value
      *     allowed object is
@@ -162,7 +162,7 @@ public class COCTMT500000UV04Beneficiary {
     }
 
     /**
-     * Recupera il valore della propriet‡ policyOrAccount.
+     * Recupera il valore della propriet√† policyOrAccount.
      * 
      * @return
      *     possible object is
@@ -174,7 +174,7 @@ public class COCTMT500000UV04Beneficiary {
     }
 
     /**
-     * Imposta il valore della propriet‡ policyOrAccount.
+     * Imposta il valore della propriet√† policyOrAccount.
      * 
      * @param value
      *     allowed object is

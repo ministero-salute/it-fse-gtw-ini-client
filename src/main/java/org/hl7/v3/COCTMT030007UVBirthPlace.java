@@ -82,7 +82,7 @@ public class COCTMT030007UVBirthPlace {
     }
 
     /**
-     * Recupera il valore della propriet‡ typeId.
+     * Recupera il valore della propriet√† typeId.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class COCTMT030007UVBirthPlace {
     }
 
     /**
-     * Imposta il valore della propriet‡ typeId.
+     * Imposta il valore della propriet√† typeId.
      * 
      * @param value
      *     allowed object is
@@ -135,7 +135,7 @@ public class COCTMT030007UVBirthPlace {
     }
 
     /**
-     * Recupera il valore della propriet‡ birthplace.
+     * Recupera il valore della propriet√† birthplace.
      * 
      * @return
      *     possible object is
@@ -147,7 +147,7 @@ public class COCTMT030007UVBirthPlace {
     }
 
     /**
-     * Imposta il valore della propriet‡ birthplace.
+     * Imposta il valore della propriet√† birthplace.
      * 
      * @param value
      *     allowed object is
