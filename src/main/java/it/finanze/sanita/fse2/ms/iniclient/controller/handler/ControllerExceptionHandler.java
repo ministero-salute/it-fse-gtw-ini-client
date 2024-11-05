@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,7 +32,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
+
+import java.util.Arrays;
 
 /**
  *	Exceptions Handler.
@@ -117,5 +122,25 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
+
+	@Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();	
+
+		ErrorDTO error = new ErrorDTO();
+		if (ex.getCause() instanceof InvalidFormatException) {
+            InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
+            if (invalidFormatException.getTargetType().isEnum()) {
+                String invalidValue = invalidFormatException.getValue().toString();
+                String errorMessage = String.format("Invalid value '%s' for enum. Allowed values are: %s", 
+                        invalidValue, Arrays.toString(invalidFormatException.getTargetType().getEnumConstants()));
+				error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), errorMessage, INVALID_INPUT.getInstance());
+            }
+        }
+		
+		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }
