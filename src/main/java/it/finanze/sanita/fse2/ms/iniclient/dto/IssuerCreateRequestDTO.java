@@ -35,4 +35,7 @@ public class IssuerCreateRequestDTO {
     private String pazienteCf;
 
     private boolean readyToScan;
+
+    @Nullable
+    private boolean isFirstCrashProgram;
 }

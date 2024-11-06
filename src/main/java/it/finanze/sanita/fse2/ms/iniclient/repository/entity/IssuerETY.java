@@ -21,7 +21,7 @@ public class IssuerETY {
     public static final String PAZIENTE_CF = "pazienteCf";
     public static final String EMAIL_SENT = "isEmailSent";
     public static final String READY_TO_SCAN = "readyToScan";
-
+    public static final String FIRST_CRASH_PROGRAM = "firstCrashProgram";
 
 
     @Id
@@ -55,5 +55,8 @@ public class IssuerETY {
 
     @Field(name = EMAIL_SENT)
     private boolean emailSent;
+
+    @Field(name = FIRST_CRASH_PROGRAM)
+    private boolean firstCrashProgram;
     
 } 
