@@ -1,10 +1,15 @@
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
-import com.mongodb.lang.Nullable;
-import it.finanze.sanita.fse2.ms.iniclient.validators.ValidMiddlewareIssuer;
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
+
+import com.mongodb.lang.Nullable;
+
+import it.finanze.sanita.fse2.ms.iniclient.validators.ValidMiddlewareIssuer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Builder
@@ -37,5 +42,5 @@ public class IssuerCreateRequestDTO {
     private boolean readyToScan;
 
     @Nullable
-    private boolean isFirstCrashProgram;
+    private boolean esonerato;
 }

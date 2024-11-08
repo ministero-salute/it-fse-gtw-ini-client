@@ -61,7 +61,7 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setEtichettaRegione(issuerDTO.getEtichettaRegione());
         entity.setPazienteCf(issuerDTO.getPazienteCf());
         entity.setReadyToScan(issuerDTO.isReadyToScan());
-        entity.setFirstCrashProgram(issuerDTO.isFirstCrashProgram());
+        entity.setEsonerato(issuerDTO.isEsonerato());
 
         IssuerETY asl = null;
         if (!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) {
@@ -117,7 +117,7 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setPazienteCf(issuerDTO.getPazienteCf());
         entity.setReadyToScan(issuerDTO.isReadyToScan());
         entity.setEmailSent(issuerETY.isEmailSent());
-        entity.setFirstCrashProgram(issuerDTO.isFirstCrashProgram());
+        entity.setEsonerato(issuerDTO.isEsonerato());
 
         if (issuerDTO.getNomeDocumentRepository() != null && entity.getMiddleware())
             throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");

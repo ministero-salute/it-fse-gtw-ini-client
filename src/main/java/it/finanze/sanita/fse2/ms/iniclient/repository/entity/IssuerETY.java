@@ -1,11 +1,13 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
 
-import com.mongodb.lang.Nullable;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.mongodb.lang.Nullable;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Document(collection = "#{@issuersBean}")
 @Data
@@ -21,7 +23,7 @@ public class IssuerETY {
     public static final String PAZIENTE_CF = "pazienteCf";
     public static final String EMAIL_SENT = "isEmailSent";
     public static final String READY_TO_SCAN = "readyToScan";
-    public static final String FIRST_CRASH_PROGRAM = "firstCrashProgram";
+    public static final String ESONERATO = "esonerato";
 
 
     @Id
@@ -56,7 +58,7 @@ public class IssuerETY {
     @Field(name = EMAIL_SENT)
     private boolean emailSent;
 
-    @Field(name = FIRST_CRASH_PROGRAM)
-    private boolean firstCrashProgram;
+    @Field(name = ESONERATO)
+    private boolean esonerato;
     
 } 
