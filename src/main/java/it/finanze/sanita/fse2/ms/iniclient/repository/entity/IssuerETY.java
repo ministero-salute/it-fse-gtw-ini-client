@@ -6,8 +6,6 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.TestTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -29,7 +27,7 @@ public class IssuerETY {
     public static final String EMAIL_SENT = "isEmailSent";
     public static final String READY_TO_SCAN = "readyToScan";
     public static final String MANDATORY_TESTS = "mandatoryTests";
-
+    public static final String ESONERATO = "esonerato";
 
 
     @Id
@@ -66,5 +64,9 @@ public class IssuerETY {
 
     @Field(name = MANDATORY_TESTS)
     private List<TestTypeEnum> mandatoryTests;
+
+    @Field(name = ESONERATO)
+    private boolean esonerato;
+
     
 } 

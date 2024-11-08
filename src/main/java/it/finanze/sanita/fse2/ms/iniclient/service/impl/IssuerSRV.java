@@ -65,6 +65,7 @@ public class IssuerSRV implements IIssuerSRV {
         List<TestTypeEnum> mandatoryTests = issuerDTO.getMandatoryTests();
         if(mandatoryTests!=null && !mandatoryTests.isEmpty())
             entity.setMandatoryTests(mandatoryTests);
+        entity.setEsonerato(issuerDTO.isEsonerato());
 
         IssuerETY asl = null;
         if (!StringUtility.isNullOrEmpty(issuerDTO.getNomeDocumentRepository())) {
@@ -123,6 +124,7 @@ public class IssuerSRV implements IIssuerSRV {
         List<TestTypeEnum> mandatoryTests = issuerDTO.getMandatoryTests();
         if(mandatoryTests!=null && !mandatoryTests.isEmpty())
             entity.setMandatoryTests(mandatoryTests);
+        entity.setEsonerato(issuerDTO.isEsonerato());
 
         if (issuerDTO.getNomeDocumentRepository() != null && entity.getMiddleware())
             throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
