@@ -57,7 +57,7 @@ public class AuditIniSrv implements IAuditIniSrv {
 			AuditIniETY audit = new AuditIniETY(wii, eventType, eventDate, soapMessage, null,expiringDate);
 			auditRepo.insert(audit);
 		} else if (RESPONSE.equalsIgnoreCase(reqOrRes)) {
-			auditRepo.updateResponseByWii(wii, soapMessage);
+			auditRepo.updateResponseByWiiAndEventType(wii, eventType.name(), soapMessage);
 		}
 	}
 

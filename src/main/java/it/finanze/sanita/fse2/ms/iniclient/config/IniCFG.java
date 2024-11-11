@@ -21,6 +21,9 @@ public class IniCFG {
 
 	@Value("${ini.client.document-registry-service}")
 	private String urlWsdlDocumentRegistryService;
+	
+	@Value("${ini.client.update-document-registry-service}")
+	private String urlWsdlUpdateDocumentRegistryService;
 
 	@Value("${ini.client.delete-service}")
 	private String urlWsdlDeletetService;

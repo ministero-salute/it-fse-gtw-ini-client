@@ -1,9 +1,12 @@
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import com.mongodb.lang.Nullable;
 
+import it.finanze.sanita.fse2.ms.iniclient.enums.TestTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.validators.ValidMiddlewareIssuer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,4 +46,5 @@ public class IssuerCreateRequestDTO {
 
     @Nullable
     private boolean esonerato;
+    private List<TestTypeEnum> mandatoryTests;
 }
