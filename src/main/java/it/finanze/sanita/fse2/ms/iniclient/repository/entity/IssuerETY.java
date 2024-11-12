@@ -1,17 +1,16 @@
 package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
+ 
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.mongodb.lang.Nullable;
 
 import it.finanze.sanita.fse2.ms.iniclient.enums.TestTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
+ 
 @Document(collection = "#{@issuersBean}")
 @Data
 @NoArgsConstructor
