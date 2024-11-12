@@ -3,6 +3,7 @@ package it.finanze.sanita.fse2.ms.iniclient.repository.entity;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.mongodb.lang.Nullable;
