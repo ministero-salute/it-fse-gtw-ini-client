@@ -41,6 +41,8 @@ import com.sun.xml.ws.developer.WSBindingProvider;
 
 import ihe.iti.xds_b._2007.DocumentRegistryPortType;
 import ihe.iti.xds_b._2007.DocumentRegistryService;
+import ihe.iti.xds_b._2007.UpdateDocumentRegistryPortType;
+import ihe.iti.xds_b._2007.UpdateDocumentRegistryService;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
 import ihe.iti.xds_b._2010.XDSDeletetWSService;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
@@ -68,15 +70,6 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_DATE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.EVENT_TYPE;
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniAudit.WII;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_CREATE_SOAP;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_DELETE_SOAP;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_REPLACE_SOAP;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_UPDATE_SOAP;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_RIFERIMENTO_SOAP;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_GET_METADATI_SOAP;
 
 /**
  * Production implemention of Ini Client.
@@ -108,7 +101,8 @@ public class IniClient implements IIniClient {
 	
 	private DocumentRegistryPortType recuperoRiferimentoPort;
 
-
+	private UpdateDocumentRegistryPortType updateDocumentRegistryPort;
+	
 	@PostConstruct
 	void initialize() {
 		try {
@@ -123,6 +117,13 @@ public class IniClient implements IIniClient {
 			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDocumentRegistryService())) {
 				BindingProvider bindingProvider = (BindingProvider) documentRegistryPort;
 				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDocumentRegistryService());
+			} 
+			
+			UpdateDocumentRegistryService updateDocumentRegistryService = new UpdateDocumentRegistryService();
+			updateDocumentRegistryPort = updateDocumentRegistryService.getDocumentRegistryUpdateDocumentSetPortSoap12();
+			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlUpdateDocumentRegistryService())) {
+				BindingProvider bindingProvider = (BindingProvider) updateDocumentRegistryPort;
+				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlUpdateDocumentRegistryService());
 			} 
 
 			XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
@@ -143,6 +144,7 @@ public class IniClient implements IIniClient {
 				((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 				((BindingProvider) recuperoRiferimentoPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+				((BindingProvider) updateDocumentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
 			
 			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
@@ -153,6 +155,10 @@ public class IniClient implements IIniClient {
 			List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
 			handlerChainDelete.add(loggingHandler);
 			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
+			
+			List<Handler> handlerChainUpdate = ((BindingProvider) updateDocumentRegistryPort).getBinding().getHandlerChain();
+			handlerChainUpdate.add(loggingHandler);
+			((BindingProvider) updateDocumentRegistryPort).getBinding().setHandlerChain(handlerChainUpdate);
 
 			List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
 			handlerChainRecuperoRiferimento.add(loggingHandler);
@@ -203,18 +209,23 @@ public class IniClient implements IIniClient {
 	
 	@Override
 	public RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate) {
-		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE_V2);
+		log.debug("Call to INI update ");
+		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE_V2);
+		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
+		bp.setOutboundHeaders(headers);
+
+		bp.getRequestContext().put(WII, workflowInstanceId);
+		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
+		bp.getRequestContext().put(EVENT_DATE, startingDate);
+		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
+//		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE_V2);
 	}
 	
 
 	@Override
 	public RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate) {
-		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
-	}
-	
-	private RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate,ActionEnumType actionEnum) {
-		log.debug("Call to INI update");
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, actionEnum);
+		log.debug("Call to INI update ");
+		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
@@ -222,6 +233,19 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
+//		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
+	}
+	
+	private RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate,ActionEnumType actionEnum) {
+		log.debug("Call to INI update");
+		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, actionEnum);
+		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
+		bp.setOutboundHeaders(headers);
+
+		bp.getRequestContext().put(WII, workflowInstanceId);
+		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
+		bp.getRequestContext().put(EVENT_DATE, startingDate);
+		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
 	}
 
 	@Override
