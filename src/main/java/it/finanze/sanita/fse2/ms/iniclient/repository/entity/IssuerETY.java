@@ -66,7 +66,7 @@ public class IssuerETY {
     private List<TestTypeEnum> mandatoryTests;
 
     @Field(name = ESONERATO)
-    private boolean esonerato;
+    private Boolean esonerato;
 
     
 } 

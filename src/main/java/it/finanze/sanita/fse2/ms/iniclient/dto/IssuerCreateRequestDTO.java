@@ -47,5 +47,5 @@ public class IssuerCreateRequestDTO {
     private List<TestTypeEnum> mandatoryTests;
 
     @Nullable
-    private boolean esonerato;
+    private Boolean esonerato;
 }
