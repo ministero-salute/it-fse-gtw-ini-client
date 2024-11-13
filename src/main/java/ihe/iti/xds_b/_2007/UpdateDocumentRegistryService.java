@@ -18,7 +18,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "DocumentRegistry_Service", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "classpath:wsdl/XDS.b_DocumentRegistry_update.wsdl")
+@WebServiceClient(name = "DocumentRegistry_Service", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "file:/Users/vincenzoingenito/Desktop/CLIENT_INI_NEW/LEO/WSDL_e_SCHEMA_INI/wsdl/XDS.b_DocumentRegistry_v1.wsdl")
 public class UpdateDocumentRegistryService extends Service {
 
     private final static URL DOCUMENTREGISTRYSERVICE_WSDL_LOCATION;
@@ -29,7 +29,7 @@ public class UpdateDocumentRegistryService extends Service {
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("classpath:wsdl/XDS.b_DocumentRegistry_update.wsdl");
+            url = new URL("file:/Users/vincenzoingenito/Desktop/CLIENT_INI_NEW/LEO/WSDL_e_SCHEMA_INI/wsdl/XDS.b_DocumentRegistry_v1.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
