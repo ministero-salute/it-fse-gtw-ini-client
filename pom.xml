@@ -192,10 +192,6 @@
 					<groupId>org.owasp.esapi</groupId>
 					<artifactId>esapi</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.apache.santuario</groupId>
-					<artifactId>xmlsec</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 
