@@ -331,7 +331,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				workflowInstanceId,startingDate);
 		StringBuilder sb = buildReferenceResponse(response);
 
-		if(response.getTotalResultCount().intValue()==0) {
+		if(response!=null && response.getTotalResultCount()!=null && response.getTotalResultCount().intValue()==0) {
 			out.setErrorMessage("No record found");
 			return out;
 		}
