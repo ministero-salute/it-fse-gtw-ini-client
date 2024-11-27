@@ -14,7 +14,6 @@ package it.finanze.sanita.fse2.ms.iniclient.service.impl;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_CONTEXT;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_CODE_HEAD_ERROR_MESSAGE;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SEVERITY_HEAD_ERROR_MESSAGE;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.*;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import javax.xml.bind.JAXBElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.webjars.NotFoundException;
 
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
@@ -45,7 +43,10 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IniInvocationRepo;
@@ -110,7 +111,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = String.format("Record con wii %s per l'operazione di %s non trovato", workflowInstanceId, operation);
 			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,message, operation.getOperation(), startingDate, operation.getErrorType(), 
 					null,null, new JWTPayloadDTO(),null,null);
-			throw new NotFoundException(message);
+			throw new IdDocumentNotFoundException(message);
 		}
 		return iniInvocationETY;
 	}
@@ -331,6 +332,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				workflowInstanceId,startingDate);
 		StringBuilder sb = buildReferenceResponse(response);
 
+		if(response!=null && response.getTotalResultCount()!=null && response.getTotalResultCount().intValue()==0) {
+			out.setErrorMessage("No record found");
+			return out;
+		}
+		
 		if(!StringUtility.isNullOrEmpty(sb.toString())){
 			out.setErrorMessage(sb.toString());
 		} else {
@@ -358,7 +364,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 				if (error.getCodeContext().equals("No results from the query")) {
-					throw new NotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
+					throw new IdDocumentNotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
 				} else {
 					sb.append(error.getCodeContext());
 				}
@@ -378,6 +384,11 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
+		
+		if(oldMetadata.getRegistryObjectList().getIdentifiable().isEmpty()) {
+			throw new MergeMetadatoNotFoundException("Attezione, metadati non trovati");
+		}		
+		
 		ExtrinsicObjectType val = (ExtrinsicObjectType)oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue();
 		String uuid = val.getId();
 		if(!StringUtility.isNullOrEmpty(val.getLid())){
