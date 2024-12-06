@@ -386,7 +386,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		
 		if(oldMetadata.getRegistryObjectList().getIdentifiable().isEmpty()) {
-			throw new MergeMetadatoNotFoundException("Attezione, metadati non trovati");
+			throw new MergeMetadatoNotFoundException("Attenzione, metadati non trovati");
 		}		
 		
 		ExtrinsicObjectType val = (ExtrinsicObjectType)oldMetadata.getRegistryObjectList().getIdentifiable().get(0).getValue();
