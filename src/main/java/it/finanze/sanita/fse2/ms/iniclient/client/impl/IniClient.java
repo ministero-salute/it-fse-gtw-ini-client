@@ -69,6 +69,7 @@ import oasis.names.tc.ebxml_regrep.xsd.lcm._3.RemoveObjectsRequestType;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 /**
@@ -236,18 +237,6 @@ public class IniClient implements IIniClient {
 //		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
 	}
 	
-	private RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate,ActionEnumType actionEnum) {
-		log.debug("Call to INI update");
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, actionEnum);
-		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
-		bp.setOutboundHeaders(headers);
-
-		bp.getRequestContext().put(WII, workflowInstanceId);
-		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
-	}
-
 	@Override
 	public RegistryResponseType sendReplaceData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO,
 			final JWTTokenDTO jwtTokenDTO, final String uuid,String workflowInstanceId,Date startingDate) {
@@ -315,13 +304,9 @@ public class IniClient implements IIniClient {
 		 
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
-//			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-//				if (error.getCodeContext().equals("No results from the query")) {
-//					throw new IdDocumentNotFoundException("Non è stato possibile recuperare i riferimenti con i dati forniti in input");
-//				} else {
-//					sb.append(error.getCodeContext());
-//				}
-//			}
+			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+					sb.append(error.getCodeContext());
+			}
 			throw new BusinessException(sb.toString());
 		}
 		return response;
