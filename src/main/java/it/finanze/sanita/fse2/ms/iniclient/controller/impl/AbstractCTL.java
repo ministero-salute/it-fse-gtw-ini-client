@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 
+import java.util.Objects;
+
 /**
  *	Abstract controller.
  */
@@ -26,8 +28,8 @@ public abstract class AbstractCTL {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
 		if (tracer.currentSpan() != null) {
 			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanId(),
-					tracer.currentSpan().context().traceId());
+					Objects.requireNonNull(tracer.currentSpan()).context().spanId(),
+					Objects.requireNonNull(tracer.currentSpan()).context().traceId());
 		}
 		return out;
 	}

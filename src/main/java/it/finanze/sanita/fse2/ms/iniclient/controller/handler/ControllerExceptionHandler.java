@@ -37,6 +37,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  *	Exceptions Handler.
@@ -51,8 +52,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
 		if (tracer.currentSpan() != null) {
 			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanId(),
-					tracer.currentSpan().context().traceId());
+					Objects.requireNonNull(tracer.currentSpan()).context().spanId(),
+					Objects.requireNonNull(tracer.currentSpan()).context().traceId());
 		}
 		return out;
 	}
