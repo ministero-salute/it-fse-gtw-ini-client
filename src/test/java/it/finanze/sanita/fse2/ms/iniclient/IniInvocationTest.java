@@ -21,7 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
@@ -38,11 +41,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
+import ihe.iti.xds_b._2007.DocumentRegistryPortType;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
@@ -92,7 +97,7 @@ class IniInvocationTest {
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class)
         		, any(String.class), any(Date.class)))
                 .thenReturn(new RegistryResponseType());
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,getIniEdsInvocationTest());
         assertTrue(response.getEsito());
         assertNull(response.getMessage());
     }
@@ -102,8 +107,10 @@ class IniInvocationTest {
     void publishErrorTest() {
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), any(String.class), any(Date.class)))
                 .thenThrow(new BusinessException(""));
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null));
+        IniEdsInvocationETY ety = getIniEdsInvocationTest();
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,ety));
     }
+
 
     @Test
     @DisplayName("Publish - error response test")
@@ -111,7 +118,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), any(String.class), any(Date.class)))
                 .thenReturn(registryResponseType);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,getIniEdsInvocationTest());
         assertFalse(response.getEsito());
         assertNotNull(response.getMessage());
     }
@@ -122,7 +129,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
         Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any(), any(),any()))
                 .thenReturn(registryResponseType);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,getIniEdsInvocationTest());
         assertTrue(response.getEsito());
         assertNull(response.getMessage());
     }
@@ -134,7 +141,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null));
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,getIniEdsInvocationTest()));
     }
 
     @Test
@@ -146,7 +153,7 @@ class IniInvocationTest {
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
-        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null);
+        IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE, getIniEdsInvocationTest());
         assertFalse(response.getEsito());
         assertNotNull(response.getMessage());
     }
@@ -194,9 +201,7 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
         Mockito.when(iniClient.sendUpdateData(any(), any(), any(),any())).thenReturn(registryResponseType);
         UpdateRequestDTO updateRequestDTO = JsonUtility.jsonToObject(TestConstants.TEST_UPDATE_REQ_NEW, UpdateRequestDTO.class);
-        IniResponseDTO iniResponse = iniInvocationSRV.updateByRequestBody(null,updateRequestDTO,false);
-        assertFalse(iniResponse.getEsito());
-        assertNotNull(iniResponse.getMessage());
+        assertThrows(BusinessException.class, () -> iniInvocationSRV.updateByRequestBody(null,updateRequestDTO,false));
     }
 
     @Test
@@ -267,5 +272,56 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenThrow(new BusinessException(""));
         assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken()));
+    }
+
+    private IniEdsInvocationETY getIniEdsInvocationTest(){
+        IniEdsInvocationETY ety = new IniEdsInvocationETY();
+        ety.setWorkflowInstanceId("testWII1");
+        Document documentEntry = new Document()
+            .append("mimeType", "application/pdf")
+            .append("entryUUID", "uuid-1234")
+            .append("creationTime", "2024-08-28T07:00:00Z")
+            .append("hash", "abcd1234")
+            .append("size", 123456L)
+            .append("administrativeRequest", Arrays.asList("MOCK-ADM_REQUEST"))
+            .append("status", "active")
+            .append("patientId", "testPatientId")
+            .append("confidentialityCode", "confCode")
+            .append("confidentialityCodeDisplayName", "Confidential")
+            .append("typeCode", "typeCode123")
+            .append("typeCodeName", "Type Code Name")
+            .append("formatCode", "formatCode123")
+            .append("formatCodeName", "Format Code Name")
+            .append("legalAuthenticator", "authenticatorName")
+            .append("sourcePatientInfo", "sourcePatientInfoValue")
+            .append("author", "authorName")
+            .append("authorRole", "authorRoleValue")
+            .append("authorInstitution", "MOCK-AUTHOR_INSTITUTION")
+            .append("representedOrganizationName", "Organization Name")
+            .append("representedOrganizationCode", "OrgCode123")
+            .append("uniqueId", "testIdDoc")
+            .append("referenceIdList", Arrays.asList("refId1", "refId2"))
+            .append("healthcareFacilityTypeCode", "facilityTypeCode123")
+            .append("healthcareFacilityTypeCodeName", "Facility Type Name")
+            .append("eventCodeList", Arrays.asList("eventCode1", "eventCode2"))
+            .append("description", Arrays.asList("description1", "description2"))
+            .append("repositoryUniqueId", "repository123")
+            .append("classCode", "classCode123")
+            .append("classCodeName", "Class Code Name")
+            .append("practiceSettingCode", "practiceCode123")
+            .append("practiceSettingCodeName", "Practice Setting Name")
+            .append("sourcePatientId", "sourcePatientIdValue")
+            .append("serviceStartTime", "2024-08-28T08:00:00Z")
+            .append("serviceStopTime", "2024-08-28T10:00:00Z")
+            .append("conservazioneANorma", "someValue");
+
+        Document tokenEntry = new Document("payload", JWTPayloadDTO.getMockedDocument());
+        List<Document> metadata = new ArrayList<>();
+        metadata.add(new Document("submissionSetEntry", new Document()));
+        metadata.add(new Document("documentEntry", documentEntry));
+        metadata.add(new Document("tokenEntry", tokenEntry));
+        ety.setMetadata(metadata);
+
+        return ety;
     }
 }

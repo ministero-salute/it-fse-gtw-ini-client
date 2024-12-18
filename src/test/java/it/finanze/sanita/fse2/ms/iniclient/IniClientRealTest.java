@@ -122,7 +122,8 @@ class IniClientRealTest extends AbstractTest {
     @Test
     @Disabled("Manually run this test")
     @DisplayName("errorGetMetadataReferenceTest")
-    void errorGetMetadataReferenceTest() {
+    void
+    errorGetMetadataReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         assertThrows(HttpClientErrorException.Forbidden.class, () -> callGetMetadata(idDoc));
     }

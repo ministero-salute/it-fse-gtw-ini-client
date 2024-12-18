@@ -12,48 +12,42 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
 import com.google.gson.Gson;
-import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 import javax.net.ssl.SSLContext;
+import java.security.SecureRandom;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
+@Import(IniClientErrorTest.MockSecurityConfig.class)
 class IniClientErrorTest extends AbstractTest {
 
-    @MockBean
-    private ISecuritySRV securitySRV;
-
-    @BeforeEach
-    void init() throws NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException, KeyStoreException, FileNotFoundException, CertificateException, IOException {
-        Mockito.when(securitySRV.createSslCustomContext()).thenReturn(Mockito.mock(SSLContext.class));
+    @TestConfiguration
+    static class MockSecurityConfig {
+        @Bean
+        @Primary
+        ISecuritySRV mockSecuritySRV() throws Exception {
+            ISecuritySRV mock = mock(ISecuritySRV.class);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, null, new SecureRandom());
+            when(mock.createSslCustomContext()).thenReturn(sslContext);
+            return mock;
+        }
     }
 
     @Test

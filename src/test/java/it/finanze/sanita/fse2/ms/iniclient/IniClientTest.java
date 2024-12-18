@@ -16,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -33,6 +35,9 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Date;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -41,13 +46,17 @@ class IniClientTest extends AbstractTest {
     @MockBean
     private IIniInvocationSRV iniInvocationSRV;
 
+    @SpyBean
+    RestTemplate restTemplate;
+
     @Test
     @DisplayName("errorPublishTest")
     void errorPublishTest() {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(false);
         mockResponse.setMessage("error");
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        when(iniInvocationSRV.findByWII(anyString(), any(ProcessorOperationEnum.class), any(Date.class))).thenReturn(new IniEdsInvocationETY());
+        when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
@@ -62,7 +71,8 @@ class IniClientTest extends AbstractTest {
     void successPublishTest() {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        when(iniInvocationSRV.findByWII(anyString(), any(ProcessorOperationEnum.class), any(Date.class))).thenReturn(new IniEdsInvocationETY());
+        when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
@@ -76,7 +86,7 @@ class IniClientTest extends AbstractTest {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(false);
         mockResponse.setMessage("error");
-        Mockito.when(iniInvocationSRV.deleteByDocumentId(any(DeleteRequestDTO.class)))
+        when(iniInvocationSRV.deleteByDocumentId(any(DeleteRequestDTO.class)))
                 .thenReturn(mockResponse);
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
@@ -91,7 +101,7 @@ class IniClientTest extends AbstractTest {
     void successDeleteTest() {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.deleteByDocumentId(any(DeleteRequestDTO.class)))
+        when(iniInvocationSRV.deleteByDocumentId(any(DeleteRequestDTO.class)))
                 .thenReturn(mockResponse);
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
@@ -102,7 +112,7 @@ class IniClientTest extends AbstractTest {
     @Test
     @DisplayName("errorGetMetadataTest")
     void errorGetMetadataTest() {
-        Mockito.when(iniInvocationSRV.getMetadata(any(), any()))
+        when(iniInvocationSRV.getMetadata(any(), any()))
                 .thenReturn(null);
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<GetMetadatiResponseDTO> response = callGetMetadata(idDoc);
@@ -117,7 +127,8 @@ class IniClientTest extends AbstractTest {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(false);
         mockResponse.setMessage("error");
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        when(iniInvocationSRV.findByWII(anyString(), any(ProcessorOperationEnum.class), any(Date.class))).thenReturn(new IniEdsInvocationETY());
+        when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
@@ -132,7 +143,8 @@ class IniClientTest extends AbstractTest {
     void successReplaceTest() {
         IniResponseDTO mockResponse = new IniResponseDTO();
         mockResponse.setEsito(true);
-        Mockito.when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
+        when(iniInvocationSRV.findByWII(anyString(), any(ProcessorOperationEnum.class), any(Date.class))).thenReturn(new IniEdsInvocationETY());
+        when(iniInvocationSRV.publishOrReplaceOnIni(anyString(), any(ProcessorOperationEnum.class),any(IniEdsInvocationETY.class)))
                 .thenReturn(mockResponse);
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);

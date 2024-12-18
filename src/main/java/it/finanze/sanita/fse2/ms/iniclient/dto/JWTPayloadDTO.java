@@ -11,6 +11,10 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
+import java.util.Arrays;
+
+import org.bson.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -131,5 +135,17 @@ public class JWTPayloadDTO {
 		out.setSubject_application_version("MOCK-VER");
 		out.setIss("MOCK-ISS#ABCDEF");
 		return out;
+	}
+	
+	public static Document getMockedDocument() {
+    	Document doc = new Document();
+    	doc.append("locality", "MOCK-LOCALITY");
+    	doc.append("subject_role", "MOCK-ROLE");
+    	doc.append("subject_application_id", "MOCK-ID");
+    	doc.append("subject_application_vendor", "MOCK-VENDOR");
+    	doc.append("subject_application_version", "MOCK-VER");
+    	doc.append("iss", "MOCK-ISS#ABCDEF");
+		doc.append("locality", "MOCK-LOCALITY");
+		return doc;
 	}
 }
