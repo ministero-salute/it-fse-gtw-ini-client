@@ -54,6 +54,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
@@ -305,7 +306,7 @@ public class IniClient implements IIniClient {
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-					sb.append(error.getCodeContext());
+					sb.append("ERROR_CODE: "+error.getErrorCode() + " ERROR_CONTEXT: " + error.getCodeContext());
 			}
 			throw new BusinessException(sb.toString());
 		}
