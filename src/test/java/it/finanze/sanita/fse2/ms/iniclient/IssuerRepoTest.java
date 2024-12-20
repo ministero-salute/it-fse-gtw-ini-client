@@ -13,17 +13,24 @@ package it.finanze.sanita.fse2.ms.iniclient;
 
 import com.mongodb.client.result.DeleteResult;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl.IssuerRepo;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -33,7 +40,7 @@ class IssuerRepoTest {
     @Autowired
     private IssuerRepo repo;
 
-    @Autowired
+    @SpyBean
     private MongoTemplate mongo;
 
     static final String NAME = "issuerTest";
@@ -69,6 +76,13 @@ class IssuerRepoTest {
     }
 
     @Test
+    @DisplayName("Test when findByName crash")
+    void findByNameExceptionTest(){
+        doThrow(BusinessException.class).when(mongo).findOne(any(Query.class), eq(IssuerETY.class));
+        assertThrows(BusinessException.class, () -> repo.findByName(NAME));
+    }
+
+    @Test
     @DisplayName("Test when createIssuer create a entity")
     void createIssuerTest(){
         IssuerETY entity = new IssuerETY();
@@ -78,6 +92,13 @@ class IssuerRepoTest {
         String id = repo.createIssuer(entity);
 
         assertNotNull(id);
+    }
+
+    @Test
+    @DisplayName("Test when createIssuer crash")
+    void createIssuerExceptionTest(){
+        doThrow(BusinessException.class).when(mongo).insert(any(IssuerETY.class));
+        assertThrows(BusinessException.class, () -> repo.createIssuer(new IssuerETY()));
     }
 
     @Test
@@ -95,4 +116,101 @@ class IssuerRepoTest {
 
         assertEquals(0, dCount);
     }
+
+    @Test
+    @DisplayName("Test findRegioneMiddleware - Successful scenario")
+    void testFindRegioneMiddleware() {
+        // Arrange
+        IssuerETY entity = new IssuerETY();
+        entity.setEtichettaRegione("RegionLabel");
+        entity.setMiddleware(true);
+        mongo.insert(entity);
+
+        // Act
+        IssuerETY result = repo.findRegioneMiddleware("RegionLabel");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("RegionLabel", result.getEtichettaRegione());
+        assertTrue(result.getMiddleware());
+    }
+
+    @Test
+    @DisplayName("Test findRegioneMiddleware - Exception scenario")
+    void testFindRegioneMiddlewareException() {
+        // Arrange
+        doThrow(new RuntimeException("Mongo error")).when(mongo).findOne(any(Query.class), eq(IssuerETY.class));
+
+        // Act & Assert
+        BusinessException ex = assertThrows(BusinessException.class, () -> repo.findRegioneMiddleware("InvalidRegion"));
+        assertEquals("Error while performing isMiddlewareByEtichettaRegione on issuer collection", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test updateIssuer - Successful update")
+    void testUpdateIssuer() {
+        // Arrange
+        IssuerETY entity = new IssuerETY();
+        entity.setIssuer("UpdatedIssuer");
+        entity.setMock(false);
+
+        // Act
+        String updatedId = repo.updateIssuer(entity);
+
+        // Assert
+        assertNotNull(updatedId);
+    }
+
+    @Test
+    @DisplayName("Test findIssuersCrashProgrm - Find valid issuers")
+    void testFindIssuersCrashProgrm() {
+        // Arrange
+        IssuerETY entity = new IssuerETY();
+        entity.setMock(false);
+        entity.setEtichettaRegione("RegionLabel");
+        entity.setPazienteCf("PazienteCF");
+        mongo.insert(entity);
+
+        // Act
+        List<IssuerETY> results = repo.findIssuersCrashProgrm();
+
+        // Assert
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals("RegionLabel", results.get(0).getEtichettaRegione());
+        assertEquals("PazienteCF", results.get(0).getPazienteCf());
+    }
+
+    @Test
+    @DisplayName("Test findByFiscalCode - Successful find")
+    void testFindByFiscalCode() {
+        // Arrange
+        IssuerETY entity = new IssuerETY();
+        entity.setPazienteCf("FiscalCode123");
+        mongo.insert(entity);
+
+        // Act
+        IssuerETY result = repo.findByFiscalCode("FiscalCode123");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("FiscalCode123", result.getPazienteCf());
+    }
+
+    @Test
+    @DisplayName("Test findByNomeDocumentRepository - Successful find")
+    void testFindByNomeDocumentRepository() {
+        // Arrange
+        IssuerETY entity = new IssuerETY();
+        entity.setNomeDocumentRepository("RepositoryName123");
+        mongo.insert(entity);
+
+        // Act
+        IssuerETY result = repo.findByNomeDocumentRepository("RepositoryName123");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("RepositoryName123", result.getNomeDocumentRepository());
+    }
+
 }
