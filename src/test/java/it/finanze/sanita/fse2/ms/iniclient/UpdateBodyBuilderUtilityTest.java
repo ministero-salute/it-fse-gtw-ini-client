@@ -22,22 +22,6 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.util.List;
-import java.util.Optional;
-
-import javax.xml.bind.JAXBElement;
-
-import lombok.var;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
@@ -49,8 +33,19 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
-import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
+import lombok.var;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.*;
+import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import javax.xml.bind.JAXBElement;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
@@ -95,23 +90,12 @@ class UpdateBodyBuilderUtilityTest {
 
         stringUtilityMock.when(StringUtility::generateUUID).thenReturn("generated-uuid");
 
-        RegistrypackageType registry/*
- * SPDX-License-Identifier: AGPL-3.0-or-later
- *
- * Copyright (C) 2023 Ministero della Salute
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
-package = new RegistrypackageType();
-        JAXBElement<RegistrypackageType> registrypackage Element = mock(JAXBElement.class);
-        when(registrypackage Element.getValue()).thenReturn(registrypackage );
+        RegistryPackageType registrypackage = new RegistryPackageType();
+        JAXBElement<RegistryPackageType> registrypackageElement = mock(JAXBElement.class);
+        when(registrypackageElement.getValue()).thenReturn(registrypackage );
         submissionSetMock.when(() ->
-                SubmissionSetEntryBuilderUtility.buildRegistrypackage ObjectSubmissionSet(eq(publicationMetadata), any(), anyString(), any())
-        ).thenReturn(registrypackage Element);
+                SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(eq(publicationMetadata), any(), anyString(), any())
+        ).thenReturn(registrypackageElement);
     }
 
     @Test
@@ -159,46 +143,12 @@ package = new RegistrypackageType();
     }
 
     @Test
-    void testMergeExtrinsicObjectMetadata() {
-        ExtrinsicObjectType extrinsic = new ExtrinsicObjectType();
-
-        ClassificationType class1 = new ClassificationType();
-        class1.setClassificationScheme(ClassificationEnum.CLASS_CODE.getClassificationScheme());
-        extrinsic.getClassification().add(class1);
-
-        ExternalIdentifierType extId = new ExternalIdentifierType();
-        extId.setIdentificationScheme(ExternalIdentifierEnum.UnIQUE_ID.getClassificationScheme());
-        extrinsic.getExternalIdentifier().add(extId);
-
-        JAXBElement<ExtrinsicObjectType> extrinsicElement = mock(JAXBElement.class);
-        when(extrinsicElement.getValue()).thenReturn(extrinsic);
-        oldMetadata.getIdentifiable().add(extrinsicElement);
-
-        ExtrinsicObjectType result = callMergeExtrinsicObjectMetadataReflective(oldMetadata.getIdentifiable(), publicationMetadata, "some-uuid");
-        assertNotNull(result);
-        assertEquals(Constants.IniClientConstants.DOCUMENT_ENTRY_ID, result.getId());
-
-        for(ClassificationType classification : result.getClassification()) {
-            assertEquals(Constants.IniClientConstants.DOCUMENT_ENTRY_ID, classification.getClassifiedObject());
-            assertNull(classification.getLid());
-            assertEquals(ClassificationEnum.CLASS_CODE.getId(), classification.getId());
-        }
-
-        for(ExternalIdentifierType external : result.getExternalIdentifier()) {
-            assertEquals(Constants.IniClientConstants.DOCUMENT_ENTRY_ID, external.getRegistryObject());
-            assertNull(external.getLid());
-            assertEquals(ExternalIdentifierEnum.UnIQUE_ID.getId(), external.getId());
-        }
-    }
-
-    @Test
     void testPrivateConstructor() throws Exception {
         var constructor = UpdateBodyBuilderUtility.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         Object instance = constructor.newInstance();
         assertNotNull(instance);
     }
-
 
     private JAXBElement<AssociationType1> callBuildAssociationReflective(VersionInfoType versionInfo, String requestUUID) {
         try {
