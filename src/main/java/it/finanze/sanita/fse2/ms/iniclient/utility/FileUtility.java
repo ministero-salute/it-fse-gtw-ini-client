@@ -12,7 +12,12 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import lombok.AccessLevel;
@@ -76,4 +81,29 @@ public final class FileUtility {
 		}
 		return b;
 	}
+	
+	public static InputStream getFileFromAbsoluteOrResourceInputStream(String filePath) {
+		InputStream inputStream;
+
+		try {
+			File file = new File(filePath);
+			if (file.exists() && file.isFile()) {
+				inputStream = new FileInputStream(file);
+			} else {
+				Resource resource = new ClassPathResource(filePath);
+				if (resource.exists()) {
+					inputStream = resource.getInputStream();
+				} else {
+					throw new Exception("File not found in both absolute path and classpath: " + filePath);
+				}
+			}
+			
+		} catch(Exception ex) {
+			log.error("Error while get file input stream:", ex);
+			throw new BusinessException(ex);
+		}
+
+		return inputStream;
+	}
+
 }
