@@ -35,9 +35,10 @@ public class AuditIniRepo implements IAuditIniRepo {
 		mongoTemplate.insert(ety);
 	}
 
-	public void updateResponseByWii(String wii, String response) {
+	@Override
+	public void updateResponseByWiiAndEventType(String wii, String eventType,String response) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where(WORKFLOW_INSTANCE_ID).is(wii));
+		query.addCriteria(Criteria.where(WORKFLOW_INSTANCE_ID).is(wii).and(EVENT_TYPE).is(eventType));
 
 		Update update = new Update();
 		update.set(SOAP_RESPONSE, response);

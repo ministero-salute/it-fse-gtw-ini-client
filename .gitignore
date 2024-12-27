@@ -13,3 +13,4 @@ bin/
 tmp/
 .idea
 .DS_Store
+.vscode/launch.json
