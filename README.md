@@ -68,20 +68,23 @@ Copyright 2022 (c) XXXX.
 Please check the [AUTHORS](AUTHORS) file for extended reference.
 
 ## Third-party component licences
-| License                           |
-|-----------------------------------|
-| Apache License 2.0                |
-| BSD                               |
-| BSD 2-Clause                      |
-| BSD 3-Clause                      |
-| Bouncy Castle License             |
-| EDL 1.0                           |
-| EPL 2.0                           |
-| Eclipse Distribution License v1.0 |
-| Eclipse Public License v1.0       |
-| Eclipse Public License v2.0       |
-| MIT License                       |
-| Public Domain (CC0)               |
+| License                              |
+|--------------------------------------|
+| Apache License 2.0                   |
+| BSD                                  |
+| BSD 2-Clause                         |
+| BSD 3-Clause                         |
+| Bouncy Castle License                |
+| CDDL 1.1                             |
+| CDDL + GPLv2 with Classpath Exception|
+| EDL 1.0                              |
+| EPL 2.0                              |
+| Eclipse Distribution License v1.0    |
+| Eclipse Public License v1.0          |
+| Eclipse Public License v2.0          |
+| GNU Lesser General Public License v2.1|
+| MIT License                          |
+| Public Domain (Creative Commons CC0)|
 
 ## Licence details
 
