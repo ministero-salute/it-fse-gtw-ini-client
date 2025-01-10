@@ -64,9 +64,8 @@ public class DocumentEntryBuilderUtility {
 	}
 
 	/**
-	 *
-	 * @param extrinsicObject
 	 * @param documentEntryDTO
+	 * @param jwtPayloadDTO
 	 */
 	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntry(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO) {
 		List<SlotType1> slotType1 = new ArrayList<>();
@@ -84,6 +83,7 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("serviceStartTime", documentEntryDTO.getServiceStartTime()));
 		slotType1.add(buildSlotObject("serviceStopTime", documentEntryDTO.getServiceStopTime()));
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2013:referenceIdList",null, documentEntryDTO.getReferenceIdList()));
+		slotType1.add(buildSlotObject("SubjectApplication", jwtPayloadDTO.mergedSubjectIdVendorVersion()));
 		return slotType1;
 	}
 	
