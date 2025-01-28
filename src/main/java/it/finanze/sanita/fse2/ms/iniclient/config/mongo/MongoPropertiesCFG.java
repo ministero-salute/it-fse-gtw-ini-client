@@ -26,10 +26,15 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)  
 public class MongoPropertiesCFG {
   
- 
 	@Value("${data.mongodb.uri}")
 	private String uri;
 	
 	@Value("${data.mongodb.schema-name}")
 	private String schemaName;
+	
+	@Value("${data.mongodb.encryption.enabled}")
+	private boolean encryptionEnabled;
+	
+	@Value("${data.mongodb.crypting.datakey-id-name}")
+	private String dataKeyIdName;
 }
