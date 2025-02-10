@@ -23,6 +23,8 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bson.Document;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.config.mongo.MongoDatabaseCFG;
+import it.finanze.sanita.fse2.ms.iniclient.config.mongo.MongoPropertiesCFG;
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIniOperationCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.GetMergedMetadatiDTO;
@@ -85,7 +89,13 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	
 	@Autowired
 	private IAuditIniSrv auditIniSrv; 
+
+	@Autowired
+	private MongoDatabaseCFG mongoDbCfg;
 	
+	@Autowired
+	private MongoPropertiesCFG mongoPropsCfg;
+		
 	@Override
 	public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
 		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
@@ -96,6 +106,56 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IniResponseDTO res = null;
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
+//		for(int i=0; i<iniETY.getMetadata().size(); i++) {
+//			Document d = iniETY.getMetadata().get(i);
+//			Object valueToDecrypt = d.get("submissionSetEntry");
+//			if(valueToDecrypt!=null) {
+//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
+//				iniETY.getMetadata().set(i,new Document("submissionSetEntry", decryptedDocument));
+//			}
+//			
+//			valueToDecrypt = d.get("documentEntry");
+//			if(valueToDecrypt!=null) {
+//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
+//				iniETY.getMetadata().set(i,new Document("documentEntry", decryptedDocument));
+//			}
+//			
+//			valueToDecrypt = d.get("tokenEntry");
+//			if(valueToDecrypt!=null) {
+//				valueToDecrypt = ((Document)d.get("tokenEntry")).get("payload");
+//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
+//				iniETY.getMetadata().set(i,new Document("tokenEntry", new Document("payload", decryptedDocument)));
+//			}
+//		}
+		
+		if(mongoPropsCfg.isEncryptionEnabled()) {
+			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
+
+			for (int i = 0; i < iniETY.getMetadata().size(); i++) {
+			    Document d = iniETY.getMetadata().get(i);
+			    
+			    for (String field : fieldsToDecrypt) {
+			        Object valueToDecrypt = d.get(field);
+			        
+			        if (valueToDecrypt != null) {
+			            // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
+			            if ("tokenEntry".equals(field)) {
+			                valueToDecrypt = ((Document) valueToDecrypt).get("payload");
+			            }
+			            
+			            Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
+			            
+			            if ("tokenEntry".equals(field)) {
+			                d.put(field, new Document("payload", decryptedDocument));
+			            } else {
+			                d.put(field, decryptedDocument);
+			            }
+			        }
+			    }
+			}			
+		}
+		
+		 
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
 		} else {
@@ -173,6 +233,34 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		IniResponseDTO res = null;
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
 				new Date());
+		
+		if(mongoPropsCfg.isEncryptionEnabled()) {
+			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
+
+			for (int i = 0; i < iniETY.getMetadata().size(); i++) {
+			    Document d = iniETY.getMetadata().get(i);
+			    
+			    for (String field : fieldsToDecrypt) {
+			        Object valueToDecrypt = d.get(field);
+			        
+			        if (valueToDecrypt != null) {
+			            // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
+			            if ("tokenEntry".equals(field)) {
+			                valueToDecrypt = ((Document) valueToDecrypt).get("payload");
+			            }
+			            
+			            Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
+			            
+			            if ("tokenEntry".equals(field)) {
+			                d.put(field, new Document("payload", decryptedDocument));
+			            } else {
+			                d.put(field, decryptedDocument);
+			            }
+			        }
+			    }
+			}			
+		}
+		
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 		} else {
