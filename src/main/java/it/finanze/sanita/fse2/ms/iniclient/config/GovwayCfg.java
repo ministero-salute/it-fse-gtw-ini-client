@@ -16,7 +16,7 @@ public class GovwayCfg {
 	private String govwayUrl;
 
 	@Value("${govway-port}")
-	private int govwayPort;
+	private Integer govwayPort;
 
 	@Value("${govway-user}")
 	private String govwayUser;
