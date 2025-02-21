@@ -291,7 +291,7 @@ public class IniClient implements IIniClient {
 		RemoveObjectsRequestType removeObjectsRequest = DeleteBodyBuilderUtility.buildRemoveObjectsRequest(deleteRequestDto.getUuid());
 		Holder<RegistryResponseType> holder = new Holder<>();
 
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
@@ -311,7 +311,7 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
@@ -331,7 +331,7 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
@@ -353,7 +353,7 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid);
 
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
@@ -372,7 +372,7 @@ public class IniClient implements IIniClient {
 
 		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
 		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
@@ -405,7 +405,7 @@ public class IniClient implements IIniClient {
 			bp.getRequestContext().put(EVENT_DATE, startingDate);
 			bp.setOutboundHeaders(headers);
 			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 				Map<String, List<String>> h = getBasicAuthCredentials();
 			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 			}
@@ -418,7 +418,7 @@ public class IniClient implements IIniClient {
 			bp.getRequestContext().put(EVENT_DATE, startingDate);
 			bp.setOutboundHeaders(headers);
 			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 				Map<String, List<String>> h = getBasicAuthCredentials();
 			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 			}
