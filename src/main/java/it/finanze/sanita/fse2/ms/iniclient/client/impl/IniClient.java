@@ -21,8 +21,23 @@ import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_REPLACE_SO
 import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_RIFERIMENTO_SOAP;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_UPDATE_SOAP;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.SocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
@@ -30,6 +45,7 @@ import javax.net.ssl.SSLContext;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.MessageContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,6 +62,7 @@ import ihe.iti.xds_b._2007.UpdateDocumentRegistryService;
 import ihe.iti.xds_b._2010.XDSDeletetWS;
 import ihe.iti.xds_b._2010.XDSDeletetWSService;
 import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
+import it.finanze.sanita.fse2.ms.iniclient.config.GovwayCfg;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
@@ -54,7 +71,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
@@ -94,6 +110,9 @@ public class IniClient implements IIniClient {
 
 	@Autowired
 	private IConfigSRV configSRV;
+	
+	@Autowired
+	private GovwayCfg govwayCfg;
 
 	private SSLContext sslContext;
 
@@ -105,6 +124,8 @@ public class IniClient implements IIniClient {
 
 	private UpdateDocumentRegistryPortType updateDocumentRegistryPort;
 	
+	private List<URI> uris;
+	
 	@PostConstruct
 	void initialize() {
 		try {
@@ -113,6 +134,11 @@ public class IniClient implements IIniClient {
 				sslContext = securitySRV.createSslCustomContext();
 				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 			}
+			
+			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+				uris = getProxyURIs();
+				setupProxy();	
+			} 
 
 			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
 			documentRegistryPort = documentRegistryService.getDocumentRegistryPortSoap12();
@@ -170,8 +196,49 @@ public class IniClient implements IIniClient {
 			throw new BusinessException(ex);
 		}
 	}
+ 
+	private void setupProxy() {
+	    ProxySelector.setDefault(new ProxySelector() {
+	        @Override
+	        public List<Proxy> select(URI uri) {
+	            if (uris.stream().anyMatch(u -> u.getHost().equals(uri.getHost()))) {
+	                return Collections.singletonList(new Proxy(
+	                    Proxy.Type.HTTP,
+	                    new InetSocketAddress(govwayCfg.getGovwayUrl(), govwayCfg.getGovwayPort())
+	                ));
+	            }
 
+	            return Collections.singletonList(Proxy.NO_PROXY);
+	        }
 
+	        @Override
+	        public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+	            ioe.printStackTrace();
+	        }
+	    });
+	}
+	
+	private List<URI> getProxyURIs() {
+	    List<String> proxyDomains = Arrays.asList(
+	        iniCFG.getUrlWsdlDocumentRegistryService(),
+	        iniCFG.getUrlWsdlUpdateDocumentRegistryService(),
+	        iniCFG.getUrlWsdlDeletetService(),
+	        iniCFG.getUrlWsdlRecuperoRiferimentoService()
+	    );
+
+	    return proxyDomains.stream().map(this::toURI).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+	
+	private URI toURI(String url) {
+	    try {
+	        return new URI(url);
+	    } catch (URISyntaxException e) {
+	        log.error("Invalid URI: {}", url, e);
+	        return null;
+	    }
+	}
+
+	
 	@Override
 	public RegistryResponseType sendPublicationData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
 			String workflowInstanceId,Date startingDate) {
@@ -179,13 +246,32 @@ public class IniClient implements IIniClient {
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
+		
 		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), null);
 		
 		bp.getRequestContext().put(WII, workflowInstanceId);
 		bp.getRequestContext().put(EVENT_TYPE, INI_CREATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
+		
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
+	}
+
+	private Map<String, List<String>> getBasicAuthCredentials() {
+	    String authString = govwayCfg.getGovwayUser() + ":" + govwayCfg.getGovwayPass();
+	    
+	    String encodedAuth = "";
+	    if(!StringUtility.isNullOrEmpty(authString)) {
+	    	encodedAuth = Base64.getEncoder().encodeToString(authString.getBytes());	    	
+	    }
+
+	    Map<String, List<String>> h = new HashMap<>();
+	    h.put("Authorization", Collections.singletonList("Basic " + encodedAuth));
+		return h;
 	}
 	
  
@@ -205,6 +291,11 @@ public class IniClient implements IIniClient {
 		RemoveObjectsRequestType removeObjectsRequest = DeleteBodyBuilderUtility.buildRemoveObjectsRequest(deleteRequestDto.getUuid());
 		Holder<RegistryResponseType> holder = new Holder<>();
 
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
+		
 		deletePort.documentRegistryDeleteDocumentSet(removeObjectsRequest, holder);
 		return holder.value;
 	}
@@ -219,6 +310,11 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(WII, workflowInstanceId);
 		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
+		
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
 		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
 //		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE_V2);
 	}
@@ -234,6 +330,11 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(WII, workflowInstanceId);
 		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
+		
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 //		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
 	}
@@ -252,6 +353,11 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid);
 
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
+		
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 
 	}
@@ -265,6 +371,11 @@ public class IniClient implements IIniClient {
 		bp.setOutboundHeaders(headers);
 
 		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
+		
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
 		return documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 	}
 
@@ -293,6 +404,12 @@ public class IniClient implements IIniClient {
 			bp.getRequestContext().put(EVENT_TYPE, eventType);
 			bp.getRequestContext().put(EVENT_DATE, startingDate);
 			bp.setOutboundHeaders(headers);
+			
+			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+				Map<String, List<String>> h = getBasicAuthCredentials();
+			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+			}
+			
 			response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);	
 		} else {
 			bp = (WSBindingProvider)recuperoRiferimentoPort;
@@ -300,6 +417,12 @@ public class IniClient implements IIniClient {
 			bp.getRequestContext().put(EVENT_TYPE, eventType);
 			bp.getRequestContext().put(EVENT_DATE, startingDate);
 			bp.setOutboundHeaders(headers);
+			
+			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+				Map<String, List<String>> h = getBasicAuthCredentials();
+			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+			}
+			
 			response = recuperoRiferimentoPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
 		}
 		 
