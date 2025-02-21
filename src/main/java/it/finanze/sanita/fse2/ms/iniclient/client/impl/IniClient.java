@@ -253,8 +253,10 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_TYPE, INI_CREATE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
 		
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 	}
