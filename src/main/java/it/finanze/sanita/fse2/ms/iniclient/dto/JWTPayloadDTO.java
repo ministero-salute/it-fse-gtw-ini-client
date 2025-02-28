@@ -132,4 +132,12 @@ public class JWTPayloadDTO {
 		out.setIss("MOCK-ISS#ABCDEF");
 		return out;
 	}
+
+	public String mergedSubjectIdVendorVersion(){
+		return String.join("^",
+				subject_application_id,
+				subject_application_vendor,
+				subject_application_version
+		);
+	}
 }
