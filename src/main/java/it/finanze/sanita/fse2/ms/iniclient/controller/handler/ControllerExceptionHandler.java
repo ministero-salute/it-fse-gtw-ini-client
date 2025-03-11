@@ -56,7 +56,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 		return out;
 	}
-     
+
 
 	/**
 	 * Management record not found exception received by clients.
@@ -93,7 +93,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
-	
+	 
 
 	/**
 	 * Management generic exception.
@@ -102,7 +102,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @param request	request
 	 * @return			
 	 */
-	@ExceptionHandler(value = {BusinessException.class})
+	@ExceptionHandler(value = {Exception.class})
 	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
