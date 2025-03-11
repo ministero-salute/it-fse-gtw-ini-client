@@ -198,7 +198,7 @@ public class SamlHeaderBuilderUtility {
 			output.setID("_" + StringUtility.generateUUID());
 			output.setIssueInstant(new DateTime());
 			output.setVersion(SAMLVersion.VERSION_20);
-			output.setIssuer(buildIssuer(tokenDTO.getPayload().getIss()));
+			output.setIssuer(buildIssuer(tokenDTO.getPayload().getSubject_organization_id()));
 			output.setSubject(buildSubject(tokenDTO.getPayload().getSub().split("\\^")[0]));
 			output.setConditions(buildConditions());
 			output.getAuthnStatements().add(buildAuthnStatement());
