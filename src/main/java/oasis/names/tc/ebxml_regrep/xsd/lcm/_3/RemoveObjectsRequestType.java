@@ -49,7 +49,7 @@ public class RemoveObjectsRequestType
     protected String deletionScope;
 
     /**
-     * Recupera il valore della propriet‡ adhocQuery.
+     * Recupera il valore della propriet√† adhocQuery.
      * 
      * @return
      *     possible object is
@@ -61,7 +61,7 @@ public class RemoveObjectsRequestType
     }
 
     /**
-     * Imposta il valore della propriet‡ adhocQuery.
+     * Imposta il valore della propriet√† adhocQuery.
      * 
      * @param value
      *     allowed object is
@@ -73,7 +73,7 @@ public class RemoveObjectsRequestType
     }
 
     /**
-     * Recupera il valore della propriet‡ objectRefList.
+     * Recupera il valore della propriet√† objectRefList.
      * 
      * @return
      *     possible object is
@@ -85,7 +85,7 @@ public class RemoveObjectsRequestType
     }
 
     /**
-     * Imposta il valore della propriet‡ objectRefList.
+     * Imposta il valore della propriet√† objectRefList.
      * 
      * @param value
      *     allowed object is
@@ -97,7 +97,7 @@ public class RemoveObjectsRequestType
     }
 
     /**
-     * Recupera il valore della propriet‡ deletionScope.
+     * Recupera il valore della propriet√† deletionScope.
      * 
      * @return
      *     possible object is
@@ -109,7 +109,7 @@ public class RemoveObjectsRequestType
     }
 
     /**
-     * Imposta il valore della propriet‡ deletionScope.
+     * Imposta il valore della propriet√† deletionScope.
      * 
      * @param value
      *     allowed object is

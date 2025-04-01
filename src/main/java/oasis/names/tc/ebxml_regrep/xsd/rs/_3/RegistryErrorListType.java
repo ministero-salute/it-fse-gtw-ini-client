@@ -71,7 +71,7 @@ public class RegistryErrorListType {
     }
 
     /**
-     * Recupera il valore della propriet‡ highestSeverity.
+     * Recupera il valore della propriet√† highestSeverity.
      * 
      * @return
      *     possible object is
@@ -83,7 +83,7 @@ public class RegistryErrorListType {
     }
 
     /**
-     * Imposta il valore della propriet‡ highestSeverity.
+     * Imposta il valore della propriet√† highestSeverity.
      * 
      * @param value
      *     allowed object is

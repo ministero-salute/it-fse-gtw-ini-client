@@ -69,7 +69,7 @@ public class RegistryRequestType {
     protected String comment;
 
     /**
-     * Recupera il valore della propriet‡ requestSlotList.
+     * Recupera il valore della propriet√† requestSlotList.
      * 
      * @return
      *     possible object is
@@ -81,7 +81,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Imposta il valore della propriet‡ requestSlotList.
+     * Imposta il valore della propriet√† requestSlotList.
      * 
      * @param value
      *     allowed object is
@@ -93,7 +93,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Recupera il valore della propriet‡ id.
+     * Recupera il valore della propriet√† id.
      * 
      * @return
      *     possible object is
@@ -105,7 +105,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Imposta il valore della propriet‡ id.
+     * Imposta il valore della propriet√† id.
      * 
      * @param value
      *     allowed object is
@@ -117,7 +117,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Recupera il valore della propriet‡ comment.
+     * Recupera il valore della propriet√† comment.
      * 
      * @return
      *     possible object is
@@ -129,7 +129,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Imposta il valore della propriet‡ comment.
+     * Imposta il valore della propriet√† comment.
      * 
      * @param value
      *     allowed object is

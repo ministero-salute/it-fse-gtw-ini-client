@@ -57,7 +57,7 @@ public class RegistryResponseType {
     protected String requestId;
 
     /**
-     * Recupera il valore della propriet‡ responseSlotList.
+     * Recupera il valore della propriet√† responseSlotList.
      * 
      * @return
      *     possible object is
@@ -69,7 +69,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Imposta il valore della propriet‡ responseSlotList.
+     * Imposta il valore della propriet√† responseSlotList.
      * 
      * @param value
      *     allowed object is
@@ -81,7 +81,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Recupera il valore della propriet‡ registryErrorList.
+     * Recupera il valore della propriet√† registryErrorList.
      * 
      * @return
      *     possible object is
@@ -93,7 +93,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Imposta il valore della propriet‡ registryErrorList.
+     * Imposta il valore della propriet√† registryErrorList.
      * 
      * @param value
      *     allowed object is
@@ -105,7 +105,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Recupera il valore della propriet‡ status.
+     * Recupera il valore della propriet√† status.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Imposta il valore della propriet‡ status.
+     * Imposta il valore della propriet√† status.
      * 
      * @param value
      *     allowed object is
@@ -129,7 +129,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Recupera il valore della propriet‡ requestId.
+     * Recupera il valore della propriet√† requestId.
      * 
      * @return
      *     possible object is
@@ -141,7 +141,7 @@ public class RegistryResponseType {
     }
 
     /**
-     * Imposta il valore della propriet‡ requestId.
+     * Imposta il valore della propriet√† requestId.
      * 
      * @param value
      *     allowed object is

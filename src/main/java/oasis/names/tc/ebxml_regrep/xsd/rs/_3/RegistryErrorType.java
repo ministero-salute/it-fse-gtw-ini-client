@@ -46,7 +46,7 @@ public class RegistryErrorType {
     protected String severity;
 
     /**
-     * Recupera il valore della propriet‡ value.
+     * Recupera il valore della propriet√† value.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Imposta il valore della propriet‡ value.
+     * Imposta il valore della propriet√† value.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Recupera il valore della propriet‡ codeContext.
+     * Recupera il valore della propriet√† codeContext.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Imposta il valore della propriet‡ codeContext.
+     * Imposta il valore della propriet√† codeContext.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Recupera il valore della propriet‡ errorCode.
+     * Recupera il valore della propriet√† errorCode.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Imposta il valore della propriet‡ errorCode.
+     * Imposta il valore della propriet√† errorCode.
      * 
      * @param value
      *     allowed object is
@@ -118,7 +118,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Recupera il valore della propriet‡ location.
+     * Recupera il valore della propriet√† location.
      * 
      * @return
      *     possible object is
@@ -130,7 +130,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Imposta il valore della propriet‡ location.
+     * Imposta il valore della propriet√† location.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Recupera il valore della propriet‡ severity.
+     * Recupera il valore della propriet√† severity.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class RegistryErrorType {
     }
 
     /**
-     * Imposta il valore della propriet‡ severity.
+     * Imposta il valore della propriet√† severity.
      * 
      * @param value
      *     allowed object is
