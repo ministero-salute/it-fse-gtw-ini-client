@@ -13,7 +13,7 @@ package it.finanze.sanita.fse2.ms.iniclient.dto;
 
 import java.util.List;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.finanze.sanita.fse2.ms.iniclient.enums.AdministrativeReqEnum;

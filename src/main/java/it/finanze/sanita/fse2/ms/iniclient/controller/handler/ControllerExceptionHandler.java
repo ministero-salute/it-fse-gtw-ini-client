@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.NonNull;
@@ -33,6 +34,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
+import brave.Tracer;
 
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
 
@@ -46,13 +49,13 @@ import java.util.Arrays;
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
-	private org.springframework.cloud.sleuth.Tracer tracer;
+	private Tracer tracer;
 	protected LogTraceInfoDTO getLogTraceInfo() {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
 		if (tracer.currentSpan() != null) {
 			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanId(),
-					tracer.currentSpan().context().traceId());
+					tracer.currentSpan().context().spanIdString(),
+					tracer.currentSpan().context().traceIdString());
 		}
 		return out;
 	}
@@ -114,7 +117,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@Override
-	protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+	protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
 		ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
@@ -124,7 +127,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();	
 

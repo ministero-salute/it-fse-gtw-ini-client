@@ -40,7 +40,7 @@ public class SubmitObjectsRequestType
     protected RegistryObjectListType registryObjectList;
 
     /**
-     * Recupera il valore della proprietà registryObjectList.
+     * Recupera il valore della proprieta registryObjectList.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class SubmitObjectsRequestType
     }
 
     /**
-     * Imposta il valore della proprietà registryObjectList.
+     * Imposta il valore della proprieta registryObjectList.
      * 
      * @param value
      *     allowed object is
