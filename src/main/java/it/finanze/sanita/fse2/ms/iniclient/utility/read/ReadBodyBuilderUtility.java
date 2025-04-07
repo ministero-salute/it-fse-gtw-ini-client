@@ -55,7 +55,7 @@ public final class ReadBodyBuilderUtility {
 	 */
 	private static AdhocQueryType buildAdHocQuery(String searchId) {
 		AdhocQueryType adhocQuery = new AdhocQueryType();
-		adhocQuery.setId("urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4");
+		adhocQuery.setId("urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4"); //GetDocuments
 		adhocQuery.getSlot().add(buildSlotObject("$XDSDocumentEntryUniqueId",null,Collections.singletonList("('" + searchId + "')")));
 		JAXBElement<AdhocQueryType> jaxbAdhocQuery = objectFactory.createAdhocQuery(adhocQuery);
 		return jaxbAdhocQuery.getValue();
