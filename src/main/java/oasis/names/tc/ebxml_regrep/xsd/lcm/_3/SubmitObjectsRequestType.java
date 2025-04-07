@@ -40,7 +40,7 @@ public class SubmitObjectsRequestType
     protected RegistryObjectListType registryObjectList;
 
     /**
-     * Recupera il valore della propriet� registryObjectList.
+     * Recupera il valore della proprietà registryObjectList.
      * 
      * @return
      *     possible object is
