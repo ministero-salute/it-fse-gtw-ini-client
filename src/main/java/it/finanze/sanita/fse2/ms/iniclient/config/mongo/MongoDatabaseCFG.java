@@ -37,6 +37,11 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
+import com.azure.core.credential.TokenCredential;
+import com.azure.identity.ClientCertificateCredentialBuilder;
+import com.azure.security.keyvault.secrets.SecretClient;
+import com.azure.security.keyvault.secrets.SecretClientBuilder;
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.mongodb.ClientEncryptionSettings;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -46,6 +51,7 @@ import com.mongodb.client.vault.ClientEncryption;
 import com.mongodb.client.vault.ClientEncryptions;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.AzureCfg;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -85,7 +91,17 @@ public class MongoDatabaseCFG {
 	 */
 	@Bean
 	public MongoDatabaseFactory mongoDatabaseFactory() {
-		ConnectionString connectionString = new ConnectionString(mongoPropsCfg.getUri());
+		String mongoUri = mongoPropsCfg.getUri();
+		if(!StringUtility.isNullOrEmpty(azureCfg.getTenantId())) {
+			SecretClient secretClient = getCosmosSecretClientFromKeyVault();
+			Map<String,String> credential = getSecret(secretClient);
+			String user = credential.keySet().iterator().next();
+			String pwd = credential.values().iterator().next();
+			mongoUri = String.format(mongoPropsCfg.getUri(),user, pwd);
+		}
+
+		ConnectionString connectionString = new ConnectionString(mongoUri);
+
 		MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
 				.applyConnectionString(connectionString)
 				.build();
@@ -154,6 +170,26 @@ public class MongoDatabaseCFG {
 		masterKeyProperties.put("keyName", new BsonString(azureCfg.getMasterKeyName()));  
 		masterKeyProperties.put("keyVaultEndpoint", new BsonString(azureCfg.getKeyVaultEndpoint())); 
 		return masterKeyProperties;
+	}
+	
+	private SecretClient getCosmosSecretClientFromKeyVault() {
+		TokenCredential credential = new ClientCertificateCredentialBuilder()
+				.clientId(azureCfg.getClientId()).pfxCertificate(azureCfg.getKeyVaultCertificatePath(), azureCfg.getKeyVaultCertificatePass()).
+				tenantId(azureCfg.getTenantId()) 
+				.build();
+
+		return new SecretClientBuilder()
+				.vaultUrl(azureCfg.getKeyVaultEndpoint())
+				.credential(credential)
+				.buildClient();
+	}
+
+	private Map<String,String> getSecret(SecretClient secretClient){
+		Map<String,String> out = new HashMap<>();
+		KeyVaultSecret secretUser = secretClient.getSecret(azureCfg.getSecretUser());
+		KeyVaultSecret secretPass = secretClient.getSecret(azureCfg.getSecretPass());
+		out.put(secretUser.getValue(), secretPass.getValue());
+		return out;
 	}
 }
 	
