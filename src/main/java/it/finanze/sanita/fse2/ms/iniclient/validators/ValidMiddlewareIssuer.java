@@ -3,8 +3,8 @@ package it.finanze.sanita.fse2.ms.iniclient.validators;
 
 import it.finanze.sanita.fse2.ms.iniclient.validators.impl.MiddlewareIssuerValidator;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented

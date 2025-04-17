@@ -4,7 +4,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.dto;
 
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -5,8 +5,8 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.validators.ValidMiddlewareIssuer;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 @Slf4j
 public class MiddlewareIssuerValidator implements ConstraintValidator<ValidMiddlewareIssuer, IssuerCreateRequestDTO> {

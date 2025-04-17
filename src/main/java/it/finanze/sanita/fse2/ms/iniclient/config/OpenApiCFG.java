@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class OpenApiCFG {
 	private CustomSwaggerCFG customOpenapi;
 
     @Bean
-    public OpenApiCustomiser disableAdditionalRequestProperties() {
+    public OpenApiCustomizer disableAdditionalRequestProperties() {
 
         final List<String> required = new ArrayList<>();
 		required.add("file");
@@ -78,7 +78,7 @@ public class OpenApiCFG {
      * @return The {@link OpenApiCustomiser} instance
      */
     @Bean
-    public OpenApiCustomiser disableAdditionalResponseProperties() {
+    public OpenApiCustomizer disableAdditionalResponseProperties() {
         return openApi -> openApi.getComponents().
             getSchemas().
             values().

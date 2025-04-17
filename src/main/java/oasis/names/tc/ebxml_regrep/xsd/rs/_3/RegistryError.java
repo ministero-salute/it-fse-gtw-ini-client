@@ -48,7 +48,7 @@ public class RegistryError {
     protected String location;
 
     /**
-     * Recupera il valore della proprietà value.
+     * Recupera il valore della proprieta value.
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public class RegistryError {
     }
 
     /**
-     * Imposta il valore della proprietà value.
+     * Imposta il valore della proprieta value.
      * 
      * @param value
      *     allowed object is
@@ -72,7 +72,7 @@ public class RegistryError {
     }
 
     /**
-     * Recupera il valore della proprietà codeContext.
+     * Recupera il valore della proprieta codeContext.
      * 
      * @return
      *     possible object is
@@ -84,7 +84,7 @@ public class RegistryError {
     }
 
     /**
-     * Imposta il valore della proprietà codeContext.
+     * Imposta il valore della proprieta codeContext.
      * 
      * @param value
      *     allowed object is
@@ -96,7 +96,7 @@ public class RegistryError {
     }
 
     /**
-     * Recupera il valore della proprietà errorCode.
+     * Recupera il valore della proprieta errorCode.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class RegistryError {
     }
 
     /**
-     * Imposta il valore della proprietà errorCode.
+     * Imposta il valore della proprieta errorCode.
      * 
      * @param value
      *     allowed object is
@@ -120,7 +120,7 @@ public class RegistryError {
     }
 
     /**
-     * Recupera il valore della proprietà severity.
+     * Recupera il valore della proprieta severity.
      * 
      * @return
      *     possible object is
@@ -136,7 +136,7 @@ public class RegistryError {
     }
 
     /**
-     * Imposta il valore della proprietà severity.
+     * Imposta il valore della proprieta severity.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +148,7 @@ public class RegistryError {
     }
 
     /**
-     * Recupera il valore della proprietà location.
+     * Recupera il valore della proprieta location.
      * 
      * @return
      *     possible object is
@@ -160,7 +160,7 @@ public class RegistryError {
     }
 
     /**
-     * Imposta il valore della proprietà location.
+     * Imposta il valore della proprieta location.
      * 
      * @param value
      *     allowed object is

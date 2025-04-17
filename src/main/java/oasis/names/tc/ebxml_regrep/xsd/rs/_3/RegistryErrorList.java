@@ -3,6 +3,7 @@ package oasis.names.tc.ebxml_regrep.xsd.rs._3;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -73,7 +74,7 @@ public class RegistryErrorList {
     }
 
     /**
-     * Recupera il valore della proprietà highestSeverity.
+     * Recupera il valore della proprieta highestSeverity.
      * 
      * @return
      *     possible object is
@@ -85,7 +86,7 @@ public class RegistryErrorList {
     }
 
     /**
-     * Imposta il valore della proprietà highestSeverity.
+     * Imposta il valore della proprieta highestSeverity.
      * 
      * @param value
      *     allowed object is

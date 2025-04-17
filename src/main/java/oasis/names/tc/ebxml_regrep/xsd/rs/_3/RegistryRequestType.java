@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.AcceptObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.ApproveObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.DeprecateObjectsRequest;
@@ -69,7 +70,7 @@ public class RegistryRequestType {
     protected String comment;
 
     /**
-     * Recupera il valore della proprietà requestSlotList.
+     * Recupera il valore della proprieta requestSlotList.
      * 
      * @return
      *     possible object is
@@ -81,7 +82,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Imposta il valore della proprietà requestSlotList.
+     * Imposta il valore della proprieta requestSlotList.
      * 
      * @param value
      *     allowed object is
@@ -93,7 +94,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Recupera il valore della proprietà id.
+     * Recupera il valore della proprieta id.
      * 
      * @return
      *     possible object is
@@ -105,7 +106,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Imposta il valore della proprietà id.
+     * Imposta il valore della proprieta id.
      * 
      * @param value
      *     allowed object is
@@ -117,7 +118,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Recupera il valore della proprietà comment.
+     * Recupera il valore della proprieta comment.
      * 
      * @return
      *     possible object is
@@ -129,7 +130,7 @@ public class RegistryRequestType {
     }
 
     /**
-     * Imposta il valore della proprietà comment.
+     * Imposta il valore della proprieta comment.
      * 
      * @param value
      *     allowed object is

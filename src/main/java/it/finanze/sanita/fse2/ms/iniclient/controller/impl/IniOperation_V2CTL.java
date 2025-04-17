@@ -13,7 +13,7 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import java.io.StringReader;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 
 import org.springframework.beans.factory.annotation.Autowired;

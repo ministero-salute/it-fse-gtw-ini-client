@@ -2,7 +2,7 @@ package it.finanze.sanita.fse2.ms.iniclient.dto;
  
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import com.mongodb.lang.Nullable;
 

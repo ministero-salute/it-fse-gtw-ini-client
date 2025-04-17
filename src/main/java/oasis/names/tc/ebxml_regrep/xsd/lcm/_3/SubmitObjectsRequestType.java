@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryRequestType;
 
@@ -40,7 +41,7 @@ public class SubmitObjectsRequestType
     protected RegistryObjectListType registryObjectList;
 
     /**
-     * Recupera il valore della proprietà registryObjectList.
+     * Recupera il valore della proprieta registryObjectList.
      * 
      * @return
      *     possible object is
@@ -52,7 +53,7 @@ public class SubmitObjectsRequestType
     }
 
     /**
-     * Imposta il valore della proprietà registryObjectList.
+     * Imposta il valore della proprieta registryObjectList.
      * 
      * @param value
      *     allowed object is

@@ -34,7 +34,7 @@ public class Include {
     protected String href;
 
     /**
-     * Recupera il valore della proprietà href.
+     * Recupera il valore della proprieta href.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class Include {
     }
 
     /**
-     * Imposta il valore della proprietà href.
+     * Imposta il valore della proprieta href.
      * 
      * @param value
      *     allowed object is

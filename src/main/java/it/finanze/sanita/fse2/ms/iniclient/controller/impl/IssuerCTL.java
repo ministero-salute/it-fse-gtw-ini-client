@@ -4,7 +4,7 @@ import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.ISSUER_MI
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
