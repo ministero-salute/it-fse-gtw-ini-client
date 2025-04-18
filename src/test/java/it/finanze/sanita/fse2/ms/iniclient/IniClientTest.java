@@ -21,9 +21,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
@@ -38,7 +38,7 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 @ActiveProfiles(Constants.Profile.TEST)
 class IniClientTest extends AbstractTest {
 
-    @MockBean
+	@MockitoBean
     private IIniInvocationSRV iniInvocationSRV;
 
     @Test

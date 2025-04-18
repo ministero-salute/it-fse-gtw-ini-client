@@ -1,30 +1,30 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
-import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
-import it.finanze.sanita.fse2.ms.iniclient.client.routes.ConfigClientRoutes;
-import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.RestTemplate;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.Profile.TEST;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.GENERIC;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.Profile.*;
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.GENERIC;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.web.client.RestTemplate;
+
+import it.finanze.sanita.fse2.ms.iniclient.client.IConfigClient;
+import it.finanze.sanita.fse2.ms.iniclient.client.routes.ConfigClientRoutes;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ConfigItemDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles(TEST)
@@ -35,7 +35,7 @@ class ConfigClientTest {
     @Autowired
     private IConfigClient config;
 
-    @MockBean
+    @MockitoBean
     private RestTemplate client;
 
     @Autowired
