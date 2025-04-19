@@ -141,4 +141,10 @@ public final class Constants {
 
 		public static final String START_LOG = "[START] {}() with arguments {}={}, {}={}";
 	}
+	
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
+	public static final class Properties {
+		public static final String MS_NAME = "gtw-ini-client";
+		 
+	}
 }
