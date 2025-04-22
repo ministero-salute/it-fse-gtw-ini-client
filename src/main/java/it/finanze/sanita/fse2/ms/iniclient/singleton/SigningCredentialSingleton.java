@@ -13,6 +13,7 @@ import org.opensaml.xml.security.x509.BasicX509Credential;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,13 @@ public class SigningCredentialSingleton {
 		BasicX509Credential credential = null;
 		try {
 			KeyStore keyStore = KeyStore.getInstance("JKS");
+			
+			char[] pass = StringUtility.isNullOrEmpty(iniCFG.getKeyStorePassword()) ? "".toCharArray() : iniCFG.getKeyStorePassword().toCharArray();
+			
 	        try (InputStream inputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(iniCFG.getKeyStoreLocation())) {
-				keyStore.load(inputStream, iniCFG.getKeyStorePassword().toCharArray());
+				keyStore.load(inputStream, pass);
 			}
+	        
 			Enumeration<String> en = keyStore.aliases();
 			String keyAlias = "";
 			while (en.hasMoreElements()) {
@@ -49,7 +54,7 @@ public class SigningCredentialSingleton {
 				}
 			}
 			Certificate c = keyStore.getCertificate(keyAlias);
-			PrivateKey key = (PrivateKey)keyStore.getKey(keyAlias, iniCFG.getKeyStorePassword().toCharArray());
+			PrivateKey key = (PrivateKey)keyStore.getKey(keyAlias, pass);
 
 			credential = new BasicX509Credential();
 			credential.setEntityCertificate((java.security.cert.X509Certificate) c);
