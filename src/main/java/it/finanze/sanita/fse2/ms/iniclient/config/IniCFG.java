@@ -34,13 +34,13 @@ public class IniCFG {
 	@Value("${ini.client.enable-log}")
 	private boolean enableLog;
 
-	@Value("${ini.client.auth-cert.path}")
+	@Value("${ini.client.auth-cert.path:#{null}}")
 	private String authCertLocation;
 
-	@Value("${ini.client.auth-cert.password}")
+	@Value("${ini.client.auth-cert.password:#{null}}")
 	private String authCertPassword;
 
-	@Value("${ini.client.auth-cert.alias}")
+	@Value("${ini.client.auth-cert.alias:#{null}}")
 	private String trustStoreAlias;
 
 	@Value("${ini.client.ds-cert.path}")
