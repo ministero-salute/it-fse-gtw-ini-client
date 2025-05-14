@@ -14,7 +14,6 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.apache.ws.security.util.Base64;
 import org.bson.Document;
@@ -88,6 +87,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class SamlHeaderBuilderUtility {
 
+	private static final String GTW_ROLE = "GTW";
 	@Autowired
 	private IniCFG iniCFG;
 
@@ -370,21 +370,19 @@ public class SamlHeaderBuilderUtility {
 				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
 			}
 
-			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
-			out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-
-			
-			//Controllo che il campo locality inizia con un numero di modo che posso assumere che sia un oid
-			boolean createAndReplace = ActionEnumType.CREATE.equals(actionEnumType) ||  ActionEnumType.REPLACE.equals(actionEnumType);
-			boolean isValidXon = isValidLocalityXon(payloadTokenJwt.getLocality(), createAndReplace);
-			String locality = payloadTokenJwt.getLocality();
-			if(isValidXon) {
-				locality = StringUtility.trasformXonInOid(payloadTokenJwt.getLocality());
+			if(!ActionEnumType.READ_REF_AND_METADATA.equals(actionEnumType) && !ActionEnumType.READ_METADATA.equals(actionEnumType) &&
+					!ActionEnumType.READ_REFERENCE.equals(actionEnumType)) {
+				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
+				out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
+			} else {
+				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
 			}
-			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", locality));
+			
+			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
+			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization-id", payloadTokenJwt.getSubject_organization_id()));
-			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
+			
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));

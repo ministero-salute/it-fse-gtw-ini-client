@@ -31,8 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class StringUtility {
 
-	private static final String XON_CONSTANT = "&ISO^^^^";
-	
 	/**
 	 * Returns {@code true} if the String passed as parameter is null or empty.
 	 * 
@@ -101,26 +99,5 @@ public final class StringUtility {
 		}
 		return sourceId;
 	}
-	
-	public static String trasformXonInOid(final String value) {
-		int firstIndex = value.indexOf("&");
-		String valueWithoutLastZero = rimuoviZeroDopoOid(value);
-		return valueWithoutLastZero.substring(firstIndex+1, valueWithoutLastZero.length()).replace(XON_CONSTANT, ".");
-	}
-
-	private static String rimuoviZeroDopoOid(String input) {
-        int lastDotIndex = input.indexOf(XON_CONSTANT);
-        
-        if (lastDotIndex == -1) {
-            return input;
-        }
-
-        String beforeDot = input.substring(0, lastDotIndex);
-        String afterDot = input.substring(lastDotIndex + 8);
-
-        if (afterDot.startsWith("0")) {
-            afterDot = afterDot.substring(1);
-        }
-        return beforeDot + "." + afterDot;
-    }
+	 
 }

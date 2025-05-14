@@ -35,8 +35,8 @@ public final class ReadBodyBuilderUtility {
 	 * @param searchId will be idDoc for get reference, or entryUUID for get metadata
 	 * @return
 	 */
-	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId,String tipoRicerca) {
-		AdhocQueryType adhocQueryType = buildAdHocQuery(searchId);
+	public static AdhocQueryRequest buildAdHocQueryRequest(String searchId,String tipoRicerca,boolean subjectId_isAuthor, String subjectId) {
+		AdhocQueryType adhocQueryType = buildAdHocQuery(searchId,subjectId_isAuthor, subjectId);
 		ResponseOptionType responseOptionType = buildResponseOption(tipoRicerca);
 
 		AdhocQueryRequest adhocQueryRequest = new AdhocQueryRequest();
@@ -53,10 +53,13 @@ public final class ReadBodyBuilderUtility {
 	 * @param searchId
 	 * @return
 	 */
-	private static AdhocQueryType buildAdHocQuery(String searchId) {
+	private static AdhocQueryType buildAdHocQuery(String searchId,boolean subjectId_isAuthor, String subjectId) {
 		AdhocQueryType adhocQuery = new AdhocQueryType();
 		adhocQuery.setId("urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4"); //GetDocuments
 		adhocQuery.getSlot().add(buildSlotObject("$XDSDocumentEntryUniqueId",null,Collections.singletonList("('" + searchId + "')")));
+		if(Boolean.TRUE.equals(subjectId_isAuthor)) {
+			adhocQuery.getSlot().add(buildSlotObject("$XDSDocumentEntry.author",null,Collections.singletonList("('" + subjectId + "')")));
+		}
 		JAXBElement<AdhocQueryType> jaxbAdhocQuery = objectFactory.createAdhocQuery(adhocQuery);
 		return jaxbAdhocQuery.getValue();
 	}
