@@ -27,7 +27,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUt
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,151 +59,170 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.VersionInfoType;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UpdateBodyBuilderUtility {
 
-	/**
-	 *
-	 * @param updateRequestDTO
-	 * @param oldMetadata
-	 * @param uuid
-	 * @param jwtTokenDTO
-	 * @return
-	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequest(RegistryObjectListType oldMetadata,MergedMetadatiRequestDTO newMetadataDTO,
-			String uuid,JWTTokenDTO jwtTokenDTO, String idDocumento) {
-		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
-		RegistryObjectListType registryObjectListType = buildRegistryObjectList(oldMetadata,newMetadataDTO,uuid,jwtTokenDTO,idDocumento);
-		submitObjectsRequest.setRegistryObjectList(registryObjectListType);
-		return submitObjectsRequest;
-	}
+    /**
+     *
+     * @param updateRequestDTO
+     * @param oldMetadata
+     * @param uuid
+     * @param jwtTokenDTO
+     * @return
+     */
+    public static SubmitObjectsRequest buildSubmitObjectRequest(RegistryObjectListType oldMetadata,
+            MergedMetadatiRequestDTO newMetadataDTO,
+            String uuid, JWTTokenDTO jwtTokenDTO, String idDocumento) {
+        SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
+        RegistryObjectListType registryObjectListType = buildRegistryObjectList(oldMetadata, newMetadataDTO, uuid,
+                jwtTokenDTO, idDocumento);
+        submitObjectsRequest.setRegistryObjectList(registryObjectListType);
+        return submitObjectsRequest;
+    }
 
-	/**
-	 *
-	 * @param oldMetadata
-	 * @param updateRequestDTO
-	 * @param uuid
-	 * @param jwtTokenDTO
-	 * @return
-	 */
-	private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata, MergedMetadatiRequestDTO updateRequestDTO,String uuid,JWTTokenDTO jwtTokenDTO,String idDocumento) {
+    /**
+     *
+     * @param oldMetadata
+     * @param updateRequestDTO
+     * @param uuid
+     * @param jwtTokenDTO
+     * @return
+     */
+    private static RegistryObjectListType buildRegistryObjectList(RegistryObjectListType oldMetadata,
+            MergedMetadatiRequestDTO updateRequestDTO, String uuid, JWTTokenDTO jwtTokenDTO, String idDocumento) {
 
-		RegistryObjectListType out = new RegistryObjectListType();
+        RegistryObjectListType out = new RegistryObjectListType();
 
-		String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
-		
-		JAXBElement<? extends IdentifiableType> approvedVersion = findApprovedExtrinsic(oldMetadata.getIdentifiable());
-		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>();
-		list.add(approvedVersion);
-//		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>(oldMetadata.getIdentifiable());
+        String requestUUID = Constants.IniClientConstants.URN_UUID + StringUtility.generateUUID();
 
-		PublicationMetadataReqDTO updateReq = updateRequestDTO.getBody();
+        JAXBElement<? extends IdentifiableType> approvedVersion = findApprovedExtrinsic(oldMetadata.getIdentifiable());
+        List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>();
+        list.add(approvedVersion);
+        // List<JAXBElement<? extends IdentifiableType>> list = new
+        // ArrayList<>(oldMetadata.getIdentifiable());
 
-		// 1. extrinsic object
-		ExtrinsicObjectType extrinsicObject = mergeExtrinsicObjectMetadata(list, updateReq,requestUUID);
-		extrinsicObject.setLid(uuid);
+        PublicationMetadataReqDTO updateReq = updateRequestDTO.getBody();
 
-		Optional<ClassificationType> classificationAuthor = findClassificationById(extrinsicObject, "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d");
-		ClassificationType classificationAuthorType = null;
-		if(classificationAuthor.isPresent()){
-			ClassificationType extrinsicObjAuthor = classificationAuthor.get();
-			classificationAuthorType = buildClassificationObjectJax(extrinsicObjAuthor.getClassificationNode(), "urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
-					extrinsicObjAuthor.getClassifiedObject(), extrinsicObjAuthor.getId(), extrinsicObjAuthor.getName(), extrinsicObjAuthor.getSlot(), extrinsicObjAuthor.getObjectType(), extrinsicObjAuthor.getNodeRepresentation()).getValue();
-		}
+        // 1. extrinsic object
+        ExtrinsicObjectType extrinsicObject = mergeExtrinsicObjectMetadata(list, updateReq, requestUUID);
+        extrinsicObject.setLid(uuid);
 
-		// 2. registry package
-		JAXBElement<RegistryPackageType> registryPackage = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(updateReq, jwtTokenDTO.getPayload(), requestUUID,classificationAuthorType);
-		list.add(registryPackage);
+        Optional<ClassificationType> classificationAuthor = findClassificationById(extrinsicObject,
+                "urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d");
+        ClassificationType classificationAuthorType = null;
+        if (classificationAuthor.isPresent()) {
+            ClassificationType extrinsicObjAuthor = classificationAuthor.get();
+            classificationAuthorType = buildClassificationObjectJax(extrinsicObjAuthor.getClassificationNode(),
+                    "urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d",
+                    extrinsicObjAuthor.getClassifiedObject(), extrinsicObjAuthor.getId(), extrinsicObjAuthor.getName(),
+                    extrinsicObjAuthor.getSlot(), extrinsicObjAuthor.getObjectType(),
+                    extrinsicObjAuthor.getNodeRepresentation()).getValue();
+        }
 
-		// 3. Association
-		list.add(buildAssociation(extrinsicObject.getVersionInfo(), requestUUID));
+        // 2. registry package
+        JAXBElement<RegistryPackageType> registryPackage = SubmissionSetEntryBuilderUtility
+                .buildRegistryPackageObjectSubmissionSet(updateReq, jwtTokenDTO.getPayload(), requestUUID,
+                        classificationAuthorType);
+        list.add(registryPackage);
 
-		// 4. Classification object
-		String classificationObjectType = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification";
-		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,CLASSIFICATION_ID,null, null, classificationObjectType, null);
-		list.add(classificationObject);
+        // 3. Association
+        list.add(buildAssociation(extrinsicObject.getVersionInfo(), requestUUID));
 
-		out.getIdentifiable().addAll(list);
-		return out;
-	}
-	
-	public static JAXBElement<? extends IdentifiableType> findApprovedExtrinsic(List<JAXBElement<? extends IdentifiableType>> identifiables) {
-	    JAXBElement<? extends IdentifiableType> lastVersionExtrinsic = null;
+        // 4. Classification object
+        String classificationObjectType = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification";
+        JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax(
+                "urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd", null, SUBMISSION_ENTRY_ID, CLASSIFICATION_ID, null,
+                null, classificationObjectType, null);
+        list.add(classificationObject);
 
-	    for (JAXBElement<? extends IdentifiableType> el : identifiables) {
-	        if (el.getValue() instanceof ExtrinsicObjectType extrinsic) {
-	            if (extrinsic.getStatus().equals("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved")) {
-	                    lastVersionExtrinsic = el;
-	                    break;
-	            }
-	        }
-	    }
+        out.getIdentifiable().addAll(list);
+        return out;
+    }
 
-	    return lastVersionExtrinsic;
-	}
-	
-	public static Optional<ClassificationType> findClassificationById(ExtrinsicObjectType extrinsicObject, String classificationScheme) {
-		return extrinsicObject.getClassification().stream().filter(c -> c.getClassificationScheme().equals(classificationScheme)).findFirst();
-	}
+    public static JAXBElement<? extends IdentifiableType> findApprovedExtrinsic(
+            List<JAXBElement<? extends IdentifiableType>> identifiables) {
+        JAXBElement<? extends IdentifiableType> lastVersionExtrinsic = null;
 
-	private static JAXBElement<AssociationType1> buildAssociation(VersionInfoType versionInfoType, String requestUUID) {
-		List<SlotType1> associationObject1Slots = new ArrayList<>();
-		SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject("SubmissionSetStatus",null,Collections.singletonList("Original"));
-		associationObject1Slots.add(associationObj1SlotSubmissionSetStatus);
-		if(versionInfoType!=null) {
-			SlotType1 associationObj1SlotPreviousVersion = buildSlotObject("PreviousVersion",null,Collections.singletonList(versionInfoType.getVersionName()));
-			associationObject1Slots.add(associationObj1SlotPreviousVersion);
-		}
+        for (JAXBElement<? extends IdentifiableType> el : identifiables) {
+            if (el.getValue() instanceof ExtrinsicObjectType extrinsic) {
+                if (extrinsic.getStatus().equals("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved")) {
+                    lastVersionExtrinsic = el;
+                    break;
+                }
+            }
+        }
 
-		return buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",requestUUID,SUBMISSION_ENTRY_ID, DOCUMENT_ENTRY_ID,associationObject1Slots);
-	}
+        return lastVersionExtrinsic;
+    }
 
+    public static Optional<ClassificationType> findClassificationById(ExtrinsicObjectType extrinsicObject,
+            String classificationScheme) {
+        return extrinsicObject.getClassification().stream()
+                .filter(c -> c.getClassificationScheme().equals(classificationScheme)).findFirst();
+    }
 
-	/**
-	 * Rebuild old extrinsic object metadata with the ones received in the request
-	 * @param oldExtrinsicObject
-	 * @param updateRequestBodyDTO
-	 * @param uuid
-	 * @return
-	 */
-	private static ExtrinsicObjectType mergeExtrinsicObjectMetadata(List<JAXBElement<? extends IdentifiableType>> list, PublicationMetadataReqDTO updateRequestBodyDTO, String uuid) {
+    private static JAXBElement<AssociationType1> buildAssociation(VersionInfoType versionInfoType, String requestUUID) {
+        List<SlotType1> associationObject1Slots = new ArrayList<>();
+        SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject("SubmissionSetStatus", null,
+                Collections.singletonList("Original"));
+        associationObject1Slots.add(associationObj1SlotSubmissionSetStatus);
+        if (versionInfoType != null) {
+            SlotType1 associationObj1SlotPreviousVersion = buildSlotObject("PreviousVersion", null,
+                    Collections.singletonList(versionInfoType.getVersionName()));
+            associationObject1Slots.add(associationObj1SlotPreviousVersion);
+        }
 
-		ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) list.stream()
-				.filter(e -> e.getValue() instanceof ExtrinsicObjectType)
-				.findFirst().orElseThrow(() -> new MergeMetadatoNotFoundException("ExtrinsicObject non trovato nei metadati di INI"))
-				.getValue();
+        return buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember", requestUUID,
+                SUBMISSION_ENTRY_ID, DOCUMENT_ENTRY_ID, associationObject1Slots);
+    }
 
-		// 1 Merge classification extrinsic object
-		mergeHealthcareFacilityTypeCode(updateRequestBodyDTO, extrinsicObject);
-		mergeClassCode(updateRequestBodyDTO, extrinsicObject);
-		mergePracticeSettingCode(updateRequestBodyDTO, extrinsicObject);
-		mergeEventTypeCode(updateRequestBodyDTO, extrinsicObject);
+    /**
+     * Rebuild old extrinsic object metadata with the ones received in the request
+     * 
+     * @param oldExtrinsicObject
+     * @param updateRequestBodyDTO
+     * @param uuid
+     * @return
+     */
+    private static ExtrinsicObjectType mergeExtrinsicObjectMetadata(List<JAXBElement<? extends IdentifiableType>> list,
+            PublicationMetadataReqDTO updateRequestBodyDTO, String uuid) {
 
-		// 2 Merge slot extrinsic object
-		mergeServiceTime(updateRequestBodyDTO, extrinsicObject);
-		mergeDescription(updateRequestBodyDTO, extrinsicObject);
-		mergeAdministrativeRequest(updateRequestBodyDTO, extrinsicObject);
+        ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) list.stream()
+                .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                .findFirst().orElseThrow(() -> new MergeMetadatoNotFoundException("Missing metadata: ExtrinsicObject"))
+                .getValue();
 
-		extrinsicObject.setId(DOCUMENT_ENTRY_ID);
-		for(ClassificationType classification : extrinsicObject.getClassification()) {
-			classification.setClassifiedObject(DOCUMENT_ENTRY_ID);
-			classification.setLid(null);			
-			for(ClassificationEnum val : ClassificationEnum.values()) {
-				if(classification.getClassificationScheme().equals(val.getClassificationScheme())){
-					classification.setId(val.getId());
-					break;
-				}	
-			}
-		}
+        // 1 Merge classification extrinsic object
+        mergeHealthcareFacilityTypeCode(updateRequestBodyDTO, extrinsicObject);
+        mergeClassCode(updateRequestBodyDTO, extrinsicObject);
+        mergePracticeSettingCode(updateRequestBodyDTO, extrinsicObject);
+        mergeEventTypeCode(updateRequestBodyDTO, extrinsicObject);
 
-		for(ExternalIdentifierType external : extrinsicObject.getExternalIdentifier()) {
-			external.setRegistryObject(DOCUMENT_ENTRY_ID);
-			external.setLid(null);
-			for(ExternalIdentifierEnum externalIdentifierEnum : ExternalIdentifierEnum.values()) {
-				if(external.getIdentificationScheme().equals(externalIdentifierEnum.getClassificationScheme())) {
-					external.setId(externalIdentifierEnum.getId());		
-				}
-			}
-		}
+        // 2 Merge slot extrinsic object
+        mergeServiceTime(updateRequestBodyDTO, extrinsicObject);
+        mergeDescription(updateRequestBodyDTO, extrinsicObject);
+        mergeAdministrativeRequest(updateRequestBodyDTO, extrinsicObject);
 
-		return extrinsicObject;
-	}
+        extrinsicObject.setId(DOCUMENT_ENTRY_ID);
+        for (ClassificationType classification : extrinsicObject.getClassification()) {
+            classification.setClassifiedObject(DOCUMENT_ENTRY_ID);
+            classification.setLid(null);
+            for (ClassificationEnum val : ClassificationEnum.values()) {
+                if (classification.getClassificationScheme().equals(val.getClassificationScheme())) {
+                    classification.setId(val.getId());
+                    break;
+                }
+            }
+        }
+
+        for (ExternalIdentifierType external : extrinsicObject.getExternalIdentifier()) {
+            external.setRegistryObject(DOCUMENT_ENTRY_ID);
+            external.setLid(null);
+            for (ExternalIdentifierEnum externalIdentifierEnum : ExternalIdentifierEnum.values()) {
+                if (external.getIdentificationScheme().equals(externalIdentifierEnum.getClassificationScheme())) {
+                    external.setId(externalIdentifierEnum.getId());
+                }
+            }
+        }
+
+        return extrinsicObject;
+    }
 
 }

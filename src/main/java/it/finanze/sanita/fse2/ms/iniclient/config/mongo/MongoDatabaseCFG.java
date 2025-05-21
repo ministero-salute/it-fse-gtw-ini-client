@@ -53,108 +53,107 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public class MongoDatabaseCFG {
-	
-	private static final String ALG = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic";
-	private static final String KEY_VAULT_NAMESPACE = "encryption.__keyVault";
 
-	private final Map<String, Map<String, Object>> kmsProviders = new HashMap<>();
-	private ClientEncryption clientEncryption;
-	private BsonBinary datakeyId;
+    private static final String ALG = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic";
+    private static final String KEY_VAULT_NAMESPACE = "encryption.__keyVault";
 
-	@Autowired
-	private MongoPropertiesCFG mongoPropsCfg;
+    private final Map<String, Map<String, Object>> kmsProviders = new HashMap<>();
+    private ClientEncryption clientEncryption;
+    private BsonBinary datakeyId;
 
-	@Value("${data.mongodb.crypting.datakey-id-name}")
-	private String dataKeyIdName;
-	
-	@Autowired
-	private AzureCfg azureCfg;
- 
-	
-	private static final String KMS_PROVIDER = "azure";
+    @Autowired
+    private MongoPropertiesCFG mongoPropsCfg;
 
-	@PostConstruct
-	public void init() {
-		if (mongoPropsCfg.isEncryptionEnabled()) {
-			configureKmsProviders();
-		}
-	}
+    @Value("${data.mongodb.crypting.datakey-id-name}")
+    private String dataKeyIdName;
 
-	/**
-	 * Configura MongoDB factory
-	 */
-	@Bean
-	public MongoDatabaseFactory mongoDatabaseFactory() {
-		ConnectionString connectionString = new ConnectionString(mongoPropsCfg.getUri());
-		MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-				.applyConnectionString(connectionString)
-				.build();
+    @Autowired
+    private AzureCfg azureCfg;
 
-		if (mongoPropsCfg.isEncryptionEnabled()) {
-			generateOrRetrieveDataKeyId(mongoClientSettings);
-		}
+    private static final String KMS_PROVIDER = "azure";
 
-		return new SimpleMongoClientDatabaseFactory(MongoClients.create(mongoClientSettings), mongoPropsCfg.getSchemaName());
-	}
+    @PostConstruct
+    public void init() {
+        if (mongoPropsCfg.isEncryptionEnabled()) {
+            configureKmsProviders();
+        }
+    }
 
-	/**
-	 * Restituisce un MongoTemplate configurato con custom converters
-	 */
-	@Bean
-	@Primary
-	public MongoTemplate mongoTemplate(final MongoDatabaseFactory factory, final ApplicationContext appContext) {
-		final MongoMappingContext mongoMappingContext = new MongoMappingContext();
-		mongoMappingContext.setApplicationContext(appContext);
-		MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(factory),
-				mongoMappingContext);
-		converter.setTypeMapper(new DefaultMongoTypeMapper(null));
-		return new MongoTemplate(factory, converter);
-	}
+    /**
+     * Configura MongoDB factory
+     */
+    @Bean
+    public MongoDatabaseFactory mongoDatabaseFactory() {
+        ConnectionString connectionString = new ConnectionString(mongoPropsCfg.getUri());
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
 
+        if (mongoPropsCfg.isEncryptionEnabled()) {
+            generateOrRetrieveDataKeyId(mongoClientSettings);
+        }
 
-	private void generateOrRetrieveDataKeyId(MongoClientSettings settings) {
+        return new SimpleMongoClientDatabaseFactory(MongoClients.create(mongoClientSettings),
+                mongoPropsCfg.getSchemaName());
+    }
 
-		ClientEncryptionSettings clientEncryptionSettings = ClientEncryptionSettings.builder()
-				.keyVaultMongoClientSettings(settings)
-				.keyVaultNamespace(KEY_VAULT_NAMESPACE)
-				.kmsProviders(kmsProviders)
-				.build();
+    /**
+     * Restituisce un MongoTemplate configurato con custom converters
+     */
+    @Bean
+    @Primary
+    public MongoTemplate mongoTemplate(final MongoDatabaseFactory factory, final ApplicationContext appContext) {
+        final MongoMappingContext mongoMappingContext = new MongoMappingContext();
+        mongoMappingContext.setApplicationContext(appContext);
+        MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(factory),
+                mongoMappingContext);
+        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        return new MongoTemplate(factory, converter);
+    }
 
-		clientEncryption = ClientEncryptions.create(clientEncryptionSettings);
-		BsonDocument keyDocument = clientEncryption.getKeyByAltName(dataKeyIdName);
-		if (keyDocument == null) {
-			log.info("No existing key found with alias 'dispatcherKey'. Creating a new key...");
-			datakeyId = clientEncryption.createDataKey(KMS_PROVIDER, 
-					new DataKeyOptions().keyAltNames(Collections.singletonList(dataKeyIdName)).masterKey(configureMasterKeyProperties()));
-		} else {
-			log.info("Existing key found with alias 'dispatcherKey'.");
-			datakeyId = keyDocument.getBinary("_id");
-		}
-	}
+    private void generateOrRetrieveDataKeyId(MongoClientSettings settings) {
 
-	/**
-	 * Encrypts a value using the specified algorithm.
-	 */
-	public Document decryptAsDocument(Binary encryptedData) {
-		BsonValue bsonValue = clientEncryption.decrypt(new BsonBinary(encryptedData.getType(), encryptedData.getData()));
-		return Document.parse(bsonValue.asString().getValue());
-	}
-	  
-	public void configureKmsProviders() {
-		Map<String, Object> providerDetails = new HashMap<>();
-		providerDetails.put("tenantId", azureCfg.getTenantId());  
-		providerDetails.put("clientId", azureCfg.getClientId());  
-		providerDetails.put("clientSecret", azureCfg.getClientSecret()); 
-		kmsProviders.put(KMS_PROVIDER, providerDetails);
-	}
+        ClientEncryptionSettings clientEncryptionSettings = ClientEncryptionSettings.builder()
+                .keyVaultMongoClientSettings(settings)
+                .keyVaultNamespace(KEY_VAULT_NAMESPACE)
+                .kmsProviders(kmsProviders)
+                .build();
 
-	public BsonDocument configureMasterKeyProperties() {
-		BsonDocument masterKeyProperties = new BsonDocument();
-		masterKeyProperties.put("provider", new BsonString(KMS_PROVIDER));
-		masterKeyProperties.put("keyName", new BsonString(azureCfg.getMasterKeyName()));  
-		masterKeyProperties.put("keyVaultEndpoint", new BsonString(azureCfg.getKeyVaultEndpoint())); 
-		return masterKeyProperties;
-	}
+        clientEncryption = ClientEncryptions.create(clientEncryptionSettings);
+        BsonDocument keyDocument = clientEncryption.getKeyByAltName(dataKeyIdName);
+        if (keyDocument == null) {
+            log.info("No existing key found with alias 'dispatcherKey'. Creating a new key...");
+            datakeyId = clientEncryption.createDataKey(KMS_PROVIDER,
+                    new DataKeyOptions().keyAltNames(Collections.singletonList(dataKeyIdName))
+                            .masterKey(configureMasterKeyProperties()));
+        } else {
+            log.info("Existing key found with alias 'dispatcherKey'.");
+            datakeyId = keyDocument.getBinary("_id");
+        }
+    }
+
+    /**
+     * Encrypts a value using the specified algorithm.
+     */
+    public Document decryptAsDocument(Binary encryptedData) {
+        BsonValue bsonValue = clientEncryption
+                .decrypt(new BsonBinary(encryptedData.getType(), encryptedData.getData()));
+        return Document.parse(bsonValue.asString().getValue());
+    }
+
+    public void configureKmsProviders() {
+        Map<String, Object> providerDetails = new HashMap<>();
+        providerDetails.put("tenantId", azureCfg.getTenantId());
+        providerDetails.put("clientId", azureCfg.getClientId());
+        providerDetails.put("clientSecret", azureCfg.getClientSecret());
+        kmsProviders.put(KMS_PROVIDER, providerDetails);
+    }
+
+    public BsonDocument configureMasterKeyProperties() {
+        BsonDocument masterKeyProperties = new BsonDocument();
+        masterKeyProperties.put("provider", new BsonString(KMS_PROVIDER));
+        masterKeyProperties.put("keyName", new BsonString(azureCfg.getMasterKeyName()));
+        masterKeyProperties.put("keyVaultEndpoint", new BsonString(azureCfg.getKeyVaultEndpoint()));
+        return masterKeyProperties;
+    }
 }
-	
-

@@ -22,16 +22,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetMetadatiCrashProgramDTO extends ResponseDTO {
 
-	private String slotIdentificativoRep;
-	private List<String> slotAdministrativeRequest;
-	private String slotDataInizioPrestazione; 
-	private String slotDataFinePrestazione;
-	private String slotConservazioneANorma; 
-	private List<String> slotDescriptions; 
-	private String classificationTipoDocumentoLivAlto; 
-	private String classificationTipologiaStruttura;
-	private String classificationAssettoOrganizzativo; 
-	private List<String> classificationAttiCliniciRegoleAccesso; 
- 
- 
+    private String slotIdentificativoRep;
+    private List<String> slotAdministrativeRequest;
+    private String slotDataInizioPrestazione;
+    private String slotDataFinePrestazione;
+    private String slotConservazioneANorma;
+    private List<String> slotDescriptions;
+    private String classificationTipoDocumentoLivAlto;
+    private String classificationTipologiaStruttura;
+    private String classificationAssettoOrganizzativo;
+    private List<String> classificationAttiCliniciRegoleAccesso;
+
 }

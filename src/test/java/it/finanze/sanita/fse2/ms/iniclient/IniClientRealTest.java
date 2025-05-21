@@ -44,7 +44,7 @@ class IniClientRealTest extends AbstractTest {
     void errorPublishTest() {
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
@@ -56,10 +56,8 @@ class IniClientRealTest extends AbstractTest {
     void successPublishTest() {
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
-        //assertNull(response.getBody().getErrorMessage());
-        //assertEquals(true, response.getBody().getEsito());
     }
 
     @Test
@@ -68,7 +66,7 @@ class IniClientRealTest extends AbstractTest {
     void notFoundPublishErrorTest() {
         String workflowInstanceId = "notfound";
         ResponseEntity<IniTraceResponseDTO> response = callPublishIniClient(workflowInstanceId);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
@@ -80,7 +78,7 @@ class IniClientRealTest extends AbstractTest {
     void errorDeleteTest() {
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
@@ -92,10 +90,8 @@ class IniClientRealTest extends AbstractTest {
     void successDeleteTest() {
         String identificativoDelete = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         ResponseEntity<IniTraceResponseDTO> response = callDeleteIniClient(identificativoDelete);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
-        //assertNull(response.getBody().getErrorMessage());
-        //assertEquals(true, response.getBody().getEsito());
     }
 
     @Test
@@ -104,7 +100,8 @@ class IniClientRealTest extends AbstractTest {
     void errorGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, SearchTypeEnum.LEAF_CLASS.getSearchKey(), jwtToken));
+        assertThrows(BusinessException.class,
+                () -> iniClient.getReferenceUUID(idDoc, SearchTypeEnum.LEAF_CLASS.getSearchKey(), jwtToken));
     }
 
     @Test
@@ -113,10 +110,11 @@ class IniClientRealTest extends AbstractTest {
     void successGetReferenceTest() {
         String idDoc = "2.16.840.1.113883.2.9.2.90.4.4^090A02205783394_PRESPEC";
         JWTTokenDTO jwtToken = buildJwtToken();
-        assertThrows(BusinessException.class, () -> iniClient.getReferenceUUID(idDoc, SearchTypeEnum.LEAF_CLASS.getSearchKey(),jwtToken));
-        //assertNotNull(uuid);
-        //assertNull(response.getBody().getErrorMessage());
-        //assertEquals(true, response.getBody().getEsito());
+        assertThrows(BusinessException.class,
+                () -> iniClient.getReferenceUUID(idDoc, SearchTypeEnum.LEAF_CLASS.getSearchKey(), jwtToken));
+        // assertNotNull(uuid);
+        // assertNull(response.getBody().getErrorMessage());
+        // assertEquals(true, response.getBody().getEsito());
     }
 
     @Test
@@ -133,7 +131,7 @@ class IniClientRealTest extends AbstractTest {
     void errorReplaceTest() {
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getMessage());
         assertEquals(false, response.getBody().getEsito());
@@ -145,9 +143,8 @@ class IniClientRealTest extends AbstractTest {
     void successReplaceTest() {
         String workflowInstanceId = "2.16.840.1.113883.2.9.2.120.4.4.030702.TSTSMN63A01F205H.20220325112426.OQlvTq1J.4e25c802bbd04956a3f2355000976cc3^^^^urn:ihe:iti:xdw:2013:workflowInstanceId";
         ResponseEntity<IniTraceResponseDTO> response = callReplaceIniClient("idDoc", workflowInstanceId);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
     }
- 
- 
+
 }

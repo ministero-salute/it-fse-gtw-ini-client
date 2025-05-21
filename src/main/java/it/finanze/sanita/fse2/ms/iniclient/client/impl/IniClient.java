@@ -95,345 +95,371 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 @Component
 public class IniClient implements IIniClient {
 
-	@Autowired
-	private IniCFG iniCFG;
+    @Autowired
+    private IniCFG iniCFG;
 
-	@Autowired
-	private SamlHeaderBuilderUtility samlHeaderBuilderUtility;
+    @Autowired
+    private SamlHeaderBuilderUtility samlHeaderBuilderUtility;
 
-	@Autowired
-	private ISecuritySRV securitySRV;
-	
-	@Autowired
-	private AuditIniSrv auditIniSrv;
+    @Autowired
+    private ISecuritySRV securitySRV;
 
-	@Autowired
-	private IConfigSRV configSRV;
-	
-	@Autowired
-	private GovwayCfg govwayCfg;
+    @Autowired
+    private AuditIniSrv auditIniSrv;
 
-	private SSLContext sslContext;
+    @Autowired
+    private IConfigSRV configSRV;
 
-	private XDSDeletetWS deletePort;
+    @Autowired
+    private GovwayCfg govwayCfg;
 
-	private DocumentRegistryPortType documentRegistryPort;
-	
-	private DocumentRegistryPortType recuperoRiferimentoPort;
+    private SSLContext sslContext;
 
-	private UpdateDocumentRegistryPortType updateDocumentRegistryPort;
-	
-	private List<URI> uris;
-	
-	@PostConstruct
-	void initialize() {
-		try {
-			samlHeaderBuilderUtility.initialize();
-			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-				sslContext = securitySRV.createSslCustomContext();
-				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-			}
-			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
-				uris = getProxyURIs();
-				setupProxy();	
-			} 
+    private XDSDeletetWS deletePort;
 
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			documentRegistryPort = documentRegistryService.getDocumentRegistryPortSoap12();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDocumentRegistryService())) {
-				BindingProvider bindingProvider = (BindingProvider) documentRegistryPort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDocumentRegistryService());
-			} 
-			
-			UpdateDocumentRegistryService updateDocumentRegistryService = new UpdateDocumentRegistryService();
-			updateDocumentRegistryPort = updateDocumentRegistryService.getDocumentRegistryUpdateDocumentSetPortSoap12();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlUpdateDocumentRegistryService())) {
-				BindingProvider bindingProvider = (BindingProvider) updateDocumentRegistryPort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlUpdateDocumentRegistryService());
-			} 
+    private DocumentRegistryPortType documentRegistryPort;
 
-			XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
-			deletePort = deletetWSService.getXDSDeletetWSSPort();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDeletetService())) {
-				BindingProvider bindingProvider = (BindingProvider) deletePort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDeletetService());
-			}
-			
-			DocumentRegistryService recuperoRiferimentoService = new DocumentRegistryService();
-			recuperoRiferimentoPort = recuperoRiferimentoService.getDocumentRegistryPortSoap12();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlRecuperoRiferimentoService())) {
-				BindingProvider bindingProvider = (BindingProvider) recuperoRiferimentoPort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlRecuperoRiferimentoService());
-			} 
+    private DocumentRegistryPortType recuperoRiferimentoPort;
 
-			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-				((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				((BindingProvider) recuperoRiferimentoPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				((BindingProvider) updateDocumentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-			}
-			
-			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
-			List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-			handlerChainDocumentRegistry.add(loggingHandler);
-			((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
+    private UpdateDocumentRegistryPortType updateDocumentRegistryPort;
 
-			List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-			handlerChainDelete.add(loggingHandler);
-			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
-			
-			List<Handler> handlerChainUpdate = ((BindingProvider) updateDocumentRegistryPort).getBinding().getHandlerChain();
-			handlerChainUpdate.add(loggingHandler);
-			((BindingProvider) updateDocumentRegistryPort).getBinding().setHandlerChain(handlerChainUpdate);
+    private List<URI> uris;
 
-			List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
-			handlerChainRecuperoRiferimento.add(loggingHandler);
-			((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
-		} catch(Exception ex) {
-			log.error("Error while initialiting INI context : " , ex);
-			throw new BusinessException(ex);
-		}
-	}
- 
-	private void setupProxy() {
-	    ProxySelector.setDefault(new ProxySelector() {
-	        @Override
-	        public List<Proxy> select(URI uri) {
-	            if (uris.stream().anyMatch(u -> u.getHost().equals(uri.getHost()))) {
-	                return Collections.singletonList(new Proxy(
-	                    Proxy.Type.HTTP,
-	                    new InetSocketAddress(govwayCfg.getGovwayUrl(), govwayCfg.getGovwayPort())
-	                ));
-	            }
+    @PostConstruct
+    void initialize() {
+        try {
+            samlHeaderBuilderUtility.initialize();
+            if (Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+                sslContext = securitySRV.createSslCustomContext();
+                HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+            }
 
-	            return Collections.singletonList(Proxy.NO_PROXY);
-	        }
+            if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
+                uris = getProxyURIs();
+                setupProxy();
+            }
 
-	        @Override
-	        public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-	            ioe.printStackTrace();
-	        }
-	    });
-	}
-	
-	private List<URI> getProxyURIs() {
-	    List<String> proxyDomains = Arrays.asList(
-	        iniCFG.getUrlWsdlDocumentRegistryService(),
-	        iniCFG.getUrlWsdlUpdateDocumentRegistryService(),
-	        iniCFG.getUrlWsdlDeletetService(),
-	        iniCFG.getUrlWsdlRecuperoRiferimentoService()
-	    );
+            DocumentRegistryService documentRegistryService = new DocumentRegistryService();
+            documentRegistryPort = documentRegistryService.getDocumentRegistryPortSoap12();
+            if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDocumentRegistryService())) {
+                BindingProvider bindingProvider = (BindingProvider) documentRegistryPort;
+                bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                        iniCFG.getUrlWsdlDocumentRegistryService());
+            }
 
-	    return proxyDomains.stream().map(this::toURI).filter(Objects::nonNull).collect(Collectors.toList());
-	}
-	
-	private URI toURI(String url) {
-	    try {
-	        return new URI(url);
-	    } catch (URISyntaxException e) {
-	        log.error("Invalid URI: {}", url, e);
-	        return null;
-	    }
-	}
+            UpdateDocumentRegistryService updateDocumentRegistryService = new UpdateDocumentRegistryService();
+            updateDocumentRegistryPort = updateDocumentRegistryService.getDocumentRegistryUpdateDocumentSetPortSoap12();
+            if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlUpdateDocumentRegistryService())) {
+                BindingProvider bindingProvider = (BindingProvider) updateDocumentRegistryPort;
+                bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                        iniCFG.getUrlWsdlUpdateDocumentRegistryService());
+            }
 
-	
-	@Override
-	public RegistryResponseType sendPublicationData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
-			String workflowInstanceId,Date startingDate) {
-		log.debug("Call to INI publication");
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
-		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
-		bp.setOutboundHeaders(headers);
-		
-		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), null);
-		
-		bp.getRequestContext().put(WII, workflowInstanceId);
-		bp.getRequestContext().put(EVENT_TYPE, INI_CREATE_SOAP);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-			Map<String, List<String>> h = getBasicAuthCredentials();
-		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-		}
-		
-		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
-	}
+            XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
+            deletePort = deletetWSService.getXDSDeletetWSSPort();
+            if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDeletetService())) {
+                BindingProvider bindingProvider = (BindingProvider) deletePort;
+                bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                        iniCFG.getUrlWsdlDeletetService());
+            }
 
-	private Map<String, List<String>> getBasicAuthCredentials() {
-	    String authString = govwayCfg.getGovwayUser() + ":" + govwayCfg.getGovwayPass();
-	    
-	    String encodedAuth = "";
-	    if(!StringUtility.isNullOrEmpty(authString)) {
-	    	encodedAuth = Base64.getEncoder().encodeToString(authString.getBytes());	    	
-	    }
+            DocumentRegistryService recuperoRiferimentoService = new DocumentRegistryService();
+            recuperoRiferimentoPort = recuperoRiferimentoService.getDocumentRegistryPortSoap12();
+            if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlRecuperoRiferimentoService())) {
+                BindingProvider bindingProvider = (BindingProvider) recuperoRiferimentoPort;
+                bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                        iniCFG.getUrlWsdlRecuperoRiferimentoService());
+            }
 
-	    Map<String, List<String>> h = new HashMap<>();
-	    h.put("Authorization", Collections.singletonList("Basic " + encodedAuth));
-		return h;
-	}
-	
- 
+            if (Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+                ((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY,
+                        sslContext.getSocketFactory());
+                ((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY,
+                        sslContext.getSocketFactory());
+                ((BindingProvider) recuperoRiferimentoPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY,
+                        sslContext.getSocketFactory());
+                ((BindingProvider) updateDocumentRegistryPort).getRequestContext()
+                        .put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+            }
 
-	@Override
-	public RegistryResponseType sendDeleteData(DeleteRequestDTO deleteRequestDto, JWTPayloadDTO jwtPayloadDTO, List<String> uuid, Date startingDate) {
-		log.debug("Call to INI delete");
+            SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
+            List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding()
+                    .getHandlerChain();
+            handlerChainDocumentRegistry.add(loggingHandler);
+            ((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
 
-		JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(deleteToken, ActionEnumType.DELETE);
+            List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
+            handlerChainDelete.add(loggingHandler);
+            ((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 
-		WSBindingProvider bp = (WSBindingProvider)deletePort;
-		bp.setOutboundHeaders(headers);
-		bp.getRequestContext().put(WII, deleteRequestDto.getWorkflow_instance_id());
-		bp.getRequestContext().put(EVENT_TYPE, INI_DELETE_SOAP);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		RemoveObjectsRequestType removeObjectsRequest = DeleteBodyBuilderUtility.buildRemoveObjectsRequest(deleteRequestDto.getUuid());
-		Holder<RegistryResponseType> holder = new Holder<>();
+            List<Handler> handlerChainUpdate = ((BindingProvider) updateDocumentRegistryPort).getBinding()
+                    .getHandlerChain();
+            handlerChainUpdate.add(loggingHandler);
+            ((BindingProvider) updateDocumentRegistryPort).getBinding().setHandlerChain(handlerChainUpdate);
 
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-			Map<String, List<String>> h = getBasicAuthCredentials();
-		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-		}
-		
-		deletePort.documentRegistryDeleteDocumentSet(removeObjectsRequest, holder);
-		return holder.value;
-	}
-	
-	@Override
-	public RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate) {
-		log.debug("Call to INI update ");
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE_V2);
-		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
-		bp.setOutboundHeaders(headers);
+            List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding()
+                    .getHandlerChain();
+            handlerChainRecuperoRiferimento.add(loggingHandler);
+            ((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
+        } catch (Exception ex) {
+            log.error("Error while initialiting INI context: ", ex);
+            throw new BusinessException(ex);
+        }
+    }
 
-		bp.getRequestContext().put(WII, workflowInstanceId);
-		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-			Map<String, List<String>> h = getBasicAuthCredentials();
-		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-		}
-		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
-//		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE_V2);
-	}
-	
+    private void setupProxy() {
+        ProxySelector.setDefault(new ProxySelector() {
+            @Override
+            public List<Proxy> select(URI uri) {
+                if (uris.stream().anyMatch(u -> u.getHost().equals(uri.getHost()))) {
+                    return Collections.singletonList(new Proxy(
+                            Proxy.Type.HTTP,
+                            new InetSocketAddress(govwayCfg.getGovwayUrl(), govwayCfg.getGovwayPort())));
+                }
 
-	@Override
-	public RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate) {
-		log.debug("Call to INI update ");
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
-		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
-		bp.setOutboundHeaders(headers);
+                return Collections.singletonList(Proxy.NO_PROXY);
+            }
 
-		bp.getRequestContext().put(WII, workflowInstanceId);
-		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-			Map<String, List<String>> h = getBasicAuthCredentials();
-		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-		}
-		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
-//		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
-	}
-	
-	@Override
-	public RegistryResponseType sendReplaceData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO,
-			final JWTTokenDTO jwtTokenDTO, final String uuid,String workflowInstanceId,Date startingDate) {
-		log.debug("Call to INI replace");
+            @Override
+            public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+                ioe.printStackTrace();
+            }
+        });
+    }
 
-		// Reconfigure token and build request
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
-		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
-		bp.setOutboundHeaders(headers);
-		bp.getRequestContext().put(WII, workflowInstanceId);
-		bp.getRequestContext().put(EVENT_TYPE, INI_REPLACE_SOAP);
-		bp.getRequestContext().put(EVENT_DATE, startingDate);
-		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid);
+    private List<URI> getProxyURIs() {
+        List<String> proxyDomains = Arrays.asList(
+                iniCFG.getUrlWsdlDocumentRegistryService(),
+                iniCFG.getUrlWsdlUpdateDocumentRegistryService(),
+                iniCFG.getUrlWsdlDeletetService(),
+                iniCFG.getUrlWsdlRecuperoRiferimentoService());
 
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-			Map<String, List<String>> h = getBasicAuthCredentials();
-		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-		}
-		
-		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
+        return proxyDomains.stream().map(this::toURI).filter(Objects::nonNull).collect(Collectors.toList());
+    }
 
-	}
+    private URI toURI(String url) {
+        try {
+            return new URI(url);
+        } catch (URISyntaxException e) {
+            log.error("Invalid URI: {}", url, e);
+            return null;
+        }
+    }
 
-	@Override
-	public AdhocQueryResponse getReferenceUUID(String idDoc, String tipoRicerca,JWTTokenDTO tokenDTO) {
-		log.debug("Call to INI get reference");
+    @Override
+    public RegistryResponseType sendPublicationData(final DocumentEntryDTO documentEntryDTO,
+            final SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
+            String workflowInstanceId, Date startingDate) {
+        log.debug("Call to INI publication");
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
+        WSBindingProvider bp = (WSBindingProvider) documentRegistryPort;
+        bp.setOutboundHeaders(headers);
 
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(tokenDTO, ActionEnumType.READ_REFERENCE);
-		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
-		bp.setOutboundHeaders(headers);
+        SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility
+                .buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), null);
 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
-		
-		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-			Map<String, List<String>> h = getBasicAuthCredentials();
-		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-		}
-		return documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-	}
+        bp.getRequestContext().put(WII, workflowInstanceId);
+        bp.getRequestContext().put(EVENT_TYPE, INI_CREATE_SOAP);
+        bp.getRequestContext().put(EVENT_DATE, startingDate);
 
-	@Override
-	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,
-			String workflowInstanceId) {
-		Date startingDate = new Date();
-		return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_METADATA,workflowInstanceId,startingDate);
-	}
+        if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+            Map<String, List<String>> h = getBasicAuthCredentials();
+            bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+        }
 
-	@Override
-	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType, String workflowInstanceId,Date startingDate) {
-		log.debug("Call to INI get reference metadata");
+        return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
+    }
 
-		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, actionEnumType);
- 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
-		
-		AdhocQueryResponse response = null;
-		WSBindingProvider bp = null;
-		Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP : INI_GET_METADATI_SOAP; 
-		if(ActionEnumType.READ_METADATA.equals(actionEnumType)) {
-			bp = (WSBindingProvider)documentRegistryPort;
-			bp.getRequestContext().put(WII, workflowInstanceId);
-			bp.getRequestContext().put(EVENT_TYPE, eventType);
-			bp.getRequestContext().put(EVENT_DATE, startingDate);
-			bp.setOutboundHeaders(headers);
-			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-				Map<String, List<String>> h = getBasicAuthCredentials();
-			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-			}
-			
-			response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);	
-		} else {
-			bp = (WSBindingProvider)recuperoRiferimentoPort;
-			bp.getRequestContext().put(WII, workflowInstanceId);
-			bp.getRequestContext().put(EVENT_TYPE, eventType);
-			bp.getRequestContext().put(EVENT_DATE, startingDate);
-			bp.setOutboundHeaders(headers);
-			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-				Map<String, List<String>> h = getBasicAuthCredentials();
-			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-			}
-			
-			response = recuperoRiferimentoPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-		}
-		 
-		StringBuilder sb = new StringBuilder();
-		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
-			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-					sb.append("ERROR_CODE: "+error.getErrorCode() + " ERROR_CONTEXT: " + error.getCodeContext());
-			}
-			throw new BusinessException(sb.toString());
-		}
-		return response;
-	}
- 
- 
+    private Map<String, List<String>> getBasicAuthCredentials() {
+        String authString = govwayCfg.getGovwayUser() + ":" + govwayCfg.getGovwayPass();
+
+        String encodedAuth = "";
+        if (!StringUtility.isNullOrEmpty(authString)) {
+            encodedAuth = Base64.getEncoder().encodeToString(authString.getBytes());
+        }
+
+        Map<String, List<String>> h = new HashMap<>();
+        h.put("Authorization", Collections.singletonList("Basic " + encodedAuth));
+        return h;
+    }
+
+    @Override
+    public RegistryResponseType sendDeleteData(DeleteRequestDTO deleteRequestDto, JWTPayloadDTO jwtPayloadDTO,
+            List<String> uuid, Date startingDate) {
+        log.debug("Call to INI delete");
+
+        JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(deleteToken, ActionEnumType.DELETE);
+
+        WSBindingProvider bp = (WSBindingProvider) deletePort;
+        bp.setOutboundHeaders(headers);
+        bp.getRequestContext().put(WII, deleteRequestDto.getWorkflow_instance_id());
+        bp.getRequestContext().put(EVENT_TYPE, INI_DELETE_SOAP);
+        bp.getRequestContext().put(EVENT_DATE, startingDate);
+        RemoveObjectsRequestType removeObjectsRequest = DeleteBodyBuilderUtility
+                .buildRemoveObjectsRequest(deleteRequestDto.getUuid());
+        Holder<RegistryResponseType> holder = new Holder<>();
+
+        if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+            Map<String, List<String>> h = getBasicAuthCredentials();
+            bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+        }
+
+        deletePort.documentRegistryDeleteDocumentSet(removeObjectsRequest, holder);
+        return holder.value;
+    }
+
+    @Override
+    public RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,
+            String workflowInstanceId, Date startingDate) {
+        log.debug("Call to INI update ");
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE_V2);
+        WSBindingProvider bp = (WSBindingProvider) updateDocumentRegistryPort;
+        bp.setOutboundHeaders(headers);
+
+        bp.getRequestContext().put(WII, workflowInstanceId);
+        bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
+        bp.getRequestContext().put(EVENT_DATE, startingDate);
+
+        if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+            Map<String, List<String>> h = getBasicAuthCredentials();
+            bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+        }
+        return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
+        // return
+        // sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE_V2);
+    }
+
+    @Override
+    public RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,
+            String workflowInstanceId, Date startingDate) {
+        log.debug("Call to INI update ");
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
+        WSBindingProvider bp = (WSBindingProvider) documentRegistryPort;
+        bp.setOutboundHeaders(headers);
+
+        bp.getRequestContext().put(WII, workflowInstanceId);
+        bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
+        bp.getRequestContext().put(EVENT_DATE, startingDate);
+
+        if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+            Map<String, List<String>> h = getBasicAuthCredentials();
+            bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+        }
+        return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
+        // return
+        // sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
+    }
+
+    @Override
+    public RegistryResponseType sendReplaceData(final DocumentEntryDTO documentEntryDTO,
+            final SubmissionSetEntryDTO submissionSetEntryDTO,
+            final JWTTokenDTO jwtTokenDTO, final String uuid, String workflowInstanceId, Date startingDate) {
+        log.debug("Call to INI replace");
+
+        // Reconfigure token and build request
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
+        WSBindingProvider bp = (WSBindingProvider) documentRegistryPort;
+        bp.setOutboundHeaders(headers);
+        bp.getRequestContext().put(WII, workflowInstanceId);
+        bp.getRequestContext().put(EVENT_TYPE, INI_REPLACE_SOAP);
+        bp.getRequestContext().put(EVENT_DATE, startingDate);
+        SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility
+                .buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid);
+
+        if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+            Map<String, List<String>> h = getBasicAuthCredentials();
+            bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+        }
+
+        return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
+
+    }
+
+    @Override
+    public AdhocQueryResponse getReferenceUUID(String idDoc, String tipoRicerca, JWTTokenDTO tokenDTO) {
+        log.debug("Call to INI get reference");
+
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(tokenDTO, ActionEnumType.READ_REFERENCE);
+        WSBindingProvider bp = (WSBindingProvider) documentRegistryPort;
+        bp.setOutboundHeaders(headers);
+
+        AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
+
+        if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+            Map<String, List<String>> h = getBasicAuthCredentials();
+            bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+        }
+        return documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
+    }
+
+    @Override
+    public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,
+            String workflowInstanceId) {
+        Date startingDate = new Date();
+        return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_METADATA, workflowInstanceId,
+                startingDate);
+    }
+
+    @Override
+    public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,
+            ActionEnumType actionEnumType, String workflowInstanceId, Date startingDate) {
+        log.debug("Call to INI get reference metadata");
+
+        JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
+        List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, actionEnumType);
+
+        AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid, tipoRicerca);
+
+        AdhocQueryResponse response = null;
+        WSBindingProvider bp = null;
+        Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP
+                : INI_GET_METADATI_SOAP;
+        if (ActionEnumType.READ_METADATA.equals(actionEnumType)) {
+            bp = (WSBindingProvider) documentRegistryPort;
+            bp.getRequestContext().put(WII, workflowInstanceId);
+            bp.getRequestContext().put(EVENT_TYPE, eventType);
+            bp.getRequestContext().put(EVENT_DATE, startingDate);
+            bp.setOutboundHeaders(headers);
+
+            if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                    && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+                Map<String, List<String>> h = getBasicAuthCredentials();
+                bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+            }
+
+            response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
+        } else {
+            bp = (WSBindingProvider) recuperoRiferimentoPort;
+            bp.getRequestContext().put(WII, workflowInstanceId);
+            bp.getRequestContext().put(EVENT_TYPE, eventType);
+            bp.getRequestContext().put(EVENT_DATE, startingDate);
+            bp.setOutboundHeaders(headers);
+
+            if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser())
+                    && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+                Map<String, List<String>> h = getBasicAuthCredentials();
+                bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);
+            }
+
+            response = recuperoRiferimentoPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (response.getRegistryErrorList() != null
+                && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
+            for (RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+                sb.append("ERROR_CODE: " + error.getErrorCode() + " ERROR_CONTEXT: " + error.getCodeContext());
+            }
+            throw new BusinessException(sb.toString());
+        }
+        return response;
+    }
+
 }

@@ -33,77 +33,79 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FileUtility {
- 
-	/**
-	 * Max size chunk.
-	 */
-	private static final int CHUNK_SIZE = 16384;
 
-	
-	/**
-	 * Metodo per il recupero del contenuto di un file dalla folder interna "/src/main/resources".
-	 *
-	 * @param filename	nome del file
-	 * @return			contenuto del file
-	 */
-	public static byte[] getFileFromInternalResources(final String filename) {
-		byte[] b = null;
-		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
-			b = getByteFromInputStream(is);
-		} catch (Exception e) {
-			log.error("FILE UTILS getFileFromInternalResources(): Errore in fase di recupero del contenuto di un file dalla folder '/src/main/resources'. ", e);
-		}
-		return b;
-	}
+    /**
+     * Max size chunk.
+     */
+    private static final int CHUNK_SIZE = 16384;
 
-	/**
-	 * Recupero contenuto file da input stream.
-	 *
-	 * @param is
-	 *            input stream
-	 * @return contenuto file
-	 */
-	private static byte[] getByteFromInputStream(final InputStream is) {
-		byte[] b;
-		try {
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			int nRead;
-			byte[] data = new byte[CHUNK_SIZE];
+    /**
+     * Metodo per il recupero del contenuto di un file dalla folder interna
+     * "/src/main/resources".
+     *
+     * @param filename nome del file
+     * @return contenuto del file
+     */
+    public static byte[] getFileFromInternalResources(final String filename) {
+        byte[] b = null;
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
+            b = getByteFromInputStream(is);
+        } catch (Exception e) {
+            log.error(
+                    "FILE UTILS getFileFromInternalResources(): Errore in fase di recupero del contenuto di un file dalla folder '/src/main/resources'. ",
+                    e);
+        }
+        return b;
+    }
 
-			while ((nRead = is.read(data, 0, data.length)) != -1) {
-				buffer.write(data, 0, nRead);
-			}
-			buffer.flush();
-			b = buffer.toByteArray();
-		} catch (Exception e) {
-			log.error("Errore durante il trasform da InputStream a byte[]: ", e);
-			throw new BusinessException(e);
-		}
-		return b;
-	}
-	
-	public static InputStream getFileFromAbsoluteOrResourceInputStream(String filePath) {
-		InputStream inputStream;
+    /**
+     * Recupero contenuto file da input stream.
+     *
+     * @param is
+     *           input stream
+     * @return contenuto file
+     */
+    private static byte[] getByteFromInputStream(final InputStream is) {
+        byte[] b;
+        try {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int nRead;
+            byte[] data = new byte[CHUNK_SIZE];
 
-		try {
-			File file = new File(filePath);
-			if (file.exists() && file.isFile()) {
-				inputStream = new FileInputStream(file);
-			} else {
-				Resource resource = new ClassPathResource(filePath);
-				if (resource.exists()) {
-					inputStream = resource.getInputStream();
-				} else {
-					throw new Exception("File not found in both absolute path and classpath: " + filePath);
-				}
-			}
-			
-		} catch(Exception ex) {
-			log.error("Error while get file input stream:", ex);
-			throw new BusinessException(ex);
-		}
+            while ((nRead = is.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            b = buffer.toByteArray();
+        } catch (Exception e) {
+            log.error("Error encountered while reading bytes from InputStream", e);
+            throw new BusinessException(e);
+        }
+        return b;
+    }
 
-		return inputStream;
-	}
+    public static InputStream getFileFromAbsoluteOrResourceInputStream(String filePath) {
+        InputStream inputStream;
+
+        try {
+            File file = new File(filePath);
+            if (file.exists() && file.isFile()) {
+                inputStream = new FileInputStream(file);
+            } else {
+                Resource resource = new ClassPathResource(filePath);
+                if (resource.exists()) {
+                    inputStream = resource.getInputStream();
+                } else {
+                    throw new Exception("File not found in both absolute path and classpath: " + filePath);
+                }
+            }
+
+        } catch (Exception ex) {
+            log.error("Error while get file input stream", ex);
+            throw new BusinessException(ex);
+        }
+
+        return inputStream;
+    }
 
 }

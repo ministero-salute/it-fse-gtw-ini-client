@@ -63,7 +63,7 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setPazienteCf(issuerDTO.getPazienteCf());
         entity.setReadyToScan(issuerDTO.isReadyToScan());
         List<TestTypeEnum> mandatoryTests = issuerDTO.getMandatoryTests();
-        if(mandatoryTests!=null && !mandatoryTests.isEmpty())
+        if (mandatoryTests != null && !mandatoryTests.isEmpty())
             entity.setMandatoryTests(mandatoryTests);
         entity.setEsonerato(issuerDTO.getEsonerato());
 
@@ -78,20 +78,20 @@ public class IssuerSRV implements IIssuerSRV {
         IssuerETY paziente = issuerRepo.findByFiscalCode(entity.getPazienteCf());
 
         if (issuer != null)
-            throw new InputValidationException("Issuer già esistente nel database");
+            throw new InputValidationException("Issuer already present in database");
         if (regione != null)
-            throw new BadRequestException("La regione indicata ha già un middleware");
+            throw new BadRequestException("Given Region has already a middleware");
         if (paziente != null)
-            throw new InputValidationException("Il codice fiscale del paziente inserito è già presente");
+            throw new InputValidationException("Inputed taxcode is already present");
         if (asl != null && entity.getMiddleware())
-            throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
+            throw new BadRequestException("Documents having ASL are already presente — Middleware cannot be loaded");
 
         String id = issuerRepo.createIssuer(entity);
 
         out.setEsito(!StringUtility.isNullOrEmpty(id));
         out.setId(id);
         if (!out.getEsito()) {
-            String message = String.format("Creazione dell'issuer %s nel database non riuscita", entity.getIssuer());
+            String message = String.format("Error encountered while creating issuer %s", entity.getIssuer());
             throw new BusinessException(message);
         }
 
@@ -122,12 +122,12 @@ public class IssuerSRV implements IIssuerSRV {
         entity.setReadyToScan(issuerDTO.isReadyToScan());
         entity.setEmailSent(issuerETY.isEmailSent());
         List<TestTypeEnum> mandatoryTests = issuerDTO.getMandatoryTests();
-        if(mandatoryTests!=null && !mandatoryTests.isEmpty())
+        if (mandatoryTests != null && !mandatoryTests.isEmpty())
             entity.setMandatoryTests(mandatoryTests);
         entity.setEsonerato(issuerDTO.getEsonerato());
 
         if (issuerDTO.getNomeDocumentRepository() != null && entity.getMiddleware())
-            throw new BadRequestException("Sono già presenti documenti con asl. Impossibile caricare il middleware");
+            throw new BadRequestException("Documents having ASL are already presente — Middleware cannot be loaded");
         entity.setNomeDocumentRepository(issuerDTO.getNomeDocumentRepository());
 
         String id = issuerRepo.updateIssuer(entity);

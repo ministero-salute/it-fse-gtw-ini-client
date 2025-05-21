@@ -1,7 +1,5 @@
 package it.finanze.sanita.fse2.ms.iniclient.singleton;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -22,47 +20,47 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SigningCredentialSingleton {
 
-	private static BasicX509Credential signingCertificateInstance;
-	
+    private static BasicX509Credential signingCertificateInstance;
 
-	public static synchronized BasicX509Credential getInstance(final IniCFG iniCFG) {
+    public static synchronized BasicX509Credential getInstance(final IniCFG iniCFG) {
         if (signingCertificateInstance == null) {
-        	signingCertificateInstance = getSigningCredential(iniCFG);
+            signingCertificateInstance = getSigningCredential(iniCFG);
         }
         return signingCertificateInstance;
     }
 
-	
-	private static BasicX509Credential getSigningCredential(IniCFG iniCFG) {
-		BasicX509Credential credential = null;
-		try {
-			KeyStore keyStore = KeyStore.getInstance("JKS");
-			
-			char[] pass = StringUtility.isNullOrEmpty(iniCFG.getKeyStorePassword()) ? "".toCharArray() : iniCFG.getKeyStorePassword().toCharArray();
-			
-	        try (InputStream inputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(iniCFG.getKeyStoreLocation())) {
-				keyStore.load(inputStream, pass);
-			}
-	        
-			Enumeration<String> en = keyStore.aliases();
-			String keyAlias = "";
-			while (en.hasMoreElements()) {
-				keyAlias = en.nextElement();
-				if (en.hasMoreElements() && iniCFG.getKeyStoreAlias() != null && !iniCFG.getKeyStoreAlias().isEmpty()) {
-					keyAlias = iniCFG.getKeyStoreAlias();
-					break;
-				}
-			}
-			Certificate c = keyStore.getCertificate(keyAlias);
-			PrivateKey key = (PrivateKey)keyStore.getKey(keyAlias, pass);
+    private static BasicX509Credential getSigningCredential(IniCFG iniCFG) {
+        BasicX509Credential credential = null;
+        try {
+            KeyStore keyStore = KeyStore.getInstance("JKS");
 
-			credential = new BasicX509Credential();
-			credential.setEntityCertificate((java.security.cert.X509Certificate) c);
-			credential.setPrivateKey(key);
-		} catch (Exception ex) {
-			log.error("Error while perform get signing credential : " + ex.getMessage());
-			throw new BusinessException("Error while perform get signing credential : " + ex.getMessage());
-		}
-		return credential;
-	}
+            char[] pass = StringUtility.isNullOrEmpty(iniCFG.getKeyStorePassword()) ? "".toCharArray()
+                    : iniCFG.getKeyStorePassword().toCharArray();
+
+            try (InputStream inputStream = FileUtility
+                    .getFileFromAbsoluteOrResourceInputStream(iniCFG.getKeyStoreLocation())) {
+                keyStore.load(inputStream, pass);
+            }
+
+            Enumeration<String> en = keyStore.aliases();
+            String keyAlias = "";
+            while (en.hasMoreElements()) {
+                keyAlias = en.nextElement();
+                if (en.hasMoreElements() && iniCFG.getKeyStoreAlias() != null && !iniCFG.getKeyStoreAlias().isEmpty()) {
+                    keyAlias = iniCFG.getKeyStoreAlias();
+                    break;
+                }
+            }
+            Certificate c = keyStore.getCertificate(keyAlias);
+            PrivateKey key = (PrivateKey) keyStore.getKey(keyAlias, pass);
+
+            credential = new BasicX509Credential();
+            credential.setEntityCertificate((java.security.cert.X509Certificate) c);
+            credential.setPrivateKey(key);
+        } catch (Exception ex) {
+            log.error("Error while perform get signing credential: " + ex.getMessage());
+            throw new BusinessException("Error while perform get signing credential: " + ex.getMessage());
+        }
+        return credential;
+    }
 }

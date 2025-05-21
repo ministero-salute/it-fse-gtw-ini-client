@@ -75,365 +75,381 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 @RestController
 public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
-	@Autowired
-	private IIniInvocationSRV iniInvocationSRV;
+    @Autowired
+    private IIniInvocationSRV iniInvocationSRV;
 
-	@Autowired
-	private IIniInvocationMockedSRV iniMockInvocationSRV;
+    @Autowired
+    private IIniInvocationMockedSRV iniMockInvocationSRV;
 
-	@Autowired
-	private IIssuerSRV issuserSRV;
+    @Autowired
+    private IIssuerSRV issuserSRV;
 
-	@Autowired
-	private IniCFG iniCFG;
-	
-	@Autowired
-	private IAuditIniSrv auditIniSrv; 
+    @Autowired
+    private IniCFG iniCFG;
 
-	@Autowired
-	private MongoDatabaseCFG mongoDbCfg;
-	
-	@Autowired
-	private MongoPropertiesCFG mongoPropsCfg;
-		
-	@Override
-	public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
-		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
-		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+    @Autowired
+    private IAuditIniSrv auditIniSrv;
 
-		log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG,
-				traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
+    @Autowired
+    private MongoDatabaseCFG mongoDbCfg;
 
-		IniResponseDTO res = null;
-		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
-//		for(int i=0; i<iniETY.getMetadata().size(); i++) {
-//			Document d = iniETY.getMetadata().get(i);
-//			Object valueToDecrypt = d.get("submissionSetEntry");
-//			if(valueToDecrypt!=null) {
-//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
-//				iniETY.getMetadata().set(i,new Document("submissionSetEntry", decryptedDocument));
-//			}
-//			
-//			valueToDecrypt = d.get("documentEntry");
-//			if(valueToDecrypt!=null) {
-//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
-//				iniETY.getMetadata().set(i,new Document("documentEntry", decryptedDocument));
-//			}
-//			
-//			valueToDecrypt = d.get("tokenEntry");
-//			if(valueToDecrypt!=null) {
-//				valueToDecrypt = ((Document)d.get("tokenEntry")).get("payload");
-//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
-//				iniETY.getMetadata().set(i,new Document("tokenEntry", new Document("payload", decryptedDocument)));
-//			}
-//		}
-		
-		if(mongoPropsCfg.isEncryptionEnabled()) {
-			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
+    @Autowired
+    private MongoPropertiesCFG mongoPropsCfg;
 
-			for (int i = 0; i < iniETY.getMetadata().size(); i++) {
-			    Document d = iniETY.getMetadata().get(i);
-			    
-			    for (String field : fieldsToDecrypt) {
-			        Object valueToDecrypt = d.get(field);
-			        
-			        if (valueToDecrypt != null) {
-			            // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
-			            if ("tokenEntry".equals(field)) {
-			                valueToDecrypt = ((Document) valueToDecrypt).get("payload");
-			            }
-			            
-			            Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
-			            
-			            if ("tokenEntry".equals(field)) {
-			                d.put(field, new Document("payload", decryptedDocument));
-			            } else {
-			                d.put(field, decryptedDocument);
-			            }
-			        }
-			    }
-			}			
-		}
-		
-		 
-		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
-		} else {
-			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
-			} else {
-				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
-			}
-		}
+    @Override
+    public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
+        log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
+        final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
-		log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
+        log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG,
+                traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
-	}
+        IniResponseDTO res = null;
+        IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH,
+                new Date());
+        // for(int i=0; i<iniETY.getMetadata().size(); i++) {
+        // Document d = iniETY.getMetadata().get(i);
+        // Object valueToDecrypt = d.get("submissionSetEntry");
+        // if(valueToDecrypt!=null) {
+        // Document decryptedDocument =
+        // mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
+        // iniETY.getMetadata().set(i,new Document("submissionSetEntry",
+        // decryptedDocument));
+        // }
+        //
+        // valueToDecrypt = d.get("documentEntry");
+        // if(valueToDecrypt!=null) {
+        // Document decryptedDocument =
+        // mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
+        // iniETY.getMetadata().set(i,new Document("documentEntry", decryptedDocument));
+        // }
+        //
+        // valueToDecrypt = d.get("tokenEntry");
+        // if(valueToDecrypt!=null) {
+        // valueToDecrypt = ((Document)d.get("tokenEntry")).get("payload");
+        // Document decryptedDocument =
+        // mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
+        // iniETY.getMetadata().set(i,new Document("tokenEntry", new Document("payload",
+        // decryptedDocument)));
+        // }
+        // }
 
-	@Override
-	public IniTraceResponseDTO delete(final DeleteRequestDTO requestBody, HttpServletRequest request) {
-		log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
-		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+        if (mongoPropsCfg.isEncryptionEnabled()) {
+            List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
 
-		log.info(Constants.Logs.START_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG,
-				traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc());
+            for (int i = 0; i < iniETY.getMetadata().size(); i++) {
+                Document d = iniETY.getMetadata().get(i);
 
-		IniResponseDTO res = null;
-		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.deleteByDocumentId(requestBody);
-		} else {
-			if (!issuserSRV.isMocked(requestBody.getIss())) {
-				res = iniInvocationSRV.deleteByDocumentId(requestBody);
-			} else {
-				res = iniMockInvocationSRV.deleteByDocumentId(requestBody);
-			}
-		}
+                for (String field : fieldsToDecrypt) {
+                    Object valueToDecrypt = d.get(field);
 
-		log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-				"idDoc", requestBody.getIdDoc());
+                    if (valueToDecrypt != null) {
+                        // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
+                        if ("tokenEntry".equals(field)) {
+                            valueToDecrypt = ((Document) valueToDecrypt).get("payload");
+                        }
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
-	}
+                        Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
 
-	@Override
-	public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
-		log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
-		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+                        if ("tokenEntry".equals(field)) {
+                            d.put(field, new Document("payload", decryptedDocument));
+                        } else {
+                            d.put(field, decryptedDocument);
+                        }
+                    }
+                }
+            }
+        }
 
-		log.info(Constants.Logs.START_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
+        if (!iniCFG.isMockEnable()) {
+            res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, iniETY);
+        } else {
+            if (!issuserSRV.isMocked(iniETY.getIssuer())) {
+                res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,
+                        iniETY);
+            } else {
+                res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+            }
+        }
 
-		IniResponseDTO res = null;
-		SubmitObjectsRequest req = JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
-		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.updateByRequestBody(req, requestBody,false);
-		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
-				res = iniInvocationSRV.updateByRequestBody(req, requestBody,false);
-			} else {
-				res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
-			}
-		}
+        log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+                Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
-		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+    }
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
-	}
+    @Override
+    public IniTraceResponseDTO delete(final DeleteRequestDTO requestBody, HttpServletRequest request) {
+        log.debug("document id received: " + requestBody.getIdDoc() + ", calling ini delete client...");
+        final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
-	@Override
-	public IniTraceResponseDTO replace(final String workflowInstanceId, HttpServletRequest request) {
-		log.debug("Workflow instance id received replace:" + workflowInstanceId + ", calling ini invocation client...");
-		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+        log.info(Constants.Logs.START_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG,
+                traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc());
 
-		log.info(Constants.Logs.START_LOG, Constants.Logs.REPLACE,
-				Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
+        IniResponseDTO res = null;
+        if (!iniCFG.isMockEnable()) {
+            res = iniInvocationSRV.deleteByDocumentId(requestBody);
+        } else {
+            if (!issuserSRV.isMocked(requestBody.getIss())) {
+                res = iniInvocationSRV.deleteByDocumentId(requestBody);
+            } else {
+                res = iniMockInvocationSRV.deleteByDocumentId(requestBody);
+            }
+        }
 
-		IniResponseDTO res = null;
-		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
-				new Date());
-		
-		if(mongoPropsCfg.isEncryptionEnabled()) {
-			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
+        log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+                "idDoc", requestBody.getIdDoc());
 
-			for (int i = 0; i < iniETY.getMetadata().size(); i++) {
-			    Document d = iniETY.getMetadata().get(i);
-			    
-			    for (String field : fieldsToDecrypt) {
-			        Object valueToDecrypt = d.get(field);
-			        
-			        if (valueToDecrypt != null) {
-			            // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
-			            if ("tokenEntry".equals(field)) {
-			                valueToDecrypt = ((Document) valueToDecrypt).get("payload");
-			            }
-			            
-			            Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
-			            
-			            if ("tokenEntry".equals(field)) {
-			                d.put(field, new Document("payload", decryptedDocument));
-			            } else {
-			                d.put(field, decryptedDocument);
-			            }
-			        }
-			    }
-			}			
-		}
-		
-		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
-		} else {
-			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
-			} else {
-				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
-			}
-		}
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+    }
 
-		log.info(Constants.Logs.END_LOG, Constants.Logs.REPLACE,
-				Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
+    @Override
+    public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
+        log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
+        final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
-	}
+        log.info(Constants.Logs.START_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG,
+                traceInfoDTO.getTraceID());
 
-	@Override
-	public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc, GetMetadatiReqDTO req,HttpServletRequest request) {
-		log.warn("Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
-		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(RequestUtility.buildPayloadFromReq(req));
+        IniResponseDTO res = null;
+        SubmitObjectsRequest req = JAXB.unmarshal(new StringReader(requestBody.getMarshallData()),
+                SubmitObjectsRequest.class);
+        if (!iniCFG.isMockEnable()) {
+            res = iniInvocationSRV.updateByRequestBody(req, requestBody, false);
+        } else {
+            if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+                res = iniInvocationSRV.updateByRequestBody(req, requestBody, false);
+            } else {
+                res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
+            }
+        }
 
-		GetMetadatiResponseDTO out = new GetMetadatiResponseDTO();
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		out.setTraceID(traceInfo.getTraceID());
-		out.setSpanID(traceInfo.getSpanID());
+        log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG,
+                traceInfoDTO.getTraceID());
 
-		if (!iniCFG.isMockEnable()) {
-			out.setResponse(iniInvocationSRV.getMetadata(idDoc, token));
-		} else {
-			if (!issuserSRV.isMocked(req.getIss())) {
-				out.setResponse(iniInvocationSRV.getMetadata(idDoc, token));
-			} else {
-				out.setResponse(iniMockInvocationSRV.getMetadata(idDoc, token));
-			}
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+    }
 
-		}
+    @Override
+    public IniTraceResponseDTO replace(final String workflowInstanceId, HttpServletRequest request) {
+        log.debug("Workflow instance id received replace:" + workflowInstanceId + ", calling ini invocation client...");
+        final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
-		return new ResponseEntity<>(out, HttpStatus.OK);
-	}
+        log.info(Constants.Logs.START_LOG, Constants.Logs.REPLACE,
+                Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+                Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
-	@Override
-	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO requestBody,HttpServletRequest request) {
-		// DELETE - REPLACE
-		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(requestBody.getToken());
-//		token.setPayload(RequestUtility.buildPayloadFromReq(req));
-		GetReferenceResponseDTO out = null;
-		if (!iniCFG.isMockEnable()) {
-			out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
-		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
-				out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
-			} else {
-				out = iniMockInvocationSRV.getReference(idDoc, token);
-			}
+        IniResponseDTO res = null;
+        IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
+                new Date());
 
-		}
-		return new ResponseEntity<>(out, HttpStatus.OK);
-	}
+        if (mongoPropsCfg.isEncryptionEnabled()) {
+            List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
 
-	@Override
-	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,HttpServletRequest request) {
-		log.debug("Call merged metadati");
-		GetMergedMetadatiDTO mergedMetadati = null;
-		if (!iniCFG.isMockEnable()) {
-			mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
-		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
-				mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
-			} else {
-				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
-			}
-		}
+            for (int i = 0; i < iniETY.getMetadata().size(); i++) {
+                Document d = iniETY.getMetadata().get(i);
 
-		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(),
-				mergedMetadati.getMarshallResponse(),
-				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),
-				mergedMetadati.getAdministrativeRequest());
-	}
+                for (String field : fieldsToDecrypt) {
+                    Object valueToDecrypt = d.get(field);
 
-	@Override
-	public ResponseEntity<GetMetadatiCrashProgramResponseDTO> getMetadatiPostCrash(String idDoc, GetMetadatiReqDTO jwtPayload,
-			HttpServletRequest request) {
-		JWTTokenDTO token = new JWTTokenDTO();
-		token.setPayload(RequestUtility.buildPayloadFromReq(jwtPayload));
+                    if (valueToDecrypt != null) {
+                        // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
+                        if ("tokenEntry".equals(field)) {
+                            valueToDecrypt = ((Document) valueToDecrypt).get("payload");
+                        }
 
-		boolean documentFound = true;
-		AdhocQueryResponse res = iniInvocationSRV.getMetadata(idDoc, token);
-		if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
-			for(RegistryError error : res.getRegistryErrorList().getRegistryError()) {
-				if (error.getCodeContext().equals("No results from the query")) {
-					documentFound = false;
-					break;
-				}
-			}
-		}
-		GetMetadatiCrashProgramDTO metadati = null;
-		if(documentFound) {
-			metadati = buildFromAdhocQueryRes(res);
-		}
-		  
-		GetMetadatiCrashProgramResponseDTO out = new GetMetadatiCrashProgramResponseDTO();
-		out.setMetadati(metadati);
-		out.setFoundDocument(documentFound);
-		return new ResponseEntity<>(out, HttpStatus.OK);
-	}
+                        Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
 
-	  
-	private GetMetadatiCrashProgramDTO buildFromAdhocQueryRes(AdhocQueryResponse response) {
-		GetMetadatiCrashProgramDTO metadati = new GetMetadatiCrashProgramDTO();
-		 
-		List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
-				response.getRegistryObjectList().getIdentifiable());
-		Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
-				.filter(e -> e.getValue() instanceof ExtrinsicObjectType)
-				.findFirst();
-		if (optExtrinsicObject.isPresent()) {
-			ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
-			for(SlotType1 slot : extrinsicObject.getSlot()){
-				
-				if("repositoryUniqueId".equals(slot.getName())){
-					metadati.setSlotIdentificativoRep(slot.getValueList().getValue().get(0));
-				}
+                        if ("tokenEntry".equals(field)) {
+                            d.put(field, new Document("payload", decryptedDocument));
+                        } else {
+                            d.put(field, decryptedDocument);
+                        }
+                    }
+                }
+            }
+        }
 
-				if("urn:ita:2022:administrativeRequest".equals(slot.getName())){
-					metadati.setSlotAdministrativeRequest(slot.getValueList().getValue());
-				}
+        if (!iniCFG.isMockEnable()) {
+            res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, iniETY);
+        } else {
+            if (!issuserSRV.isMocked(iniETY.getIssuer())) {
+                res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,
+                        iniETY);
+            } else {
+                res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+            }
+        }
 
-				if("serviceStartTime".equals(slot.getName())){
-					metadati.setSlotDataInizioPrestazione(slot.getValueList().getValue().get(0));
-				}
+        log.info(Constants.Logs.END_LOG, Constants.Logs.REPLACE,
+                Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
+                Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
-				if("serviceStopTime".equals(slot.getName())){
-					metadati.setSlotDataFinePrestazione(slot.getValueList().getValue().get(0));
-				}
+        return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+    }
 
-				if("urn:ita:2017:repository-type".equals(slot.getName())){
-					metadati.setSlotConservazioneANorma(slot.getValueList().getValue().get(0));
-				}
+    @Override
+    public ResponseEntity<GetMetadatiResponseDTO> getMetadati(String idDoc, GetMetadatiReqDTO req,
+            HttpServletRequest request) {
+        log.warn(
+                "Get metadati - Attenzione il token usato è configurabile dalle properties. Non usare in ambiente di produzione");
+        JWTTokenDTO token = new JWTTokenDTO();
+        token.setPayload(RequestUtility.buildPayloadFromReq(req));
 
-				if("urn:ita:2022:urn:ita:2022:description".equals(slot.getName())){
-					metadati.setSlotDescriptions(slot.getValueList().getValue());
-				}
-			}
-			for(ClassificationType classificationType : extrinsicObject.getClassification()){
-				if("ClassCodeId_1".equals(classificationType.getId())){
-					metadati.setClassificationTipoDocumentoLivAlto(classificationType.getNodeRepresentation());
-				}
+        GetMetadatiResponseDTO out = new GetMetadatiResponseDTO();
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+        out.setTraceID(traceInfo.getTraceID());
+        out.setSpanID(traceInfo.getSpanID());
 
-				if("healthcareFacilityTypeCode_1".equals(classificationType.getId())){
-					metadati.setClassificationTipologiaStruttura(classificationType.getNodeRepresentation());
-				}
+        if (!iniCFG.isMockEnable()) {
+            out.setResponse(iniInvocationSRV.getMetadata(idDoc, token));
+        } else {
+            if (!issuserSRV.isMocked(req.getIss())) {
+                out.setResponse(iniInvocationSRV.getMetadata(idDoc, token));
+            } else {
+                out.setResponse(iniMockInvocationSRV.getMetadata(idDoc, token));
+            }
 
-				if("practiceSettingCode_1".equals(classificationType.getId())){
-					metadati.setClassificationAssettoOrganizzativo(classificationType.getNodeRepresentation());
-				}
+        }
 
-				if("EventCodeList_1_1".equals(classificationType.getId())){
-					metadati.setClassificationAttiCliniciRegoleAccesso(Arrays.asList(classificationType.getNodeRepresentation()));
-				}
-  
-			}
+        return new ResponseEntity<>(out, HttpStatus.OK);
+    }
 
-		}
- 
-		return metadati;
-	}
-	
+    @Override
+    public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO requestBody,
+            HttpServletRequest request) {
+        // DELETE - REPLACE
+        JWTTokenDTO token = new JWTTokenDTO();
+        token.setPayload(requestBody.getToken());
+        // token.setPayload(RequestUtility.buildPayloadFromReq(req));
+        GetReferenceResponseDTO out = null;
+        if (!iniCFG.isMockEnable()) {
+            out = iniInvocationSRV.getReference(idDoc, token, requestBody.getWorkflowInstanceId());
+        } else {
+            if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+                out = iniInvocationSRV.getReference(idDoc, token, requestBody.getWorkflowInstanceId());
+            } else {
+                out = iniMockInvocationSRV.getReference(idDoc, token);
+            }
 
-	@Override
-	public IniAuditsDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
-		return auditIniSrv.findByWii(workflowInstanceId);
-	}
+        }
+        return new ResponseEntity<>(out, HttpStatus.OK);
+    }
+
+    @Override
+    public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,
+            HttpServletRequest request) {
+
+        log.debug("Call merged metadati");
+        GetMergedMetadatiDTO mergedMetadati = null;
+        if (!iniCFG.isMockEnable()) {
+            mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
+        } else {
+            if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+                mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
+            } else {
+                mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
+            }
+        }
+
+        return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(),
+                mergedMetadati.getMarshallResponse(),
+                mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),
+                mergedMetadati.getAdministrativeRequest());
+    }
+
+    @Override
+    public ResponseEntity<GetMetadatiCrashProgramResponseDTO> getMetadatiPostCrash(String idDoc,
+            GetMetadatiReqDTO jwtPayload,
+            HttpServletRequest request) {
+        JWTTokenDTO token = new JWTTokenDTO();
+        token.setPayload(RequestUtility.buildPayloadFromReq(jwtPayload));
+
+        boolean documentFound = true;
+        AdhocQueryResponse res = iniInvocationSRV.getMetadata(idDoc, token);
+        if (res.getRegistryErrorList() != null
+                && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
+            for (RegistryError error : res.getRegistryErrorList().getRegistryError()) {
+                if (error.getCodeContext().equals("No results from the query")) {
+                    documentFound = false;
+                    break;
+                }
+            }
+        }
+        GetMetadatiCrashProgramDTO metadati = null;
+        if (documentFound) {
+            metadati = buildFromAdhocQueryRes(res);
+        }
+
+        GetMetadatiCrashProgramResponseDTO out = new GetMetadatiCrashProgramResponseDTO();
+        out.setMetadati(metadati);
+        out.setFoundDocument(documentFound);
+        return new ResponseEntity<>(out, HttpStatus.OK);
+    }
+
+    private GetMetadatiCrashProgramDTO buildFromAdhocQueryRes(AdhocQueryResponse response) {
+        GetMetadatiCrashProgramDTO metadati = new GetMetadatiCrashProgramDTO();
+
+        List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
+                response.getRegistryObjectList().getIdentifiable());
+        Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+                .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                .findFirst();
+        if (optExtrinsicObject.isPresent()) {
+            ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+            for (SlotType1 slot : extrinsicObject.getSlot()) {
+
+                if ("repositoryUniqueId".equals(slot.getName())) {
+                    metadati.setSlotIdentificativoRep(slot.getValueList().getValue().get(0));
+                }
+
+                if ("urn:ita:2022:administrativeRequest".equals(slot.getName())) {
+                    metadati.setSlotAdministrativeRequest(slot.getValueList().getValue());
+                }
+
+                if ("serviceStartTime".equals(slot.getName())) {
+                    metadati.setSlotDataInizioPrestazione(slot.getValueList().getValue().get(0));
+                }
+
+                if ("serviceStopTime".equals(slot.getName())) {
+                    metadati.setSlotDataFinePrestazione(slot.getValueList().getValue().get(0));
+                }
+
+                if ("urn:ita:2017:repository-type".equals(slot.getName())) {
+                    metadati.setSlotConservazioneANorma(slot.getValueList().getValue().get(0));
+                }
+
+                if ("urn:ita:2022:urn:ita:2022:description".equals(slot.getName())) {
+                    metadati.setSlotDescriptions(slot.getValueList().getValue());
+                }
+            }
+            for (ClassificationType classificationType : extrinsicObject.getClassification()) {
+                if ("ClassCodeId_1".equals(classificationType.getId())) {
+                    metadati.setClassificationTipoDocumentoLivAlto(classificationType.getNodeRepresentation());
+                }
+
+                if ("healthcareFacilityTypeCode_1".equals(classificationType.getId())) {
+                    metadati.setClassificationTipologiaStruttura(classificationType.getNodeRepresentation());
+                }
+
+                if ("practiceSettingCode_1".equals(classificationType.getId())) {
+                    metadati.setClassificationAssettoOrganizzativo(classificationType.getNodeRepresentation());
+                }
+
+                if ("EventCodeList_1_1".equals(classificationType.getId())) {
+                    metadati.setClassificationAttiCliniciRegoleAccesso(
+                            Arrays.asList(classificationType.getNodeRepresentation()));
+                }
+
+            }
+
+        }
+
+        return metadati;
+    }
+
+    @Override
+    public IniAuditsDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
+        return auditIniSrv.findByWii(workflowInstanceId);
+    }
 }

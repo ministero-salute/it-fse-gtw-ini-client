@@ -26,91 +26,88 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
 public final class StringUtility {
 
-	private static final String XON_CONSTANT = "&ISO^^^^";
-	
-	/**
-	 * Returns {@code true} if the String passed as parameter is null or empty.
-	 * 
-	 * @param str	String to validate.
-	 * @return		{@code true} if the String passed as parameter is null or empty.
-	 */
-	public static boolean isNullOrEmpty(final String str) {
-		return str == null || str.isEmpty();
-	}
+    private static final String XON_CONSTANT = "&ISO^^^^";
 
-	     
+    /**
+     * Returns {@code true} if the String passed as parameter is null or empty.
+     * 
+     * @param str String to validate.
+     * @return {@code true} if the String passed as parameter is null or empty.
+     */
+    public static boolean isNullOrEmpty(final String str) {
+        return str == null || str.isEmpty();
+    }
 
-	public static String generateUUID() {
-	    return UUID.randomUUID().toString();
-	}
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
 
-	public static boolean isIVA(String input) {
-		if (StringUtility.isNullOrEmpty(input)) {
-			return false;
-		}
-		for (int i = 0; i < input.length(); i++) {
-			if (!Character.isDigit(input.charAt(i))) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public static boolean isIVA(String input) {
+        if (StringUtility.isNullOrEmpty(input)) {
+            return false;
+        }
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-		/**
-	 * Transformation from Object to Json.
-	 * 
-	 * @param obj	object to transform
-	 * @return		json
-	 */
-	public static String toJSON(final Object obj) {
-		return new Gson().toJson(obj);
-	}
+    /**
+     * Transformation from Object to Json.
+     * 
+     * @param obj object to transform
+     * @return json
+     */
+    public static String toJSON(final Object obj) {
+        return new Gson().toJson(obj);
+    }
 
-	/**
-	 * Transformation from Object to Json.
-	 * 
-	 * @param obj	object to transform
-	 * @return		json
-	 */
-	public static String toJSONJackson(final Object obj) {
-		String out = "";
-		try {
-			final ObjectMapper objectMapper = new ObjectMapper(); 
-			objectMapper.registerModule(new JavaTimeModule());
-			objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-			objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
-			objectMapper.setTimeZone(TimeZone.getDefault());
-			objectMapper.setSerializationInclusion(Include.NON_NULL);
-			out = objectMapper.writeValueAsString(obj);
-		} catch(final Exception ex) {
-			log.error("Error while running to json jackson");
-			throw new BusinessException(ex);
-		}
-		return out; 
-	}
-	
-	public static String sanitizeSourceId(final String organizationId) {
-		String sourceId = organizationId; 
-		if(sourceId.startsWith("0")) {
-			sourceId = sourceId.substring(1, sourceId.length());
-		}
-		return sourceId;
-	}
-	
-	public static String trasformXonInOid(final String value) {
-		int firstIndex = value.indexOf("&");
-		String valueWithoutLastZero = rimuoviZeroDopoOid(value);
-		return valueWithoutLastZero.substring(firstIndex+1, valueWithoutLastZero.length()).replace(XON_CONSTANT, ".");
-	}
+    /**
+     * Transformation from Object to Json.
+     * 
+     * @param obj object to transform
+     * @return json
+     */
+    public static String toJSONJackson(final Object obj) {
+        String out = "";
+        try {
+            final ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+            objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
+            objectMapper.setTimeZone(TimeZone.getDefault());
+            objectMapper.setSerializationInclusion(Include.NON_NULL);
+            out = objectMapper.writeValueAsString(obj);
+        } catch (final Exception ex) {
+            log.error("Error while converting to JSON with Jackson");
+            throw new BusinessException(ex);
+        }
+        return out;
+    }
 
-	private static String rimuoviZeroDopoOid(String input) {
+    public static String sanitizeSourceId(final String organizationId) {
+        String sourceId = organizationId;
+        if (sourceId.startsWith("0")) {
+            sourceId = sourceId.substring(1, sourceId.length());
+        }
+        return sourceId;
+    }
+
+    public static String trasformXonInOid(final String value) {
+        int firstIndex = value.indexOf("&");
+        String valueWithoutLastZero = rimuoviZeroDopoOid(value);
+        return valueWithoutLastZero.substring(firstIndex + 1, valueWithoutLastZero.length()).replace(XON_CONSTANT, ".");
+    }
+
+    private static String rimuoviZeroDopoOid(String input) {
         int lastDotIndex = input.indexOf(XON_CONSTANT);
-        
+
         if (lastDotIndex == -1) {
             return input;
         }

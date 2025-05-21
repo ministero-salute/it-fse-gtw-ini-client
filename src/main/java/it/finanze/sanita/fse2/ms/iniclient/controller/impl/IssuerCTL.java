@@ -2,16 +2,11 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.ISSUER_MISSING;
 
-import java.util.Date;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.finanze.sanita.fse2.ms.iniclient.controller.IIssuerCTL;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditDto;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IssuerCreateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerDeleteResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IssuerResponseDTO;
@@ -21,6 +16,7 @@ import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -34,13 +30,13 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
     public IssuerResponseDTO create(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
         LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-        if (StringUtility.isNullOrEmpty(requestBody.getIssuer())){
+        if (StringUtility.isNullOrEmpty(requestBody.getIssuer())) {
             String message = String.format("La stringa issuer deve essere valorizzata");
             log.error(message);
             throw new BusinessException(message);
         }
-        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
-            String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
+        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())) {
+            String message = String.format("Field NomeDocumentRepository MUST be not blank if is middleware");
             log.error(message);
             throw new BusinessException(message);
         }
@@ -60,13 +56,12 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
         return response;
     }
 
-
     @Override
     public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, String issuer, HttpServletRequest request) {
         LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
-            String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
+        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())) {
+            String message = "Field NomeDocumentRepository MUST be not blank if is middleware";
             log.error(message);
             throw new BusinessException(message);
         }
@@ -74,12 +69,12 @@ public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
         IssuerETY ety = issuerSRV.findByIssuer(issuer);
 
         IssuerResponseDTO response;
-        if(ety==null) {
-            ErrorDTO error = new ErrorDTO(ISSUER_MISSING.getType(), ISSUER_MISSING.getTitle(), ISSUER_MISSING.getDetail(), ISSUER_MISSING.getInstance());
+        if (ety == null) {
+            ErrorDTO error = new ErrorDTO(ISSUER_MISSING.getType(), ISSUER_MISSING.getTitle(),
+                    ISSUER_MISSING.getDetail(), ISSUER_MISSING.getInstance());
             throw new NotFoundException(error);
-        }
-        else response = issuerSRV.updateIssuer(ety, requestBody);
-
+        } else
+            response = issuerSRV.updateIssuer(ety, requestBody);
 
         response.setTraceID(traceInfo.getTraceID());
         response.setSpanID(traceInfo.getSpanID());

@@ -42,7 +42,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 @Slf4j
 public class CommonUtility {
 
-    private CommonUtility() {}
+    private CommonUtility() {
+    }
 
     /**
      *
@@ -64,35 +65,35 @@ public class CommonUtility {
 
     /**
      * Build JWT payload for delete request
+     * 
      * @param deleteRequestDTO
      * @return
      */
     public static JWTPayloadDTO buildJwtPayloadFromDeleteRequest(DeleteRequestDTO deleteRequestDTO) {
-		log.debug("Build payload information");
-		return JWTPayloadDTO.builder()
-				.attachment_hash(null)
-				.aud(null)
-				.exp(0)
-				.iat(0)
-				.jti(null)
-				.action_id(deleteRequestDTO.getAction_id())
-				.patient_consent(deleteRequestDTO.getPatient_consent())
-				.iss(deleteRequestDTO.getIss())
-				.locality(deleteRequestDTO.getLocality())
-				.person_id(deleteRequestDTO.getPerson_id())
-				.purpose_of_use(deleteRequestDTO.getPurpose_of_use())
-				.resource_hl7_type(deleteRequestDTO.getResource_hl7_type())
-				.sub(deleteRequestDTO.getSub())
-				.subject_organization(deleteRequestDTO.getSubject_organization())
-				.subject_organization_id(deleteRequestDTO.getSubject_organization_id())
-				.subject_role(deleteRequestDTO.getSubject_role())
-				.subject_application_id(deleteRequestDTO.getSubject_application_id())
-				.subject_application_vendor(deleteRequestDTO.getSubject_application_vendor())
-				.subject_application_version(deleteRequestDTO.getSubject_application_version())
-				.build();
-	}
- 
-  
+        log.debug("Build payload information");
+        return JWTPayloadDTO.builder()
+                .attachment_hash(null)
+                .aud(null)
+                .exp(0)
+                .iat(0)
+                .jti(null)
+                .action_id(deleteRequestDTO.getAction_id())
+                .patient_consent(deleteRequestDTO.getPatient_consent())
+                .iss(deleteRequestDTO.getIss())
+                .locality(deleteRequestDTO.getLocality())
+                .person_id(deleteRequestDTO.getPerson_id())
+                .purpose_of_use(deleteRequestDTO.getPurpose_of_use())
+                .resource_hl7_type(deleteRequestDTO.getResource_hl7_type())
+                .sub(deleteRequestDTO.getSub())
+                .subject_organization(deleteRequestDTO.getSubject_organization())
+                .subject_organization_id(deleteRequestDTO.getSubject_organization_id())
+                .subject_role(deleteRequestDTO.getSubject_role())
+                .subject_application_id(deleteRequestDTO.getSubject_application_id())
+                .subject_application_vendor(deleteRequestDTO.getSubject_application_vendor())
+                .subject_application_version(deleteRequestDTO.getSubject_application_version())
+                .build();
+    }
+
     /**
      * Extract subject Role from token
      * 
@@ -112,11 +113,12 @@ public class CommonUtility {
     }
 
     public static String extractFiscalCodeFromJwtSub(final String sub) {
-		String subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
+        String subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
         try {
-            final String [] chunks = sub.split("&");
-    
-            // Checking if the system is MEF, in that case the fiscal code is the first element of the array
+            final String[] chunks = sub.split("&");
+
+            // Checking if the system is MEF, in that case the fiscal code is the first
+            // element of the array
             if (chunks.length > 1 && Constants.OIDS.OID_MEF.equals(chunks[1])) {
                 subjectFiscalCode = chunks[0].split("\\^\\^\\^")[0];
             }
@@ -124,49 +126,54 @@ public class CommonUtility {
             log.warn("Error extracting fiscal code from JWT sub: {}", e.getMessage());
             subjectFiscalCode = Constants.IniClientConstants.JWT_MISSING_SUBJECT;
         }
-		return subjectFiscalCode;
-	}
+        return subjectFiscalCode;
+    }
 
     /**
      * Extract document type from db entity
+     * 
      * @param documentTreeDTO
      * @return
      */
     public static String extractDocumentType(DocumentTreeDTO documentTreeDTO) {
-    	String documentType = Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+        String documentType = Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
 
-    	if (documentTreeDTO != null) {
-    		Optional<Document> documentEntry = Optional.of(documentTreeDTO.getDocumentEntry());
-    		if (documentEntry.get().getString("typeCode") != null) {
-    			DocumentTypeEnum normalizedDocumentType = DocumentTypeEnum.getByCode(documentEntry.get().getString("typeCode"));
-    			if (normalizedDocumentType != null) {
-    				documentType = normalizedDocumentType.getDocumentType();
-    			} else {
-    				documentType = documentEntry.get().getString("typeCodeName");
-    			}
-    		}
-    	}
+        if (documentTreeDTO != null) {
+            Optional<Document> documentEntry = Optional.ofNullable(documentTreeDTO.getDocumentEntry());
+            if (documentEntry.isPresent() && documentEntry.get().getString("typeCode") != null) {
+                DocumentTypeEnum normDocType = DocumentTypeEnum.getByCode(documentEntry.get().getString("typeCode"));
+                if (normDocType != null) {
+                    documentType = normDocType.getDocumentType();
+                } else {
+                    documentType = documentEntry.get().getString("typeCodeName");
+                }
+            }
+        }
 
-    	return documentType;
+        return documentType;
     }
 
     /**
      * Check metadata existence
+     * 
      * @param queryResponse
      * @return
      */
     public static boolean checkMetadata(AdhocQueryResponse queryResponse) {
-        return queryResponse != null && queryResponse.getRegistryObjectList() != null && !CollectionUtils.isEmpty(queryResponse.getRegistryObjectList().getIdentifiable());
+        return queryResponse != null && queryResponse.getRegistryObjectList() != null
+                && !CollectionUtils.isEmpty(queryResponse.getRegistryObjectList().getIdentifiable());
     }
 
     /**
      * Extract document type from query response
+     * 
      * @param queryResponse
      * @return
      */
     public static String extractDocumentTypeFromQueryResponse(AdhocQueryResponse queryResponse) {
         if (checkMetadata(queryResponse)) {
-            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
+                    queryResponse.getRegistryObjectList().getIdentifiable());
             Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
                     .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
                     .findFirst();
@@ -175,27 +182,30 @@ public class CommonUtility {
                 List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
                 Optional<ClassificationType> optTypeCodeClassificationObject = classificationObjectList
                         .stream()
-                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:f0306f51-975f-434e-a61c-c59651d33983"))
+                        .filter(classificationType -> classificationType.getClassificationScheme()
+                                .equals("urn:uuid:f0306f51-975f-434e-a61c-c59651d33983"))
                         .findFirst();
                 if (optTypeCodeClassificationObject.isPresent()) {
                     Optional<LocalizedStringType> typeCodeName = optTypeCodeClassificationObject.get()
                             .getName().getLocalizedString().stream().findFirst();
-                    return typeCodeName.isPresent()? typeCodeName.get().getValue() : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
+                    return typeCodeName.isPresent() ? typeCodeName.get().getValue()
+                            : Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
                 }
             }
         }
         return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
     }
-    
-    
+
     /**
      * Extract author institution from query response
+     * 
      * @param queryResponse
      * @return
      */
     public static String extractAuthorInstitutionFromQueryResponse(AdhocQueryResponse queryResponse) {
         if (checkMetadata(queryResponse)) {
-            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
+                    queryResponse.getRegistryObjectList().getIdentifiable());
             Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
                     .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
                     .findFirst();
@@ -203,52 +213,57 @@ public class CommonUtility {
                 ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
                 List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
                 Optional<ClassificationType> optAuthorClassificationObject = classificationObjectList.stream()
-                        .filter(classificationType -> classificationType.getClassificationScheme().equals("urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d"))
+                        .filter(classificationType -> classificationType.getClassificationScheme()
+                                .equals("urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d"))
                         .findFirst();
-                if(optAuthorClassificationObject.isPresent()) {
-                	List<SlotType1> authorSlots = optAuthorClassificationObject.get().getSlot();
+                if (optAuthorClassificationObject.isPresent()) {
+                    List<SlotType1> authorSlots = optAuthorClassificationObject.get().getSlot();
                     Optional<SlotType1> authorInstitutionSlot = authorSlots.stream()
                             .filter(slot -> slot.getName().equals("authorInstitution"))
                             .findFirst();
-                    if(authorInstitutionSlot.isPresent()) {
-                    	return authorInstitutionSlot.get().getValueList().getValue().get(0);
+                    if (authorInstitutionSlot.isPresent()) {
+                        return authorInstitutionSlot.get().getValueList().getValue().get(0);
                     }
                 }
             }
         }
         return Constants.IniClientConstants.MISSING_AUTHOR_INSTITUTION_PLACEHOLDER;
     }
-    
-    // da AffinityDomain sembra non faccia parte di ClassificationScheme, quindi potrebbe essere uno slot esterno generico
+
+    // da AffinityDomain sembra non faccia parte di ClassificationScheme, quindi
+    // potrebbe essere uno slot esterno generico
     /**
      * Extract administrative request from query response
+     * 
      * @param queryResponse
      * @return
      */
     public static List<String> extractAdministrativeRequestFromQueryResponse(AdhocQueryResponse queryResponse) {
         if (checkMetadata(queryResponse)) {
-            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
+                    queryResponse.getRegistryObjectList().getIdentifiable());
             Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
                     .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
                     .findFirst();
             if (optExtrinsicObject.isPresent()) {
                 ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
                 Optional<SlotType1> administrativeRequestSlot = extrinsicObject.getSlot().stream()
-                		.filter(slot -> slot.getName().contains("administrativeRequest"))
-                		.findFirst();
-                if(administrativeRequestSlot.isPresent()) {
-                	return administrativeRequestSlot.get().getValueList().getValue();
+                        .filter(slot -> slot.getName().contains("administrativeRequest"))
+                        .findFirst();
+                if (administrativeRequestSlot.isPresent()) {
+                    return administrativeRequestSlot.get().getValueList().getValue();
                 }
             }
         }
         return new ArrayList<>();
     }
-    
-	public static AuthorSlotDTO buildAuthorSlot(final String authorRole, final String authorInstitution, final String authorPerson) {
-		SlotType1 authorRoleSlot = buildSlotObject("authorRole", authorRole);
-		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", authorInstitution);
-		SlotType1 authorPersonSlot = buildSlotObject("authorPerson", authorPerson);
-		return new AuthorSlotDTO(authorRoleSlot, authorInstitutionSlot, authorPersonSlot);
-		
-	}
+
+    public static AuthorSlotDTO buildAuthorSlot(final String authorRole, final String authorInstitution,
+            final String authorPerson) {
+        SlotType1 authorRoleSlot = buildSlotObject("authorRole", authorRole);
+        SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", authorInstitution);
+        SlotType1 authorPersonSlot = buildSlotObject("authorPerson", authorPerson);
+        return new AuthorSlotDTO(authorRoleSlot, authorInstitutionSlot, authorPersonSlot);
+
+    }
 }

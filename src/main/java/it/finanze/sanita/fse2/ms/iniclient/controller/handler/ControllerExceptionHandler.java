@@ -11,15 +11,13 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.CONFLICT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.VALIDATION;
+
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,113 +34,120 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import brave.Tracer;
-
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
-
-import java.util.Arrays;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- *	Exceptions Handler.
+ * Exceptions Handler.
  */
 @ControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@Autowired
-	private Tracer tracer;
-	protected LogTraceInfoDTO getLogTraceInfo() {
-		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
-		if (tracer.currentSpan() != null) {
-			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanIdString(),
-					tracer.currentSpan().context().traceIdString());
-		}
-		return out;
-	}
+    @Autowired
+    private Tracer tracer;
 
+    protected LogTraceInfoDTO getLogTraceInfo() {
+        LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
+        if (tracer.currentSpan() != null) {
+            out = new LogTraceInfoDTO(
+                    tracer.currentSpan().context().spanIdString(),
+                    tracer.currentSpan().context().traceIdString());
+        }
+        return out;
+    }
 
-	/**
-	 * Management record not found exception received by clients.
-	 *
-	 * @param ex		exception
-	 * @param request	request
-	 * @return
-	 */
-	@ExceptionHandler(value = {NotFoundException.class, IdDocumentNotFoundException.class})
-	protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final NotFoundException ex, final WebRequest request) {
+    /**
+     * Management record not found exception received by clients.
+     *
+     * @param ex      exception
+     * @param request request
+     * @return
+     */
+    @ExceptionHandler(value = { NotFoundException.class, IdDocumentNotFoundException.class })
+    protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final NotFoundException ex,
+            final WebRequest request) {
 
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+        ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
 
-		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-	}
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
-	@ExceptionHandler(value = InputValidationException.class)
-	protected ResponseEntity<ErrorResponseDTO> handleInputValidationException(final InputValidationException ex){
+    @ExceptionHandler(value = InputValidationException.class)
+    protected ResponseEntity<ErrorResponseDTO> handleInputValidationException(final InputValidationException ex) {
 
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		ErrorDTO inError = new ErrorDTO(CONFLICT.getType(), CONFLICT.getTitle(), ex.getMessage(), CONFLICT.getInstance());
-		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+        ErrorDTO inError = new ErrorDTO(CONFLICT.getType(), CONFLICT.getTitle(), ex.getMessage(),
+                CONFLICT.getInstance());
+        ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
 
-		return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-	}
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
 
-	@ExceptionHandler(value = BadRequestException.class)
-	protected ResponseEntity<ErrorResponseDTO> handleBadRequestException(final BadRequestException ex){
+    @ExceptionHandler(value = BadRequestException.class)
+    protected ResponseEntity<ErrorResponseDTO> handleBadRequestException(final BadRequestException ex) {
 
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
-		ErrorDTO inError = new ErrorDTO(VALIDATION.getType(), VALIDATION.getTitle(), ex.getMessage(), VALIDATION.getInstance());
-		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+        ErrorDTO inError = new ErrorDTO(VALIDATION.getType(), VALIDATION.getTitle(), ex.getMessage(),
+                VALIDATION.getInstance());
+        ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, inError);
 
-		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-	}
-	 
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
-	/**
-	 * Management generic exception.
-	 * 
-	 * @param ex		exception
-	 * @param request	request
-	 * @return			
-	 */
-	@ExceptionHandler(value = {Exception.class})
-	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
+    /**
+     * Management generic exception.
+     * 
+     * @param ex      exception
+     * @param request request
+     * @return
+     */
+    @ExceptionHandler(value = { Exception.class })
+    protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
 
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-		ErrorDTO error = new ErrorDTO(GENERIC.getType(), GENERIC.getTitle(), ex.getMessage(), "error/generic");
-		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+        ErrorDTO error = new ErrorDTO(GENERIC.getType(), GENERIC.getTitle(), ex.getMessage(), "error/generic");
+        ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
-		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-	@Override
-	protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+    @Override
+    protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
+        LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-		ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(), INVALID_INPUT.getInstance());
-		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+        ErrorDTO error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), ex.getMessage(),
+                INVALID_INPUT.getInstance());
+        ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
 
-		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-	}
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
-	@Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		
-		LogTraceInfoDTO traceInfo = getLogTraceInfo();	
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-		ErrorDTO error = new ErrorDTO();
-		if (ex.getCause() instanceof InvalidFormatException) {
+        ErrorDTO error = new ErrorDTO();
+        if (ex.getCause() instanceof InvalidFormatException) {
             InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
             if (invalidFormatException.getTargetType().isEnum()) {
                 String invalidValue = invalidFormatException.getValue().toString();
-                String errorMessage = String.format("Invalid value '%s' for enum. Allowed values are: %s", 
+                String errorMessage = String.format("Invalid value '%s' for enum. Allowed values are: %s",
                         invalidValue, Arrays.toString(invalidFormatException.getTargetType().getEnumConstants()));
-				error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), errorMessage, INVALID_INPUT.getInstance());
+                error = new ErrorDTO(INVALID_INPUT.getType(), INVALID_INPUT.getTitle(), errorMessage,
+                        INVALID_INPUT.getInstance());
             }
         }
-		
-		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

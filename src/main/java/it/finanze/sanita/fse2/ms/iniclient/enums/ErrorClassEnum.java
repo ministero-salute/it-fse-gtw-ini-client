@@ -11,35 +11,25 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ErrorClassEnum {
 
-	/**
-	 * Generic class error.
-	 */
-	GENERIC("/errors", "Generic", "Errore generico", "/generic"),
-	ID_DOC_MISSING("/errors/fields", "Missing", "Id documento non presente", "/ini"),
-	METADATO_MISSING("/errors/fields", "Missing", "Metadato non presente", "/ini"),
-	INVALID_INPUT("/errors/input", "Invalid input", "Input non valido", "/ini"),
-	CONFLICT("errors/conflict", "Conflict", "Input non valido", "/ini"),
-	VALIDATION("errors/validation", "Invalid input", "Input non valido", "/ini"),
-	ISSUER_MISSING("errors/fields", "Missing", "Issuer non presente", "/ini");
+    GENERIC("/errors", "Generic", "Generic error, missing more information", "/generic"),
+    ID_DOC_MISSING("/errors", "Document not found", "Document with the specified workflowInstanceId not found",
+            "/missing-docs"),
+    REFERENCE_DATA_MISSING("/errors/ini", "References not found",
+            "Query has returned not data when trying to fetch references",
+            "/missing-references"),
+    MISSING_METADATA("/errors/ini", "Document metadata not found",
+            "Metadata of document not found with the specified OID", "/missing-metadata"),
+    INVALID_INPUT("/errors/validation", "Invalid input data", "Invalid inputed API parameters", "/api-input"),
+    CONFLICT("errors/validation", "Conflicted data", "Loaded data is already present", "/conflict"),
+    VALIDATION("errors/validation", "Invalid input data", "Invalid inputed parameters", "/input"),
+    ISSUER_MISSING("errors/validation", "Missing issuer", "Issuer not found", "/input");
 
-	/**
-	 * Error type.
-	 */
-	private final String type;
+    private final String type;
 
-	/**
-	 * Error title, user friendly description.
-	 */
-	private final String title;
+    private final String title;
 
-	/**
-	 * Error detail, developer friendly description.
-	 */
-	private final String detail;
+    private final String detail;
 
-	/**
-	 * Error instance, URI that identifies the specific occurrence of the problem.
-	 */
-	private final String instance;
+    private final String instance;
 
 }

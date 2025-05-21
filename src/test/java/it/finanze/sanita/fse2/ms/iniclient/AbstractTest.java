@@ -32,7 +32,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -61,6 +60,7 @@ public abstract class AbstractTest {
 
     /**
      * call publish ini client
+     * 
      * @param workflowInstanceId of the transaction
      */
     ResponseEntity<IniTraceResponseDTO> callPublishIniClient(String workflowInstanceId) {
@@ -73,6 +73,7 @@ public abstract class AbstractTest {
 
     /**
      * call delete method on ini
+     * 
      * @param workflowInstanceId of the transaction
      */
     ResponseEntity<IniTraceResponseDTO> callDeleteIniClient(String workflowInstanceId) {
@@ -121,6 +122,7 @@ public abstract class AbstractTest {
 
     /**
      * call replace on ini
+     * 
      * @param idDoc of the transaction
      */
     ResponseEntity<IniTraceResponseDTO> callReplaceIniClient(String idDoc, String workflowInstanceId) {
@@ -133,13 +135,11 @@ public abstract class AbstractTest {
         stringObj = stringObj
                 .replace("<ID_DOC>", idDoc)
                 .replace("<WORKFLOW_ID>", workflowInstanceId);
-        ReplaceRequestDTO requestDTO = JsonUtility.jsonToObject(stringObj, ReplaceRequestDTO.class);
-//        HttpEntity<Object> entity = new HttpEntity<>(requestDTO, null);
-        
-        HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", "application/json");
 
-		HttpEntity<?> entity = new HttpEntity<>(workflowInstanceId, headers);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        HttpEntity<?> entity = new HttpEntity<>(workflowInstanceId, headers);
 
         return restTemplate.exchange(url, HttpMethod.PUT, entity, IniTraceResponseDTO.class);
     }
@@ -160,6 +160,7 @@ public abstract class AbstractTest {
 
     /**
      * call publish ini client
+     * 
      * @param oid of the transaction
      */
     ResponseEntity<GetMetadatiResponseDTO> callGetMetadata(String oid) {
@@ -168,7 +169,8 @@ public abstract class AbstractTest {
                 webServerAppCtxt.getServletContext().getContextPath() +
                 "/v1/get-metadati/" + oid;
 
-        GetMetadatiReqDTO getMetadatiReqDTO = JsonUtility.jsonToObject(TestConstants.TEST_GET_META_REQ, GetMetadatiReqDTO.class);
+        GetMetadatiReqDTO getMetadatiReqDTO = JsonUtility.jsonToObject(TestConstants.TEST_GET_META_REQ,
+                GetMetadatiReqDTO.class);
         HttpEntity<?> entity = new HttpEntity<>(getMetadatiReqDTO, null);
         return restTemplate.exchange(url, HttpMethod.POST, entity, GetMetadatiResponseDTO.class);
     }
