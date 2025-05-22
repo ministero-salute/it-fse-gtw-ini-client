@@ -87,7 +87,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class SamlHeaderBuilderUtility {
 
-	private static final String GTW_ROLE = "GTW";
 	@Autowired
 	private IniCFG iniCFG;
 
@@ -351,9 +350,9 @@ public class SamlHeaderBuilderUtility {
 		return attrStatement;
 	}
 
-	
-	
-	
+
+
+
 	/**
 	 * Build attributes from token values
 	 * urn values from documentation
@@ -365,24 +364,19 @@ public class SamlHeaderBuilderUtility {
 
 		try {
 			JWTPayloadDTO payloadTokenJwt = tokenDTO.getPayload();
-				
+
 			if (payloadTokenJwt.getPatient_consent() != null) {
 				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
 			}
 
-			if(!ActionEnumType.READ_REF_AND_METADATA.equals(actionEnumType) && !ActionEnumType.READ_METADATA.equals(actionEnumType) &&
-					!ActionEnumType.READ_REFERENCE.equals(actionEnumType)) {
-				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-				out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
-			} else {
-				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
-			}
-			
+			out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
+			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
+
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization-id", payloadTokenJwt.getSubject_organization_id()));
-			
+
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));
@@ -398,20 +392,20 @@ public class SamlHeaderBuilderUtility {
 		return out;
 	}
 
-	
+
 	public boolean isValidLocalityXon(String input, boolean isCreateOrReplace) {
-        String regex;
-        if (!isCreateOrReplace) {
-        	regex = "^(?:[a-zA-Z0-9]+[^\\^]*)?\\^\\^\\^\\^\\^\\&[^&]*\\&ISO\\^\\^\\^\\^[^&]*$";
-        } else {
-        	regex = "^[a-zA-Z0-9]+[^\\^]*\\^\\^\\^\\^\\^\\&[^&]*\\&ISO\\^\\^\\^\\^[^\\^&]*$";
-        }
+		String regex;
+		if (!isCreateOrReplace) {
+			regex = "^(?:[a-zA-Z0-9]+[^\\^]*)?\\^\\^\\^\\^\\^\\&[^&]*\\&ISO\\^\\^\\^\\^[^&]*$";
+		} else {
+			regex = "^[a-zA-Z0-9]+[^\\^]*\\^\\^\\^\\^\\^\\&[^&]*\\&ISO\\^\\^\\^\\^[^\\^&]*$";
+		}
 
-        return input.matches(regex);
-    }
+		return input.matches(regex);
+	}
 
-	
-	
+
+
 	/**
 	 * Build attribute object from given input
 	 * @param name
@@ -421,7 +415,7 @@ public class SamlHeaderBuilderUtility {
 	private Attribute buildAttribute(String name, String value) {
 		return buildAttribute(name, value, Constants.IniClientConstants.HEADER_ATTRNAME_URI);
 	}
-	
+
 	/**
 	 * Build attribute object from given input
 	 * @param name
@@ -451,6 +445,6 @@ public class SamlHeaderBuilderUtility {
 		jwtTokenDTO.setPayload(payloadDTO);
 		return jwtTokenDTO;
 	}
- 
+
 
 }
