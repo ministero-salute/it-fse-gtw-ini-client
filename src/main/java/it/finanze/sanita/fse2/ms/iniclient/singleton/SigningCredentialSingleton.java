@@ -1,7 +1,5 @@
 package it.finanze.sanita.fse2.ms.iniclient.singleton;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;

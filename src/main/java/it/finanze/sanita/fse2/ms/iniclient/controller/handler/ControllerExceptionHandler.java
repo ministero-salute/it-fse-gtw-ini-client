@@ -11,15 +11,13 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.CONFLICT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.VALIDATION;
+
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,10 +34,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import brave.Tracer;
-
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
-
-import java.util.Arrays;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *	Exceptions Handler.

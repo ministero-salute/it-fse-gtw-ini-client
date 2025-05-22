@@ -54,7 +54,6 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public class MongoDatabaseCFG {
 	
-	private static final String ALG = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic";
 	private static final String KEY_VAULT_NAMESPACE = "encryption.__keyVault";
 
 	private final Map<String, Map<String, Object>> kmsProviders = new HashMap<>();

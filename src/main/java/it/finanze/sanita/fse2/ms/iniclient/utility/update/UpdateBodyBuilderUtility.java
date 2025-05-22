@@ -27,7 +27,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUt
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
