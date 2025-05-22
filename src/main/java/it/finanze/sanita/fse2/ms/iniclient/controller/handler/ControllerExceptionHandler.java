@@ -11,6 +11,7 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.Properties.MS_NAME;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.CONFLICT;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
@@ -33,7 +34,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
-import brave.Tracer;
+import io.opentelemetry.api.trace.SpanBuilder;
+import io.opentelemetry.api.trace.Tracer;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
@@ -52,12 +54,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
 	private Tracer tracer;
+	
 	protected LogTraceInfoDTO getLogTraceInfo() {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
-		if (tracer.currentSpan() != null) {
+		SpanBuilder spanbuilder = tracer.spanBuilder(MS_NAME);
+		
+		if (spanbuilder != null) {
 			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanIdString(),
-					tracer.currentSpan().context().traceIdString());
+					spanbuilder.startSpan().getSpanContext().getSpanId(), 
+					spanbuilder.startSpan().getSpanContext().getTraceId());
 		}
 		return out;
 	}

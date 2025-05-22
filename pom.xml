@@ -96,11 +96,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 
 		<!-- OPENAPI-UI -->
 		<dependency>
@@ -168,18 +163,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
-
-		<!-- BRAVE TRACER -->
-		<dependency>
-    		<groupId>io.micrometer</groupId>
-    		<artifactId>micrometer-tracing-bridge-brave</artifactId>
-            <exclusions>
-                <exclusion>
-					<groupId>org.yaml</groupId>
-					<artifactId>snakeyaml</artifactId>
-				</exclusion>
-            </exclusions>
-        </dependency>
     
 		<!-- Open SAML -->
 		<dependency>
