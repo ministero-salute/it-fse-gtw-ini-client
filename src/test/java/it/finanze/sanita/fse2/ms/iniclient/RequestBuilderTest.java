@@ -268,12 +268,12 @@ class RequestBuilderTest {
     @Test
     @DisplayName("READ REF - Header builder success test")
     void readReferenceBuilderSuccessTest() {
-        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey()));
+        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(),false,""));
     }
 
     @Test
     @DisplayName("READ METADATA - Header builder success test")
     void readMetadataBuilderSuccessTest() {
-        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey()));
+        assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(),false,""));
     }
 }

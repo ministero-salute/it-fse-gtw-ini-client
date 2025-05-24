@@ -106,28 +106,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IniResponseDTO res = null;
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
-//		for(int i=0; i<iniETY.getMetadata().size(); i++) {
-//			Document d = iniETY.getMetadata().get(i);
-//			Object valueToDecrypt = d.get("submissionSetEntry");
-//			if(valueToDecrypt!=null) {
-//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
-//				iniETY.getMetadata().set(i,new Document("submissionSetEntry", decryptedDocument));
-//			}
-//			
-//			valueToDecrypt = d.get("documentEntry");
-//			if(valueToDecrypt!=null) {
-//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
-//				iniETY.getMetadata().set(i,new Document("documentEntry", decryptedDocument));
-//			}
-//			
-//			valueToDecrypt = d.get("tokenEntry");
-//			if(valueToDecrypt!=null) {
-//				valueToDecrypt = ((Document)d.get("tokenEntry")).get("payload");
-//				Document decryptedDocument = mongoCfg.decryptAsDocument((Binary)valueToDecrypt);
-//				iniETY.getMetadata().set(i,new Document("tokenEntry", new Document("payload", decryptedDocument)));
-//			}
-//		}
-		
+
 		if(mongoPropsCfg.isEncryptionEnabled()) {
 			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
 

@@ -137,8 +137,8 @@ public class MergeMetadataUtility {
 	 */
 	public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
-		String[] newValue = updateRequestBodyDTO.getDescription() == null ? null
-				: new String[] { updateRequestBodyDTO.getDescription().toArray()[0].toString() };
+		String[] newValue = updateRequestBodyDTO.getDescriptions() == null ? null
+				: new String[] { updateRequestBodyDTO.getDescriptions().toArray()[0].toString() };
 		mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue);
 	}
 

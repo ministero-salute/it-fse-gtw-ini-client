@@ -27,7 +27,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.update.MergeMetadataUt
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,7 +92,6 @@ public final class UpdateBodyBuilderUtility {
 		JAXBElement<? extends IdentifiableType> approvedVersion = findApprovedExtrinsic(oldMetadata.getIdentifiable());
 		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>();
 		list.add(approvedVersion);
-//		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>(oldMetadata.getIdentifiable());
 
 		PublicationMetadataReqDTO updateReq = updateRequestDTO.getBody();
 

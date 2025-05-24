@@ -14,15 +14,14 @@ package it.finanze.sanita.fse2.ms.iniclient.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class JWTPayloadDTO {
 
-	public JWTPayloadDTO() {
-		
-	}
 	/**
 	 * Identificativo dell’entità che ha generato il token.
 	 * Valorizzato con l’identificativo della struttura utente.
@@ -115,12 +114,18 @@ public class JWTPayloadDTO {
 	private String action_id;
 
 	private String attachment_hash;
-	
+
 	private String subject_application_id;
 
 	private String subject_application_vendor;
 
 	private String subject_application_version;
+
+	/**
+	 * Tale flag indica che il subject id risulta essere l'author.
+	 * Valore booleano.
+	 */
+	private boolean use_subject_as_author;
 
 	public static JWTPayloadDTO getMocked() {
 		JWTPayloadDTO out = new JWTPayloadDTO();
@@ -138,6 +143,6 @@ public class JWTPayloadDTO {
 				subject_application_id,
 				subject_application_vendor,
 				subject_application_version
-		);
+				);
 	}
 }

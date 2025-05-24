@@ -315,7 +315,6 @@ public class IniClient implements IIniClient {
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
 		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
-//		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE_V2);
 	}
 	
 
@@ -335,7 +334,6 @@ public class IniClient implements IIniClient {
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
-//		return sendUpdateData(submitObjectsRequest,jwtTokenDTO,workflowInstanceId,startingDate,ActionEnumType.UPDATE);
 	}
 	
 	@Override
@@ -369,7 +367,8 @@ public class IniClient implements IIniClient {
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca);
+		JWTPayloadDTO payloadDto = tokenDTO.getPayload();
+		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(idDoc, tipoRicerca,payloadDto.isUse_subject_as_author(), payloadDto.getSub());
 		
 		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
@@ -392,7 +391,8 @@ public class IniClient implements IIniClient {
 		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, actionEnumType);
  
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca);
+		JWTPayloadDTO payloadDto = jwtToken.getPayload();
+		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca,payloadDto.isUse_subject_as_author(),payloadDto.getSub());
 		
 		AdhocQueryResponse response = null;
 		WSBindingProvider bp = null;

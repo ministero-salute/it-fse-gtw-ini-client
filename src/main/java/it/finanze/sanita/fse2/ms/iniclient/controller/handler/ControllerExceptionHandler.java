@@ -11,15 +11,14 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.Properties.MS_NAME;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.CONFLICT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.VALIDATION;
+
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,11 +34,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
-import brave.Tracer;
-
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.*;
-
-import java.util.Arrays;
+import io.opentelemetry.api.trace.SpanBuilder;
+import io.opentelemetry.api.trace.Tracer;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *	Exceptions Handler.
@@ -50,12 +54,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
 	private Tracer tracer;
+	
 	protected LogTraceInfoDTO getLogTraceInfo() {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
-		if (tracer.currentSpan() != null) {
+		SpanBuilder spanbuilder = tracer.spanBuilder(MS_NAME);
+		
+		if (spanbuilder != null) {
 			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanIdString(),
-					tracer.currentSpan().context().traceIdString());
+					spanbuilder.startSpan().getSpanContext().getSpanId(), 
+					spanbuilder.startSpan().getSpanContext().getTraceId());
 		}
 		return out;
 	}
