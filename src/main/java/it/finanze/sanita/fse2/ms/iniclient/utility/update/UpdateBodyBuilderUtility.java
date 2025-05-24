@@ -92,7 +92,6 @@ public final class UpdateBodyBuilderUtility {
 		JAXBElement<? extends IdentifiableType> approvedVersion = findApprovedExtrinsic(oldMetadata.getIdentifiable());
 		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>();
 		list.add(approvedVersion);
-//		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>(oldMetadata.getIdentifiable());
 
 		PublicationMetadataReqDTO updateReq = updateRequestDTO.getBody();
 

@@ -64,6 +64,6 @@ public class PublicationMetadataReqDTO {
 
 	@Schema(description = "Descrittori")
 	@Size(min = 0, max = 100)
-	private List<String> description;
+	private List<String> descriptions;
 
 }
