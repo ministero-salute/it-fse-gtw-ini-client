@@ -150,7 +150,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         }
 		
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }

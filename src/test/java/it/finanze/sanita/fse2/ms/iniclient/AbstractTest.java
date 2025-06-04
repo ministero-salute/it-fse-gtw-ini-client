@@ -32,7 +32,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.GetMetadatiReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -133,8 +132,6 @@ public abstract class AbstractTest {
         stringObj = stringObj
                 .replace("<ID_DOC>", idDoc)
                 .replace("<WORKFLOW_ID>", workflowInstanceId);
-        ReplaceRequestDTO requestDTO = JsonUtility.jsonToObject(stringObj, ReplaceRequestDTO.class);
-//        HttpEntity<Object> entity = new HttpEntity<>(requestDTO, null);
         
         HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "application/json");
