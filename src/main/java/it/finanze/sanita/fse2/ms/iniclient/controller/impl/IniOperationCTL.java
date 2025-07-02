@@ -26,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bson.Document;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,6 +54,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
@@ -86,16 +88,19 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 	@Autowired
 	private IniCFG iniCFG;
-	
+
 	@Autowired
 	private IAuditIniSrv auditIniSrv; 
 
 	@Autowired
 	private MongoDatabaseCFG mongoDbCfg;
-	
+
 	@Autowired
 	private MongoPropertiesCFG mongoPropsCfg;
-		
+
+	@Value("${uar.client.mock-enable}")
+	private boolean enableMockUar;
+
 	@Override
 	public IniTraceResponseDTO create(final String workflowInstanceId, HttpServletRequest request) {
 		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
@@ -111,34 +116,39 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
 
 			for (int i = 0; i < iniETY.getMetadata().size(); i++) {
-			    Document d = iniETY.getMetadata().get(i);
-			    
-			    for (String field : fieldsToDecrypt) {
-			        Object valueToDecrypt = d.get(field);
-			        
-			        if (valueToDecrypt != null) {
-			            // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
-			            if ("tokenEntry".equals(field)) {
-			                valueToDecrypt = ((Document) valueToDecrypt).get("payload");
-			            }
-			            
-			            Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
-			            
-			            if ("tokenEntry".equals(field)) {
-			                d.put(field, new Document("payload", decryptedDocument));
-			            } else {
-			                d.put(field, decryptedDocument);
-			            }
-			        }
-			    }
+				Document d = iniETY.getMetadata().get(i);
+
+				for (String field : fieldsToDecrypt) {
+					Object valueToDecrypt = d.get(field);
+
+					if (valueToDecrypt != null) {
+						// Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
+						if ("tokenEntry".equals(field)) {
+							valueToDecrypt = ((Document) valueToDecrypt).get("payload");
+						}
+
+						Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
+
+						if ("tokenEntry".equals(field)) {
+							d.put(field, new Document("payload", decryptedDocument));
+						} else {
+							d.put(field, decryptedDocument);
+						}
+					}
+				}
 			}			
 		}
-		
-		 
+
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
 		} else {
-			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
+			issuer = issuserSRV.findByIssuer(iniETY.getIssuer());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
@@ -148,7 +158,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
 				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+		boolean mockUar = isMockUar(iniETY.getIssuer(), issuer);
+
+		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
 	}
 
 	@Override
@@ -160,10 +172,16 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				traceInfoDTO.getTraceID(), "idDoc", requestBody.getIdDoc());
 
 		IniResponseDTO res = null;
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.deleteByDocumentId(requestBody);
 		} else {
-			if (!issuserSRV.isMocked(requestBody.getIss())) {
+			issuer = issuserSRV.findByIssuer(requestBody.getIss());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {
 				res = iniInvocationSRV.deleteByDocumentId(requestBody);
 			} else {
 				res = iniMockInvocationSRV.deleteByDocumentId(requestBody);
@@ -173,7 +191,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		log.info(Constants.Logs.END_LOG, Constants.Logs.DELETE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
 				"idDoc", requestBody.getIdDoc());
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+		boolean mockUar = isMockUar(requestBody.getIss(), issuer);
+		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
 	}
 
 	@Override
@@ -185,10 +204,16 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IniResponseDTO res = null;
 		SubmitObjectsRequest req = JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.updateByRequestBody(req, requestBody,false);
 		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {
 				res = iniInvocationSRV.updateByRequestBody(req, requestBody,false);
 			} else {
 				res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
@@ -196,8 +221,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		}
 
 		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
-
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+		boolean mockUar = isMockUar(requestBody.getToken().getIss(), issuer);
+		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
 	}
 
 	@Override
@@ -212,38 +237,44 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		IniResponseDTO res = null;
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.REPLACE,
 				new Date());
-		
+
 		if(mongoPropsCfg.isEncryptionEnabled()) {
 			List<String> fieldsToDecrypt = Arrays.asList("submissionSetEntry", "documentEntry", "tokenEntry");
 
 			for (int i = 0; i < iniETY.getMetadata().size(); i++) {
-			    Document d = iniETY.getMetadata().get(i);
-			    
-			    for (String field : fieldsToDecrypt) {
-			        Object valueToDecrypt = d.get(field);
-			        
-			        if (valueToDecrypt != null) {
-			            // Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
-			            if ("tokenEntry".equals(field)) {
-			                valueToDecrypt = ((Document) valueToDecrypt).get("payload");
-			            }
-			            
-			            Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
-			            
-			            if ("tokenEntry".equals(field)) {
-			                d.put(field, new Document("payload", decryptedDocument));
-			            } else {
-			                d.put(field, decryptedDocument);
-			            }
-			        }
-			    }
+				Document d = iniETY.getMetadata().get(i);
+
+				for (String field : fieldsToDecrypt) {
+					Object valueToDecrypt = d.get(field);
+
+					if (valueToDecrypt != null) {
+						// Se il campo è "tokenEntry", gestisci il caso speciale per "payload"
+						if ("tokenEntry".equals(field)) {
+							valueToDecrypt = ((Document) valueToDecrypt).get("payload");
+						}
+
+						Document decryptedDocument = mongoDbCfg.decryptAsDocument((Binary) valueToDecrypt);
+
+						if ("tokenEntry".equals(field)) {
+							d.put(field, new Document("payload", decryptedDocument));
+						} else {
+							d.put(field, decryptedDocument);
+						}
+					}
+				}
 			}			
 		}
-		
+
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 		} else {
-			if (!issuserSRV.isMocked(iniETY.getIssuer())) {
+			issuer = issuserSRV.findByIssuer(iniETY.getIssuer());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {	
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
@@ -254,7 +285,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
 				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+		boolean mockUar = isMockUar(iniETY.getIssuer(), issuer);
+
+		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
 	}
 
 	@Override
@@ -287,18 +320,25 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		// DELETE - REPLACE
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(requestBody.getToken());
-//		token.setPayload(RequestUtility.buildPayloadFromReq(req));
 		GetReferenceResponseDTO out = null;
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
 		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {	
 				out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
 			} else {
 				out = iniMockInvocationSRV.getReference(idDoc, token);
 			}
 
 		}
+		
+		out.setMockEds(isMockUar(requestBody.getToken().getIss(), issuer));
 		return new ResponseEntity<>(out, HttpStatus.OK);
 	}
 
@@ -306,20 +346,28 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	public GetMergedMetadatiResponseDTO getMergedMetadati(final MergedMetadatiRequestDTO requestBody,HttpServletRequest request) {
 		log.debug("Call merged metadati");
 		GetMergedMetadatiDTO mergedMetadati = null;
+
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
 		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {	
 				mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
 			} else {
 				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
 			}
 		}
 
+		boolean mockUar = isMockUar(requestBody.getToken().getIss(), issuer);
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(),
 				mergedMetadati.getMarshallResponse(),
 				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),
-				mergedMetadati.getAdministrativeRequest());
+				mergedMetadati.getAdministrativeRequest(),mockUar);
 	}
 
 	@Override
@@ -342,17 +390,17 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		if(documentFound) {
 			metadati = buildFromAdhocQueryRes(res);
 		}
-		  
+
 		GetMetadatiCrashProgramResponseDTO out = new GetMetadatiCrashProgramResponseDTO();
 		out.setMetadati(metadati);
 		out.setFoundDocument(documentFound);
 		return new ResponseEntity<>(out, HttpStatus.OK);
 	}
 
-	  
+
 	private GetMetadatiCrashProgramDTO buildFromAdhocQueryRes(AdhocQueryResponse response) {
 		GetMetadatiCrashProgramDTO metadati = new GetMetadatiCrashProgramDTO();
-		 
+
 		List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(
 				response.getRegistryObjectList().getIdentifiable());
 		Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
@@ -361,7 +409,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		if (optExtrinsicObject.isPresent()) {
 			ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
 			for(SlotType1 slot : extrinsicObject.getSlot()){
-				
+
 				if("repositoryUniqueId".equals(slot.getName())){
 					metadati.setSlotIdentificativoRep(slot.getValueList().getValue().get(0));
 				}
@@ -402,14 +450,14 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				if("EventCodeList_1_1".equals(classificationType.getId())){
 					metadati.setClassificationAttiCliniciRegoleAccesso(Arrays.asList(classificationType.getNodeRepresentation()));
 				}
-  
+
 			}
 
 		}
- 
+
 		return metadati;
 	}
-	
+
 
 	@Override
 	public IniAuditsDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {

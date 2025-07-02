@@ -23,5 +23,5 @@ public interface IIssuerSRV {
     IssuerResponseDTO updateIssuer(IssuerETY issuerETY, IssuerCreateRequestDTO issuerDTO);
     IssuerDeleteResponseDTO removeIssuer(String issuerName);
     IssuerETY findByIssuer(String issuer);
-
+    IssuerResponseDTO update(IssuerETY issuerETY);
 }

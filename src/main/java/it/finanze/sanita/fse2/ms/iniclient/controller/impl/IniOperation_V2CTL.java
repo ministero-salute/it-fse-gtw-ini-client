@@ -13,10 +13,10 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 
 import java.io.StringReader;
 
-import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
@@ -26,10 +26,12 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationMockedSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 
@@ -51,7 +53,7 @@ public class IniOperation_V2CTL extends AbstractCTL implements IIniOperation_V2C
 
 	@Autowired
 	private IniCFG iniCFG;
-  
+	
 
 	@Override
 	public IniTraceResponseDTO update(final UpdateRequestDTO requestBody, HttpServletRequest request) {
@@ -62,10 +64,16 @@ public class IniOperation_V2CTL extends AbstractCTL implements IIniOperation_V2C
 
 		IniResponseDTO res = null;
 		SubmitObjectsRequest req = JAXB.unmarshal(new StringReader(requestBody.getMarshallData()), SubmitObjectsRequest.class);
+		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
 			res = iniInvocationSRV.updateByRequestBody(req, requestBody,true);
 		} else {
-			if (!issuserSRV.isMocked(requestBody.getToken().getIss())) {
+			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
+			boolean mocked = true;
+			if (issuer != null) {
+	            mocked = issuer.getMock();
+	        }
+			if (!mocked) {
 				res = iniInvocationSRV.updateByRequestBody(req, requestBody,true);
 			} else {
 				res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
@@ -74,7 +82,11 @@ public class IniOperation_V2CTL extends AbstractCTL implements IIniOperation_V2C
 
 		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
 
-		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage());
+		boolean mockUar = isMockUar(requestBody.getToken().getIss(), issuer);
+		
+		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
 	}
+
+	
  
 }

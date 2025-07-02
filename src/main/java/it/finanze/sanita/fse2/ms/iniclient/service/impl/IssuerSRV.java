@@ -59,7 +59,7 @@ public class IssuerSRV implements IIssuerSRV {
         }
         return mocked;
     }
-
+    
     @Override
     public IssuerResponseDTO createIssuer(IssuerCreateRequestDTO issuerDTO) {
         IssuerResponseDTO out = new IssuerResponseDTO();
@@ -185,5 +185,15 @@ public class IssuerSRV implements IIssuerSRV {
             issuers.setIssuers(issuerDto);
         }
         return issuers;
+    }
+    
+    @Override
+    public IssuerResponseDTO update(IssuerETY issuerETY) {
+        IssuerResponseDTO out = new IssuerResponseDTO();
+        out.setEsito(false);
+        String id = issuerRepo.updateIssuer(issuerETY);
+        out.setEsito(!StringUtility.isNullOrEmpty(id));
+        out.setId(id);
+        return out;
     }
 }

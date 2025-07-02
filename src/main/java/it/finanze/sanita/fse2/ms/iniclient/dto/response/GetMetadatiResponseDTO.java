@@ -22,15 +22,19 @@ public class GetMetadatiResponseDTO extends ResponseDTO {
 	private AdhocQueryResponse response;
 
 	private String errorMessage;
+	
+	private Boolean mockEds;
 
 	public GetMetadatiResponseDTO() {
 		super();
 	}
 
-	public GetMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final AdhocQueryResponse inResponse, final String inErrorMessage) {
+	public GetMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final AdhocQueryResponse inResponse, final String inErrorMessage,
+			Boolean inMockEds) {
 		super(traceInfo);
 		response = inResponse;
 		errorMessage = inErrorMessage;
+		mockEds = inMockEds;
 	}
 
 }

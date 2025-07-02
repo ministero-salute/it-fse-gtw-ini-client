@@ -59,4 +59,6 @@ public class IssuerCreateRequestDTO {
 
     @Nullable
     private Boolean esonerato;
+    
+    private boolean mockEds;
 }

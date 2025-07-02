@@ -39,7 +39,7 @@ public class IssuerETY {
     public static final String READY_TO_SCAN = "readyToScan";
     public static final String MANDATORY_TESTS = "mandatoryTests";
     public static final String ESONERATO = "esonerato";
-
+    public static final String MOCK_UAR = "mockUar";
 
     @Id
     private String id;
@@ -78,6 +78,7 @@ public class IssuerETY {
 
     @Field(name = ESONERATO)
     private Boolean esonerato;
-
     
+    @Field(name = MOCK_UAR)
+    private Boolean mockUar;
 } 

@@ -34,63 +34,81 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class IssuerCTL extends AbstractCTL implements IIssuerCTL {
 
-    @Autowired
-    private IIssuerSRV issuerSRV;
+	@Autowired
+	private IIssuerSRV issuerSRV;
 
-    @Override
-    public IssuerResponseDTO create(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
-        LogTraceInfoDTO traceInfo = getLogTraceInfo();
+	@Override
+	public IssuerResponseDTO create(IssuerCreateRequestDTO requestBody, HttpServletRequest request) {
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 
-        if (StringUtility.isNullOrEmpty(requestBody.getIssuer())){
-            String message = String.format("La stringa issuer deve essere valorizzata");
-            log.error(message);
-            throw new BusinessException(message);
-        }
-        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
-            String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
-            log.error(message);
-            throw new BusinessException(message);
-        }
+		if (StringUtility.isNullOrEmpty(requestBody.getIssuer())){
+			String message = String.format("La stringa issuer deve essere valorizzata");
+			log.error(message);
+			throw new BusinessException(message);
+		}
+		if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
+			String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
+			log.error(message);
+			throw new BusinessException(message);
+		}
 
-        IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
-        response.setTraceID(traceInfo.getTraceID());
-        response.setSpanID(traceInfo.getSpanID());
-        return response;
-    }
+		IssuerResponseDTO response = issuerSRV.createIssuer(requestBody);
+		response.setTraceID(traceInfo.getTraceID());
+		response.setSpanID(traceInfo.getSpanID());
+		return response;
+	}
 
-    @Override
-    public IssuerDeleteResponseDTO delete(String issuer, HttpServletRequest request) {
-        LogTraceInfoDTO traceInfo = getLogTraceInfo();
-        IssuerDeleteResponseDTO response = issuerSRV.removeIssuer(issuer);
-        response.setTraceID(traceInfo.getTraceID());
-        response.setSpanID(traceInfo.getSpanID());
-        return response;
-    }
-
-
-    @Override
-    public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, String issuer, HttpServletRequest request) {
-        LogTraceInfoDTO traceInfo = getLogTraceInfo();
-
-        if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
-            String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
-            log.error(message);
-            throw new BusinessException(message);
-        }
-
-        IssuerETY ety = issuerSRV.findByIssuer(issuer);
-
-        IssuerResponseDTO response;
-        if(ety==null) {
-            ErrorDTO error = new ErrorDTO(ISSUER_MISSING.getType(), ISSUER_MISSING.getTitle(), ISSUER_MISSING.getDetail(), ISSUER_MISSING.getInstance());
-            throw new NotFoundException(error);
-        }
-        else response = issuerSRV.updateIssuer(ety, requestBody);
+	@Override
+	public IssuerDeleteResponseDTO delete(String issuer, HttpServletRequest request) {
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		IssuerDeleteResponseDTO response = issuerSRV.removeIssuer(issuer);
+		response.setTraceID(traceInfo.getTraceID());
+		response.setSpanID(traceInfo.getSpanID());
+		return response;
+	}
 
 
-        response.setTraceID(traceInfo.getTraceID());
-        response.setSpanID(traceInfo.getSpanID());
-        return response;
-    }
+	@Override
+	public IssuerResponseDTO replace(IssuerCreateRequestDTO requestBody, String issuer, HttpServletRequest request) {
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+
+		if (!requestBody.isMiddleware() && StringUtility.isNullOrEmpty(requestBody.getNomeDocumentRepository())){
+			String message = String.format("La stringa NomeDocumentRepository deve essere valorizzata se middleware è true");
+			log.error(message);
+			throw new BusinessException(message);
+		}
+
+		IssuerETY ety = issuerSRV.findByIssuer(issuer);
+
+		IssuerResponseDTO response;
+		if(ety==null) {
+			ErrorDTO error = new ErrorDTO(ISSUER_MISSING.getType(), ISSUER_MISSING.getTitle(), ISSUER_MISSING.getDetail(), ISSUER_MISSING.getInstance());
+			throw new NotFoundException(error);
+		}
+		else response = issuerSRV.updateIssuer(ety, requestBody);
+
+
+		response.setTraceID(traceInfo.getTraceID());
+		response.setSpanID(traceInfo.getSpanID());
+		return response;
+	}
+
+	@Override
+	public IssuerResponseDTO updateMockUar(String issuer, boolean mockUar, HttpServletRequest request) {
+		LogTraceInfoDTO traceInfo = getLogTraceInfo();
+		IssuerResponseDTO response;
+		IssuerETY ety = issuerSRV.findByIssuer(issuer);
+		if(ety==null) {
+			ErrorDTO error = new ErrorDTO(ISSUER_MISSING.getType(), ISSUER_MISSING.getTitle(), ISSUER_MISSING.getDetail(), ISSUER_MISSING.getInstance());
+			throw new NotFoundException(error);
+		} else {
+			ety.setMockUar(mockUar);
+			response = issuerSRV.update(ety);
+		}
+
+		response.setTraceID(traceInfo.getTraceID());
+		response.setSpanID(traceInfo.getSpanID());
+		return response;
+	}
 
 }

@@ -29,6 +29,8 @@ public class GetReferenceResponseDTO extends ResponseDTO {
 	private List<String> administrativeRequest;
 
 	private String authorInstitution;
+	
+	private Boolean mockEds;
 
 	public GetReferenceResponseDTO() {
 		super();

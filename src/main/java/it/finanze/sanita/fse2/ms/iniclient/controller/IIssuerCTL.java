@@ -68,4 +68,14 @@ public interface IIssuerCTL {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))) })
 	IssuerResponseDTO replace(@Valid @RequestBody IssuerCreateRequestDTO requestBody, @PathVariable(name = "issuer") String issuer, HttpServletRequest request);
 
+	@PutMapping("/mock-eds/{issuer}/{mockUar}")
+	@Operation(summary = "Sostituzione issuer", description = "Sostituisce issuer sul db.")
+	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class)))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Aggiornamento eseguito con successo", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IssuerResponseDTO.class))) })
+	IssuerResponseDTO updateMockUar(@PathVariable(name = "issuer") String issuer,@PathVariable(name = "mockUar") boolean mockUar, HttpServletRequest request);
+
 }
+

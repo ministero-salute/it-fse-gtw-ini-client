@@ -14,10 +14,13 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.impl;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.Properties.MS_NAME;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.Tracer;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
+import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 
 /**
  *	Abstract controller.
@@ -26,18 +29,44 @@ public abstract class AbstractCTL {
 
 	@Autowired
 	private Tracer tracer;
-	
+
+	@Value("${uar.client.mock-enable}")
+	private boolean enableMockUar;
+
+	@Autowired
+	private IIssuerSRV issuserSRV;
+
 
 	protected LogTraceInfoDTO getLogTraceInfo() {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
 		SpanBuilder spanbuilder = tracer.spanBuilder(MS_NAME);
-		
+
 		if (spanbuilder != null) {
 			out = new LogTraceInfoDTO(
 					spanbuilder.startSpan().getSpanContext().getSpanId(), 
 					spanbuilder.startSpan().getSpanContext().getTraceId());
 		}
 		return out;
+	}
+
+	protected boolean isMockUar(final String issuer, IssuerETY issuerEty) {
+		boolean mockUar = false;
+		
+		if(!enableMockUar) {
+			return mockUar;
+		}
+		
+		if(issuerEty == null) {
+			mockUar = true;
+			issuerEty = issuserSRV.findByIssuer(issuer);
+			if(issuerEty != null) {
+				mockUar = issuerEty.getMockUar()!=null ? issuerEty.getMockUar() : true; 	
+			}
+		} else {
+			mockUar = issuerEty.getMockUar()!=null ? issuerEty.getMockUar() : true; 
+		}
+		 
+		return mockUar; 
 	}
 
 }
