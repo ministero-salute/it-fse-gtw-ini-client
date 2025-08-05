@@ -321,9 +321,9 @@
 		    <version>2.32.11</version>
 		</dependency>
 		<dependency>
-		<groupId>software.amazon.awssdk</groupId>
-		<artifactId>kms</artifactId>
-		  <version>2.32.11</version>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>kms</artifactId>
+		    <version>2.32.11</version>
 		</dependency>
 
 
