@@ -68,6 +68,7 @@ public class DocumentEntryBuilderUtility {
 		extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
 		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
+		extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));
 		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntry(documentEntryDTO,id));
 		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
@@ -83,7 +84,6 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
 		slotType1.add(buildSlotObject("sourcePatientId", documentEntryDTO.getPatientId())); 
-		//slotType1.add(buildSlotObject("urn:ita:2017:repository-type", "CONS^^^&2.16.840.1.113883.2.9.3.3.6.1.7&ISO"));
 		slotType1.add(buildSlotObject("urn:ita:2017:repository-type", documentEntryDTO.getConservazioneANorma()));
 		slotType1.add(buildSlotObject("urn:ita:2022:documentSigned", DOCUMENT_SIGNED));
 		slotType1.add(buildSlotObject("urn:ita:2022:description", null, documentEntryDTO.getDescription()));
