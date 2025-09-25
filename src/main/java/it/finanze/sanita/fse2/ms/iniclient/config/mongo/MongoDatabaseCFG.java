@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
@@ -38,10 +37,7 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import com.mongodb.ClientEncryptionSettings;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.model.vault.DataKeyOptions;
-import com.mongodb.client.model.vault.EncryptOptions;
 import com.mongodb.client.vault.ClientEncryption;
 import com.mongodb.client.vault.ClientEncryptions;
 
@@ -60,7 +56,6 @@ import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 @Getter
 public class MongoDatabaseCFG {
 
-	private static final String ALG = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic";
 	private static final String KEY_VAULT_NAMESPACE = "encryption.__keyVault";
 
 	private static final String KMS_PROVIDER_AZURE = "azure";
@@ -69,7 +64,6 @@ public class MongoDatabaseCFG {
 	private final Map<String, Map<String, Object>> kmsProviders = new HashMap<>();
 	private ClientEncryption clientEncryption;
 	private BsonBinary datakeyId;
-	private MongoClientSettings mongoClientSettings;
 
 	@Autowired
 	private MongoPropertiesCFG mongoPropsCfg;
@@ -85,7 +79,12 @@ public class MongoDatabaseCFG {
 
 	@Value("${cloud.provider:#{null}}")
 	private CloudProviderEnum cloudProvider;
- 
+
+	@Autowired
+	private MongoDatabaseFactory factory;
+
+	private MongoClientSettings mongoClientSettings;
+
 	@PostConstruct
 	public void init() {
 		mongoClientSettings = MongoClientSettings.builder().applyConnectionString(new ConnectionString(mongoPropsCfg.getUri())).build();
@@ -94,18 +93,13 @@ public class MongoDatabaseCFG {
 		}
 	}
 
-	@Bean
-	public MongoDatabaseFactory mongoDatabaseFactory() {
-		MongoClient mongoClient = MongoClients.create(mongoClientSettings);
-		return new SimpleMongoClientDatabaseFactory(mongoClient, mongoPropsCfg.getSchemaName());
-	}
 
 	/**
 	 * Restituisce un MongoTemplate configurato con custom converters
 	 */
 	@Bean
 	@Primary
-	public MongoTemplate mongoTemplate(final MongoDatabaseFactory factory, final ApplicationContext appContext) {
+	public MongoTemplate mongoTemplate(final ApplicationContext appContext) {
 		final MongoMappingContext mongoMappingContext = new MongoMappingContext();
 		mongoMappingContext.setApplicationContext(appContext);
 		MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(factory),
@@ -174,43 +168,7 @@ public class MongoDatabaseCFG {
 
 		return ClientEncryptions.create(settings);
 	}
-
-
-	private void generateOrRetrieveDataKeyId(MongoClientSettings settings, CloudProviderEnum cloudProviderEnum) {
-
-		ClientEncryptionSettings clientEncryptionSettings = ClientEncryptionSettings.builder()
-				.keyVaultMongoClientSettings(settings)
-				.keyVaultNamespace(KEY_VAULT_NAMESPACE)
-				.kmsProviders(kmsProviders)
-				.build();
-
-		clientEncryption = ClientEncryptions.create(clientEncryptionSettings);
-		BsonDocument keyDocument = clientEncryption.getKeyByAltName(dataKeyIdName);
-		if (keyDocument == null) {
-			log.info("No existing key found with alias 'dispatcherKey'. Creating a new key...");
-
-
-			switch (cloudProviderEnum) {
-			case AWS:
-				datakeyId = clientEncryption.createDataKey(KMS_PROVIDER_AWS, new DataKeyOptions()
-						.keyAltNames(Collections.singletonList(dataKeyIdName))
-						.masterKey(configureMasterKeyProperties(CloudProviderEnum.AWS)));
-				break;
-
-			case AZURE:
-				datakeyId = clientEncryption.createDataKey(KMS_PROVIDER_AZURE, 
-						new DataKeyOptions().keyAltNames(Collections.singletonList(dataKeyIdName)).masterKey(configureMasterKeyProperties(CloudProviderEnum.AZURE)));
-				break;
-
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + cloudProviderEnum);
-			}
-		} else {
-			log.info("Existing key found with alias 'dispatcherKey'.");
-			datakeyId = keyDocument.getBinary("_id");
-		}
-	}
-
+  
 	public Document decryptAsDocument(Binary encryptedData) {
 
 		if (cloudProvider == CloudProviderEnum.AWS) {
