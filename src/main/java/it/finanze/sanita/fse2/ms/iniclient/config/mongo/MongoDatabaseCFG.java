@@ -108,7 +108,6 @@ public class MongoDatabaseCFG {
 		return new MongoTemplate(factory, converter);
 	}
 
-
 	private void generateOrRetrieveDataKeyId(CloudProviderEnum cloudProviderEnum) {
 		clientEncryption = buildClientEncryption(cloudProviderEnum); 
 
@@ -169,7 +168,7 @@ public class MongoDatabaseCFG {
 
 		return ClientEncryptions.create(settings);
 	}
-
+  
 	public Document decryptAsDocument(Binary encryptedData) {
 
 		if (cloudProvider == CloudProviderEnum.AWS) {
@@ -191,7 +190,6 @@ public class MongoDatabaseCFG {
 			throw new RuntimeException(e);
 		}
 	}
-
 	public void configureKmsProviders(CloudProviderEnum cloudProviderEnum) {
 		Map<String, Object> providerDetails = new HashMap<>();
 
