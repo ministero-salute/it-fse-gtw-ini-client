@@ -41,6 +41,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -68,7 +69,9 @@ public class DocumentEntryBuilderUtility {
 		extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
 		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
-		extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));
+		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getTitle())) {
+			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));	
+		}
 		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntry(documentEntryDTO,id));
 		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
