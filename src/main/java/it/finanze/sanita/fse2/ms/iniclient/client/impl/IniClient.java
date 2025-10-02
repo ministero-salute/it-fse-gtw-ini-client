@@ -257,14 +257,6 @@ public class IniClient implements IIniClient {
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
 		
-		try {
-			log.info("sendPublicationData Request: {}",
-					new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(submitObjectsRequest)
-							.length());
-		} catch (Exception e) {
-			log.info(e.getLocalizedMessage());
-		}
-
 		return documentRegistryPort.documentRegistryRegisterDocumentSetB(submitObjectsRequest);
 	}
 
