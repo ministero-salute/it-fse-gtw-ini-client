@@ -86,6 +86,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class SamlHeaderBuilderUtility {
+	
+	private static final String GTW_ROLE = "GTW";
 
 	@Autowired
 	private IniCFG iniCFG;
@@ -369,14 +371,19 @@ public class SamlHeaderBuilderUtility {
 				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
 			}
 
-			out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
-
+			if(!ActionEnumType.READ_REF_AND_METADATA.equals(actionEnumType) && !ActionEnumType.READ_METADATA.equals(actionEnumType) &&
+					!ActionEnumType.READ_REFERENCE.equals(actionEnumType)) {
+				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
+				out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
+			} else {
+				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
+			}
+			
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization-id", payloadTokenJwt.getSubject_organization_id()));
-
+			
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:organization", payloadTokenJwt.getSubject_organization()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:resource:resource-id", payloadTokenJwt.getPerson_id()));
 			out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:action:action-id", payloadTokenJwt.getAction_id()));
@@ -384,6 +391,7 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
 			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
 			out.add(buildAttribute("SubjectAuthenticator", Constants.IniClientConstants.SUBJECT_AUTHENTICATOR,Constants.IniClientConstants.HEADER_NAME_FORMAT));
+
 
 		} catch(Exception ex) {
 			log.error("Error while perform build attributes : "  + ex.getMessage());
