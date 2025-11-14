@@ -381,7 +381,7 @@ public class IniClient implements IIniClient {
 	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,
 			String workflowInstanceId) {
 		Date startingDate = new Date();
-		return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_REFERENCE, workflowInstanceId, startingDate);
+		return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_METADATA, workflowInstanceId, startingDate);
 	}
 
 	@Override
