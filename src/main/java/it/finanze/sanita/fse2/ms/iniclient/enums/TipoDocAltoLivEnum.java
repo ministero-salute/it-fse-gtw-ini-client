@@ -27,8 +27,9 @@ public enum TipoDocAltoLivEnum {
 	CER("CER","Certificato per DGC"),
 	VRB("VRB","Verbale"),
 	CON("CON", "Documento di consenso"),
-	CNT("CNT", "Documento di controllo");
-
+	CNT("CNT", "Documento di controllo"),
+	CRT("CRT","Certificato Amministrativo generico");
+	
 	private String code;
 	private String description;
 
