@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Handler;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -43,7 +44,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
-import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.MessageContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -381,7 +381,7 @@ public class IniClient implements IIniClient {
 	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,
 			String workflowInstanceId) {
 		Date startingDate = new Date();
-		return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_REFERENCE, workflowInstanceId, startingDate);
+		return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_METADATA, workflowInstanceId, startingDate);
 	}
 
 	@Override
