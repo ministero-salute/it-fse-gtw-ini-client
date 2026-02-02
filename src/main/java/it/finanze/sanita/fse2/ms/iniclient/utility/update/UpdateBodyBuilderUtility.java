@@ -36,7 +36,6 @@ import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ExternalIdentifierEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
@@ -68,7 +67,7 @@ public final class UpdateBodyBuilderUtility {
 	 * @param jwtTokenDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequest(RegistryObjectListType oldMetadata, MergedMetadatiRequestDTO newMetadataDTO,
+	public static SubmitObjectsRequest buildSubmitObjectRequest(RegistryObjectListType oldMetadata,MergedMetadatiRequestDTO newMetadataDTO,
 			String uuid,JWTTokenDTO jwtTokenDTO, String idDocumento) {
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
 		RegistryObjectListType registryObjectListType = buildRegistryObjectList(oldMetadata,newMetadataDTO,uuid,jwtTokenDTO,idDocumento);
@@ -94,7 +93,7 @@ public final class UpdateBodyBuilderUtility {
 		List<JAXBElement<? extends IdentifiableType>> list = new ArrayList<>();
 		list.add(approvedVersion);
 
-		UpdateMetadataReqDTO updateReq = updateRequestDTO.getBody();
+		PublicationMetadataReqDTO updateReq = updateRequestDTO.getBody();
 
 		// 1. extrinsic object
 		ExtrinsicObjectType extrinsicObject = mergeExtrinsicObjectMetadata(list, updateReq,requestUUID);
@@ -163,7 +162,7 @@ public final class UpdateBodyBuilderUtility {
 	 * @param uuid
 	 * @return
 	 */
-	private static ExtrinsicObjectType mergeExtrinsicObjectMetadata(List<JAXBElement<? extends IdentifiableType>> list, UpdateMetadataReqDTO updateRequestBodyDTO, String uuid) {
+	private static ExtrinsicObjectType mergeExtrinsicObjectMetadata(List<JAXBElement<? extends IdentifiableType>> list, PublicationMetadataReqDTO updateRequestBodyDTO, String uuid) {
 
 		ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) list.stream()
 				.filter(e -> e.getValue() instanceof ExtrinsicObjectType)

@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateMetadataReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.enums.AdministrativeReqEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
@@ -46,13 +44,13 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergeHealthcareFacilityTypeCode(UpdateMetadataReqDTO updateRequestBodyDTO,
-                                                       ExtrinsicObjectType extrinsicObject) {
+	public static void mergeHealthcareFacilityTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO,
+			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum healthCare = ClassificationEnum.HEALTH_CARE_FACILITY_TYPE_CODE;
 		Map<String, String> value = new HashMap<>();
 		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
-			String code = updateRequestBodyDTO.getTipologiaStruttura();
-			String description = updateRequestBodyDTO.getTipologiaStruttura();
+			String code = updateRequestBodyDTO.getTipologiaStruttura().getCode();
+			String description = updateRequestBodyDTO.getTipologiaStruttura().getCode();
 			value.put(code, description);
 		}
 		mergeClassification(healthCare.getCodingScheme(), healthCare.getClassificationScheme(), "Document1",
@@ -65,13 +63,13 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergeClassCode(UpdateMetadataReqDTO updateRequestBodyDTO,
+	public static void mergeClassCode(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum classCode = ClassificationEnum.CLASS_CODE;
 		Map<String, String> value = new HashMap<>();
 		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
-			String code = updateRequestBodyDTO.getTipoDocumentoLivAlto();
-			String description = updateRequestBodyDTO.getTipoDocumentoLivAlto();
+			String code = updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode();
+			String description = updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription();
 			value.put(code, description);
 		}
 		mergeClassification(classCode.getCodingScheme(), classCode.getClassificationScheme(), "Document1", "ClassCode",
@@ -84,13 +82,13 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergePracticeSettingCode(UpdateMetadataReqDTO updateRequestBodyDTO,
+	public static void mergePracticeSettingCode(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum practiceSettingCode = ClassificationEnum.PRACTICE_SETTING_CODE;
 		Map<String, String> value = new HashMap<>();
 		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
-			String code = updateRequestBodyDTO.getAssettoOrganizzativo();
-			String description = updateRequestBodyDTO.getAssettoOrganizzativo();
+			String code = updateRequestBodyDTO.getAssettoOrganizzativo().getCode();
+			String description = updateRequestBodyDTO.getAssettoOrganizzativo().getDescription();
 			value.put(code, description);
 		}
 		mergeClassification(practiceSettingCode.getCodingScheme(), practiceSettingCode.getClassificationScheme(),
@@ -103,7 +101,7 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @param classificationObjectList
 	 */
-	public static void mergeEventTypeCode(UpdateMetadataReqDTO updateRequestBodyDTO,
+	public static void mergeEventTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum eventCode = ClassificationEnum.EVENT_CODE;
 
@@ -125,7 +123,7 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @param extrinsicObject
 	 */
-	public static void mergeServiceTime(UpdateMetadataReqDTO updateRequestBodyDTO,
+	public static void mergeServiceTime(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		mergeSlot("serviceStartTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataInizioPrestazione());
 		mergeSlot("serviceStopTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataFinePrestazione());
@@ -137,22 +135,22 @@ public class MergeMetadataUtility {
 	 * @param updateRequestBodyDTO
 	 * @param slotList
 	 */
-	public static void mergeDescription(UpdateMetadataReqDTO updateRequestBodyDTO,
+	public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		String[] newValue = updateRequestBodyDTO.getDescriptions() == null ? null
 				: new String[] { updateRequestBodyDTO.getDescriptions().toArray()[0].toString() };
 		mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue);
 	}
 
-	public static void mergeAdministrativeRequest(UpdateMetadataReqDTO updateRequestBodyDTO,
+	public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		String[] newValues = updateRequestBodyDTO.getAdministrativeRequest() != null
 				? new String[updateRequestBodyDTO.getAdministrativeRequest().size()]
 				: null;
 		if (newValues != null) {
 			for (int i = 0; i < updateRequestBodyDTO.getAdministrativeRequest().size(); i++) {
-                AdministrativeReqEnum administrativeReqEnum =  AdministrativeReqEnum.valueOf(updateRequestBodyDTO.getAdministrativeRequest().get(i));
-                newValues[i] = administrativeReqEnum.getCode() + "^" + administrativeReqEnum.getDescription();
+				newValues[i] = updateRequestBodyDTO.getAdministrativeRequest().get(i).getCode() + "^"
+						+ updateRequestBodyDTO.getAdministrativeRequest().get(i).getDescription();
 			}
 		}
 		mergeSlot("urn:ita:2022:administrativeRequest", extrinsicObject.getSlot(), newValues);
