@@ -31,10 +31,8 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
-import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.enums.AttivitaClinicaEnum;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import lombok.AccessLevel;
@@ -55,12 +53,12 @@ public class SubmissionSetEntryBuilderUtility {
 	@Setter
 	private static ObjectFactory objectFactory = new ObjectFactory();
 	
-	public static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSet(PublicationMetadataReqDTO updateRequestDto,JWTPayloadDTO jwtPayloadDTO, String id,
-	ClassificationType classificationAuthorType) {
+	public static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSet(UpdateMetadataReqDTO updateRequestDto, JWTPayloadDTO jwtPayloadDTO, String id,
+                                                                                           ClassificationType classificationAuthorType) {
 
 		String sourceId = Constants.IniClientConstants.SOURCE_ID_PREFIX + StringUtility.sanitizeSourceId(jwtPayloadDTO.getSubject_organization_id());
 		JAXBElement<RegistryPackageType> registryPackage = buildRegistryPackageObjectSubmissionSet("",sourceId, updateRequestDto.getIdentificativoSottomissione(), jwtPayloadDTO.getPerson_id(),
-				updateRequestDto.getTipoAttivitaClinica().getDescription(),updateRequestDto.getTipoAttivitaClinica().getCode(),
+                AttivitaClinicaEnum.valueOf(updateRequestDto.getTipoAttivitaClinica()).getDescription(),AttivitaClinicaEnum.valueOf(updateRequestDto.getTipoAttivitaClinica()).getCode(),
 				"", "" , "",classificationAuthorType);
 		
 		String submissionSetTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
