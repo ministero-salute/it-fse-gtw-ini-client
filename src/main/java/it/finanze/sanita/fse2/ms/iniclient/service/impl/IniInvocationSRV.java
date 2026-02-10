@@ -43,8 +43,8 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.DocumentReferenceNotFoundException;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IniDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.WiiNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
@@ -111,7 +111,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String message = String.format("Record con wii %s per l'operazione di %s non trovato", workflowInstanceId, operation);
 			logger.error(Constants.AppConstants.LOG_TYPE_CONTROL, workflowInstanceId,message, operation.getOperation(), startingDate, operation.getErrorType(), 
 					null,null, new JWTPayloadDTO(),null,null);
-			throw new IdDocumentNotFoundException(message);
+			throw new WiiNotFoundException(message);
 		}
 		return iniInvocationETY;
 	}
@@ -364,7 +364,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
 				if (error.getCodeContext().equals("No results from the query")) {
-                    throw new DocumentReferenceNotFoundException();
+                    throw new IniDocumentNotFoundException(error.getCodeContext());
 				} else {
 					sb.append(error.getCodeContext());
 				}

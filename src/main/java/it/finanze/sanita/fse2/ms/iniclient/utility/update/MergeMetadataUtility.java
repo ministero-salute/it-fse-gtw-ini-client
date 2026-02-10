@@ -128,18 +128,26 @@ public class MergeMetadataUtility {
 		mergeSlot("serviceStartTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataInizioPrestazione());
 		mergeSlot("serviceStopTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataFinePrestazione());
 	}
-
+ 
 	/**
 	 * Merge description metadata
-	 * 
-	 * @param updateRequestBodyDTO
-	 * @param slotList
+	 *
+	 * @param updateRequestBodyDTO update request body DTO
+	 * @param extrinsicObject extrinsic object
 	 */
 	public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO,
-			ExtrinsicObjectType extrinsicObject) {
-		String[] newValue = updateRequestBodyDTO.getDescriptions() == null ? null
-				: new String[] { updateRequestBodyDTO.getDescriptions().toArray()[0].toString() };
-		mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue);
+	        ExtrinsicObjectType extrinsicObject) {
+	    
+	    String[] newValue = null;
+	    
+	    if (updateRequestBodyDTO.getDescriptions() != null && 
+	        !updateRequestBodyDTO.getDescriptions().isEmpty()) {
+	        newValue = new String[] { 
+	            updateRequestBodyDTO.getDescriptions().toArray()[0].toString() 
+	        };
+	    }
+	    
+	    mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue);
 	}
 
 	public static void mergeAdministrativeRequest(PublicationMetadataReqDTO updateRequestBodyDTO,

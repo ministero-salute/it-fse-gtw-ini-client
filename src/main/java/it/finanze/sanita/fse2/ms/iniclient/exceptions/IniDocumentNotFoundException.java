@@ -11,17 +11,22 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.exceptions;
 
-import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.REFERENCE_DATA_MISSING;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INI_REFERENCE_NOT_FOUND;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 
-public class DocumentReferenceNotFoundException extends NotFoundException {
+public class IniDocumentNotFoundException extends NotFoundException {
 
-    public DocumentReferenceNotFoundException() {
-        super(new ErrorDTO(REFERENCE_DATA_MISSING.getType(), REFERENCE_DATA_MISSING.getTitle(),
-                REFERENCE_DATA_MISSING.getDetail(), REFERENCE_DATA_MISSING.getInstance()));
+    private static final long serialVersionUID = -1296786481703464907L;
+
+    public IniDocumentNotFoundException(String detail) {
+        super(createErrorDTO(detail));
     }
-
+    
+    private static ErrorDTO createErrorDTO(String detail) {
+        String msg = StringUtility.isNullOrEmpty(detail) ? INI_REFERENCE_NOT_FOUND.getDetail() : detail;
+        return new ErrorDTO(INI_REFERENCE_NOT_FOUND.getType(), INI_REFERENCE_NOT_FOUND.getTitle(), msg, INI_REFERENCE_NOT_FOUND.getInstance());
+    }
 }
-

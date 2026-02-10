@@ -14,6 +14,8 @@ package it.finanze.sanita.fse2.ms.iniclient.controller.handler;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.Properties.MS_NAME;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.CONFLICT;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.GENERIC;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INI_COMMUNICATION_ERROR;
+import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INI_METADATA_NOT_FOUND;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.INVALID_INPUT;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ErrorClassEnum.VALIDATION;
 
@@ -39,7 +41,9 @@ import io.opentelemetry.api.trace.Tracer;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.IdDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IniDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.SoapIniException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.WiiNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BadRequestException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.InputValidationException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
@@ -75,13 +79,35 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @param request	request
 	 * @return
 	 */
-	@ExceptionHandler(value = {NotFoundException.class, IdDocumentNotFoundException.class})
+	@ExceptionHandler(value = {NotFoundException.class, WiiNotFoundException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final NotFoundException ex, final WebRequest request) {
 
 		LogTraceInfoDTO traceInfo = getLogTraceInfo();
 		ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, ex.getError());
 
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+	
+	/**
+	 * Handles INI document not found exception.
+	 *
+	 * @param ex      INI document not found exception
+	 * @param request web request
+	 * @return error response
+	 */
+	/**
+	 * Handles INI document not found exception.
+	 *
+	 * @param ex      INI document not found exception
+	 * @param request web request
+	 * @return error response
+	 */
+	@ExceptionHandler(value = {IniDocumentNotFoundException.class})
+	protected ResponseEntity<ErrorResponseDTO> handleIniDocumentNotFoundException(final IniDocumentNotFoundException ex, final WebRequest request) {
+	    LogTraceInfoDTO traceInfo = getLogTraceInfo();
+	    ErrorDTO error = ex.getError() != null ? ex.getError() : new ErrorDTO(INI_METADATA_NOT_FOUND.getType(), INI_METADATA_NOT_FOUND.getTitle(), ex.getMessage(), INI_METADATA_NOT_FOUND.getInstance());
+	    ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(value = InputValidationException.class)
@@ -103,7 +129,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
-	 
+	
+
+	
+	@ExceptionHandler(value = {SoapIniException.class})
+	protected ResponseEntity<ErrorResponseDTO> handleIniSoapException(final SoapIniException ex, final WebRequest request) {
+	    LogTraceInfoDTO traceInfo = getLogTraceInfo();
+	    
+	    ErrorDTO error = new ErrorDTO(INI_COMMUNICATION_ERROR.getType(), INI_COMMUNICATION_ERROR.getTitle(), ex.getMessage(), INI_COMMUNICATION_ERROR.getInstance());
+	    ErrorResponseDTO response = new ErrorResponseDTO(traceInfo, error);
+	    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+	
 
 	/**
 	 * Management generic exception.

@@ -155,11 +155,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			}
 		}
 
-		log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(),
-				Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
-
+		log.info(Constants.Logs.END_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 		boolean mockUar = isMockUar(iniETY.getIssuer(), issuer);
-
 		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
 	}
 

@@ -18,19 +18,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ErrorClassEnum {
-
-    GENERIC("/errors", "Generic", "Generic error, missing more information", "/generic"),
-    ID_DOC_MISSING("/errors", "Document not found", "Document with the specified workflowInstanceId not found",
-            "/missing-docs"),
-    REFERENCE_DATA_MISSING("/errors/ini", "References not found",
-            "Query has returned not data when trying to fetch references",
-            "/missing-references"),
-    MISSING_METADATA("/errors/ini", "Document metadata not found",
-            "Metadata of document not found with the specified OID", "/missing-metadata"),
-    INVALID_INPUT("/errors/validation", "Invalid input data", "Invalid inputed API parameters", "/api-input"),
-    CONFLICT("errors/validation", "Conflicted data", "Loaded data is already present", "/conflict"),
-    VALIDATION("errors/validation", "Invalid input data", "Invalid inputed parameters", "/input"),
-    ISSUER_MISSING("errors/validation", "Missing issuer", "Issuer not found", "/input");
+	
+	GENERIC("/errors/internal", "Generic error", "Generic error, missing more information", "/generic"),
+	ID_DOC_MISSING("/errors/internal", "Document not found", "Document with the specified workflowInstanceId not found", "/missing-docs"),
+	INVALID_INPUT("/errors/validation", "Invalid input data", "Invalid input API parameters", "/api-input"),
+	CONFLICT("/errors/validation", "Conflicted data", "Loaded data is already present", "/conflict"),
+	VALIDATION("/errors/validation", "Invalid input data", "Invalid input parameters", "/input"),
+	ISSUER_MISSING("/errors/validation", "Missing issuer", "Issuer not found", "/issuer-missing"),
+	INI_REFERENCE_NOT_FOUND("/errors/external/ini", "INI references not found", "Query returned no data when fetching references from INI", "/missing-references"),
+	INI_METADATA_NOT_FOUND("/errors/external/ini", "INI metadata not found", "Metadata not found with the specified OID in INI", "/missing-metadata"),
+	INI_COMMUNICATION_ERROR("/errors/external/ini", "INI communication error", "Error occurred during INI service communication", "/communication-error"),
+	INI_SOAP_FAULT("/errors/external/ini", "INI SOAP fault", "SOAP fault received from INI service", "/soap-fault"),
+	INI_TIMEOUT("/errors/external/ini", "INI timeout", "Timeout while communicating with INI service", "/timeout"),
+	INI_UNAVAILABLE("/errors/external/ini", "INI service unavailable", "INI service is temporarily unavailable", "/unavailable");
 
 	/**
 	 * Error type.

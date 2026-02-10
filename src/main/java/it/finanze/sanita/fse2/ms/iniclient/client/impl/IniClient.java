@@ -70,6 +70,8 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.IniDocumentNotFoundException;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.SoapIniException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
@@ -378,62 +380,91 @@ public class IniClient implements IIniClient {
 	}
 
 	@Override
-	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken,
+	public AdhocQueryResponse getReferenceMetadata(String oidToUpdate, String tipoRicerca, JWTTokenDTO jwtToken,
 			String workflowInstanceId) {
 		Date startingDate = new Date();
-		return getReferenceMetadata(uuid, tipoRicerca, jwtToken, ActionEnumType.READ_METADATA, workflowInstanceId, startingDate);
+		return getReferenceMetadata(oidToUpdate, tipoRicerca, jwtToken, ActionEnumType.READ_METADATA, workflowInstanceId, startingDate);
 	}
-
+	
 	@Override
-	public AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType, String workflowInstanceId,Date startingDate) {
-		log.debug("Call to INI get reference metadata");
+	public AdhocQueryResponse getReferenceMetadata(String oidToUpdate, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType, String workflowInstanceId, Date startingDate) {
+	    
+	    log.debug("Call to INI get reference metadata");
 
-		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
-		List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, actionEnumType);
- 
-		JWTPayloadDTO payloadDto = jwtToken.getPayload();
-		AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(uuid,tipoRicerca,payloadDto.isUse_subject_as_author(),payloadDto.getSub());
-		
-		AdhocQueryResponse response = null;
-		WSBindingProvider bp = null;
-		Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP : INI_GET_METADATI_SOAP; 
-		if(ActionEnumType.READ_METADATA.equals(actionEnumType)) {
-			bp = (WSBindingProvider)documentRegistryPort;
-			bp.getRequestContext().put(WII, workflowInstanceId);
-			bp.getRequestContext().put(EVENT_TYPE, eventType);
-			bp.getRequestContext().put(EVENT_DATE, startingDate);
-			bp.setOutboundHeaders(headers);
-			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-				Map<String, List<String>> h = getBasicAuthCredentials();
-			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-			}
-			
-			response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);	
-		} else {
-			bp = (WSBindingProvider)recuperoRiferimentoPort;
-			bp.getRequestContext().put(WII, workflowInstanceId);
-			bp.getRequestContext().put(EVENT_TYPE, eventType);
-			bp.getRequestContext().put(EVENT_DATE, startingDate);
-			bp.setOutboundHeaders(headers);
-			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
-				Map<String, List<String>> h = getBasicAuthCredentials();
-			    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
-			}
-			
-			response = recuperoRiferimentoPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);
-		}
-		 
-		StringBuilder sb = new StringBuilder();
-		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
-			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-					sb.append("ERROR_CODE: "+error.getErrorCode() + " ERROR_CONTEXT: " + error.getCodeContext());
-			}
-			throw new BusinessException(sb.toString());
-		}
-		return response;
+	    JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(jwtToken, actionEnumType);
+	    List<Header> headers = samlHeaderBuilderUtility.buildHeader(reconfiguredToken, actionEnumType);
+	    AdhocQueryRequest adhocQueryRequest = ReadBodyBuilderUtility.buildAdHocQueryRequest(oidToUpdate, tipoRicerca, jwtToken.getPayload().isUse_subject_as_author(), jwtToken.getPayload().getSub());
+	    AdhocQueryResponse response = executeRegistryQuery(adhocQueryRequest, headers, actionEnumType, tipoRicerca, workflowInstanceId, startingDate);
+	    validateResponse(response);
+	    return response;
+	}
+
+
+	private AdhocQueryResponse executeRegistryQuery(AdhocQueryRequest request, List<Header> headers, ActionEnumType actionEnumType, String tipoRicerca,
+	        String workflowInstanceId, Date startingDate) {
+	    
+	    DocumentRegistryPortType port = selectPort(actionEnumType);
+	    configurePort(port, headers, tipoRicerca, workflowInstanceId, startingDate);
+	    
+	    try {
+	        return port.documentRegistryRegistryStoredQuery(request);
+	    } catch (Exception e) {
+	        log.error("Errore durante la chiamata SOAP al registry: {}", e.getMessage(), e);
+	        throw new SoapIniException("Errore nella comunicazione con il registry INI", e);
+	    }
+	}
+
+	private DocumentRegistryPortType selectPort(ActionEnumType actionEnumType) {
+	    return ActionEnumType.READ_METADATA.equals(actionEnumType) ? documentRegistryPort : recuperoRiferimentoPort;
+	}
+
+	private void configurePort(DocumentRegistryPortType port, List<Header> headers, String tipoRicerca, String workflowInstanceId, Date startingDate) {
+	    WSBindingProvider bp = (WSBindingProvider) port;
+	    Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP : INI_GET_METADATI_SOAP;
+	    bp.getRequestContext().put(WII, workflowInstanceId);
+	    bp.getRequestContext().put(EVENT_TYPE, eventType);
+	    bp.getRequestContext().put(EVENT_DATE, startingDate);
+	    bp.setOutboundHeaders(headers);
+	    configureBasicAuthIfNeeded(bp);
+	}
+
+	private void configureBasicAuthIfNeeded(WSBindingProvider bp) {
+	    if (!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && 
+	        !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+	        
+	        Map<String, List<String>> authHeaders = getBasicAuthCredentials();
+	        bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, authHeaders);
+	    }
 	}
  
+	
+	private void validateResponse(AdhocQueryResponse response) {
+	    if (response.getRegistryErrorList() == null ||
+	        CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
+	        return;
+	    }
+
+	    List<RegistryError> errors = response.getRegistryErrorList().getRegistryError();
+
+	    String errorMessage = errors.stream()
+	            .map(error -> String.format("ERROR_CODE: %s ERROR_CONTEXT: %s", 
+	                    error.getErrorCode(), 
+	                    error.getCodeContext()))
+	            .collect(Collectors.joining("; "));
+
+	    log.error("INI ha restituito errori: {}", errorMessage);
+
+	    String firstErrorCode = errors.get(0).getErrorCode();
+	    String firstContext = errors.get(0).getCodeContext();
+
+	    if ("QND1".equals(firstErrorCode) || (firstContext != null && firstContext.contains("No results"))) {
+	        throw new IniDocumentNotFoundException(firstContext);
+	    } else if(!StringUtility.isNullOrEmpty(firstErrorCode)) {
+	    	throw new SoapIniException(firstContext);
+	    } else {
+	    	throw new BusinessException(errorMessage);	
+	    }
+	    
+	}
  
 }
