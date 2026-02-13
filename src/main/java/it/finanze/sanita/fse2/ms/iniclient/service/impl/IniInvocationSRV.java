@@ -91,11 +91,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
 		final Date startingDate = new Date();
 
+		String manifestCretor = iniInvocationETY.getData()!=null? "TRUE":"";
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
-			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId);
+			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId,manifestCretor);
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
-			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate, workflowInstanceId);
+			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate, workflowInstanceId,manifestCretor);
 		}
 
 		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
@@ -116,7 +117,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return iniInvocationETY;
 	}
 
-	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId) {
+	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId,
+			String manifestCreator) {
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
@@ -131,7 +133,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO,
-					workflowInstanceId,startingDate);
+					workflowInstanceId,startingDate,manifestCreator);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
@@ -167,7 +169,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return out;
 	}
 
-	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId) {
+	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId,
+			String manifestCreator) {
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
@@ -181,7 +184,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni(),
-					workflowInstanceId,startingDate);
+					workflowInstanceId,startingDate,manifestCreator);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();

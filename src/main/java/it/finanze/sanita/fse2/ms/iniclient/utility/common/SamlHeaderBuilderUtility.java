@@ -391,7 +391,6 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
 			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
 			out.add(buildAttribute("SubjectAuthenticator", Constants.IniClientConstants.SUBJECT_AUTHENTICATOR,Constants.IniClientConstants.HEADER_NAME_FORMAT));
-			out.add(buildAttribute("urn:ita:fse:2025:EDSpublished", "false"));
 
 
 		} catch(Exception ex) {

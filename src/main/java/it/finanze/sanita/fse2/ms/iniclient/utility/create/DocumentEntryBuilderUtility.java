@@ -61,7 +61,8 @@ public class DocumentEntryBuilderUtility {
 	@Setter
 	private static ObjectFactory objectFactory = new ObjectFactory();
 	
-	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntry(String id,DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
+	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntry(String id,DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO,
+			String manifestCreator) {
 
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
 		extrinsicObject.setId(id);
@@ -72,7 +73,7 @@ public class DocumentEntryBuilderUtility {
 		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getTitle())) {
 			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));	
 		}
-		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO));
+		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO,manifestCreator));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntry(documentEntryDTO,id));
 		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
@@ -82,7 +83,8 @@ public class DocumentEntryBuilderUtility {
 	 * @param documentEntryDTO
 	 * @param jwtPayloadDTO
 	 */
-	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntry(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO) {
+	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntry(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO,
+			String manifestCreator) {
 		List<SlotType1> slotType1 = new ArrayList<>();
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
@@ -98,6 +100,11 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("serviceStopTime", documentEntryDTO.getServiceStopTime()));
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2013:referenceIdList",null, documentEntryDTO.getReferenceIdList()));
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2024:SubjectApplication", jwtPayloadDTO.mergedSubjectIdVendorVersion()));
+		
+		if(!StringUtility.isNullOrEmpty(manifestCreator)) {
+			slotType1.add(buildSlotObject("urn:ita:fse:2025:EDSpublished", manifestCreator));	
+		}
+		
 		return slotType1;
 	}
 	

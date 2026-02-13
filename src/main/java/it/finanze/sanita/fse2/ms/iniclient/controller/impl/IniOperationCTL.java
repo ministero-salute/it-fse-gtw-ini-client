@@ -106,8 +106,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		log.debug("Workflow instance id received:" + workflowInstanceId + ", calling ini invocation client...");
 		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
-		log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG,
-				traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
+		log.info(Constants.Logs.START_LOG, Constants.Logs.CREATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID(), Constants.Logs.WORKFLOW_INSTANCE_ID, workflowInstanceId);
 
 		IniResponseDTO res = null;
 		IniEdsInvocationETY iniETY = iniInvocationSRV.findByWII(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
