@@ -377,7 +377,6 @@ public class SamlHeaderBuilderUtility {
 
 			if (isReadAction) {
 			    if (useSubjectAsAuthor) {
-			        out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
 			        out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
 			    }
 			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
