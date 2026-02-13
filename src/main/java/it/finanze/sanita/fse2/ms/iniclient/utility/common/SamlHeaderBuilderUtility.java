@@ -353,8 +353,6 @@ public class SamlHeaderBuilderUtility {
 	}
 
 
-
-
 	/**
 	 * Build attributes from token values
 	 * urn values from documentation
@@ -370,15 +368,24 @@ public class SamlHeaderBuilderUtility {
 			if (payloadTokenJwt.getPatient_consent() != null) {
 				out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:patient:consent", payloadTokenJwt.getPatient_consent().toString()));
 			}
-
-			if(!ActionEnumType.READ_REF_AND_METADATA.equals(actionEnumType) && !ActionEnumType.READ_METADATA.equals(actionEnumType) &&
-					!ActionEnumType.READ_REFERENCE.equals(actionEnumType)) {
-				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-				out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID));
-			} else {
-				out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
-			}
 			
+			boolean isReadAction = ActionEnumType.READ_REF_AND_METADATA.equals(actionEnumType) || ActionEnumType.READ_METADATA.equals(actionEnumType) ||
+					ActionEnumType.READ_REFERENCE.equals(actionEnumType); 
+			boolean useSubjectAsAuthor = tokenDTO.getPayload().isUse_subject_as_author();
+
+			String subjectId = !StringUtility.isNullOrEmpty(payloadTokenJwt.getSub()) ? payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID : "";
+
+			if (isReadAction) {
+			    if (useSubjectAsAuthor) {
+			        out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
+			        out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
+			    }
+			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
+			} else {
+			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
+			    out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
+			}
+
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:environment:locality", payloadTokenJwt.getLocality()));
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:subject:purposeofuse", payloadTokenJwt.getPurpose_of_use()));
@@ -391,8 +398,6 @@ public class SamlHeaderBuilderUtility {
 			out.add(buildAttribute("SubjectApplicationVendor", payloadTokenJwt.getSubject_application_vendor(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
 			out.add(buildAttribute("SubjectApplicationVersion", payloadTokenJwt.getSubject_application_version(),Constants.IniClientConstants.HEADER_NAME_FORMAT));
 			out.add(buildAttribute("SubjectAuthenticator", Constants.IniClientConstants.SUBJECT_AUTHENTICATOR,Constants.IniClientConstants.HEADER_NAME_FORMAT));
-
-
 		} catch(Exception ex) {
 			log.error("Error while perform build attributes : "  + ex.getMessage());
 			throw new BusinessException("Error while perform build attributes : "  + ex.getMessage());
