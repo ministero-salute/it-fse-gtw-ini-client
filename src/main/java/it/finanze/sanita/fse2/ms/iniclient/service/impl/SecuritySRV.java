@@ -31,8 +31,11 @@ import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
 import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaPropertiesCFG;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
+import it.finanze.sanita.fse2.ms.iniclient.utility.ProfileUtility;
 import lombok.extern.slf4j.Slf4j;
-
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
 @Service
 @Slf4j
 public class SecuritySRV implements ISecuritySRV {
@@ -44,6 +47,9 @@ public class SecuritySRV implements ISecuritySRV {
 
 	@Autowired
 	private KafkaPropertiesCFG kafkaPropertiesCFG;
+	
+	@Autowired
+	private ProfileUtility profileUtility;
 
 	@Override
 	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
@@ -56,19 +62,40 @@ public class SecuritySRV implements ISecuritySRV {
 		KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 		keyManagerFactory.init(keystore, iniCFG.getAuthCertPassword().toCharArray());
 
-		KeyStore trustStore = KeyStore.getInstance("JKS");
-		try (InputStream tsInputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(kafkaPropertiesCFG.getTrustoreLocation())) {
-			trustStore.load(tsInputStream, kafkaPropertiesCFG.getTrustorePassword());
-		}
-
-		TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-		trustManagerFactory.init(trustStore);
 
 		SSLContext sslContext = SSLContext.getInstance("TLS");
-		sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new java.security.SecureRandom());
+		
+		if(profileUtility.isDevOrDockerProfile()) {
+			sslContext.init(keyManagerFactory.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());	
+		} else {
+			KeyStore trustStore = KeyStore.getInstance("JKS");
+			try (InputStream tsInputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(kafkaPropertiesCFG.getTrustoreLocation())) {
+				trustStore.load(tsInputStream, kafkaPropertiesCFG.getTrustorePassword());
+			}
+
+			TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+			trustManagerFactory.init(trustStore);
+			sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new java.security.SecureRandom());	
+		}
+		
 		return sslContext;
 
 	}
 
+	private static TrustManager[] trustAllCerts = new TrustManager[]{
+			new X509TrustManager() {
+				public X509Certificate[] getAcceptedIssuers() {
+					return new X509Certificate[0];
+				}
+
+				public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+					log.info("Check client trusted:" + authType);
+				}
+
+				public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+					log.info("Check server trusted:" + authType);
+				}
+			}
+	};
 
 }
