@@ -57,4 +57,11 @@ public class IniCFG {
 
 	@Value("${ini.client.mock-enable}")
 	private boolean mockEnable;
+	
+
+	@Value("${ini.client.auth-cert.trustore-path:#{null}}")
+	private String trustorePath;
+
+	@Value("${ini.client.auth-cert.trustore-pass:#{null}}")
+	private String trustorePass;
 }

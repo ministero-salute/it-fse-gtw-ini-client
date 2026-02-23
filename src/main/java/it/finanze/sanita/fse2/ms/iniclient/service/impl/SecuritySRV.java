@@ -46,9 +46,6 @@ public class SecuritySRV implements ISecuritySRV {
 	private IniCFG iniCFG;
 
 	@Autowired
-	private KafkaPropertiesCFG kafkaPropertiesCFG;
-	
-	@Autowired
 	private ProfileUtility profileUtility;
 
 	@Override
@@ -69,8 +66,8 @@ public class SecuritySRV implements ISecuritySRV {
 			sslContext.init(keyManagerFactory.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());	
 		} else {
 			KeyStore trustStore = KeyStore.getInstance("JKS");
-			try (InputStream tsInputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(kafkaPropertiesCFG.getTrustoreLocation())) {
-				trustStore.load(tsInputStream, kafkaPropertiesCFG.getTrustorePassword());
+			try (InputStream tsInputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(iniCFG.getTrustorePath())) {
+				trustStore.load(tsInputStream, iniCFG.getTrustorePass().toCharArray());
 			}
 
 			TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
