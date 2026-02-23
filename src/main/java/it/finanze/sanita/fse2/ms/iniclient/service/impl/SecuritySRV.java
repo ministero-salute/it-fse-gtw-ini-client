@@ -19,17 +19,16 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.config.kafka.KafkaPropertiesCFG;
 import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.FileUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -43,39 +42,33 @@ public class SecuritySRV implements ISecuritySRV {
 	@Autowired
 	private IniCFG iniCFG;
 
+	@Autowired
+	private KafkaPropertiesCFG kafkaPropertiesCFG;
+
 	@Override
 	public SSLContext createSslCustomContext() throws NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
 
 		KeyStore keystore = KeyStore.getInstance("JKS");
         try (InputStream inputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(iniCFG.getAuthCertLocation())) {
-			keystore.load(inputStream, iniCFG.getAuthCertPassword().toCharArray());	
+			keystore.load(inputStream, iniCFG.getAuthCertPassword().toCharArray());
 		}
 
 		KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 		keyManagerFactory.init(keystore, iniCFG.getAuthCertPassword().toCharArray());
 
+		KeyStore trustStore = KeyStore.getInstance("JKS");
+		try (InputStream tsInputStream = FileUtility.getFileFromAbsoluteOrResourceInputStream(kafkaPropertiesCFG.getTrustoreLocation())) {
+			trustStore.load(tsInputStream, kafkaPropertiesCFG.getTrustorePassword());
+		}
+
+		TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+		trustManagerFactory.init(trustStore);
+
 		SSLContext sslContext = SSLContext.getInstance("TLS");
-		sslContext.init(keyManagerFactory.getKeyManagers(), trustAllCerts, new java.security.SecureRandom());
+		sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new java.security.SecureRandom());
 		return sslContext;
 
 	}
-
-	
-	private static TrustManager[] trustAllCerts = new TrustManager[]{
-			new X509TrustManager() {
-				public X509Certificate[] getAcceptedIssuers() {
-					return new X509Certificate[0];
-				}
-
-				public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
-					log.info("Check client trusted:" + authType);
-				}
-
-				public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
-					log.info("Check server trusted:" + authType);
-				}
-			}
-	};
 
 
 }
