@@ -90,7 +90,7 @@ class IniInvocationTest {
     @DisplayName("Publish - success test")
     void publishSuccessTest() {
         Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class)
-        		, any(String.class), any(Date.class)))
+        		, any(String.class), any(Date.class), any(String.class)))
                 .thenReturn(new RegistryResponseType());
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null);
         assertTrue(response.getEsito());
@@ -100,7 +100,8 @@ class IniInvocationTest {
     @Test
     @DisplayName("Publish - error test")
     void publishErrorTest() {
-        Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), any(String.class), any(Date.class)))
+        Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), any(String.class), any(Date.class)
+        		, any(String.class)))
                 .thenThrow(new BusinessException(""));
         assertThrows(BusinessException.class, () -> iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null));
     }
@@ -109,7 +110,7 @@ class IniInvocationTest {
     @DisplayName("Publish - error response test")
     void publishErrorResponseTest() {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), any(String.class), any(Date.class)))
+        Mockito.when(iniClient.sendPublicationData(any(DocumentEntryDTO.class), any(SubmissionSetEntryDTO.class), any(JWTTokenDTO.class), any(String.class), any(Date.class), any(String.class)))
                 .thenReturn(registryResponseType);
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.PUBLISH,null);
         assertFalse(response.getEsito());
@@ -120,7 +121,7 @@ class IniInvocationTest {
     @DisplayName("Replace - success test")
     void replaceSuccessTest() {
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccess();
-        Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any(), any(),any()))
+        Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any(), any(),any(),any()))
                 .thenReturn(registryResponseType);
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null);
         assertTrue(response.getEsito());
@@ -130,7 +131,7 @@ class IniInvocationTest {
     @Test
     @DisplayName("Replace - error test")
     void replaceErrorTest() {
-        Mockito.when(iniClient.sendReplaceData(any(), any(), any(), any(), any(),any())).thenThrow(new BusinessException(""));
+        Mockito.when(iniClient.sendReplaceData(any(), any(), any(), any(), any(),any(),any())).thenThrow(new BusinessException(""));
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
         requestDTO.setWorkflowInstanceId(TestConstants.TEST_WII);
@@ -141,7 +142,7 @@ class IniInvocationTest {
     @DisplayName("Replace - error response test")
     void replaceErrorResponseTest() {
         RegistryResponseType registryResponseType = TestUtility.mockRegistryError();
-        Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any(), any(),any()))
+        Mockito.when(iniClient.sendReplaceData(any(), any(), any(),any(), any(),any(),any()))
                 .thenReturn(registryResponseType);
         ReplaceRequestDTO requestDTO = new ReplaceRequestDTO();
         requestDTO.setRiferimentoIni("identificativoDoc");
