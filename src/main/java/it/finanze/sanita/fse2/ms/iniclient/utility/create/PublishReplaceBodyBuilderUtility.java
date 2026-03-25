@@ -56,10 +56,11 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequest(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
+	public static SubmitObjectsRequest buildSubmitObjectRequest(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid,
+			String manifestCreator) {
 		if (documentEntryDTO == null) throw new BusinessException("DocumentEntryDTO is null");
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
-		RegistryObjectListType registryObjectListType = buildRegistryObjectList(documentEntryDTO, submissionSetEntryDTO, jwtPayloadDTO, uuid);
+		RegistryObjectListType registryObjectListType = buildRegistryObjectList(documentEntryDTO, submissionSetEntryDTO, jwtPayloadDTO, uuid,manifestCreator);
 		submitObjectsRequest.setRegistryObjectList(registryObjectListType);
 		return submitObjectsRequest;
 	}
@@ -71,12 +72,14 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	private static RegistryObjectListType buildRegistryObjectList(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
+	private static RegistryObjectListType buildRegistryObjectList(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid,
+			String manifestCreator) {
 		RegistryObjectListType registryObjectListType = new RegistryObjectListType();
 		 
 		
 		//ExtrinsicObject - DocumentEntry
-		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(DOCUMENT_ENTRY_ID, documentEntryDTO,jwtPayloadDTO);
+		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(DOCUMENT_ENTRY_ID, documentEntryDTO,jwtPayloadDTO,
+				manifestCreator);
 		registryObjectListType.getIdentifiable().add(extrinsicObject);
 
 		//Registry package - SubmissionSetEntry

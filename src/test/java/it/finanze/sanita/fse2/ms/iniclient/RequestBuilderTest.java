@@ -96,7 +96,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
     }
 
@@ -110,7 +110,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
     }
 
@@ -127,7 +127,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
 
         when(objectFactory.createClassification(any(ClassificationType.class))).thenThrow(new BusinessException("Error creating object"));
@@ -135,7 +135,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
 
         when(objectFactory.createSlot(any(SlotType1.class))).thenThrow(new BusinessException("Error creating object"));
@@ -143,7 +143,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
 
         when(objectFactory.createAssociation(any(AssociationType1.class))).thenThrow(new BusinessException("Error creating object"));
@@ -151,7 +151,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
 
         when(objectFactory.createExternalIdentifier(any(ExternalIdentifierType.class))).thenThrow(new BusinessException("Error creating object"));
@@ -159,7 +159,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
 
         when(objectFactory.createExtrinsicObject(any(ExtrinsicObjectType.class))).thenThrow(new BusinessException("Error creating object"));
@@ -167,7 +167,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                null
+                null, ""
         ));
     }
 
@@ -180,7 +180,7 @@ class RequestBuilderTest {
                 CommonUtility.extractDocumentEntry(documentTreeDTO.getDocumentEntry()),
                 CommonUtility.extractSubmissionSetEntry(documentTreeDTO.getSubmissionSetEntry()),
                 samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload(),
-                TestConstants.TEST_UUID
+                TestConstants.TEST_UUID, ""
         ));
     }
 

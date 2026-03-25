@@ -30,7 +30,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 public interface IIniClient {
 
 	RegistryResponseType sendPublicationData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO,
-			String workflowInstanceId,Date startingDate);
+			String workflowInstanceId,Date startingDate, String manifestCreator);
     
     RegistryResponseType sendDeleteData(DeleteRequestDTO requestDto, JWTPayloadDTO jwtToken, List<String> uuid,Date startingDate);
     
@@ -39,7 +39,7 @@ public interface IIniClient {
     RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate);
     
     RegistryResponseType sendReplaceData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO,
-			JWTTokenDTO jwtTokenDTO, String uuid,String workflowInstanceId,Date startingDate);
+		JWTTokenDTO jwtTokenDTO, String uuid,String workflowInstanceId,Date startingDate, String manifestCreator);
     
     AdhocQueryResponse getReferenceUUID(String idDoc, String tipoRicerca,JWTTokenDTO tokenDTO);
     
