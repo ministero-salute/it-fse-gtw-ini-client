@@ -101,10 +101,8 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2013:referenceIdList",null, documentEntryDTO.getReferenceIdList()));
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2024:SubjectApplication", jwtPayloadDTO.mergedSubjectIdVendorVersion()));
 		
-		if(!StringUtility.isNullOrEmpty(manifestCreator)) {
-			slotType1.add(buildSlotObject("urn:ita:fse:2025:EDSpublished", manifestCreator));	
-		}
-		
+        slotType1.add(buildSlotObject("urn:ita:fse:2025:EDSpublished", manifestCreator));
+
 		return slotType1;
 	}
 	

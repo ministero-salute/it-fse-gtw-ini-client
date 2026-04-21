@@ -91,12 +91,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
 		final Date startingDate = new Date();
 
-		String manifestCretor = iniInvocationETY.getData()!=null? "TRUE":"";
+		String manifestCreator = iniInvocationETY.getData() != null ? "TRUE" : "FALSE";
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
-			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId,manifestCretor);
+			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId,manifestCreator);
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
-			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate, workflowInstanceId,manifestCretor);
+			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate, workflowInstanceId,manifestCreator);
 		}
 
 		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
