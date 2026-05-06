@@ -210,8 +210,11 @@ public class CommonUtility {
                     Optional<SlotType1> authorInstitutionSlot = authorSlots.stream()
                             .filter(slot -> slot.getName().equals("authorInstitution"))
                             .findFirst();
-                    if(authorInstitutionSlot.isPresent()) {
-                    	return authorInstitutionSlot.get().getValueList().getValue().get(0);
+                    if (authorInstitutionSlot.isPresent()) {
+                        List<String> values = authorInstitutionSlot.get().getValueList().getValue();
+                        if (!CollectionUtils.isEmpty(values)) {
+                            return values.get(0);
+                        }
                     }
                 }
             }
