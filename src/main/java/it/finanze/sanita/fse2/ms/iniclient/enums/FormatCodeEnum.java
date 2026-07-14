@@ -27,7 +27,24 @@ public enum FormatCodeEnum {
     CFV("2.16.840.1.113883.2.9.10.1.11.1.2", "Certificato Vaccinale"),
     PRS("2.16.840.1.113883.2.9.10.1.2", "Prescrizione"),
     PTO("2.16.840.1.113883.2.9.4.3.14", "Piano Terapeutico"),
-    VAC("2.16.840.1.113883.2.9.10.1.11.1.1", "Scheda della singola Vaccinazione");
+    VAC("2.16.840.1.113883.2.9.10.1.11.1.1", "Scheda della singola Vaccinazione"),
+    EFC("2.16.840.1.113883.2.9.10.1.13.2.1", "Erogazione Farmaceutica non a carico SSN"),
+    PFC("2.16.840.1.113883.2.9.10.1.3.1", "Prescrizione Farmaceutica non a carico SSN"),
+    LIV("2.16.840.1.113883.2.9.10.1.15.1", "Lettera di invito per Vaccinazione"),
+    LIS("2.16.840.1.113883.2.9.10.1.14.1", "Lettera di invito per screening o ad altri percorsi di prevenzione"),
+    RTV("2.16.840.1.113883.2.9.10.1.16.1.1", "Referto di Televisita"),
+    RFTM("2.16.840.1.113883.2.9.10.1.16.3.1", "Relazione finale di telemonitoraggio"),
+    RFTA("2.16.840.1.113883.2.9.10.1.16.4.1", "Relazione finale di teleassistenza"),
+    RTC("2.16.840.1.113883.2.9.10.1.16.2.1", "Relazione di teleconsulto"),
+    CAC("2.16.840.1.113883.2.9.10.1.18.1", "Cartella Clinica"),
+    TPI("2.16.840.1.113883.2.9.10.1.17.1", "Tessera portatore di impianto"),
+    FHIR_DOCUMENT_TELEVISITA("FHIRDocumentTelevisita", "Bundle contenente i dati FHIR relativi al Referto di Televisita"),
+    FHIR_DOCUMENT_TELECONSULTO("FHIRDocumentTeleconsulto", "Bundle contenente i dati FHIR relativi alla Relazione collaborativa di Teleconsulto"),
+    FHIR_DOCUMENT_TELEMONITORAGGIO("FHIRDocumentTelemonitoraggio", "Bundle contenente i dati FHIR relativi alla Relazione Finale di Telemonitoraggio"),
+    FHIR_DOCUMENT_TELEASSISTENZA("FHIRDocumentTeleassistenza", "Bundle contenente i dati FHIR relativi alla Relazione Finale di Teleassistenza");
+
+
+
 
     private final String templateId;
     private final String documentType;
