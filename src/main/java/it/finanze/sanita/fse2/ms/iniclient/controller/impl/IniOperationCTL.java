@@ -45,11 +45,11 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
@@ -140,7 +140,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
+			String edsPublished = isMockUar(iniETY.getIssuer(), null) ? "FALSE" : "TRUE";
+			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, iniETY, edsPublished);
 		} else {
 			issuer = issuserSRV.findByIssuer(iniETY.getIssuer());
 			boolean mocked = true;
@@ -148,7 +149,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				mocked = issuer.getMock();
 			}
 			if (!mocked) {
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH,iniETY);
+				String edsPublished = isMockUar(iniETY.getIssuer(), issuer) ? "FALSE" : "TRUE";
+				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, iniETY, edsPublished);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
 			}
@@ -266,15 +268,17 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
-			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
+			String edsPublished = isMockUar(iniETY.getIssuer(), null) ? "FALSE" : "TRUE";
+			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, iniETY, edsPublished);
 		} else {
 			issuer = issuserSRV.findByIssuer(iniETY.getIssuer());
 			boolean mocked = true;
 			if (issuer != null) {
 				mocked = issuer.getMock();
 			}
-			if (!mocked) {	
-				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE,iniETY);
+			if (!mocked) {
+				String edsPublished = isMockUar(iniETY.getIssuer(), issuer) ? "FALSE" : "TRUE";
+				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, iniETY, edsPublished);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
 			}
@@ -315,29 +319,27 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	}
 
 	@Override
-	public ResponseEntity<GetReferenceResponseDTO> getReference(String idDoc, GetReferenceReqDTO requestBody,HttpServletRequest request) {
-		// DELETE - REPLACE
+	public ResponseEntity<GetDocumentMetadataResponseDTO> getDocumentMetadata(String idDoc, GetReferenceReqDTO requestBody, HttpServletRequest request) {
 		JWTTokenDTO token = new JWTTokenDTO();
 		token.setPayload(requestBody.getToken());
-		GetReferenceResponseDTO out = null;
-		IssuerETY issuer = null;
-		if (!iniCFG.isMockEnable()) {
-			out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
-		} else {
-			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
-			boolean mocked = true;
-			if (issuer != null) {
-				mocked = issuer.getMock();
-			}
-			if (!mocked) {	
-				out = iniInvocationSRV.getReference(idDoc, token,requestBody.getWorkflowInstanceId());
+		GetDocumentMetadataResponseDTO out;
+		try {
+			if (!iniCFG.isMockEnable()) {
+				out = iniInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
 			} else {
-				out = iniMockInvocationSRV.getReference(idDoc, token);
+				IssuerETY issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
+				boolean mocked = (issuer == null) || Boolean.TRUE.equals(issuer.getMock());
+				if (!mocked) {
+					out = iniInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
+				} else {
+					out = iniMockInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
+				}
 			}
-
+		} catch (Exception ex) {
+			log.error("Error in getDocumentMetadata for idDoc {}", idDoc, ex);
+			out = new GetDocumentMetadataResponseDTO();
+			out.setErrorMessage(ex.getMessage());
 		}
-		
-		out.setMockEds(isMockUar(requestBody.getToken().getIss(), issuer));
 		return new ResponseEntity<>(out, HttpStatus.OK);
 	}
 

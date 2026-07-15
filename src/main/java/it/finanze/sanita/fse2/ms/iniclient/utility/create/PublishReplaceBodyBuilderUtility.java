@@ -57,10 +57,10 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @return
 	 */
 	public static SubmitObjectsRequest buildSubmitObjectRequest(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid,
-			String manifestCreator) {
+			String edsPublished) {
 		if (documentEntryDTO == null) throw new BusinessException("DocumentEntryDTO is null");
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
-		RegistryObjectListType registryObjectListType = buildRegistryObjectList(documentEntryDTO, submissionSetEntryDTO, jwtPayloadDTO, uuid,manifestCreator);
+		RegistryObjectListType registryObjectListType = buildRegistryObjectList(documentEntryDTO, submissionSetEntryDTO, jwtPayloadDTO, uuid,edsPublished);
 		submitObjectsRequest.setRegistryObjectList(registryObjectListType);
 		return submitObjectsRequest;
 	}
@@ -73,13 +73,13 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @return
 	 */
 	private static RegistryObjectListType buildRegistryObjectList(DocumentEntryDTO documentEntryDTO,SubmissionSetEntryDTO submissionSetEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid,
-			String manifestCreator) {
+			String edsPublished) {
 		RegistryObjectListType registryObjectListType = new RegistryObjectListType();
 		 
 		
 		//ExtrinsicObject - DocumentEntry
 		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntry(DOCUMENT_ENTRY_ID, documentEntryDTO,jwtPayloadDTO,
-				manifestCreator);
+				edsPublished);
 		registryObjectListType.getIdentifiable().add(extrinsicObject);
 
 		//Registry package - SubmissionSetEntry

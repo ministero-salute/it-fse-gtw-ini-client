@@ -14,7 +14,9 @@ package it.finanze.sanita.fse2.ms.iniclient.utility.common;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBElement;
@@ -247,6 +249,62 @@ public class CommonUtility {
         return new ArrayList<>();
     }
     
+	   /**
+	    * Restituisce il valore grezzo dello slot urn:ita:fse:2025:EDSpublished
+	    * dal primo ExtrinsicObject nella risposta ITI-18 LeafClass.
+	    * Ritorna "TRUE" se il documento fu pubblicato su EDS reale,
+	    * "FALSE" se pubblicato in regime mock, null se lo slot è assente
+	    * (documento pre-feature o risposta non contiene ExtrinsicObject).
+	    */
+	   public static String extractEdsPublishedSlotValue(AdhocQueryResponse queryResponse) {
+	       if (checkMetadata(queryResponse)) {
+	           List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+	           Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+	                   .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+	                   .findFirst();
+	           if (optExtrinsicObject.isPresent()) {
+	               ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+	               Optional<SlotType1> edsPublishedSlot = extrinsicObject.getSlot().stream()
+	                       .filter(slot -> "urn:ita:fse:2025:EDSpublished".equals(slot.getName()))
+	                       .findFirst();
+	               if (edsPublishedSlot.isPresent()) {
+	                   List<String> values = edsPublishedSlot.get().getValueList().getValue();
+	                   if (!CollectionUtils.isEmpty(values)) {
+	                       return values.get(0);
+	                   }
+	               }
+	           }
+	       }
+	       return null;
+	   }
+
+	/**
+	 * Builds a map of slot name → first slot value for all slots of the first ExtrinsicObject
+	 * found in the query response. Useful for surfacing all remaining metadata fields to callers
+	 * (e.g. "creationTime", "repositoryUniqueId", "languageCode", …).
+	 *
+	 * @param queryResponse the ITI-18 response
+	 * @return ordered map slot-name → first-value; empty map if no ExtrinsicObject is present
+	 */
+	public static Map<String, String> extractSlotMetadataMap(AdhocQueryResponse queryResponse) {
+		Map<String, String> metaMap = new LinkedHashMap<>();
+		if (!checkMetadata(queryResponse)) {
+			return metaMap;
+		}
+		queryResponse.getRegistryObjectList().getIdentifiable().stream()
+			.map(JAXBElement::getValue)
+			.filter(v -> v instanceof ExtrinsicObjectType)
+			.findFirst()
+			.ifPresent(v -> {
+				for (SlotType1 slot : ((ExtrinsicObjectType) v).getSlot()) {
+					if (slot.getValueList() != null && !slot.getValueList().getValue().isEmpty()) {
+						metaMap.put(slot.getName(), slot.getValueList().getValue().get(0));
+					}
+				}
+			});
+		return metaMap;
+	}
+
 	public static AuthorSlotDTO buildAuthorSlot(final String authorRole, final String authorInstitution, final String authorPerson) {
 		SlotType1 authorRoleSlot = buildSlotObject("authorRole", authorRole);
 		SlotType1 authorInstitutionSlot = buildSlotObject("authorInstitution", authorInstitution);

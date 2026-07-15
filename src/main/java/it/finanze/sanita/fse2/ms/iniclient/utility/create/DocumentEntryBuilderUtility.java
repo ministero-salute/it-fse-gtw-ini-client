@@ -62,7 +62,7 @@ public class DocumentEntryBuilderUtility {
 	private static ObjectFactory objectFactory = new ObjectFactory();
 	
 	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntry(String id,DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO,
-			String manifestCreator) {
+			String edsPublished) {
 
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
 		extrinsicObject.setId(id);
@@ -71,9 +71,9 @@ public class DocumentEntryBuilderUtility {
 		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
 		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getTitle())) {
-			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));	
+			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));
 		}
-		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO,manifestCreator));
+		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntry(documentEntryDTO,jwtPayloadDTO,edsPublished));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntry(documentEntryDTO,id));
 		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
@@ -84,7 +84,7 @@ public class DocumentEntryBuilderUtility {
 	 * @param jwtPayloadDTO
 	 */
 	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntry(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO,
-			String manifestCreator) {
+			String edsPublished) {
 		List<SlotType1> slotType1 = new ArrayList<>();
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", documentEntryDTO.getRepositoryUniqueId()));
@@ -101,7 +101,7 @@ public class DocumentEntryBuilderUtility {
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2013:referenceIdList",null, documentEntryDTO.getReferenceIdList()));
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2024:SubjectApplication", jwtPayloadDTO.mergedSubjectIdVendorVersion()));
 		
-        slotType1.add(buildSlotObject("urn:ita:fse:2025:EDSpublished", manifestCreator));
+        slotType1.add(buildSlotObject("urn:ita:fse:2025:EDSpublished", edsPublished));
 
 		return slotType1;
 	}

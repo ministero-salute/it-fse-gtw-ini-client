@@ -41,7 +41,6 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiCrashProgramResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
-import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 
 
@@ -93,14 +92,17 @@ public interface IIniOperationCTL {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))) })
 	ResponseEntity<GetMetadatiResponseDTO> getMetadati(@PathVariable(required = true) String idDoc,@RequestBody GetMetadatiReqDTO jwtPayload, HttpServletRequest request);
 
-	@PostMapping("/get-reference/{idDoc}")
-	@Operation(summary = "Get reference INI", description = "Recupero UUID dato un oid in input")
+	@PostMapping("/get-document-metadata/{idDoc}")
+	@Operation(summary = "Get document metadata", description = "Recupero del RegistryObjectList XML di un documento esistente tramite ITI-18 LeafClass. Usato dai flussi Replace e Delete.")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = GetReferenceResponseDTO.class))),
+		@ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO.class))),
 		@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class))),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = IniTraceResponseDTO.class)))
 	})
-	ResponseEntity<GetReferenceResponseDTO> getReference(@PathVariable String idDoc, @RequestBody GetReferenceReqDTO requestBody, HttpServletRequest request);
+	ResponseEntity<it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO> getDocumentMetadata(
+			@PathVariable String idDoc,
+			@RequestBody GetReferenceReqDTO requestBody,
+			HttpServletRequest request);
 
 	@PutMapping("/get-merged-metadati")
 	@Operation(summary = "Aggiornamento metadati ad INI", description = "Invia i metadati di una risorsa FHIR ad INI.")

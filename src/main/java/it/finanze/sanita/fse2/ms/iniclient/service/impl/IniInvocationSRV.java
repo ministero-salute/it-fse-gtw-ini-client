@@ -23,6 +23,7 @@ import java.util.List;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -88,15 +89,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 
 
 	@Override
-	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY) {
+	public IniResponseDTO publishOrReplaceOnIni(final String workflowInstanceId, final ProcessorOperationEnum operation, IniEdsInvocationETY iniInvocationETY, String edsPublished) {
 		final Date startingDate = new Date();
 
-		String manifestCreator = iniInvocationETY.getData() != null ? "TRUE" : "FALSE";
 		IniResponseDTO out = null;
 		if(ProcessorOperationEnum.PUBLISH.equals(operation)) {
-			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId,manifestCreator);
+			out = publishByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId, edsPublished);
 		} else if(ProcessorOperationEnum.REPLACE.equals(operation)) {
-			out = replaceByWorkflowInstanceId(iniInvocationETY,startingDate, workflowInstanceId,manifestCreator);
+			out = replaceByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId, edsPublished);
 		}
 
 		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
@@ -118,7 +118,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	private IniResponseDTO publishByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId,
-			String manifestCreator) {
+			String edsPublished) {
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
 		String documentType = CommonUtility.extractDocumentType(documentTreeDTO);
@@ -133,7 +133,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			RegistryResponseType res = iniClient.sendPublicationData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO,
-					workflowInstanceId,startingDate,manifestCreator);
+					workflowInstanceId,startingDate,edsPublished);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
@@ -170,7 +170,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	private IniResponseDTO replaceByWorkflowInstanceId(final IniEdsInvocationETY iniInvocationETY, final Date startingDate, final String workflowInstanceId,
-			String manifestCreator) {
+			String edsPublished) {
 		IniResponseDTO out = new IniResponseDTO();
 		DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(iniInvocationETY.getMetadata());
 
@@ -184,7 +184,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		try {
 			RegistryResponseType res = iniClient.sendReplaceData(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO, iniInvocationETY.getRiferimentoIni(),
-					workflowInstanceId,startingDate,manifestCreator);
+					workflowInstanceId,startingDate,edsPublished);
 
 			if (res.getRegistryErrorList() != null && !CollectionUtils.isEmpty(res.getRegistryErrorList().getRegistryError())) {
 				StringBuilder msg = new StringBuilder();
@@ -318,6 +318,37 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		return out;
 	}
 
+
+	@Override
+	public GetDocumentMetadataResponseDTO getDocumentMetadata(final String oid, final JWTTokenDTO tokenDTO, final String workflowInstanceId) {
+		final Date startingDate = new Date();
+		JWTTokenDTO reconfiguredToken = RequestUtility.configureReadTokenPerAction(tokenDTO, ActionEnumType.READ_METADATA);
+		AdhocQueryResponse response = iniClient.getReferenceMetadata(oid, SearchTypeEnum.LEAF_CLASS.getSearchKey(),
+				reconfiguredToken, ActionEnumType.READ_METADATA, workflowInstanceId, startingDate);
+
+		if (response == null
+				|| response.getRegistryObjectList() == null
+				|| response.getRegistryObjectList().getIdentifiable().isEmpty()) {
+			throw new MergeMetadatoNotFoundException("Metadati non trovati per documento: " + oid);
+		}
+
+		// Extract typed fields using existing CommonUtility helpers
+		GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
+
+		// uuid: id of the first ExtrinsicObject (or first identifiable)
+		List<JAXBElement<? extends IdentifiableType>> elements = response.getRegistryObjectList().getIdentifiable();
+		if (!elements.isEmpty()) {
+			out.setUuid(elements.get(0).getValue().getId());
+		}
+
+		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(response));
+		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(response));
+		out.setAdministrativeRequest(CommonUtility.extractAdministrativeRequestFromQueryResponse(response));
+		out.setEdsPublished(CommonUtility.extractEdsPublishedSlotValue(response));
+		out.setMetadata(CommonUtility.extractSlotMetadataMap(response));
+
+		return out;
+	}
 
 	@Override
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {

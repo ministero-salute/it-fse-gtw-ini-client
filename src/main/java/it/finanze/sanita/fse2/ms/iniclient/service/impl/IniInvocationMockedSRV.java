@@ -28,6 +28,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.logging.LoggerHelper;
@@ -75,6 +76,19 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	public AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO) {
 		AdhocQueryResponse out = new AdhocQueryResponse();
 		out.setRequestId("Attenzione chiamata in regime di mock");
+		return out;
+	}
+
+	@Override
+	public GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId) {
+		mockLog(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
+		GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
+		out.setUuid("MOCK_UUID");
+		out.setEdsPublished("FALSE");
+		out.setDocumentType("DOCUMENT_TYPE_MOCKATO");
+		out.setAuthorInstitution("AUTHOR_INSTITUTION_MOCKATO");
+		out.setAdministrativeRequest(Arrays.asList("ADM_REQ_MOCKATO"));
+		out.setMetadata(new java.util.HashMap<>());
 		return out;
 	}
 

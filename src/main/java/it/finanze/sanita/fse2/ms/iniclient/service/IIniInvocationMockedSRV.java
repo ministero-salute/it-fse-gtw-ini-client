@@ -12,6 +12,7 @@
 package it.finanze.sanita.fse2.ms.iniclient.service;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
@@ -30,4 +31,9 @@ public interface IIniInvocationMockedSRV {
     GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO);
 
 	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
+
+	/**
+	 * Versione mock di getDocumentMetadata. Restituisce un DTO con campi placeholder.
+	 */
+	GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId);
 }

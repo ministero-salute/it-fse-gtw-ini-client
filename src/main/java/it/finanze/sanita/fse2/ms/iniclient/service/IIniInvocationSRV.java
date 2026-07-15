@@ -14,6 +14,7 @@ package it.finanze.sanita.fse2.ms.iniclient.service;
 import java.util.Date;
 
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -22,7 +23,15 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 public interface IIniInvocationSRV {
 
-	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation, IniEdsInvocationETY ety);
+	IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation, IniEdsInvocationETY ety, String edsPublished);
+
+	/**
+	 * Esegue una LeafClass ITI-18 per il documento identificato da {@code oid} e restituisce
+	 * un DTO strutturato con tutti i metadati (uuid, edsPublished, documentType,
+	 * authorInstitution, administrativeRequest, metadata map).
+	 * Usato dai flussi Replace e Delete.
+	 */
+	GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId);
 	
 	IniResponseDTO deleteByDocumentId(DeleteRequestDTO deleteRequestDTO);
 

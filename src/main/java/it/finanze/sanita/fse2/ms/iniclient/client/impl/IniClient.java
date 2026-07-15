@@ -240,14 +240,15 @@ public class IniClient implements IIniClient {
 	
 	@Override
 	public RegistryResponseType sendPublicationData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
-			String workflowInstanceId,Date startingDate, String manifestCreator) {
+			String workflowInstanceId, Date startingDate, String edsPublished) {
 		log.debug("Call to INI publication");
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 		
-		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), 
-				null, manifestCreator);
+		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(
+				documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(),
+				null, edsPublished);
 		
 		bp.getRequestContext().put(WII, workflowInstanceId);
 		bp.getRequestContext().put(EVENT_TYPE, INI_CREATE_SOAP);
@@ -339,7 +340,8 @@ public class IniClient implements IIniClient {
 	
 	@Override
 	public RegistryResponseType sendReplaceData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO,
-			final JWTTokenDTO jwtTokenDTO, final String uuid,String workflowInstanceId,Date startingDate, String manifestCreator) {
+			final JWTTokenDTO jwtTokenDTO, final String uuid, String workflowInstanceId, Date startingDate,
+			String edsPublished) {
 		log.debug("Call to INI replace");
 
 		// Reconfigure token and build request
@@ -350,7 +352,7 @@ public class IniClient implements IIniClient {
 		bp.getRequestContext().put(EVENT_TYPE, INI_REPLACE_SOAP);
 		bp.getRequestContext().put(EVENT_DATE, startingDate);
 		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequest(documentEntryDTO, submissionSetEntryDTO, jwtTokenDTO.getPayload(), uuid,
-				manifestCreator);
+				edsPublished);
 
 		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
 			Map<String, List<String>> h = getBasicAuthCredentials();
