@@ -84,7 +84,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 		mockLog(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
 		GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
 		out.setUuid("MOCK_UUID");
-		out.setEdsPublished("FALSE");
+		out.setEdsPublished("TRUE");
 		out.setDocumentType("DOCUMENT_TYPE_MOCKATO");
 		out.setAuthorInstitution("AUTHOR_INSTITUTION_MOCKATO");
 		out.setAdministrativeRequest(Arrays.asList("ADM_REQ_MOCKATO"));
