@@ -39,6 +39,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateOscuramentoRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
@@ -436,6 +437,50 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			log.error("Error while merge metadati", ex);
 			throw new BusinessException(ex);
 		} 
+		return out;
+	}
+
+	@Override
+	public IniResponseDTO updateOscuramentoByRequestBody(UpdateOscuramentoRequestDTO updateRequestDTO) {
+		final Date startingDate = new Date();
+		IniResponseDTO out = new IniResponseDTO();
+		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
+		JWTPayloadDTO payloadToken = token.getPayload();
+		
+		String fiscalCode = CommonUtility.extractFiscalCodeFromJwtSub(token.getPayload().getSub());
+		
+		try {
+			StringBuilder errorMsg = new StringBuilder();
+			RegistryResponseType registryResponse = iniClient.sendOscuramentoData(token,updateRequestDTO.getWorkflowInstanceId(),startingDate);
+			 
+			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
+				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
+					if (!WARNING.equals(error.getSeverity())) {
+						errorMsg.
+							append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
+							append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
+							append(SEVERITY_CODE_CONTEXT).append(error.getCodeContext());
+					}
+				}
+			}
+
+			if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+				out.setEsito(false);						
+				out.setMessage(errorMsg.toString());
+//				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflowInstanceId(), errorMsg.toString(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+				throw new BusinessException(errorMsg.toString());
+			}
+		} catch(Exception ex) {
+			if(out.getEsito()!=false) {
+//				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflowInstanceId(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(),fiscalCode, payloadToken);
+			}
+			throw new BusinessException(ex);
+		}
+			
+		String message = "Operazione eseguita su INI";
+//		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflowInstanceId(), message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
+////		logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
+
 		return out;
 	}
 	

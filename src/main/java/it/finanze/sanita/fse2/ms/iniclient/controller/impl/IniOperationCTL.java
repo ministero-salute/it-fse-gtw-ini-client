@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 
@@ -44,6 +43,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IniAuditsDto;
 import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateOscuramentoRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMergedMetadatiResponseDTO;
@@ -61,6 +61,7 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.IIssuerSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
@@ -464,4 +465,34 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 	public IniAuditsDto getEventByWii(String workflowInstanceId, HttpServletRequest request) {
 		return auditIniSrv.findByWii(workflowInstanceId);
 	}
+	
+//	@Override
+	public IniTraceResponseDTO updateOscuramento(final UpdateOscuramentoRequestDTO requestBody, HttpServletRequest request) {
+		log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
+		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+
+		log.info(Constants.Logs.START_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
+
+		IniResponseDTO res = null;
+		IssuerETY issuer = null;
+		if (!iniCFG.isMockEnable()) {
+//			res = iniInvocationSRV.updateByRequestBody(req, requestBody,false);
+		} else {
+			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
+			boolean mocked = true;
+			if (issuer != null) {
+				mocked = issuer.getMock();
+			}
+			if (!mocked) {
+				res = iniInvocationSRV.updateOscuramentoByRequestBody(req, requestBody,false);
+			} else {
+				res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
+			}
+		}
+
+		log.info(Constants.Logs.END_UPDATE_LOG, Constants.Logs.UPDATE, Constants.Logs.TRACE_ID_LOG, traceInfoDTO.getTraceID());
+		boolean mockUar = isMockUar(requestBody.getToken().getIss(), issuer);
+		return new IniTraceResponseDTO(getLogTraceInfo(), res.getEsito(), res.getMessage(),mockUar);
+	}
+
 }

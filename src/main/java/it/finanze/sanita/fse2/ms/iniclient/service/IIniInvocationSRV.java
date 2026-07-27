@@ -37,6 +37,8 @@ public interface IIniInvocationSRV {
 
 	IniResponseDTO updateByRequestBody(SubmitObjectsRequest submitObjectRequest, UpdateRequestDTO updateRequestDTO, boolean callUpdateV2);
 	
+	IniResponseDTO updateOscuramentoByRequestBody(UpdateOscuramentoRequestDTO updateRequestDTO);
+	
     AdhocQueryResponse getMetadata(String oid, JWTTokenDTO tokenDTO);
 
     GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO,String workflowInstanceId);

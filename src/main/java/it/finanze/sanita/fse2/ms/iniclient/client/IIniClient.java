@@ -47,5 +47,8 @@ public interface IIniClient {
     
     AdhocQueryResponse getReferenceMetadata(String uuid, String tipoRicerca, JWTTokenDTO jwtToken, ActionEnumType actionEnumType,
 			String workflowInstanceId,Date startingDate);
+    
+    RegistryResponseType sendOscuramentoData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, JWTTokenDTO jwtTokenDTO,
+			String workflowInstanceId, Date startingDate);
 
 }

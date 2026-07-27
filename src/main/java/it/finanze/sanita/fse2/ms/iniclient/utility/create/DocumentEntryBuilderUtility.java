@@ -78,6 +78,23 @@ public class DocumentEntryBuilderUtility {
 		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
+	
+	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id,DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
+
+		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
+		extrinsicObject.setId(id);
+		extrinsicObject.setIsOpaque(false);
+		extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
+		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
+		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
+		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getTitle())) {
+			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));
+		}
+		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntryOscuramento(documentEntryDTO,jwtPayloadDTO));
+		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntryOscuramento(documentEntryDTO,id));
+		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
+		return objectFactory.createExtrinsicObject(extrinsicObject);
+	}
 
 	/**
 	 * @param documentEntryDTO
@@ -103,6 +120,16 @@ public class DocumentEntryBuilderUtility {
 		
         slotType1.add(buildSlotObject("urn:ita:fse:2025:EDSpublished", edsPublished));
 
+		return slotType1;
+	}
+	
+	/**
+	 * @param documentEntryDTO
+	 * @param jwtPayloadDTO
+	 */
+	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntryOscuramento(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO) {
+		List<SlotType1> slotType1 = new ArrayList<>();
+		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		return slotType1;
 	}
 	
@@ -174,6 +201,24 @@ public class DocumentEntryBuilderUtility {
 	            null,Arrays.asList(author.getAuthorRoleSlot(),author.getAuthorInstitutionSlot(),author.getAuthorPersonSlot()),
 	            CLASSIFICATION_OBJECT_URN,""); 
 		out.add(authorClassification);
+
+		return out;
+	}
+	
+	private static List<ClassificationType> buildExtrinsicClassificationObjectsDocEntryOscuramento(DocumentEntryDTO documentEntryDTO,String id) {
+		List<ClassificationType> out = new ArrayList<>();
+
+		//Event code list
+		if (!CollectionUtils.isEmpty(documentEntryDTO.getEventCodeList())) {
+			int i=0; 
+			for (String eventCode : documentEntryDTO.getEventCodeList()) {
+				SlotType1 eventCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.3");
+				InternationalStringType nameEventCode = buildInternationalStringType(EventCodeEnum.fromValue(eventCode).getDescription());
+				ClassificationType eventCodeClassification = buildClassificationObject(EVENT_CODE.getClassificationScheme(),
+						id, EVENT_CODE.getId()+"_"+i++, nameEventCode, eventCodeSlot, eventCode);
+				out.add(eventCodeClassification);
+			}
+		}
 
 		return out;
 	}

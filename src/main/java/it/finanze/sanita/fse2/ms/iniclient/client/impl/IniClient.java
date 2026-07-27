@@ -439,5 +439,27 @@ public class IniClient implements IIniClient {
 		return response;
 	}
  
+	
+	@Override
+	public RegistryResponseType sendOscuramentoData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
+			String workflowInstanceId, Date startingDate) {
+		
+		SubmitObjectsRequest submitObjectsRequest = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequestOscuramento(documentEntryDTO, jwtTokenDTO.getPayload(), null);
+		
+		log.debug("Call to INI update oscuramento");
+		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE_V2);
+		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
+		bp.setOutboundHeaders(headers);
+
+		bp.getRequestContext().put(WII, workflowInstanceId);
+		bp.getRequestContext().put(EVENT_TYPE, INI_UPDATE_SOAP);
+		bp.getRequestContext().put(EVENT_DATE, startingDate);
+		
+		if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUser()) && !StringUtility.isNullOrEmpty(govwayCfg.getGovwayPass())) {
+			Map<String, List<String>> h = getBasicAuthCredentials();
+		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
+		}
+		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
+	}
  
 }
