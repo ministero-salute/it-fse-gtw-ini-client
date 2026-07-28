@@ -79,20 +79,26 @@ public class DocumentEntryBuilderUtility {
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
 	
-	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id,DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
+	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id,String lid,
+			DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
 
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
 		extrinsicObject.setId(id);
 		extrinsicObject.setIsOpaque(false);
-		extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
+		extrinsicObject.setLid(lid);
+		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getMimeType())) {
+			extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
+		}
 		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
 		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getTitle())) {
 			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));
 		}
-		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntryOscuramento(documentEntryDTO,jwtPayloadDTO));
+		
+		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntryOscuramento(documentEntryDTO.getRepositoryUniqueId(),jwtPayloadDTO.getPerson_id(),
+				jwtPayloadDTO.mergedSubjectIdVendorVersion()));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntryOscuramento(documentEntryDTO,id));
-		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntry(documentEntryDTO, id, jwtPayloadDTO));
+		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntryOscuramento(id, "TEST", jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
 
@@ -127,9 +133,13 @@ public class DocumentEntryBuilderUtility {
 	 * @param documentEntryDTO
 	 * @param jwtPayloadDTO
 	 */
-	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntryOscuramento(DocumentEntryDTO documentEntryDTO, JWTPayloadDTO jwtPayloadDTO) {
+	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntryOscuramento(String repositoryUniqueId, String patientId, String subjectIdVendor) {
 		List<SlotType1> slotType1 = new ArrayList<>();
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
+		slotType1.add(buildSlotObject("repositoryUniqueId", repositoryUniqueId));
+		slotType1.add(buildSlotObject("sourcePatientId", patientId));
+		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2024:SubjectApplication", subjectIdVendor));
+		
 		return slotType1;
 	}
 	
@@ -231,6 +241,19 @@ public class DocumentEntryBuilderUtility {
 		out.add(externalIdentifier1);
 		ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
 				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab", EXTERNAL_IDENTIFIER_URN, id,documentEntryDTO.getUniqueId());
+
+		out.add(externalIdentifier2);
+		return out;
+	}
+
+	private static List<ExternalIdentifierType> buildExternalIdentifierDocEntryOscuramento(String id, String uniqueId, JWTPayloadDTO jwtPayloadDTO) {
+		List<ExternalIdentifierType> out = new ArrayList<>();
+		ExternalIdentifierType externalIdentifier1 = buildExternalIdentifierObject("XDSDocumentEntry.patientId",
+				"patientId_1","urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427",EXTERNAL_IDENTIFIER_URN,id,
+				jwtPayloadDTO.getPerson_id());
+		out.add(externalIdentifier1);
+		ExternalIdentifierType externalIdentifier2 = buildExternalIdentifierObject("XDSDocumentEntry.uniqueId","uniqueId_1",
+				"urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab", EXTERNAL_IDENTIFIER_URN, id,uniqueId);
 
 		out.add(externalIdentifier2);
 		return out;

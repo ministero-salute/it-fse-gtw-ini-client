@@ -15,6 +15,7 @@ import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientCons
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.SUBMISSION_ENTRY_ID;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_ID;
+import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildAssociationObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.ObjectFactory;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.VersionInfoType;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PublishReplaceBodyBuilderUtility {
@@ -72,10 +74,11 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequestOscuramento(DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid) {
+	public static SubmitObjectsRequest buildSubmitObjectRequestOscuramento(DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid,
+			String lid, String uniqueId) {
 		if (documentEntryDTO == null) throw new BusinessException("DocumentEntryDTO is null");
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
-		RegistryObjectListType registryObjectListType = buildRegistryObjectListOscuramentoACatena(documentEntryDTO, jwtPayloadDTO, uuid);
+		RegistryObjectListType registryObjectListType = buildRegistryObjectListOscuramentoACatena(documentEntryDTO, jwtPayloadDTO, uuid,lid,uniqueId);
 		submitObjectsRequest.setRegistryObjectList(registryObjectListType);
 		return submitObjectsRequest;
 	}
@@ -143,38 +146,60 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @return
 	 */
 	private static RegistryObjectListType buildRegistryObjectListOscuramentoACatena(DocumentEntryDTO documentEntryDTO
-			,JWTPayloadDTO jwtPayloadDTO,String uuid) {
+			,JWTPayloadDTO jwtPayloadDTO,String uuid,String lid, String uniqueId) {
 		RegistryObjectListType registryObjectListType = new RegistryObjectListType();
 		 
 		
 		//ExtrinsicObject - DocumentEntry
-		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntryOscuramentoACatena(DOCUMENT_ENTRY_ID, documentEntryDTO,jwtPayloadDTO);
+		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntryOscuramentoACatena(DOCUMENT_ENTRY_ID,lid, documentEntryDTO,jwtPayloadDTO);
 		registryObjectListType.getIdentifiable().add(extrinsicObject);
 
 		//Registry package - SubmissionSetEntry
-//		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(submissionSetEntryDTO,jwtPayloadDTO, SUBMISSION_ENTRY_ID);
-//		registryObjectListType.getIdentifiable().add(registryPackageObject);
+		JAXBElement<RegistryPackageType> registryPackageObject = SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSetOscuramento(jwtPayloadDTO, SUBMISSION_ENTRY_ID,
+				uniqueId);
+		registryObjectListType.getIdentifiable().add(registryPackageObject);
 
-		String reference = "Original";
-		List<SlotType1> associationObjectSlots = new ArrayList<>();
-		SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList(reference));
-		associationObjectSlots.add(associationObjSlot);
-		JAXBElement<AssociationType1> associationObject = SamlBodyBuilderCommonUtility.buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,associationObjectSlots);
-		registryObjectListType.getIdentifiable().add(associationObject);
+//		String reference = "Original";
+//		List<SlotType1> associationObjectSlots = new ArrayList<>();
+//		SlotType1 associationObjSlot = buildSlotObject("SubmissionSetStatus", null,Collections.singletonList(reference));
+//		associationObjectSlots.add(associationObjSlot);
+//		JAXBElement<AssociationType1> associationObject = SamlBodyBuilderCommonUtility.buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",URN_UUID + StringUtility.generateUUID(), SUBMISSION_ENTRY_ID,DOCUMENT_ENTRY_ID,associationObjectSlots);
+//		registryObjectListType.getIdentifiable().add(associationObject);
 		
-		JAXBElement<AssociationType1> associationObjectRep = null;
-		if(!StringUtility.isNullOrEmpty(uuid)) {
-			//Replace
-			List<SlotType1> associationObjectSlotsRep = new ArrayList<>();
-			associationObjectRep = SamlBodyBuilderCommonUtility.buildAssociationObject(
-					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", DOCUMENT_ENTRY_ID,uuid,associationObjectSlotsRep);
-			registryObjectListType.getIdentifiable().add(associationObjectRep);
-		}
-
+//		JAXBElement<AssociationType1> associationObjectRep = null;
+//		if(!StringUtility.isNullOrEmpty(uuid)) {
+//			//Replace
+//			List<SlotType1> associationObjectSlotsRep = new ArrayList<>();
+//			associationObjectRep = SamlBodyBuilderCommonUtility.buildAssociationObject(
+//					"urn:ihe:iti:2007:AssociationType:RPLC","SubmissionSet1_Association_1", DOCUMENT_ENTRY_ID,uuid,associationObjectSlotsRep);
+//			registryObjectListType.getIdentifiable().add(associationObjectRep);
+//		}
+//
 		JAXBElement<ClassificationType> c = buildClassificationObject();
+		VersionInfoType info = new VersionInfoType();
+		info.setVersionName("1");
+		JAXBElement<AssociationType1> associationObjectRep = buildAssociationOscuramento(info, StringUtility.generateUUID());
+		registryObjectListType.getIdentifiable().add(associationObjectRep);
+
+//		// 4. Classification object
+//		String classificationObjectType = "urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification";
+//		JAXBElement<ClassificationType> classificationObject = buildClassificationObjectJax("urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd",null,SUBMISSION_ENTRY_ID,CLASSIFICATION_ID,null, null, classificationObjectType, null);
+//		list.add(classificationObject);
+		
+		
 		registryObjectListType.getIdentifiable().add(c);
 		
 		return registryObjectListType;
 	}
-  
+	private static JAXBElement<AssociationType1> buildAssociationOscuramento(VersionInfoType versionInfoType, String requestUUID) {
+		List<SlotType1> associationObject1Slots = new ArrayList<>();
+		SlotType1 associationObj1SlotSubmissionSetStatus = buildSlotObject("SubmissionSetStatus",null,Collections.singletonList("Original"));
+		associationObject1Slots.add(associationObj1SlotSubmissionSetStatus);
+		if(versionInfoType!=null) {
+			SlotType1 associationObj1SlotPreviousVersion = buildSlotObject("PreviousVersion",null,Collections.singletonList(versionInfoType.getVersionName()));
+			associationObject1Slots.add(associationObj1SlotPreviousVersion);
+		}
+
+		return buildAssociationObject("urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember",requestUUID,SUBMISSION_ENTRY_ID, DOCUMENT_ENTRY_ID,associationObject1Slots);
+	}
 }

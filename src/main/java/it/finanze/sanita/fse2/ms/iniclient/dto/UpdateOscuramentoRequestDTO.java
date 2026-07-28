@@ -19,11 +19,13 @@ import lombok.Data;
 public class UpdateOscuramentoRequestDTO {
 	
     private JWTPayloadDTO token;
+
+    private List<String> attiCliniciRegoleAccesso;
     
     private String lid;
     
-    private List<String> attiCliniciRegoleAccesso;
-    
     private String workflowInstanceId;
+    
+    private String uniqueId;
     
 }

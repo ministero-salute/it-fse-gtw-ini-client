@@ -466,8 +466,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		return auditIniSrv.findByWii(workflowInstanceId);
 	}
 	
-//	@Override
-	public IniTraceResponseDTO updateOscuramento(final UpdateOscuramentoRequestDTO requestBody, HttpServletRequest request) {
+	@Override
+	public IniTraceResponseDTO updateOscuramentoCatena(final UpdateOscuramentoRequestDTO requestBody, HttpServletRequest request) {
 		log.debug("Metadata received: {}, calling ini update client...", JsonUtility.objectToJson(requestBody));
 		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
 
@@ -476,7 +476,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		IniResponseDTO res = null;
 		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
-//			res = iniInvocationSRV.updateByRequestBody(req, requestBody,false);
+			res = iniInvocationSRV.updateOscuramentoByRequestBody(requestBody);
 		} else {
 			issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
 			boolean mocked = true;
@@ -484,9 +484,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				mocked = issuer.getMock();
 			}
 			if (!mocked) {
-				res = iniInvocationSRV.updateOscuramentoByRequestBody(req, requestBody,false);
+				res = iniInvocationSRV.updateOscuramentoByRequestBody(requestBody);
 			} else {
-				res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
+				// res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
 			}
 		}
 

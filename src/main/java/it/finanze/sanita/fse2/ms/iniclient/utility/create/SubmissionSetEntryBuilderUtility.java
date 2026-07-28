@@ -173,4 +173,59 @@ public class SubmissionSetEntryBuilderUtility {
 		
 		return out;
 	}
+	
+	public static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSetOscuramento(JWTPayloadDTO jwtPayloadDTO, String id,
+			String uniqueId) {
+
+		String sourceId = Constants.IniClientConstants.SOURCE_ID_PREFIX + StringUtility.sanitizeSourceId(jwtPayloadDTO.getSubject_organization_id());
+		JAXBElement<RegistryPackageType> registryPackage = buildRegistryPackageObjectSubmissionSetOscuramento("",sourceId, 
+				uniqueId, jwtPayloadDTO.getPerson_id(), "", "" , "");
+
+		String submissionSetTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		List<String> slotValues = new ArrayList<>(Collections.singletonList(submissionSetTime));
+		JAXBElement<SlotType1> slotObject = buildSlotObjectJax(
+				"submissionTime",
+				null,
+				slotValues
+				);
+		registryPackage.getValue().getSlot().add(slotObject.getValue());
+		return registryPackage;
+	}
+
+	private static JAXBElement<RegistryPackageType> buildRegistryPackageObjectSubmissionSetOscuramento(final String submissionTime,
+			final String sourceId, final String uniqueId, final String patientId,
+			String contentTypeCodeName,String contentTypeCode, String author) {
+
+		RegistryPackageType registryPackageObject = new RegistryPackageType();
+
+		String id = SUBMISSION_ENTRY_ID;
+		registryPackageObject.setId(id);
+		registryPackageObject.setObjectType("urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:RegistryPackage");
+		registryPackageObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
+		registryPackageObject.setName(null);
+		registryPackageObject.setDescription(null);
+		registryPackageObject.getSlot().addAll(buildSlotSubmissionSet(submissionTime));
+		registryPackageObject.getClassification().addAll(buildClassificationSubmissionSetOscuramento(contentTypeCodeName,contentTypeCode,id));
+		registryPackageObject.getExternalIdentifier().addAll(buildExternalIdentifierSubmissionSet(sourceId, uniqueId,patientId, id));
+		return objectFactory.createRegistryPackage(registryPackageObject);
+	}
+
+	private static List<ClassificationType> buildClassificationSubmissionSetOscuramento(String contentTypeCodeName,String contentTypeCode, String id) {
+
+		List<ClassificationType> out = new ArrayList<>();
+		if(!StringUtility.isNullOrEmpty(contentTypeCodeName)) {
+			//Content Type
+			InternationalStringType nameContentTypeCode = buildInternationalStringType(Collections.singletonList(contentTypeCodeName));
+			SlotType1 nameContentTypeSlot = buildSlotObject(CODING_SCHEME,"2.16.840.1.113883.2.9.3.3.6.1.4");
+
+			JAXBElement<ClassificationType> contentTypeCodeClassification = buildClassificationObjectJax(
+					null,"urn:uuid:aa543740-bdda-424e-8c96-df4873be8500",id, "IdContentTypeCode",nameContentTypeCode,Arrays.asList(nameContentTypeSlot),
+					CLASSIFICATION_OBJECT_URN,contentTypeCode
+					);
+			out.add(contentTypeCodeClassification.getValue());
+
+		}
+
+		return out;
+	}
 }

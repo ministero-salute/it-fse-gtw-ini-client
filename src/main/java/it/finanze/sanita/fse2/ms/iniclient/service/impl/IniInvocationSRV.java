@@ -445,13 +445,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
-		JWTPayloadDTO payloadToken = token.getPayload();
-		
-		String fiscalCode = CommonUtility.extractFiscalCodeFromJwtSub(token.getPayload().getSub());
 		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
-			RegistryResponseType registryResponse = iniClient.sendOscuramentoData(token,updateRequestDTO.getWorkflowInstanceId(),startingDate);
+			DocumentEntryDTO entry = new DocumentEntryDTO();
+			entry.setEventCodeList(updateRequestDTO.getAttiCliniciRegoleAccesso());
+			RegistryResponseType registryResponse = iniClient.sendOscuramentoData(entry,null, token,updateRequestDTO.getWorkflowInstanceId(),startingDate, updateRequestDTO.getLid(),
+					updateRequestDTO.getUniqueId());
 			 
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
