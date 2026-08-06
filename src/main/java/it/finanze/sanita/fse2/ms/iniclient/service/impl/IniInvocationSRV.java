@@ -418,6 +418,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
+		out.setEdsPublished(CommonUtility.extractEdsPublishedSlotValue(oldMetadata));
 		
 		if(oldMetadata.getRegistryObjectList().getIdentifiable().isEmpty()) {
 			throw new MergeMetadatoNotFoundException("Attenzione, metadati non trovati");
