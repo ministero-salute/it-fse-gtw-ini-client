@@ -36,4 +36,10 @@ public interface IIniInvocationMockedSRV {
 	 * Versione mock di getDocumentMetadata. Restituisce un DTO con campi placeholder.
 	 */
 	GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId);
+
+	/**
+	 * Versione mock di updateOscuramentoByRequestBody.
+	 * Restituisce un esito positivo con il warning R220 simulato.
+	 */
+	IniResponseDTO updateOscuramentoByRequestBody(UpdateOscuramentoRequestDTO updateRequestDTO);
 }

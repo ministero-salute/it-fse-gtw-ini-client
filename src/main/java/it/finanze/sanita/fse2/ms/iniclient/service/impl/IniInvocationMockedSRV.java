@@ -27,6 +27,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.IniResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateOscuramentoRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetReferenceResponseDTO;
@@ -105,6 +106,15 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	@Override
 	public GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate, MergedMetadatiRequestDTO updateRequestDTO) {
 		return new GetMergedMetadatiDTO();
+	}
+
+	@Override
+	public IniResponseDTO updateOscuramentoByRequestBody(UpdateOscuramentoRequestDTO updateRequestDTO) {
+		final Date startingDate = new Date();
+		mockLog(updateRequestDTO.getWorkflowInstanceId(), ProcessorOperationEnum.UPDATE, startingDate);
+		IniResponseDTO out = new IniResponseDTO();
+		out.setMessage("R220 - The requestor is RDA for the patient");
+		return out;
 	}
 
 	private void mockLog(String workflowInstanceId, ProcessorOperationEnum operation, Date startDateOperation) {

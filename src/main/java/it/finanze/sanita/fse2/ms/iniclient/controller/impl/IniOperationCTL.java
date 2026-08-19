@@ -486,7 +486,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			if (!mocked) {
 				res = iniInvocationSRV.updateOscuramentoByRequestBody(requestBody);
 			} else {
-				// res = iniMockInvocationSRV.updateByRequestBody(req, requestBody);
+				res = iniMockInvocationSRV.updateOscuramentoByRequestBody(requestBody);
 			}
 		}
 

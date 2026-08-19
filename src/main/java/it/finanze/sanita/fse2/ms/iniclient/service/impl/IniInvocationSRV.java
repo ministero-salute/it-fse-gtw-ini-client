@@ -452,10 +452,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			entry.setEventCodeList(updateRequestDTO.getAttiCliniciRegoleAccesso());
 			RegistryResponseType registryResponse = iniClient.sendOscuramentoData(entry,null, token,updateRequestDTO.getWorkflowInstanceId(),startingDate, updateRequestDTO.getLid(),
 					updateRequestDTO.getUniqueId());
-			 
+			String r220Warning = null;
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
-				for(RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
-					if (!WARNING.equals(error.getSeverity())) {
+				for (RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
+					if (WARNING.equals(error.getSeverity()) && error.getCodeContext() != null && error.getCodeContext().contains("R220")) {
+						r220Warning = error.getCodeContext();
+					} else if (!WARNING.equals(error.getSeverity())) {
 						errorMsg.
 							append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
 							append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
@@ -464,25 +466,22 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				}
 			}
 
-			if(!StringUtility.isNullOrEmpty(errorMsg.toString())) {
-				out.setEsito(false);						
+			if (!StringUtility.isNullOrEmpty(errorMsg.toString())) {
+				out.setEsito(false);
 				out.setMessage(errorMsg.toString());
-//				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflowInstanceId(), errorMsg.toString(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(), fiscalCode, payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
 				throw new BusinessException(errorMsg.toString());
 			}
-		} catch(Exception ex) {
-			if(out.getEsito()!=false) {
-//				logger.error(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflowInstanceId(), "Errore riscontrato durante l'esecuzione dell'operazione su INI:" + out.getMessage(), ProcessorOperationEnum.UPDATE.getOperation(), startingDate, ProcessorOperationEnum.UPDATE.getErrorType(), updateRequestDTO.getDocumentType(),fiscalCode, payloadToken);
+
+			if (r220Warning == null) {
+				throw new BusinessException("Risposta INI non valida: warning obbligatorio 'R220 - The requestor is RDA for the patient' assente");
 			}
+
+			out.setMessage(r220Warning);
+		} catch(Exception ex) {
 			throw new BusinessException(ex);
 		}
-			
-		String message = "Operazione eseguita su INI";
-//		logger.info(Constants.AppConstants.LOG_TYPE_CONTROL,updateRequestDTO.getWorkflowInstanceId(), message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken);
-////		logger.info(Constants.AppConstants.LOG_TYPE_KPI,null, message, ProcessorOperationEnum.UPDATE.getOperation(), startingDate, updateRequestDTO.getDocumentType(), fiscalCode,payloadToken, updateRequestDTO.getAdministrative_request(), updateRequestDTO.getAuthor_institution());
 
 		return out;
 	}
-	
 	 
 }
