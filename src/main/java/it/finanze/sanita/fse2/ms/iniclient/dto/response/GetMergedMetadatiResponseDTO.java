@@ -32,13 +32,15 @@ public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 	
 	private Boolean mockEds;
 
+	private String edsPublished;
+
 	public GetMergedMetadatiResponseDTO() {
 		super();
 	}
 
 	public GetMergedMetadatiResponseDTO(final LogTraceInfoDTO traceInfo, final String inErrorMessage, String inMarshallResponse,
 			String inDocumentType, String inAuthorInstitution, List<String> inAdministrativeRequest,
-			Boolean inMockEds) {
+			Boolean inMockEds, String inEdsPublished) {
 		super(traceInfo);
 		errorMessage = inErrorMessage;
 		marshallResponse = inMarshallResponse;
@@ -46,6 +48,7 @@ public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 		authorInstitution = inAuthorInstitution;
 		administrativeRequest = inAdministrativeRequest;
 		mockEds = inMockEds;
+		edsPublished = inEdsPublished;
 	}
 
 }

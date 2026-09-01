@@ -30,12 +30,27 @@ public interface IIniInvocationMockedSRV {
 
     GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO);
 
-	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO);
+	/**
+	 * Versione mock di getMergedMetadati.
+	 *
+	 * @param edsPublished valore dello slot urn:ita:fse:2025:EDSpublished che il flusso reale
+	 *                     avrebbe scritto su INI in fase di publish/replace per questo issuer
+	 *                     ("TRUE"/"FALSE"). Va calcolato dal chiamante con la stessa formula
+	 *                     usata per getDocumentMetadata, cos&igrave; che in regime di mock la
+	 *                     lettura dei metadati sia coerente con la scrittura.
+	 */
+	GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate,MergedMetadatiRequestDTO updateRequestDTO, String edsPublished);
 
 	/**
 	 * Versione mock di getDocumentMetadata. Restituisce un DTO con campi placeholder.
+	 *
+	 * @param edsPublished valore dello slot urn:ita:fse:2025:EDSpublished che il flusso reale
+	 *                     avrebbe scritto su INI in fase di publish/replace per questo issuer
+	 *                     ("TRUE"/"FALSE"). Va calcolato dal chiamante con la stessa formula
+	 *                     usata in IniOperationCTL#create e #replace, cos&igrave; che in regime di
+	 *                     mock la lettura dei metadati sia coerente con la scrittura.
 	 */
-	GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId);
+	GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId, String edsPublished);
 
 	/**
 	 * Versione mock di updateOscuramentoByRequestBody.

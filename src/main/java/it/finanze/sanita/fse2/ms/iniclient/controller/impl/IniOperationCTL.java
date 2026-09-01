@@ -141,7 +141,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
-			String edsPublished = isMockUar(iniETY.getIssuer(), null) ? "FALSE" : "TRUE";
+			String edsPublished = resolveEdsPublished(iniETY.getIssuer(), null);
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, iniETY, edsPublished);
 		} else {
 			issuer = issuserSRV.findByIssuer(iniETY.getIssuer());
@@ -150,7 +150,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				mocked = issuer.getMock();
 			}
 			if (!mocked) {
-				String edsPublished = isMockUar(iniETY.getIssuer(), issuer) ? "FALSE" : "TRUE";
+				String edsPublished = resolveEdsPublished(iniETY.getIssuer(), issuer);
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, iniETY, edsPublished);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
@@ -269,7 +269,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 
 		IssuerETY issuer = null;
 		if (!iniCFG.isMockEnable()) {
-			String edsPublished = isMockUar(iniETY.getIssuer(), null) ? "FALSE" : "TRUE";
+			String edsPublished = resolveEdsPublished(iniETY.getIssuer(), null);
 			res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, iniETY, edsPublished);
 		} else {
 			issuer = issuserSRV.findByIssuer(iniETY.getIssuer());
@@ -278,7 +278,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				mocked = issuer.getMock();
 			}
 			if (!mocked) {
-				String edsPublished = isMockUar(iniETY.getIssuer(), issuer) ? "FALSE" : "TRUE";
+				String edsPublished = resolveEdsPublished(iniETY.getIssuer(), issuer);
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, iniETY, edsPublished);
 			} else {
 				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
@@ -329,11 +329,12 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				out = iniInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
 			} else {
 				IssuerETY issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
-				boolean mocked = (issuer == null) || Boolean.TRUE.equals(issuer.getMock());
+				boolean mocked = Boolean.TRUE.equals(issuer.getMock());
 				if (!mocked) {
 					out = iniInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
 				} else {
-					out = iniMockInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
+					out = iniMockInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId(),
+							resolveEdsPublished(requestBody.getToken().getIss(), issuer));
 				}
 			}
 		} catch (Exception ex) {
@@ -358,10 +359,11 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			if (issuer != null) {
 				mocked = issuer.getMock();
 			}
-			if (!mocked) {	
+			if (!mocked) {
 				mergedMetadati = iniInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
 			} else {
-				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody);
+				mergedMetadati = iniMockInvocationSRV.getMergedMetadati(requestBody.getIdDoc(), requestBody,
+						resolveEdsPublished(requestBody.getToken().getIss(), issuer));
 			}
 		}
 
@@ -369,7 +371,7 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(),
 				mergedMetadati.getMarshallResponse(),
 				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),
-				mergedMetadati.getAdministrativeRequest(),mockUar);
+				mergedMetadati.getAdministrativeRequest(),mockUar, mergedMetadati.getEdsPublished());
 	}
 
 	@Override

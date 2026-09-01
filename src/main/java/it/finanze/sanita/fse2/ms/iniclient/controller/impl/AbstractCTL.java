@@ -69,4 +69,17 @@ public abstract class AbstractCTL {
 		return mockUar; 
 	}
 
+	/**
+	 * Valore dello slot {@code urn:ita:fse:2025:EDSpublished} associato a un issuer.
+	 *
+	 * <p>Unico punto in cui il valore viene deciso: viene usato sia in scrittura
+	 * (publish/replace verso INI reale) sia in lettura quando INI e' in regime di mock,
+	 * cosi' che le due cose non possano divergere.
+	 *
+	 * @return {@code "TRUE"} se l'issuer pubblica su EDS , {@code "FALSE"} altrimenti.
+	 */
+	protected String resolveEdsPublished(final String issuer, final IssuerETY issuerEty) {
+		return isMockUar(issuer, issuerEty) ? "FALSE" : "TRUE";
+	}
+
 }

@@ -67,7 +67,8 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 		OID_CREATION_TIME_MAP.put("AD-2.6", "20250315100000+0100");
 		OID_CREATION_TIME_MAP.put("AD-2.6.1", "20250715100000+0100");
 		OID_CREATION_TIME_MAP.put("AD-2.6.2", "20251215100000+0100");
-		OID_CREATION_TIME_MAP.put("AD-2.6.3", "20260415100000+0100");
+        OID_CREATION_TIME_MAP.put("AD-2.6.3", "20260415100000+0100");
+        OID_CREATION_TIME_MAP.put("AD-2.6.4", "20260724100000+0100");
 	}
 
 	@Autowired
@@ -111,18 +112,21 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 		return out;
 	}
 
-	@Override
-	public GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId) {
-		mockLog(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
-		GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
-		out.setUuid("MOCK_UUID");
-		out.setEdsPublished("TRUE");
-		out.setDocumentType("DOCUMENT_TYPE_MOCKATO");
-		out.setAuthorInstitution("AUTHOR_INSTITUTION_MOCKATO");
-		out.setAdministrativeRequest(Arrays.asList("ADM_REQ_MOCKATO"));
-		out.setMetadata(new java.util.HashMap<>());
-		return out;
-	}
+    @Override
+    public GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId, String edsPublished) {
+        mockLog(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
+        GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
+        out.setUuid("MOCK_UUID");
+        out.setDocumentType("DOCUMENT_TYPE_MOCKATO");
+        out.setAuthorInstitution("AUTHOR_INSTITUTION_MOCKATO");
+        out.setAdministrativeRequest(Arrays.asList("ADM_REQ_MOCKATO"));
+        out.setMetadata(new java.util.HashMap<>());
+        // Lo slot EDSpublished viene valorizzato con lo stesso valore che
+        // il flusso reale avrebbe scritto su INI in publish/replace, cosi' che replace e delete in
+        // regime di mock non leggano un valore fisso (prima era null -> sempre "FALSE").
+        out.setEdsPublished(edsPublished);
+        return out;
+    }
 
 	@Override
 	public GetReferenceResponseDTO getReference(String oid, JWTTokenDTO tokenDTO) {
@@ -135,8 +139,9 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	}
 
 	@Override
-	public GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate, MergedMetadatiRequestDTO updateRequestDTO) {
+	public GetMergedMetadatiDTO getMergedMetadati(String oidToUpdate, MergedMetadatiRequestDTO updateRequestDTO, String edsPublished) {
 		GetMergedMetadatiDTO out = new GetMergedMetadatiDTO();
+		out.setEdsPublished(edsPublished);
 
 		// Analizza l'OID e costruisce la risposta appropriata
 		String creationTime = getCreationTimeForOid(oidToUpdate);
