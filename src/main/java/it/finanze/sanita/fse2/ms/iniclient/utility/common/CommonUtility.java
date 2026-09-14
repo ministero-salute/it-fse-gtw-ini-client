@@ -189,6 +189,37 @@ public class CommonUtility {
         return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
     }
     
+    /**
+     * Extract document type from query response
+     * @param queryResponse
+     * @return
+     */
+    public static String extractEdsPublishedFromQueryResponse(AdhocQueryResponse queryResponse) {
+        if (checkMetadata(queryResponse)) {
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            
+            Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+                    .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                    .findFirst();
+                    
+            if (optExtrinsicObject.isPresent()) {
+                ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+                
+                Optional<SlotType1> edsPublishedSlot = extrinsicObject.getSlot().stream()
+                        .filter(slot -> slot != null && "urn:ita:fse:2025:EDSpublished".equals(slot.getName()))
+                        .findFirst();
+                        
+                if (edsPublishedSlot.isPresent() && edsPublishedSlot.get().getValueList() != null) {
+                    List<String> values = edsPublishedSlot.get().getValueList().getValue();
+                    if (values != null && !values.isEmpty()) {
+                        return values.get(0); 
+                    }
+                }
+            }
+        }
+        return "";
+    }
+    
     
     /**
      * Extract author institution from query response
