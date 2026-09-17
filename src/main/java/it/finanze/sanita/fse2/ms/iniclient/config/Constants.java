@@ -111,6 +111,16 @@ public final class Constants {
 		public static final String JWT_MISSING_ROLE_PLACEHOLDER = "UNDEFINED_JWT_ROLE";
 		public static final String ERR_TOKEN_INTEGRITY = "Request token is not allowed to perform the operation";
 		public static final String SUBJECT_AUTHENTICATOR = "GTW_950";
+
+		/**
+		 * Valori identificativi del gateway usati per gli attributi SubjectApplication*
+		 * richiesti dalla "Tabella 1 - Messaggio di richiesta Ricerca documenti"
+		 * sulla tratta di lettura GTW -> INI, quando il token in ingresso non li porta.
+		 */
+		public static final String GTW_SUBJECT_APPLICATION_ID = "GTW";
+		public static final String GTW_SUBJECT_APPLICATION_VENDOR = "GATEWAY";
+		public static final String GTW_SUBJECT_APPLICATION_VERSION = "R2";
+
 		public static final String LANGUAGE_CODE = "it-IT";
 		public static final String DOCUMENT_SIGNED = "true^Documento firmato";
 		public static final String DOCUMENT_ENTRY_ID = "Document1";

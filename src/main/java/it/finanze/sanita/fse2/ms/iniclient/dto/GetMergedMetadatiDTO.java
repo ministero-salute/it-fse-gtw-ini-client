@@ -29,4 +29,10 @@ public class GetMergedMetadatiDTO {
 	private List<String> administrativeRequest;
 	
 	private String edsPublished;
+
+	/** Logical id (lid) dell'ExtrinsicObject del documento, necessario per l'oscuramento a catena. */
+	private String lid;
+
+	/** Valore del typeCode del documento (codice^^OID), da usare come attributo SAML resource:hl7:type. */
+	private String resourceHl7Type;
 }

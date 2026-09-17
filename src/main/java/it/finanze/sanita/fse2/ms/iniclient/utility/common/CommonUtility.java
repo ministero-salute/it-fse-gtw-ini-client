@@ -31,6 +31,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.ClassificationEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.DocumentTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -188,7 +189,37 @@ public class CommonUtility {
         }
         return Constants.IniClientConstants.MISSING_DOC_TYPE_PLACEHOLDER;
     }
-    
+
+    /**
+     * Extract the resource_hl7_type value (typeCode nodeRepresentation + coding scheme OID) from the query response,
+     * formatted as expected by the SAML "resource:hl7:type" attribute, e.g. "('34105-7^^2.16.840.1.113883.6.1')"
+     * @param queryResponse
+     * @return the formatted resource_hl7_type value, or null if the typeCode classification is not present
+     */
+    public static String extractResourceHl7TypeFromQueryResponse(AdhocQueryResponse queryResponse) {
+        if (checkMetadata(queryResponse)) {
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+                    .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                    .findFirst();
+            if (optExtrinsicObject.isPresent()) {
+                ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+                List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
+                Optional<ClassificationType> optTypeCodeClassificationObject = classificationObjectList
+                        .stream()
+                        .filter(classificationType -> classificationType.getClassificationScheme().equals(ClassificationEnum.TYPE_CODE.getClassificationScheme()))
+                        .findFirst();
+                if (optTypeCodeClassificationObject.isPresent()) {
+                    String nodeRepresentation = optTypeCodeClassificationObject.get().getNodeRepresentation();
+                    if (nodeRepresentation != null) {
+                        return "('" + nodeRepresentation + "^^" + ClassificationEnum.TYPE_CODE.getCodingScheme() + "')";
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Extract document type from query response
      * @param queryResponse

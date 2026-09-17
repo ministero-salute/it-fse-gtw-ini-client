@@ -27,5 +27,7 @@ public class UpdateOscuramentoRequestDTO {
     private String workflowInstanceId;
     
     private String uniqueId;
+
+    private String resourceHl7Type;
     
 }
