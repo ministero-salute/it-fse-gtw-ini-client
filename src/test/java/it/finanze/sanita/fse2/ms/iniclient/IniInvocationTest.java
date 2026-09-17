@@ -47,7 +47,10 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.ReplaceRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.UpdateOscuramentoRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetDocumentMetadataResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.MergeMetadatoNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
@@ -55,12 +58,16 @@ import it.finanze.sanita.fse2.ms.iniclient.service.IIniInvocationSRV;
 import it.finanze.sanita.fse2.ms.iniclient.utility.JsonUtility;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(Constants.Profile.TEST)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IniInvocationTest {
+
+    /** entryUUID del documento nei fixture LeafClass, in forma urn:uuid: come da ebXML RegRep. */
+    private static final String EXPECTED_DOCUMENT_ENTRY_UUID = "urn:uuid:edd543a5-5c41-48d3-b2f7-4b3a2e6692d7";
 
     @Autowired
     private IIniInvocationSRV iniInvocationSRV;
@@ -150,6 +157,52 @@ class IniInvocationTest {
         IniResponseDTO response = iniInvocationSRV.publishOrReplaceOnIni(TestConstants.TEST_WII, ProcessorOperationEnum.REPLACE,null, anyString());
         assertFalse(response.getEsito());
         assertNotNull(response.getMessage());
+    }
+
+    @Test
+    @DisplayName("GetDocumentMetadata - l'uuid e' l'entryUUID prefissato urn:uuid: dell'ExtrinsicObject")
+    void getDocumentMetadataReturnsPrefixedUuidTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(), any(JWTTokenDTO.class), any(), anyString(), any(Date.class)))
+                .thenReturn(response);
+
+        GetDocumentMetadataResponseDTO out = iniInvocationSRV.getDocumentMetadata("oid",
+                TestUtility.mockBasicToken(), TestConstants.TEST_WII);
+
+        assertEquals(EXPECTED_DOCUMENT_ENTRY_UUID, out.getUuid());
+    }
+
+    /**
+     * Regressione: in una response LeafClass il RegistryObjectList e' eterogeneo e l'ordine degli
+     * identifiable non e' garantito. Leggendo l'id per posizione (elements.get(0)) si prendeva l'id
+     * di un ObjectRef di schema di classificazione invece dell'entryUUID del documento, mandando in
+     * errore RPLC e DeleteDocumentSet.
+     */
+    @Test
+    @DisplayName("GetDocumentMetadata - ExtrinsicObject non primo nella lista")
+    void getDocumentMetadataWithObjectRefFirstTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse("Files/query_response_leafclass_objectref_first.xml");
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(), any(JWTTokenDTO.class), any(), anyString(), any(Date.class)))
+                .thenReturn(response);
+
+        GetDocumentMetadataResponseDTO out = iniInvocationSRV.getDocumentMetadata("oid",
+                TestUtility.mockBasicToken(), TestConstants.TEST_WII);
+
+        assertEquals(EXPECTED_DOCUMENT_ENTRY_UUID, out.getUuid());
+        assertTrue(out.getUuid().startsWith(Constants.IniClientConstants.URN_UUID));
+    }
+
+    @Test
+    @DisplayName("GetDocumentMetadata - nessun ExtrinsicObject nella response")
+    void getDocumentMetadataWithoutExtrinsicObjectTest() throws JAXBException {
+        AdhocQueryResponse response = TestUtility.mockQueryResponse();
+        response.getRegistryObjectList().getIdentifiable()
+                .removeIf(element -> element.getValue() instanceof ExtrinsicObjectType);
+        Mockito.when(iniClient.getReferenceMetadata(anyString(), anyString(), any(JWTTokenDTO.class), any(), anyString(), any(Date.class)))
+                .thenReturn(response);
+
+        assertThrows(MergeMetadatoNotFoundException.class, () -> iniInvocationSRV.getDocumentMetadata(
+                "oid", TestUtility.mockBasicToken(), TestConstants.TEST_WII));
     }
 
     @Test
@@ -268,5 +321,33 @@ class IniInvocationTest {
         Mockito.when(iniClient.getReferenceUUID(anyString(),anyString(), any(JWTTokenDTO.class)))
                 .thenThrow(new BusinessException(""));
         assertThrows(BusinessException.class, () -> iniInvocationSRV.getMetadata("oid", TestUtility.mockBasicToken()));
+    }
+
+    @Test
+    @DisplayName("Update Oscuramento Catena - success with enriched gateway attributes and resource_hl7_type")
+    void updateOscuramentoCatenaSuccessTest() {
+        RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccessWithWarning("R220 - The requestor is RDA for the patient");
+        Mockito.when(iniClient.sendOscuramentoData(any(DocumentEntryDTO.class), any(), any(JWTTokenDTO.class), anyString(), any(Date.class), anyString(), anyString()))
+                .thenAnswer(invocation -> {
+                    JWTTokenDTO passedToken = invocation.getArgument(2);
+                    assertNotNull(passedToken);
+                    assertNotNull(passedToken.getPayload());
+                    assertEquals(Constants.IniClientConstants.GTW_SUBJECT_APPLICATION_ID, passedToken.getPayload().getSubject_application_id());
+                    assertEquals(Constants.IniClientConstants.GTW_SUBJECT_APPLICATION_VENDOR, passedToken.getPayload().getSubject_application_vendor());
+                    assertEquals(Constants.IniClientConstants.GTW_SUBJECT_APPLICATION_VERSION, passedToken.getPayload().getSubject_application_version());
+                    assertEquals("('11502-2^^2.16.840.1.113883.6.1')", passedToken.getPayload().getResource_hl7_type());
+                    return registryResponseType;
+                });
+
+        UpdateOscuramentoRequestDTO req = new UpdateOscuramentoRequestDTO();
+        req.setToken(TestUtility.mockBasicToken().getPayload());
+        req.setResourceHl7Type("('11502-2^^2.16.840.1.113883.6.1')");
+        req.setWorkflowInstanceId(TestConstants.TEST_WII);
+        req.setLid("lid-123");
+        req.setUniqueId("unique-123");
+
+        IniResponseDTO response = iniInvocationSRV.updateOscuramentoByRequestBody(req);
+        assertNotNull(response);
+        assertEquals("R220 - The requestor is RDA for the patient", response.getMessage());
     }
 }

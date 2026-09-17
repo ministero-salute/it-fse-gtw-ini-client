@@ -34,6 +34,8 @@ public class GetMergedMetadatiResponseDTO extends ResponseDTO {
 
 	private String edsPublished;
 
+	private String lid;
+
 	public GetMergedMetadatiResponseDTO() {
 		super();
 	}

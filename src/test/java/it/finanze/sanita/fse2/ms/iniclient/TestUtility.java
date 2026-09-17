@@ -29,7 +29,11 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 public class TestUtility {
 
     public static AdhocQueryResponse mockQueryResponse() throws JAXBException {
-        InputStream xmlFile = new ByteArrayInputStream(FileUtility.getFileFromInternalResources("Files/query_response_leafclass.xml"));
+        return mockQueryResponse("Files/query_response_leafclass.xml");
+    }
+
+    public static AdhocQueryResponse mockQueryResponse(final String resourcePath) throws JAXBException {
+        InputStream xmlFile = new ByteArrayInputStream(FileUtility.getFileFromInternalResources(resourcePath));
         JAXBContext jaxbContext = JAXBContext.newInstance(AdhocQueryResponse.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         return (AdhocQueryResponse) jaxbUnmarshaller.unmarshal(xmlFile);
@@ -50,6 +54,18 @@ public class TestUtility {
     public static RegistryResponseType mockRegistrySuccess() {
         RegistryResponseType registryResponseType = new RegistryResponseType();
         registryResponseType.setStatus("OK");
+        return registryResponseType;
+    }
+
+    public static RegistryResponseType mockRegistrySuccessWithWarning(String warningContext) {
+        RegistryResponseType registryResponseType = new RegistryResponseType();
+        registryResponseType.setStatus("OK");
+        RegistryErrorList registryErrorList = new RegistryErrorList();
+        RegistryError registryError = new RegistryError();
+        registryError.setSeverity("urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning");
+        registryError.setCodeContext(warningContext);
+        registryErrorList.getRegistryError().add(registryError);
+        registryResponseType.setRegistryErrorList(registryErrorList);
         return registryResponseType;
     }
 
