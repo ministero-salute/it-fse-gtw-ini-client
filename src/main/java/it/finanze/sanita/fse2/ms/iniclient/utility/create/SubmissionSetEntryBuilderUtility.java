@@ -35,6 +35,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.SubmissionSetEntryDTO;
+import it.finanze.sanita.fse2.ms.iniclient.enums.AttivitaClinicaEnum;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import lombok.AccessLevel;
@@ -59,8 +60,13 @@ public class SubmissionSetEntryBuilderUtility {
 	ClassificationType classificationAuthorType) {
 
 		String sourceId = Constants.IniClientConstants.SOURCE_ID_PREFIX + StringUtility.sanitizeSourceId(jwtPayloadDTO.getSubject_organization_id());
+		// Nei flussi di update parziali (es. oscuramento) il tipo attivita clinica non viene inviato:
+		// in tal caso la classification contentTypeCode non viene costruita.
+		AttivitaClinicaEnum tipoAttivitaClinica = updateRequestDto.getTipoAttivitaClinica();
+		String contentTypeCodeName = tipoAttivitaClinica != null ? tipoAttivitaClinica.getDescription() : "";
+		String contentTypeCode = tipoAttivitaClinica != null ? tipoAttivitaClinica.getCode() : "";
 		JAXBElement<RegistryPackageType> registryPackage = buildRegistryPackageObjectSubmissionSet("",sourceId, updateRequestDto.getIdentificativoSottomissione(), jwtPayloadDTO.getPerson_id(),
-				updateRequestDto.getTipoAttivitaClinica().getDescription(),updateRequestDto.getTipoAttivitaClinica().getCode(),
+				contentTypeCodeName,contentTypeCode,
 				"", "" , "",classificationAuthorType);
 		
 		String submissionSetTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());

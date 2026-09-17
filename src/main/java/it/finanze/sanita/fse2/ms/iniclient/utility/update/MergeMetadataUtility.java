@@ -47,11 +47,12 @@ public class MergeMetadataUtility {
 	public static void mergeHealthcareFacilityTypeCode(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum healthCare = ClassificationEnum.HEALTH_CARE_FACILITY_TYPE_CODE;
-		Map<String, String> value = new HashMap<>();
-		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
+		Map<String, String> value = null;
+		if (updateRequestBodyDTO.getTipologiaStruttura() != null) {
+			value = new HashMap<>();
+			// HealthcareFacilityEnum non espone una description: code e description coincidono
 			String code = updateRequestBodyDTO.getTipologiaStruttura().getCode();
-			String description = updateRequestBodyDTO.getTipologiaStruttura().getCode();
-			value.put(code, description);
+			value.put(code, code);
 		}
 		mergeClassification(healthCare.getCodingScheme(), healthCare.getClassificationScheme(), "Document1",
 				"IdHealthcareFacilityTypeCode", extrinsicObject.getClassification(), value);
@@ -66,8 +67,9 @@ public class MergeMetadataUtility {
 	public static void mergeClassCode(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum classCode = ClassificationEnum.CLASS_CODE;
-		Map<String, String> value = new HashMap<>();
-		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
+		Map<String, String> value = null;
+		if (updateRequestBodyDTO.getTipoDocumentoLivAlto() != null) {
+			value = new HashMap<>();
 			String code = updateRequestBodyDTO.getTipoDocumentoLivAlto().getCode();
 			String description = updateRequestBodyDTO.getTipoDocumentoLivAlto().getDescription();
 			value.put(code, description);
@@ -85,8 +87,9 @@ public class MergeMetadataUtility {
 	public static void mergePracticeSettingCode(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum practiceSettingCode = ClassificationEnum.PRACTICE_SETTING_CODE;
-		Map<String, String> value = new HashMap<>();
+		Map<String, String> value = null;
 		if (updateRequestBodyDTO.getAssettoOrganizzativo() != null) {
+			value = new HashMap<>();
 			String code = updateRequestBodyDTO.getAssettoOrganizzativo().getCode();
 			String description = updateRequestBodyDTO.getAssettoOrganizzativo().getDescription();
 			value.put(code, description);
@@ -105,8 +108,9 @@ public class MergeMetadataUtility {
 			ExtrinsicObjectType extrinsicObject) {
 		ClassificationEnum eventCode = ClassificationEnum.EVENT_CODE;
 
-		Map<String, String> value = new HashMap<>();
+		Map<String, String> value = null;
 		if (updateRequestBodyDTO.getAttiCliniciRegoleAccesso() != null) {
+			value = new HashMap<>();
 			for (String event : updateRequestBodyDTO.getAttiCliniciRegoleAccesso()) {
 				EventCodeEnum eventCodeEnum = EventCodeEnum.fromValue(event);
 				value.put(eventCodeEnum.getCode(), eventCodeEnum.getDescription());
@@ -125,8 +129,12 @@ public class MergeMetadataUtility {
 	 */
 	public static void mergeServiceTime(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
-		mergeSlot("serviceStartTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataInizioPrestazione());
-		mergeSlot("serviceStopTime", extrinsicObject.getSlot(), updateRequestBodyDTO.getDataFinePrestazione());
+		String dataInizioPrestazione = updateRequestBodyDTO.getDataInizioPrestazione();
+		String dataFinePrestazione = updateRequestBodyDTO.getDataFinePrestazione();
+		mergeSlot("serviceStartTime", extrinsicObject.getSlot(),
+				dataInizioPrestazione == null ? null : new String[] { dataInizioPrestazione });
+		mergeSlot("serviceStopTime", extrinsicObject.getSlot(),
+				dataFinePrestazione == null ? null : new String[] { dataFinePrestazione });
 	}
 
 	/**
@@ -137,8 +145,9 @@ public class MergeMetadataUtility {
 	 */
 	public static void mergeDescription(PublicationMetadataReqDTO updateRequestBodyDTO,
 			ExtrinsicObjectType extrinsicObject) {
-		String[] newValue = updateRequestBodyDTO.getDescriptions() == null ? null
-				: new String[] { updateRequestBodyDTO.getDescriptions().toArray()[0].toString() };
+		String[] newValue = updateRequestBodyDTO.getDescriptions() == null
+				|| updateRequestBodyDTO.getDescriptions().isEmpty() ? null
+						: new String[] { updateRequestBodyDTO.getDescriptions().toArray()[0].toString() };
 		mergeSlot("urn:ita:2022:description", extrinsicObject.getSlot(), newValue);
 	}
 
@@ -158,20 +167,24 @@ public class MergeMetadataUtility {
 
 	private static void mergeSlot(String slotName, List<SlotType1> slotList, String... newValue) {
 		try {
+			// Campo non presente nella richiesta: si lascia intatto il valore esistente su INI
+			if (newValue == null) {
+				return;
+			}
+
 			SlotType1 editedSlot = slotList.stream().filter(slot -> slot.getName().equals(slotName)).findFirst()
 					.orElse(null);
 
 			if (editedSlot != null) {
 				slotList.remove(editedSlot);
 			}
-			if (newValue != null) {
-				editedSlot = new SlotType1();
-				editedSlot.setName(slotName);
-				ValueListType valueListTime = new ValueListType();
-				valueListTime.getValue().addAll(Arrays.asList(newValue));
-				editedSlot.setValueList(valueListTime);
-				slotList.add(editedSlot);
-			}
+
+			editedSlot = new SlotType1();
+			editedSlot.setName(slotName);
+			ValueListType valueListTime = new ValueListType();
+			valueListTime.getValue().addAll(Arrays.asList(newValue));
+			editedSlot.setValueList(valueListTime);
+			slotList.add(editedSlot);
 
 		} catch (Exception ex) {
 			log.error("Error while performing merge for {}: {}", slotName, ex.getMessage());
@@ -183,6 +196,11 @@ public class MergeMetadataUtility {
 			String classifiedObject, String id,
 			List<ClassificationType> classificationList, Map<String, String> value) {
 		try {
+			// Campo non presente nella richiesta: si lascia intatta la classification esistente su INI
+			if (value == null) {
+				return;
+			}
+
 			ClassificationType editedClassification = classificationList.stream()
 					.filter(classification -> classification.getClassificationScheme().equals(classificationSchemeName))
 					.findFirst().orElse(null);
@@ -191,7 +209,7 @@ public class MergeMetadataUtility {
 				classificationList.remove(editedClassification);
 			}
 
-			if (value != null && value.size() > 0) {
+			if (!value.isEmpty()) {
 				for (Entry<String, String> entry : value.entrySet()) {
 					SlotType1 classCodeSlot = buildSlotCodingSchemeObject(codingScheme);
 					InternationalStringType nameClassCode = buildInternationalStringType(entry.getValue());

@@ -11,6 +11,7 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.utility;
 
+import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.dto.*;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import lombok.AccessLevel;
@@ -47,14 +48,46 @@ public class RequestUtility {
     	return documentTreeDTO;
     }
 
+    /**
+     * Build the token to be used on the read leg towards INI (ITI-18 Registry Stored Query).
+     * <p>
+     * The reconfiguration is applied on a <b>copy</b> of the payload: the caller's token is left
+     * untouched, since it is still used to build the write request body.
+     *
+     * @param jwtTokenDTO token received from the caller
+     * @param actionType action performed on the read leg
+     * @return a new token, enriched for the read leg
+     */
     public static JWTTokenDTO configureReadTokenPerAction(JWTTokenDTO jwtTokenDTO, ActionEnumType actionType) {
         log.debug("Reconfiguring token per action");
         JWTTokenDTO reconfiguredToken = new JWTTokenDTO();
-        JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload();
+        JWTPayloadDTO jwtPayloadDTO = jwtTokenDTO.getPayload().toBuilder().build();
         jwtPayloadDTO.setAction_id(actionType.getActionId());
         jwtPayloadDTO.setPurpose_of_use(actionType.getPurposeOfUse());
+        enrichGatewayAttributes(jwtPayloadDTO);
         reconfiguredToken.setPayload(jwtPayloadDTO);
-        return jwtTokenDTO;
+        return reconfiguredToken;
+    }
+
+    /**
+     * Fill in the attributes that "Tabella 1 - Messaggio di richiesta Ricerca documenti" of the
+     * Affinity Domain 2.6.4 requires on the request towards INI, but that the incoming token is not
+     * required to carry: e.g. the token of the obscuring chain ("Tabella 73") carries neither the
+     * SubjectApplication* values nor a valid locality.
+     *
+     * @param jwtPayloadDTO payload of the read leg, modified in place
+     */
+    public static void enrichGatewayAttributes(final JWTPayloadDTO jwtPayloadDTO) {
+        if (StringUtility.isNullOrEmpty(jwtPayloadDTO.getSubject_application_id())) {
+            jwtPayloadDTO.setSubject_application_id(Constants.IniClientConstants.GTW_SUBJECT_APPLICATION_ID);
+        }
+        if (StringUtility.isNullOrEmpty(jwtPayloadDTO.getSubject_application_vendor())) {
+            jwtPayloadDTO.setSubject_application_vendor(Constants.IniClientConstants.GTW_SUBJECT_APPLICATION_VENDOR);
+        }
+        if (StringUtility.isNullOrEmpty(jwtPayloadDTO.getSubject_application_version())) {
+            jwtPayloadDTO.setSubject_application_version(Constants.IniClientConstants.GTW_SUBJECT_APPLICATION_VERSION);
+        }
+
     }
 
     public static JWTPayloadDTO buildPayloadFromReq(final GetMetadatiReqDTO req) {

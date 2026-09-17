@@ -336,11 +336,12 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		// Extract typed fields using existing CommonUtility helpers
 		GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
 
-		// uuid: id of the first ExtrinsicObject (or first identifiable)
+		// uuid: entryUUID del DocumentEntry. NON va letto per posizione: in una response
+		// LeafClass il RegistryObjectList e' eterogeneo (ExtrinsicObject + gli ObjectRef degli
+		// schemi di classificazione) e solo ExtrinsicObject/@lid (fallback @id) porta l'entryUUID
+		// in forma urn:uuid:, richiesta dall'associazione RPLC e dalla DeleteDocumentSet.
 		List<JAXBElement<? extends IdentifiableType>> elements = response.getRegistryObjectList().getIdentifiable();
-		if (!elements.isEmpty()) {
-			out.setUuid(elements.get(0).getValue().getId());
-		}
+		out.setUuid(extractDocumentEntryUuid(elements, oid));
 
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(response));
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(response));
@@ -349,6 +350,31 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		out.setMetadata(CommonUtility.extractSlotMetadataMap(response));
 
 		return out;
+	}
+
+	/**
+	 * Estrae l'entryUUID del DocumentEntry dal RegistryObjectList di una ITI-18 LeafClass,
+	 * con la stessa logica di getMergedMetadati: si seleziona l'ExtrinsicObject e si legge
+	 * @lid, con fallback su @id. Sono gli unici attributi che in ebXML RegRep sono in forma
+	 * urn:uuid:, mentre @classifiedObject e @registryObject portano l'uuid nudo. Gli altri
+	 * identifiable della lista (ObjectRef degli schemi di classificazione) non identificano
+	 * il documento, quindi la selezione e' per tipo e non per posizione.
+	 */
+	private String extractDocumentEntryUuid(final List<JAXBElement<? extends IdentifiableType>> elements, final String oid) {
+		for (JAXBElement<? extends IdentifiableType> element : elements) {
+			IdentifiableType value = element.getValue();
+			if (value instanceof ExtrinsicObjectType) {
+				ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) value;
+				String uuid = extrinsicObject.getId();
+				if (!StringUtility.isNullOrEmpty(extrinsicObject.getLid())) {
+					uuid = extrinsicObject.getLid();
+				}
+				if (!StringUtility.isNullOrEmpty(uuid)) {
+					return uuid;
+				}
+			}
+		}
+		throw new MergeMetadatoNotFoundException("ExtrinsicObject non trovato nella response LeafClass per documento: " + oid);
 	}
 
 	@Override
@@ -420,6 +446,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(oldMetadata));
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(oldMetadata));
 		out.setEdsPublished(CommonUtility.extractEdsPublishedSlotValue(oldMetadata));
+		out.setResourceHl7Type(CommonUtility.extractResourceHl7TypeFromQueryResponse(oldMetadata));
 		
 		if(oldMetadata.getRegistryObjectList().getIdentifiable().isEmpty()) {
 			throw new MergeMetadatoNotFoundException("Attenzione, metadati non trovati");
@@ -430,6 +457,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		if(!StringUtility.isNullOrEmpty(val.getLid())){
 			uuid = val.getLid();
 		}
+		out.setLid(uuid);
 		try (StringWriter sw = new StringWriter()) {
 			SubmitObjectsRequest req = UpdateBodyBuilderUtility.buildSubmitObjectRequest(oldMetadata.getRegistryObjectList(),newMetadataDTO, uuid,token,oidToUpdate);
 			JAXB.marshal(req, sw);
@@ -446,6 +474,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		final Date startingDate = new Date();
 		IniResponseDTO out = new IniResponseDTO();
 		JWTTokenDTO token = new JWTTokenDTO(updateRequestDTO.getToken());
+		if (!StringUtility.isNullOrEmpty(updateRequestDTO.getResourceHl7Type())) {
+			token.getPayload().setResource_hl7_type(updateRequestDTO.getResourceHl7Type());
+		}
+		RequestUtility.enrichGatewayAttributes(token.getPayload());
 		
 		try {
 			StringBuilder errorMsg = new StringBuilder();
@@ -457,7 +489,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for (RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
 					if (WARNING.equals(error.getSeverity()) && error.getCodeContext() != null && error.getCodeContext().contains("R220")) {
-						r220Warning = error.getCodeContext();
+						r220Warning = error.getCodeContext();     
 					} else if (!WARNING.equals(error.getSeverity())) {
 						errorMsg.
 							append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
