@@ -33,8 +33,9 @@ public class GetDocumentMetadataResponseDTO extends ResponseDTO {
      * (es. "creationTime", "repositoryUniqueId", "languageCode", …).
      */
     private Map<String, String> metadata;
-
-    /** UUID del documento (attributo id dell'ExtrinsicObject). Null in caso di errore. */
+    /**
+     * entryUUID del DocumentEntry (valore di {@code ExtrinsicObject/@id} in ebXML RegRep/IHE XDS).
+     */
     private String uuid;
     /** Valore dello slot urn:ita:fse:2025:EDSpublished: "TRUE", "FALSE", o null se assente. */
     private String edsPublished;
