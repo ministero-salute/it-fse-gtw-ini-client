@@ -66,8 +66,12 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IniInvocationTest {
 
-    /** entryUUID del documento nei fixture LeafClass, in forma urn:uuid: come da ebXML RegRep. */
-    private static final String EXPECTED_DOCUMENT_ENTRY_UUID = "urn:uuid:edd543a5-5c41-48d3-b2f7-4b3a2e6692d7";
+    /**
+     * entryUUID del documento nei fixture LeafClass (ExtrinsicObject/@id), in forma urn:uuid:.
+     * Nei fixture @id e @lid sono volutamente diversi per rilevare la regressione issue #3085
+     * (uso di @lid al posto di @id come targetObject in RPLC/DELETE).
+     */
+    private static final String EXPECTED_DOCUMENT_ENTRY_UUID = "urn:uuid:9e5a08cf-5cb9-4ad3-b779-44618b2d4f7a";
 
     @Autowired
     private IIniInvocationSRV iniInvocationSRV;

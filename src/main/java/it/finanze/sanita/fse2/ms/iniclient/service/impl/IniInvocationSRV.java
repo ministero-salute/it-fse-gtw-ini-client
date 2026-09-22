@@ -336,13 +336,8 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 		// Extract typed fields using existing CommonUtility helpers
 		GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
 
-		// uuid: entryUUID del DocumentEntry. NON va letto per posizione: in una response
-		// LeafClass il RegistryObjectList e' eterogeneo (ExtrinsicObject + gli ObjectRef degli
-		// schemi di classificazione) e solo ExtrinsicObject/@lid (fallback @id) porta l'entryUUID
-		// in forma urn:uuid:, richiesta dall'associazione RPLC e dalla DeleteDocumentSet.
 		List<JAXBElement<? extends IdentifiableType>> elements = response.getRegistryObjectList().getIdentifiable();
 		out.setUuid(extractDocumentEntryUuid(elements, oid));
-
 		out.setDocumentType(CommonUtility.extractDocumentTypeFromQueryResponse(response));
 		out.setAuthorInstitution(CommonUtility.extractAuthorInstitutionFromQueryResponse(response));
 		out.setAdministrativeRequest(CommonUtility.extractAdministrativeRequestFromQueryResponse(response));
@@ -353,12 +348,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 	}
 
 	/**
-	 * Estrae l'entryUUID del DocumentEntry dal RegistryObjectList di una ITI-18 LeafClass,
-	 * con la stessa logica di getMergedMetadati: si seleziona l'ExtrinsicObject e si legge
-	 * @lid, con fallback su @id. Sono gli unici attributi che in ebXML RegRep sono in forma
-	 * urn:uuid:, mentre @classifiedObject e @registryObject portano l'uuid nudo. Gli altri
-	 * identifiable della lista (ObjectRef degli schemi di classificazione) non identificano
-	 * il documento, quindi la selezione e' per tipo e non per posizione.
+	 * Estrae l'entryUUID del DocumentEntry dal RegistryObjectList di una ITI-18 LeafClass.
+	 * <p>In ebXML RegRep / IHE XDS, {@code ExtrinsicObject/@id} e' l'entryUUID assegnato
+	 * dal registry: e' il valore da usare come {@code targetObject} nelle associazioni RPLC
+	 * (REPLACE ITI-42) e nelle richieste DeleteDocumentSet (DELETE).
 	 */
 	private String extractDocumentEntryUuid(final List<JAXBElement<? extends IdentifiableType>> elements, final String oid) {
 		for (JAXBElement<? extends IdentifiableType> element : elements) {
@@ -366,9 +359,6 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			if (value instanceof ExtrinsicObjectType) {
 				ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) value;
 				String uuid = extrinsicObject.getId();
-				if (!StringUtility.isNullOrEmpty(extrinsicObject.getLid())) {
-					uuid = extrinsicObject.getLid();
-				}
 				if (!StringUtility.isNullOrEmpty(uuid)) {
 					return uuid;
 				}
