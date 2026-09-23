@@ -12,10 +12,14 @@
 package it.finanze.sanita.fse2.ms.iniclient;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
+import java.util.Collections;
 
 import javax.xml.bind.JAXBException;
 
@@ -32,7 +36,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
+import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
@@ -49,6 +55,7 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.create.SubmissionSetEntryBuil
 import it.finanze.sanita.fse2.ms.iniclient.utility.delete.DeleteBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.read.ReadBodyBuilderUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtility;
+import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.AssociationType1;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExternalIdentifierType;
@@ -220,6 +227,56 @@ class RequestBuilderTest {
                 reconfiguredToken,""
         ));
     }
+
+    @Test
+    @DisplayName("Update Oscuramento - buildSubmitObjectRequestOscuramento success test")
+    void buildSubmitObjectRequestOscuramentoSuccessTest() {
+        DocumentEntryDTO documentEntryDTO = new DocumentEntryDTO();
+        documentEntryDTO.setEventCodeList(Collections.singletonList("P99"));
+        documentEntryDTO.setRepositoryUniqueId("2.16.840.1.113883.2.9.2.120.4.5.3");
+        JWTPayloadDTO jwtPayloadDTO = TestUtility.mockBasicToken().getPayload();
+
+        SubmitObjectsRequest request = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequestOscuramento(
+                documentEntryDTO, jwtPayloadDTO, null, "urn:uuid:lid-123", "unique-123");
+
+        assertNotNull(request);
+        assertNotNull(request.getRegistryObjectList());
+        assertEquals(4, request.getRegistryObjectList().getIdentifiable().size());
+
+        ExtrinsicObjectType extrinsic = (ExtrinsicObjectType) request.getRegistryObjectList().getIdentifiable().get(0).getValue();
+        assertEquals("urn:uuid:lid-123", extrinsic.getLid());
+        assertEquals("Document1", extrinsic.getId());
+        assertEquals("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved", extrinsic.getStatus());
+
+        ExternalIdentifierType uniqueIdIdent = extrinsic.getExternalIdentifier().stream()
+                .filter(i -> "uniqueId_1".equals(i.getId()))
+                .findFirst()
+                .orElse(null);
+        assertNotNull(uniqueIdIdent);
+        assertEquals("unique-123", uniqueIdIdent.getValue());
+
+        ExternalIdentifierType patientIdIdent = extrinsic.getExternalIdentifier().stream()
+                .filter(i -> "patientId_1".equals(i.getId()))
+                .findFirst()
+                .orElse(null);
+        assertNotNull(patientIdIdent);
+        assertEquals(jwtPayloadDTO.getPerson_id(), patientIdIdent.getValue());
+    }
+
+    @Test
+    @DisplayName("Update Oscuramento - fallback lid to uniqueId when lid is null")
+    void buildSubmitObjectRequestOscuramentoFallbackLidTest() {
+        DocumentEntryDTO documentEntryDTO = new DocumentEntryDTO();
+        documentEntryDTO.setEventCodeList(Collections.singletonList("P99"));
+        JWTPayloadDTO jwtPayloadDTO = TestUtility.mockBasicToken().getPayload();
+
+        SubmitObjectsRequest request = PublishReplaceBodyBuilderUtility.buildSubmitObjectRequestOscuramento(
+                documentEntryDTO, jwtPayloadDTO, null, null, "unique-123");
+
+        ExtrinsicObjectType extrinsic = (ExtrinsicObjectType) request.getRegistryObjectList().getIdentifiable().get(0).getValue();
+        assertEquals("unique-123", extrinsic.getLid());
+    }
+
 
     @Test
     @DisplayName("PUBLISH - Header builder success test")

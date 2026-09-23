@@ -74,11 +74,11 @@ public final class PublishReplaceBodyBuilderUtility {
 	 * @param jwtPayloadDTO
 	 * @return
 	 */
-	public static SubmitObjectsRequest buildSubmitObjectRequestOscuramento(DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO,String uuid,
+	public static SubmitObjectsRequest buildSubmitObjectRequestOscuramento(DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO, String uuid,
 			String lid, String uniqueId) {
 		if (documentEntryDTO == null) throw new BusinessException("DocumentEntryDTO is null");
 		SubmitObjectsRequest submitObjectsRequest = new SubmitObjectsRequest();
-		RegistryObjectListType registryObjectListType = buildRegistryObjectListOscuramentoACatena(documentEntryDTO, jwtPayloadDTO, uuid,lid,uniqueId);
+		RegistryObjectListType registryObjectListType = buildRegistryObjectListOscuramentoACatena(documentEntryDTO, jwtPayloadDTO, uuid, lid,uniqueId);
 		submitObjectsRequest.setRegistryObjectList(registryObjectListType);
 		return submitObjectsRequest;
 	}
@@ -151,7 +151,7 @@ public final class PublishReplaceBodyBuilderUtility {
 		 
 		
 		//ExtrinsicObject - DocumentEntry
-		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntryOscuramentoACatena(DOCUMENT_ENTRY_ID,lid, documentEntryDTO,jwtPayloadDTO);
+		JAXBElement<ExtrinsicObjectType> extrinsicObject = DocumentEntryBuilderUtility.buildExtrinsicObjectDocumentEntryOscuramentoACatena(DOCUMENT_ENTRY_ID, lid, uniqueId, documentEntryDTO, jwtPayloadDTO);
 		registryObjectListType.getIdentifiable().add(extrinsicObject);
 
 		//Registry package - SubmissionSetEntry

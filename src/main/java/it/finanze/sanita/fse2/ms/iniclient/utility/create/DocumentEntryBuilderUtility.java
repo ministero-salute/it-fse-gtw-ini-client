@@ -79,13 +79,14 @@ public class DocumentEntryBuilderUtility {
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
 	
-	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id,String lid,
+	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id,String lid, String uniqueId,
 			DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
 
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
 		extrinsicObject.setId(id);
 		extrinsicObject.setIsOpaque(false);
-		extrinsicObject.setLid(lid);
+		String resolvedLid = !StringUtility.isNullOrEmpty(lid) ? lid : uniqueId;
+		extrinsicObject.setLid(resolvedLid);
 		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getMimeType())) {
 			extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
 		}
@@ -98,7 +99,7 @@ public class DocumentEntryBuilderUtility {
 		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntryOscuramento(documentEntryDTO.getRepositoryUniqueId(),jwtPayloadDTO.getPerson_id(),
 				jwtPayloadDTO.mergedSubjectIdVendorVersion()));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntryOscuramento(documentEntryDTO,id));
-		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntryOscuramento(id, "TEST", jwtPayloadDTO));
+		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntryOscuramento(id, uniqueId, jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
 
