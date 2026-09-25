@@ -70,6 +70,7 @@ import it.finanze.sanita.fse2.ms.iniclient.client.IIniClient;
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.GovwayCfg;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.DocumentReferenceNotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
@@ -109,6 +110,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 @Slf4j
 @Component
 public class IniClient implements IIniClient {
+
+	private static final String NO_RESULTS_FROM_QUERY = "No results from the query";
 
 	@Autowired
 	private IniCFG iniCFG;
@@ -447,6 +450,10 @@ public class IniClient implements IIniClient {
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
+					if (NO_RESULTS_FROM_QUERY.equals(error.getCodeContext())) {
+						log.warn("INI get reference metadata: document not found for uuid {}", uuid);
+						throw new DocumentReferenceNotFoundException();
+					}
 					sb.append("ERROR_CODE: "+error.getErrorCode() + " ERROR_CONTEXT: " + error.getCodeContext());
 			}
 			throw new BusinessException(sb.toString());
