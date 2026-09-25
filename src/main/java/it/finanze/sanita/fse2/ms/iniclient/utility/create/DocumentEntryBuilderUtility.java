@@ -85,7 +85,7 @@ public class DocumentEntryBuilderUtility {
 		return objectFactory.createExtrinsicObject(extrinsicObject);
 	}
 	
-	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id,String lid, String uniqueId,
+	public static JAXBElement<ExtrinsicObjectType> buildExtrinsicObjectDocumentEntryOscuramentoACatena(String id, String lid, String uniqueId,
 			DocumentEntryDTO documentEntryDTO,JWTPayloadDTO jwtPayloadDTO) {
 
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
@@ -104,11 +104,12 @@ public class DocumentEntryBuilderUtility {
 
 		List<ClassificationType> classificationTypes = new ArrayList<>();
 			//Class code
+			String classCode = documentEntryDTO.getClassCode();
 			SlotType1 classCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.5");
-			InternationalStringType nameClassCode = buildInternationalStringType(TipoDocAltoLivEnum.REF.getCode());
+			InternationalStringType nameClassCode = buildInternationalStringType(classCode);
 			ClassificationType classCodeClassification = buildClassificationObject(
 				CLASS_CODE.getClassificationScheme(),id,CLASS_CODE.getId(),nameClassCode,
-				classCodeSlot,TipoDocAltoLivEnum.REF.getCode());
+				classCodeSlot,classCode);
 			classificationTypes.add(classCodeClassification);
 
 		extrinsicObject.getClassification().addAll(classificationTypes);
