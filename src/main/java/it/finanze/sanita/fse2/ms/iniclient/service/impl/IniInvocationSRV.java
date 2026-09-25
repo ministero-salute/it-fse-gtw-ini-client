@@ -478,6 +478,7 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			StringBuilder errorMsg = new StringBuilder();
 			DocumentEntryDTO entry = new DocumentEntryDTO();
 			entry.setEventCodeList(updateRequestDTO.getAttiCliniciRegoleAccesso());
+			entry.setClassCode(updateRequestDTO.getClassCode());
 			RegistryResponseType registryResponse = iniClient.sendOscuramentoData(entry,null, token,updateRequestDTO.getWorkflowInstanceId(),startingDate, updateRequestDTO.getLid(),
 					updateRequestDTO.getUniqueId());
 			String r220Warning = null;

@@ -333,6 +333,10 @@ class IniInvocationTest {
         RegistryResponseType registryResponseType = TestUtility.mockRegistrySuccessWithWarning("R220 - The requestor is RDA for the patient");
         Mockito.when(iniClient.sendOscuramentoData(any(DocumentEntryDTO.class), any(), any(JWTTokenDTO.class), anyString(), any(Date.class), anyString(), anyString()))
                 .thenAnswer(invocation -> {
+                    DocumentEntryDTO passedEntry = invocation.getArgument(0);
+                    assertNotNull(passedEntry);
+                    assertEquals("WOR", passedEntry.getClassCode());
+
                     JWTTokenDTO passedToken = invocation.getArgument(2);
                     assertNotNull(passedToken);
                     assertNotNull(passedToken.getPayload());
@@ -349,6 +353,7 @@ class IniInvocationTest {
         req.setWorkflowInstanceId(TestConstants.TEST_WII);
         req.setLid("lid-123");
         req.setUniqueId("unique-123");
+        req.setClassCode("WOR");
 
         IniResponseDTO response = iniInvocationSRV.updateOscuramentoByRequestBody(req);
         assertNotNull(response);

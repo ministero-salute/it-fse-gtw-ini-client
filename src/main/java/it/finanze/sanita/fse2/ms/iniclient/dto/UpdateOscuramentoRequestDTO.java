@@ -29,5 +29,7 @@ public class UpdateOscuramentoRequestDTO {
     private String uniqueId;
 
     private String resourceHl7Type;
+
+    private String classCode;
     
 }
