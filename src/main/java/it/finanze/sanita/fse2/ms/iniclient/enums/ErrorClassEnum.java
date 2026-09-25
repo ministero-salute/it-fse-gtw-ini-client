@@ -23,7 +23,7 @@ public enum ErrorClassEnum {
     ID_DOC_MISSING("/errors", "Document not found", "Document with the specified workflowInstanceId not found",
             "/missing-docs"),
     REFERENCE_DATA_MISSING("/errors/ini", "References not found",
-            "Query has returned not data when trying to fetch references",
+            "Query has not returned any data trying to fetch references",
             "/missing-references"),
     MISSING_METADATA("/errors/ini", "Document metadata not found",
             "Metadata of document not found with the specified OID", "/missing-metadata"),

@@ -62,8 +62,11 @@ import it.finanze.sanita.fse2.ms.iniclient.utility.update.UpdateBodyBuilderUtili
 import lombok.extern.slf4j.Slf4j;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ExtrinsicObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.IdentifiableType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.InternationalStringType;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
@@ -72,6 +75,8 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 public class IniInvocationSRV implements IIniInvocationSRV {
 
 	private static final String WARNING = "urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Warning";
+	private static final String WARNING_SEVERITY_SUFFIX = ":Warning";
+	private static final String R220_CODE = "R220";
 	
 	@Autowired
 	private IniInvocationRepo iniInvocationRepo;
@@ -478,9 +483,13 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			String r220Warning = null;
 			if (registryResponse.getRegistryErrorList() != null && !CollectionUtils.isEmpty(registryResponse.getRegistryErrorList().getRegistryError())) {
 				for (RegistryError error : registryResponse.getRegistryErrorList().getRegistryError()) {
-					if (WARNING.equals(error.getSeverity()) && error.getCodeContext() != null && error.getCodeContext().contains("R220")) {
-						r220Warning = error.getCodeContext();     
-					} else if (!WARNING.equals(error.getSeverity())) {
+					boolean isWarning = error.getSeverity() != null && error.getSeverity().endsWith(WARNING_SEVERITY_SUFFIX);
+					boolean isR220 = (error.getErrorCode() != null && error.getErrorCode().contains(R220_CODE))
+							|| (error.getCodeContext() != null && error.getCodeContext().contains(R220_CODE));
+					if (isWarning && isR220) {
+						r220Warning = error.getCodeContext();
+
+					} else if (!isWarning) {
 						errorMsg.
 							append(SEVERITY_HEAD_ERROR_MESSAGE).append(error.getSeverity()).
 							append(SEVERITY_CODE_HEAD_ERROR_MESSAGE).append(error.getErrorCode()).
@@ -493,13 +502,14 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 				out.setEsito(false);
 				out.setMessage(errorMsg.toString());
 				throw new BusinessException(errorMsg.toString());
-			}
+			} 
 
 			if (r220Warning == null) {
 				throw new BusinessException("Risposta INI non valida: warning obbligatorio 'R220 - The requestor is RDA for the patient' assente");
+			} else{
+				out.setEsito(true);
+				out.setMessage(R220_CODE + " - " + r220Warning);
 			}
-
-			out.setMessage(r220Warning);
 		} catch(Exception ex) {
 			throw new BusinessException(ex);
 		}

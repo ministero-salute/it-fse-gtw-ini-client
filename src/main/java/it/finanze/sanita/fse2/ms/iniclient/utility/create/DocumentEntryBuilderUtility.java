@@ -12,6 +12,8 @@
 package it.finanze.sanita.fse2.ms.iniclient.utility.create;
 
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CLASSIFICATION_OBJECT_URN;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.CREATION_TIME_PATTERN;
+import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DEFAULT_MIME_TYPE;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.DOCUMENT_SIGNED;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.EXTERNAL_IDENTIFIER_URN;
 import static it.finanze.sanita.fse2.ms.iniclient.config.Constants.IniClientConstants.LANGUAGE_CODE;
@@ -29,8 +31,11 @@ import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilder
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotCodingSchemeObject;
 import static it.finanze.sanita.fse2.ms.iniclient.utility.common.SamlBodyBuilderCommonUtility.buildSlotObject;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -41,6 +46,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.AuthorSlotDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.EventCodeEnum;
+import it.finanze.sanita.fse2.ms.iniclient.enums.TipoDocAltoLivEnum;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.common.CommonUtility;
 import lombok.AccessLevel;
@@ -85,19 +91,34 @@ public class DocumentEntryBuilderUtility {
 		ExtrinsicObjectType extrinsicObject = new ExtrinsicObjectType();
 		extrinsicObject.setId(id);
 		extrinsicObject.setIsOpaque(false);
-		String resolvedLid = !StringUtility.isNullOrEmpty(lid) ? lid : uniqueId;
-		extrinsicObject.setLid(resolvedLid);
+		if(!StringUtility.isNullOrEmpty(lid)) {
+			extrinsicObject.setLid(lid);
+		}
 		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getMimeType())) {
 			extrinsicObject.setMimeType(documentEntryDTO.getMimeType());
+		} else {
+			extrinsicObject.setMimeType(DEFAULT_MIME_TYPE);
 		}
 		extrinsicObject.setObjectType("urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1");
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
+
+		List<ClassificationType> classificationTypes = new ArrayList<>();
+			//Class code
+			SlotType1 classCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.5");
+			InternationalStringType nameClassCode = buildInternationalStringType(TipoDocAltoLivEnum.REF.getCode());
+			ClassificationType classCodeClassification = buildClassificationObject(
+				CLASS_CODE.getClassificationScheme(),id,CLASS_CODE.getId(),nameClassCode,
+				classCodeSlot,TipoDocAltoLivEnum.REF.getCode());
+			classificationTypes.add(classCodeClassification);
+
+		extrinsicObject.getClassification().addAll(classificationTypes);
+
 		if(!StringUtility.isNullOrEmpty(documentEntryDTO.getTitle())) {
 			extrinsicObject.setName(buildInternationalStringType(documentEntryDTO.getTitle()));
 		}
 		
 		extrinsicObject.getSlot().addAll(buildExtrinsicObjectSlotsDocEntryOscuramento(documentEntryDTO.getRepositoryUniqueId(),jwtPayloadDTO.getPerson_id(),
-				jwtPayloadDTO.mergedSubjectIdVendorVersion()));
+				jwtPayloadDTO.mergedSubjectIdVendorVersion(),documentEntryDTO.getCreationTime()));
 		extrinsicObject.getClassification().addAll(buildExtrinsicClassificationObjectsDocEntryOscuramento(documentEntryDTO,id));
 		extrinsicObject.getExternalIdentifier().addAll(buildExternalIdentifierDocEntryOscuramento(id, uniqueId, jwtPayloadDTO));
 		return objectFactory.createExtrinsicObject(extrinsicObject);
@@ -134,12 +155,15 @@ public class DocumentEntryBuilderUtility {
 	 * @param documentEntryDTO
 	 * @param jwtPayloadDTO
 	 */
-	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntryOscuramento(String repositoryUniqueId, String patientId, String subjectIdVendor) {
+	private static List<SlotType1> buildExtrinsicObjectSlotsDocEntryOscuramento(String repositoryUniqueId, String patientId, String subjectIdVendor,
+			String creationTime) {
 		List<SlotType1> slotType1 = new ArrayList<>();
 		slotType1.add(buildSlotObject("languageCode", LANGUAGE_CODE));
 		slotType1.add(buildSlotObject("repositoryUniqueId", repositoryUniqueId));
 		slotType1.add(buildSlotObject("sourcePatientId", patientId));
 		slotType1.add(buildSlotObject("urn:ihe:iti:xds:2024:SubjectApplication", subjectIdVendor));
+		slotType1.add(buildSlotObject("creationTime", !StringUtility.isNullOrEmpty(creationTime) ? creationTime :
+				new SimpleDateFormat(CREATION_TIME_PATTERN).format(new Date())));
 		
 		return slotType1;
 	}
