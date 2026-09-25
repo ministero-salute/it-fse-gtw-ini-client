@@ -189,21 +189,21 @@ public class IniClient implements IIniClient {
 				((BindingProvider) updateDocumentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
 			}
 			
-			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
+			// SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
 			List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-			handlerChainDocumentRegistry.add(loggingHandler);
+			// handlerChainDocumentRegistry.add(loggingHandler);
 			((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
 
 			List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-			handlerChainDelete.add(loggingHandler);
+			// handlerChainDelete.add(loggingHandler);
 			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 			
 			List<Handler> handlerChainUpdate = ((BindingProvider) updateDocumentRegistryPort).getBinding().getHandlerChain();
-			handlerChainUpdate.add(loggingHandler);
+			// handlerChainUpdate.add(loggingHandler);
 			((BindingProvider) updateDocumentRegistryPort).getBinding().setHandlerChain(handlerChainUpdate);
 
 			List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
-			handlerChainRecuperoRiferimento.add(loggingHandler);
+			// handlerChainRecuperoRiferimento.add(loggingHandler);
 			((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
