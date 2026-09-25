@@ -122,6 +122,8 @@ public final class Constants {
 		public static final String GTW_SUBJECT_APPLICATION_VERSION = "R2";
 
 		public static final String LANGUAGE_CODE = "it-IT";
+		public static final String DEFAULT_MIME_TYPE = "application/pdf+text/x-cda-r2+xml";
+		public static final String CREATION_TIME_PATTERN = "yyyyMMddHHmmss";
 		public static final String DOCUMENT_SIGNED = "true^Documento firmato";
 		public static final String DOCUMENT_ENTRY_ID = "Document1";
 		public static final String SUBMISSION_ENTRY_ID = "SubmissionSet1";
