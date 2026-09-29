@@ -113,6 +113,8 @@ public class IniClient implements IIniClient {
 
 	private static final String NO_RESULTS_FROM_QUERY = "No results from the query";
 
+	private static final String ERROR_CODE_QND1 = "QND1";
+
 	@Autowired
 	private IniCFG iniCFG;
 
@@ -450,7 +452,7 @@ public class IniClient implements IIniClient {
 		StringBuilder sb = new StringBuilder();
 		if (response.getRegistryErrorList() != null && !CollectionUtils.isEmpty(response.getRegistryErrorList().getRegistryError())) {
 			for(RegistryError error : response.getRegistryErrorList().getRegistryError()) {
-					if (NO_RESULTS_FROM_QUERY.equals(error.getCodeContext())) {
+					if (NO_RESULTS_FROM_QUERY.equals(error.getCodeContext()) || ERROR_CODE_QND1.equals(error.getErrorCode())) {
 						log.warn("INI get reference metadata: document not found for uuid {}", uuid);
 						throw new DocumentReferenceNotFoundException();
 					}

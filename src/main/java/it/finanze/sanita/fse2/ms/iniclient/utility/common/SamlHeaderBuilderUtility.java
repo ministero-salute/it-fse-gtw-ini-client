@@ -200,7 +200,7 @@ public class SamlHeaderBuilderUtility {
 			output.setIssueInstant(new DateTime());
 			output.setVersion(SAMLVersion.VERSION_20);
 			output.setIssuer(buildIssuer(tokenDTO.getPayload().getSubject_organization_id()));
-			output.setSubject(buildSubject(tokenDTO.getPayload().getSub().split("\\^")[0]));
+			output.setSubject(buildSubject(tokenDTO.getPayload().getSub()));
 			output.setConditions(buildConditions());
 			output.getAuthnStatements().add(buildAuthnStatement());
 			output.getAttributeStatements().add(buildAttributeStatement(tokenDTO, actionType));
@@ -289,9 +289,25 @@ public class SamlHeaderBuilderUtility {
 	private NameID buildNameID(final String sub) {
 		NameIDBuilder nameIdBuilder = new NameIDBuilder();
 		NameID nameId = nameIdBuilder.buildObject();
-		nameId.setValue(sub + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID);
+		nameId.setValue(buildQualifiedSubject(sub));
 
 		return nameId;
+	}
+
+	/**
+	 * Restituisce il subject nel formato atteso da INI (CX: <id>^^^&<OID>&ISO).
+	 * Se il token porta gia' la propria qualificazione (es. Partita IVA con OID
+	 * 2.16.840.1.113883.2.9.6.3.2) la si preserva, coerentemente con la validazione
+	 * del dispatcher (JwtSRV.isValidOid), che ammette OID diversi dal MEF.
+	 * Se il sub e' nudo, si decora con l'OID MEF come da comportamento storico.
+	 * @param sub
+	 * @return
+	 */
+	private String buildQualifiedSubject(final String sub) {
+		if (StringUtility.isNullOrEmpty(sub)) {
+			return "";
+		}
+		return sub.contains("^") ? sub : sub + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID;
 	}
 
 	/**
@@ -373,7 +389,7 @@ public class SamlHeaderBuilderUtility {
 					ActionEnumType.READ_REFERENCE.equals(actionEnumType); 
 			boolean useSubjectAsAuthor = tokenDTO.getPayload().isUse_subject_as_author();
 
-			String subjectId = !StringUtility.isNullOrEmpty(payloadTokenJwt.getSub()) ? payloadTokenJwt.getSub().split("\\^")[0] + Constants.IniClientConstants.GENERIC_SUBJECT_SSN_OID : "";
+			String subjectId = buildQualifiedSubject(payloadTokenJwt.getSub());
 
 			if (isReadAction) {
 			    if (useSubjectAsAuthor) {
