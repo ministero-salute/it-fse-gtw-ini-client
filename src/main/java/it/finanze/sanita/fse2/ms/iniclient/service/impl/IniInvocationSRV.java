@@ -105,7 +105,10 @@ public class IniInvocationSRV implements IIniInvocationSRV {
 			out = replaceByWorkflowInstanceId(iniInvocationETY, startingDate, workflowInstanceId, edsPublished);
 		}
 
-		if(out != null && out.getEsito() != null && out.getEsito() && configSRV.isRemoveMetadataEnable()) {
+		boolean edsPending = "TRUE".equals(edsPublished);
+		if(out != null && out.getEsito() != null && out.getEsito()
+				&& configSRV.isRemoveMetadataEnable()
+				&& !edsPending) {
 			iniInvocationRepo.removeMetadataByWorkflowInstanceId(workflowInstanceId);
 		}
 

@@ -153,7 +153,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				String edsPublished = resolveEdsPublished(iniETY.getIssuer(), issuer);
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, iniETY, edsPublished);
 			} else {
-				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH);
+				String edsPublished = resolveEdsPublished(iniETY.getIssuer(), issuer);
+				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.PUBLISH, edsPublished);
 			}
 		}
 
@@ -281,7 +282,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 				String edsPublished = resolveEdsPublished(iniETY.getIssuer(), issuer);
 				res = iniInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, iniETY, edsPublished);
 			} else {
-				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE);
+				String edsPublished = resolveEdsPublished(iniETY.getIssuer(), issuer);
+				res = iniMockInvocationSRV.publishOrReplaceOnIni(workflowInstanceId, ProcessorOperationEnum.REPLACE, edsPublished);
 			}
 		}
 

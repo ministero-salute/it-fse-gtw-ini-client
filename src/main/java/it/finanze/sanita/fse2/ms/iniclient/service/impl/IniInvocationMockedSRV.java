@@ -83,11 +83,14 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	private final ObjectFactory rimObjectFactory = new ObjectFactory();
 
 	@Override
-	public IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation) {
+	public IniResponseDTO publishOrReplaceOnIni(String workflowInstanceId, ProcessorOperationEnum operation, String edsPublished) {
 		IniResponseDTO out = new IniResponseDTO();
 		out.setMessage("Regime di mock abilitato");
 		mockLog(workflowInstanceId, operation, new Date());
-		if(config.isRemoveMetadataEnable()) repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
+		boolean edsPending = "TRUE".equals(edsPublished);
+		if(config.isRemoveMetadataEnable() && !edsPending) {
+			repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
+		}
 		return out;
 	}
 
