@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 
-import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,9 +74,6 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 	private LoggerHelper logger;
 
 	@Autowired
-	private IConfigSRV config;
-
-	@Autowired
 	private IIniInvocationRepo repository;
 
 	private final ObjectFactory rimObjectFactory = new ObjectFactory();
@@ -87,10 +83,6 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 		IniResponseDTO out = new IniResponseDTO();
 		out.setMessage("Regime di mock abilitato");
 		mockLog(workflowInstanceId, operation, new Date());
-		boolean edsPending = "TRUE".equals(edsPublished);
-		if(config.isRemoveMetadataEnable() && !edsPending) {
-			repository.removeMetadataByWorkflowInstanceId(workflowInstanceId);
-		}
 		return out;
 	}
 

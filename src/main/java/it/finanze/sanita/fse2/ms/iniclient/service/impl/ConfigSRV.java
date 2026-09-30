@@ -16,7 +16,6 @@ import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoute
 import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_EXP_DAYS;
 import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_ISSUER_CF;
 import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_KPI_LOG_ENABLED;
-import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_REMOVE_METADATA_ENABLE;
 import static it.finanze.sanita.fse2.ms.iniclient.client.routes.base.ClientRoutes.Config.PROPS_NAME_SUBJECT;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.ConfigItemTypeEnum.INI_CLIENT;
 
@@ -66,21 +65,6 @@ public class ConfigSRV implements IConfigSRV {
 		} else {
 			log.info("Skipping gtw-config initialization due to test profile");
 		}
-	}
-
-	@Override
-	public Boolean isRemoveMetadataEnable() {
-		long lastUpdate = props.get(PROPS_NAME_REMOVE_METADATA_ENABLE).getKey();
-		if (new Date().getTime() - lastUpdate >= getRefreshRate()) {
-			synchronized(Locks.REMOVE_METADATA_ENABLE) {
-				if (new Date().getTime() - lastUpdate >= getRefreshRate()) {
-					refresh(PROPS_NAME_REMOVE_METADATA_ENABLE);
-				}
-			}
-		}
-		return Boolean.parseBoolean(
-			props.get(PROPS_NAME_REMOVE_METADATA_ENABLE).getValue()
-		);
 	}
 
 	@Override
@@ -180,8 +164,7 @@ public class ConfigSRV implements IConfigSRV {
 			PROPS_NAME_KPI_LOG_ENABLED,
 			PROPS_NAME_CONTROL_LOG_ENABLED,
 			PROPS_NAME_SUBJECT,
-			PROPS_NAME_ISSUER_CF,
-			PROPS_NAME_REMOVE_METADATA_ENABLE
+			PROPS_NAME_ISSUER_CF
 		};
 		for (String prop : out) {
 			if(!props.containsKey(prop)) throw new IllegalStateException(err.replace("{}", prop));
@@ -210,7 +193,6 @@ public class ConfigSRV implements IConfigSRV {
 	}
 
 	private static final class Locks {
-		public static final Object REMOVE_METADATA_ENABLE = new Object();
 		public static final Object CONTROL_LOG_ENABLED = new Object();
 		public static final Object KPI_LOG_ENABLED = new Object();
 		public static final Object ISSUER_CF_CLEANING = new Object();

@@ -11,20 +11,12 @@
  */
 package it.finanze.sanita.fse2.ms.iniclient.repository.mongo.impl;
 
-import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_METADATA;
-import static it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY.FIELD_WIF;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.client.result.UpdateResult;
-
-import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.mongo.IIniInvocationRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -41,19 +33,5 @@ public class IniInvocationRepo implements IIniInvocationRepo {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
 		return mongo.findOne(query, IniEdsInvocationETY.class);
-	}
-
-	@Override
-	public boolean removeMetadataByWorkflowInstanceId(String wif) {
-		Query search = new Query(where(FIELD_WIF).is(wif));
-		Update op = new Update().unset(FIELD_METADATA);
-		UpdateResult res;
-		try {
-			res = mongo.updateFirst(search, op, IniEdsInvocationETY.class);
-		} catch (Exception ex) {
-			log.error("Unable to remove '{}' field from wif '{}' due to {}", FIELD_METADATA, wif, ex.getMessage());
-			throw new BusinessException(ex);
-		}
-		return res.getModifiedCount() == 1;
 	}
 }
