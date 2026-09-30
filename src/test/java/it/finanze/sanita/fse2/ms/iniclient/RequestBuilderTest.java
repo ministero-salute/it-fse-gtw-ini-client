@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 import org.bson.Document;
@@ -41,7 +42,9 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentTreeDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.MergedMetadatiRequestDTO;
+import it.finanze.sanita.fse2.ms.iniclient.dto.PublicationMetadataReqDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
+import it.finanze.sanita.fse2.ms.iniclient.enums.AttivitaClinicaEnum;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
@@ -277,6 +280,26 @@ class RequestBuilderTest {
         assertEquals("unique-123", extrinsic.getLid());
     }
 
+
+    @Test
+    @DisplayName("Update - contentTypeCode nodeRepresentation per Sistema TS (issue #3112)")
+    void submissionSetContentTypeCodeSistemaTsTest() {
+        PublicationMetadataReqDTO updateRequestDto = new PublicationMetadataReqDTO();
+        updateRequestDto.setTipoAttivitaClinica(AttivitaClinicaEnum.Sistema_TS);
+        updateRequestDto.setIdentificativoSottomissione("sub-123");
+        JWTPayloadDTO jwtPayloadDTO = TestUtility.mockBasicToken().getPayload();
+
+        JAXBElement<RegistryPackageType> registryPackage =
+                SubmissionSetEntryBuilderUtility.buildRegistryPackageObjectSubmissionSet(
+                        updateRequestDto, jwtPayloadDTO, TestConstants.TEST_UUID, null);
+
+        ClassificationType contentTypeCode = registryPackage.getValue().getClassification().stream()
+                .filter(c -> "urn:uuid:aa543740-bdda-424e-8c96-df4873be8500".equals(c.getClassificationScheme()))
+                .findFirst()
+                .orElse(null);
+        assertNotNull(contentTypeCode);
+        assertEquals("SistemaTS", contentTypeCode.getNodeRepresentation());
+    }
 
     @Test
     @DisplayName("PUBLISH - Header builder success test")
