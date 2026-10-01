@@ -330,11 +330,11 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 			if (!iniCFG.isMockEnable()) {
 				out = iniInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
 			} else {
-				IssuerETY issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
-				boolean mocked = Boolean.TRUE.equals(issuer.getMock());
+				boolean mocked = issuserSRV.isMocked(requestBody.getToken().getIss());
 				if (!mocked) {
 					out = iniInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId());
 				} else {
+					IssuerETY issuer = issuserSRV.findByIssuer(requestBody.getToken().getIss());
 					out = iniMockInvocationSRV.getDocumentMetadata(idDoc, token, requestBody.getWorkflowInstanceId(),
 							resolveEdsPublished(requestBody.getToken().getIss(), issuer));
 				}

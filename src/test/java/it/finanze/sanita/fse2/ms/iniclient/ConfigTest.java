@@ -44,7 +44,6 @@ class ConfigTest extends AbstractConfig {
 
     @Test
     void testCacheProps() {
-        testCacheProps(DEFAULT_PROPS.get(0), () -> assertFalse(config.isRemoveMetadataEnable()));
         testCacheProps(DEFAULT_PROPS.get(1), () -> assertFalse(config.isSubjectNotAllowed()));
         testCacheProps(DEFAULT_PROPS.get(2), () -> assertFalse(config.isCfOnIssuerNotAllowed()));
         testCacheProps(DEFAULT_PROPS.get(3), () -> assertFalse(config.isControlLogPersistenceEnable()));
@@ -53,7 +52,6 @@ class ConfigTest extends AbstractConfig {
 
     @Test
     void testRefreshProps() {
-        testRefreshProps(DEFAULT_PROPS.get(0), "true", () -> assertTrue(config.isRemoveMetadataEnable()));
         testRefreshProps(DEFAULT_PROPS.get(1), "true", () -> assertTrue(config.isSubjectNotAllowed()));
         testRefreshProps(DEFAULT_PROPS.get(2), "true", () -> assertTrue(config.isCfOnIssuerNotAllowed()));
         testRefreshProps(DEFAULT_PROPS.get(3), "true", () -> assertTrue(config.isControlLogPersistenceEnable()));
