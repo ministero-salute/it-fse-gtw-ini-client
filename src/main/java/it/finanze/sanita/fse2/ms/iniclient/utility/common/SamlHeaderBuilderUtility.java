@@ -67,6 +67,7 @@ import org.opensaml.xml.signature.impl.X509DataBuilder;
 import org.opensaml.xml.util.XMLHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 import com.sun.xml.ws.api.message.Header;
@@ -200,7 +201,10 @@ public class SamlHeaderBuilderUtility {
 			output.setIssueInstant(new DateTime());
 			output.setVersion(SAMLVersion.VERSION_20);
 			output.setIssuer(buildIssuer(tokenDTO.getPayload().getSubject_organization_id()));
-			output.setSubject(buildSubject(tokenDTO.getPayload().getSub()));
+            if (StringUtils.hasLength(tokenDTO.getPayload().getSub())) {
+                output.setSubject(buildSubject(tokenDTO.getPayload().getSub().split("\\^")[0]));
+            }
+
 			output.setConditions(buildConditions());
 			output.getAuthnStatements().add(buildAuthnStatement());
 			output.getAttributeStatements().add(buildAttributeStatement(tokenDTO, actionType));
@@ -398,7 +402,9 @@ public class SamlHeaderBuilderUtility {
 			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
 			} else {
 			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-			    out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
+                if (!StringUtility.isNullOrEmpty(subjectId)) {
+                    out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
+                }
 			}
 
 			out.add(buildAttribute("urn:oasis:names:tc:xspa:1.0:resource:hl7:type", payloadTokenJwt.getResource_hl7_type()));
