@@ -89,6 +89,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SamlHeaderBuilderUtility {
 	
 	private static final String GTW_ROLE = "GTW";
+    private static final String OSC_SUB_PLACEHOLDER = "-";
 
 	@Autowired
 	private IniCFG iniCFG;
@@ -201,7 +202,9 @@ public class SamlHeaderBuilderUtility {
 			output.setIssueInstant(new DateTime());
 			output.setVersion(SAMLVersion.VERSION_20);
 			output.setIssuer(buildIssuer(tokenDTO.getPayload().getSubject_organization_id()));
-            if (StringUtils.hasLength(tokenDTO.getPayload().getSub())) {
+
+            if (StringUtils.hasLength(tokenDTO.getPayload().getSub())
+                    && !OSC_SUB_PLACEHOLDER.equals(tokenDTO.getPayload().getSub())) {
                 output.setSubject(buildSubject(tokenDTO.getPayload().getSub().split("\\^")[0]));
             }
 
@@ -402,7 +405,9 @@ public class SamlHeaderBuilderUtility {
 			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", GTW_ROLE));
 			} else {
 			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
-                if (!StringUtility.isNullOrEmpty(subjectId)) {
+
+                if (StringUtils.hasLength(subjectId)
+                        && !OSC_SUB_PLACEHOLDER.equals(tokenDTO.getPayload().getSub())) {
                     out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
                 }
 			}
