@@ -109,7 +109,6 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 
     @Override
     public GetDocumentMetadataResponseDTO getDocumentMetadata(String oid, JWTTokenDTO tokenDTO, String workflowInstanceId, String edsPublished) {
-        mockLog(workflowInstanceId, ProcessorOperationEnum.PUBLISH, new Date());
         GetDocumentMetadataResponseDTO out = new GetDocumentMetadataResponseDTO();
         out.setUuid("MOCK_UUID");
         out.setDocumentType("DOCUMENT_TYPE_MOCKATO");
