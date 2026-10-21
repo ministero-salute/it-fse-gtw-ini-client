@@ -103,7 +103,6 @@ public class DocumentEntryBuilderUtility {
 		extrinsicObject.setStatus("urn:oasis:names:tc:ebxml-regrep:StatusType:Approved");
 
 		List<ClassificationType> classificationTypes = new ArrayList<>();
-			//Class code
 			String classCode = documentEntryDTO.getClassCode();
 			SlotType1 classCodeSlot = buildSlotCodingSchemeObject("2.16.840.1.113883.2.9.3.3.6.1.5");
 			InternationalStringType nameClassCode = buildInternationalStringType(classCode);

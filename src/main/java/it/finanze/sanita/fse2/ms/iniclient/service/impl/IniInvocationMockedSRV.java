@@ -155,6 +155,7 @@ public class IniInvocationMockedSRV implements IIniInvocationMockedSRV {
 				out.setDocumentType("MOCKED_DOCUMENT_TYPE");
 				out.setAuthorInstitution("MOCKED_AUTHOR_INSTITUTION");
 				out.setAdministrativeRequest(Arrays.asList("MOCKED_ADMIN_REQ"));
+				out.setClassCode("LDO");
 
 			} catch (Exception ex) {
 				log.error("Error while creating mocked merged metadata for OID: {}", oidToUpdate, ex);

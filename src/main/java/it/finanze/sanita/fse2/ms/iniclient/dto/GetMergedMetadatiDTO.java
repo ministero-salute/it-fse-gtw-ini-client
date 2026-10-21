@@ -35,4 +35,6 @@ public class GetMergedMetadatiDTO {
 
 	/** Valore del typeCode del documento (codice^^OID), da usare come attributo SAML resource:hl7:type. */
 	private String resourceHl7Type;
+
+	private String classCode;
 }

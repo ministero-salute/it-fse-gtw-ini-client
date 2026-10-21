@@ -221,6 +221,37 @@ public class CommonUtility {
     }
 
     /**
+     * Extract the ClassCode value (nodeRepresentation of the ClassCode classification) from the query response.
+     * <p>XDSDocumentEntry.classCode e' un codice mnemonico breve conforme al value set dell'Affinity Domain
+     * (es. "LDO", "REF", "PRE" - vedi {@code TipoDocAltoLivEnum}), NON un codice LOINC: non va confuso con
+     * il TypeCode (restituito da {@link #extractResourceHl7TypeFromQueryResponse(AdhocQueryResponse)}).
+     * Da usare per rivalorizzare la Classification ClassCode nelle richieste di update verso INI (es.
+     * oscuramento a catena).
+     * @param queryResponse
+     * @return il nodeRepresentation della classification ClassCode, o null se non presente
+     */
+    public static String extractClassCodeFromQueryResponse(AdhocQueryResponse queryResponse) {
+        if (checkMetadata(queryResponse)) {
+            List<JAXBElement<? extends IdentifiableType>> identifiableList = new ArrayList<>(queryResponse.getRegistryObjectList().getIdentifiable());
+            Optional<JAXBElement<? extends IdentifiableType>> optExtrinsicObject = identifiableList.stream()
+                    .filter(e -> e.getValue() instanceof ExtrinsicObjectType)
+                    .findFirst();
+            if (optExtrinsicObject.isPresent()) {
+                ExtrinsicObjectType extrinsicObject = (ExtrinsicObjectType) optExtrinsicObject.get().getValue();
+                List<ClassificationType> classificationObjectList = extrinsicObject.getClassification();
+                Optional<ClassificationType> optClassCodeClassificationObject = classificationObjectList
+                        .stream()
+                        .filter(classificationType -> classificationType.getClassificationScheme().equals(ClassificationEnum.CLASS_CODE.getClassificationScheme()))
+                        .findFirst();
+                if (optClassCodeClassificationObject.isPresent()) {
+                    return optClassCodeClassificationObject.get().getNodeRepresentation();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Extract document type from query response
      * @param queryResponse
      * @return

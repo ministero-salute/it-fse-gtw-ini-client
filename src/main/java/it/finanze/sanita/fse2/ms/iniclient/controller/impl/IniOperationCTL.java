@@ -373,7 +373,8 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 		return new GetMergedMetadatiResponseDTO(getLogTraceInfo(), mergedMetadati.getErrorMessage(),
 				mergedMetadati.getMarshallResponse(),
 				mergedMetadati.getDocumentType(), mergedMetadati.getAuthorInstitution(),
-				mergedMetadati.getAdministrativeRequest(),mockUar, mergedMetadati.getEdsPublished());
+				mergedMetadati.getAdministrativeRequest(),mockUar, mergedMetadati.getEdsPublished(),
+				mergedMetadati.getClassCode());
 	}
 
 	@Override

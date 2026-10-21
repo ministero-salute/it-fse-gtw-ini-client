@@ -31,5 +31,5 @@ public class UpdateOscuramentoRequestDTO {
     private String resourceHl7Type;
 
     private String classCode;
-    
+
 }
