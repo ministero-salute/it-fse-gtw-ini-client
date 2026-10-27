@@ -76,7 +76,6 @@ class RequestBuilderTest {
 
     @BeforeAll
     void dataInit() {
-    	samlHeaderBuilderUtility.initialize();
         Document entity = JsonUtility.jsonToObject(TestConstants.TEST_INI_EDS_ENTRY, Document.class);
         mongoTemplate.save(entity, Constants.Profile.TEST_PREFIX + Constants.Collections.INI_EDS_INVOCATION);
     }

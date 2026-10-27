@@ -21,25 +21,13 @@ import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_REPLACE_SO
 import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_RIFERIMENTO_SOAP;
 import static it.finanze.sanita.fse2.ms.iniclient.enums.EventType.INI_UPDATE_SOAP;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.SocketAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
@@ -72,7 +60,6 @@ import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
 import it.finanze.sanita.fse2.ms.iniclient.enums.SearchTypeEnum;
 import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.BusinessException;
 import it.finanze.sanita.fse2.ms.iniclient.service.IConfigSRV;
-import it.finanze.sanita.fse2.ms.iniclient.service.ISecuritySRV;
 import it.finanze.sanita.fse2.ms.iniclient.service.impl.AuditIniSrv;
 import it.finanze.sanita.fse2.ms.iniclient.utility.RequestUtility;
 import it.finanze.sanita.fse2.ms.iniclient.utility.StringUtility;
@@ -102,9 +89,6 @@ public class IniClient implements IIniClient {
 	private SamlHeaderBuilderUtility samlHeaderBuilderUtility;
 
 	@Autowired
-	private ISecuritySRV securitySRV;
-	
-	@Autowired
 	private AuditIniSrv auditIniSrv;
 
 	@Autowired
@@ -113,30 +97,9 @@ public class IniClient implements IIniClient {
 	@Autowired
 	private GovwayCfg govwayCfg;
 
+	@Autowired(required = false)
 	private SSLContext sslContext;
 
-	private List<URI> uris;
-	
-	@PostConstruct
-	void initialize() {
-		try {
-			samlHeaderBuilderUtility.initialize();
-			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-				sslContext = securitySRV.createSslCustomContext();
-				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-			}
-			
-			if(!StringUtility.isNullOrEmpty(govwayCfg.getGovwayUrl())) {
-				uris = getProxyURIs();
-				setupProxy();	
-			} 
-
-		} catch(Exception ex) {
-			log.error("Error while initialiting INI context : " , ex);
-			throw new BusinessException(ex);
-		}
-	}
- 
 	private <T> T configureRequestPort(T port, String endpoint) {
 		BindingProvider provider = (BindingProvider) port;
 		if (!StringUtility.isNullOrEmpty(endpoint)) {
@@ -149,47 +112,6 @@ public class IniClient implements IIniClient {
 		handlerChain.add(new SOAPLoggingHandler(auditIniSrv, configSRV));
 		provider.getBinding().setHandlerChain(handlerChain);
 		return port;
-	}
-
-	private void setupProxy() {
-	    ProxySelector.setDefault(new ProxySelector() {
-	        @Override
-	        public List<Proxy> select(URI uri) {
-	            if (uris.stream().anyMatch(u -> u.getHost().equals(uri.getHost()))) {
-	                return Collections.singletonList(new Proxy(
-	                    Proxy.Type.HTTP,
-	                    new InetSocketAddress(govwayCfg.getGovwayUrl(), govwayCfg.getGovwayPort())
-	                ));
-	            }
-
-	            return Collections.singletonList(Proxy.NO_PROXY);
-	        }
-
-	        @Override
-	        public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-	            ioe.printStackTrace();
-	        }
-	    });
-	}
-	
-	private List<URI> getProxyURIs() {
-	    List<String> proxyDomains = Arrays.asList(
-	        iniCFG.getUrlWsdlDocumentRegistryService(),
-	        iniCFG.getUrlWsdlUpdateDocumentRegistryService(),
-	        iniCFG.getUrlWsdlDeletetService(),
-	        iniCFG.getUrlWsdlRecuperoRiferimentoService()
-	    );
-
-	    return proxyDomains.stream().map(this::toURI).filter(Objects::nonNull).collect(Collectors.toList());
-	}
-	
-	private URI toURI(String url) {
-	    try {
-	        return new URI(url);
-	    } catch (URISyntaxException e) {
-	        log.error("Invalid URI: {}", url, e);
-	        return null;
-	    }
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import org.apache.ws.security.util.Base64;
 import org.bson.Document;
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
-import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.SAMLVersion;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.Attribute;
@@ -50,7 +49,6 @@ import org.opensaml.ws.wsaddressing.impl.MessageIDMarshaller;
 import org.opensaml.ws.wssecurity.Security;
 import org.opensaml.ws.wssecurity.impl.SecurityBuilder;
 import org.opensaml.ws.wssecurity.impl.SecurityMarshaller;
-import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.schema.XSString;
 import org.opensaml.xml.schema.impl.XSStringBuilder;
 import org.opensaml.xml.security.x509.BasicX509Credential;
@@ -66,6 +64,7 @@ import org.opensaml.xml.signature.impl.X509CertificateBuilder;
 import org.opensaml.xml.signature.impl.X509DataBuilder;
 import org.opensaml.xml.util.XMLHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
@@ -74,6 +73,7 @@ import com.sun.xml.ws.api.message.Headers;
 
 import it.finanze.sanita.fse2.ms.iniclient.config.Constants;
 import it.finanze.sanita.fse2.ms.iniclient.config.IniCFG;
+import it.finanze.sanita.fse2.ms.iniclient.config.IniNetworkCFG;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTTokenDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ActionEnumType;
@@ -92,13 +92,13 @@ public class SamlHeaderBuilderUtility {
 	@Autowired
 	private IniCFG iniCFG;
 
-	public void initialize() {
-		try {
-			DefaultBootstrap.bootstrap();
-		} catch (ConfigurationException e) {
-			log.error("Error in block while run default bootstrap : ", e);
-		}
-	}
+	/**
+	 * Ensures OpenSAML has been bootstrapped before this utility is used.
+	 */
+	@Autowired
+	@Qualifier(IniNetworkCFG.OPENSAML_BOOTSTRAP)
+	@SuppressWarnings("unused")
+	private Boolean openSamlBootstrap;
 
 
 	/**
