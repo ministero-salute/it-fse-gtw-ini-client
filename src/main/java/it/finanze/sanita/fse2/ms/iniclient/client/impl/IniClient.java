@@ -115,12 +115,6 @@ public class IniClient implements IIniClient {
 
 	private SSLContext sslContext;
 
-	// Startup-configured templates only; SOAP invocations use local ports.
-	private XDSDeletetWS deletePort;
-	private DocumentRegistryPortType documentRegistryPort;
-	private DocumentRegistryPortType recuperoRiferimentoPort;
-	private UpdateDocumentRegistryPortType updateDocumentRegistryPort;
-
 	private List<URI> uris;
 	
 	@PostConstruct
@@ -137,69 +131,23 @@ public class IniClient implements IIniClient {
 				setupProxy();	
 			} 
 
-			DocumentRegistryService documentRegistryService = new DocumentRegistryService();
-			documentRegistryPort = documentRegistryService.getDocumentRegistryPortSoap12();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDocumentRegistryService())) {
-				BindingProvider bindingProvider = (BindingProvider) documentRegistryPort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDocumentRegistryService());
-			} 
-			
-			UpdateDocumentRegistryService updateDocumentRegistryService = new UpdateDocumentRegistryService();
-			updateDocumentRegistryPort = updateDocumentRegistryService.getDocumentRegistryUpdateDocumentSetPortSoap12();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlUpdateDocumentRegistryService())) {
-				BindingProvider bindingProvider = (BindingProvider) updateDocumentRegistryPort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlUpdateDocumentRegistryService());
-			} 
-
-			XDSDeletetWSService deletetWSService = new XDSDeletetWSService();
-			deletePort = deletetWSService.getXDSDeletetWSSPort();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlDeletetService())) {
-				BindingProvider bindingProvider = (BindingProvider) deletePort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlDeletetService());
-			}
-			
-			DocumentRegistryService recuperoRiferimentoService = new DocumentRegistryService();
-			recuperoRiferimentoPort = recuperoRiferimentoService.getDocumentRegistryPortSoap12();
-			if (!StringUtility.isNullOrEmpty(iniCFG.getUrlWsdlRecuperoRiferimentoService())) {
-				BindingProvider bindingProvider = (BindingProvider) recuperoRiferimentoPort;
-				bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, iniCFG.getUrlWsdlRecuperoRiferimentoService());
-			} 
-
-			if(Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
-				((BindingProvider) documentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				((BindingProvider) deletePort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				((BindingProvider) recuperoRiferimentoPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-				((BindingProvider) updateDocumentRegistryPort).getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
-			}
-			
-			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
-			List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
-			handlerChainDocumentRegistry.add(loggingHandler);
-			((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
-
-			List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
-			handlerChainDelete.add(loggingHandler);
-			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
-			
-			List<Handler> handlerChainUpdate = ((BindingProvider) updateDocumentRegistryPort).getBinding().getHandlerChain();
-			handlerChainUpdate.add(loggingHandler);
-			((BindingProvider) updateDocumentRegistryPort).getBinding().setHandlerChain(handlerChainUpdate);
-
-			List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
-			handlerChainRecuperoRiferimento.add(loggingHandler);
-			((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
 			throw new BusinessException(ex);
 		}
 	}
  
-	private <T> T configureRequestPort(T port, Object template) {
-		BindingProvider source = (BindingProvider) template;
-		BindingProvider target = (BindingProvider) port;
-		// Templates are never invoked or given request-specific headers/context.
-		target.getRequestContext().putAll(source.getRequestContext());
-		target.getBinding().setHandlerChain(source.getBinding().getHandlerChain());
+	private <T> T configureRequestPort(T port, String endpoint) {
+		BindingProvider provider = (BindingProvider) port;
+		if (!StringUtility.isNullOrEmpty(endpoint)) {
+			provider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
+		}
+		if (Boolean.TRUE.equals(iniCFG.isEnableSSL())) {
+			provider.getRequestContext().put(JAXWSProperties.SSL_SOCKET_FACTORY, sslContext.getSocketFactory());
+		}
+		List<Handler> handlerChain = provider.getBinding().getHandlerChain();
+		handlerChain.add(new SOAPLoggingHandler(auditIniSrv, configSRV));
+		provider.getBinding().setHandlerChain(handlerChain);
 		return port;
 	}
 
@@ -244,13 +192,13 @@ public class IniClient implements IIniClient {
 	    }
 	}
 
-	
 	@Override
 	public RegistryResponseType sendPublicationData(final DocumentEntryDTO documentEntryDTO, final SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
 			String workflowInstanceId,Date startingDate) {
 		log.debug("Call to INI publication");
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.CREATE);
-		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), this.documentRegistryPort);
+		DocumentRegistryPortType documentRegistryPort = configureRequestPort(
+                new DocumentRegistryService().getDocumentRegistryPortSoap12(), iniCFG.getUrlWsdlDocumentRegistryService());
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 		
@@ -290,7 +238,7 @@ public class IniClient implements IIniClient {
 		JWTTokenDTO deleteToken = new JWTTokenDTO(jwtPayloadDTO);
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(deleteToken, ActionEnumType.DELETE);
 
-		XDSDeletetWS deletePort = configureRequestPort(new XDSDeletetWSService().getXDSDeletetWSSPort(), this.deletePort);
+		XDSDeletetWS deletePort = configureRequestPort(new XDSDeletetWSService().getXDSDeletetWSSPort(), iniCFG.getUrlWsdlDeletetService());
 		WSBindingProvider bp = (WSBindingProvider)deletePort;
 		bp.setOutboundHeaders(headers);
 		bp.getRequestContext().put(WII, deleteRequestDto.getWorkflow_instance_id());
@@ -312,7 +260,7 @@ public class IniClient implements IIniClient {
 	public RegistryResponseType sendUpdateV2Data(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate) {
 		log.debug("Call to INI update ");
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE_V2);
-		UpdateDocumentRegistryPortType updateDocumentRegistryPort = configureRequestPort(new UpdateDocumentRegistryService().getDocumentRegistryUpdateDocumentSetPortSoap12(), this.updateDocumentRegistryPort);
+		UpdateDocumentRegistryPortType updateDocumentRegistryPort = configureRequestPort(new UpdateDocumentRegistryService().getDocumentRegistryUpdateDocumentSetPortSoap12(), iniCFG.getUrlWsdlUpdateDocumentRegistryService());
 		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
@@ -332,7 +280,7 @@ public class IniClient implements IIniClient {
 	public RegistryResponseType sendUpdateData(SubmitObjectsRequest submitObjectsRequest, JWTTokenDTO jwtTokenDTO,String workflowInstanceId,Date startingDate) {
 		log.debug("Call to INI update ");
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE);
-		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), this.documentRegistryPort);
+		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), iniCFG.getUrlWsdlDocumentRegistryService());
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
@@ -354,7 +302,7 @@ public class IniClient implements IIniClient {
 
 		// Reconfigure token and build request
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.REPLACE);
-		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), this.documentRegistryPort);
+		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), iniCFG.getUrlWsdlDocumentRegistryService());
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 		bp.getRequestContext().put(WII, workflowInstanceId);
@@ -376,7 +324,7 @@ public class IniClient implements IIniClient {
 		log.debug("Call to INI get reference");
 
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(tokenDTO, ActionEnumType.READ_REFERENCE);
-		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), this.documentRegistryPort);
+		DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), iniCFG.getUrlWsdlDocumentRegistryService());
 		WSBindingProvider bp = (WSBindingProvider)documentRegistryPort;
 		bp.setOutboundHeaders(headers);
 
@@ -411,7 +359,7 @@ public class IniClient implements IIniClient {
 		WSBindingProvider bp = null;
 		Object eventType = SearchTypeEnum.OBJECT_REF.getSearchKey().equals(tipoRicerca) ? INI_RIFERIMENTO_SOAP : INI_GET_METADATI_SOAP; 
 		if(ActionEnumType.READ_METADATA.equals(actionEnumType)) {
-			DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), this.documentRegistryPort);
+			DocumentRegistryPortType documentRegistryPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), iniCFG.getUrlWsdlDocumentRegistryService());
 			bp = (WSBindingProvider)documentRegistryPort;
 			bp.getRequestContext().put(WII, workflowInstanceId);
 			bp.getRequestContext().put(EVENT_TYPE, eventType);
@@ -425,7 +373,7 @@ public class IniClient implements IIniClient {
 			
 			response = documentRegistryPort.documentRegistryRegistryStoredQuery(adhocQueryRequest);	
 		} else {
-			DocumentRegistryPortType recuperoRiferimentoPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), this.recuperoRiferimentoPort);
+			DocumentRegistryPortType recuperoRiferimentoPort = configureRequestPort(new DocumentRegistryService().getDocumentRegistryPortSoap12(), iniCFG.getUrlWsdlRecuperoRiferimentoService());
 			bp = (WSBindingProvider)recuperoRiferimentoPort;
 			bp.getRequestContext().put(WII, workflowInstanceId);
 			bp.getRequestContext().put(EVENT_TYPE, eventType);
