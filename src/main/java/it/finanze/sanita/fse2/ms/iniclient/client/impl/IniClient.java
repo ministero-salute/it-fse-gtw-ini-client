@@ -488,7 +488,10 @@ public class IniClient implements IIniClient {
 		
 		log.debug("Call to INI update oscuramento");
 		List<Header> headers = samlHeaderBuilderUtility.buildHeader(jwtTokenDTO, ActionEnumType.UPDATE_V2);
-		WSBindingProvider bp = (WSBindingProvider)updateDocumentRegistryPort;
+		UpdateDocumentRegistryPortType requestPort = configureRequestPort(
+				new UpdateDocumentRegistryService().getDocumentRegistryUpdateDocumentSetPortSoap12(),
+				this.updateDocumentRegistryPort);
+		WSBindingProvider bp = (WSBindingProvider)requestPort;
 		bp.setOutboundHeaders(headers);
 
 		bp.getRequestContext().put(WII, workflowInstanceId);
@@ -499,6 +502,6 @@ public class IniClient implements IIniClient {
 			Map<String, List<String>> h = getBasicAuthCredentials();
 		    bp.getRequestContext().put(MessageContext.HTTP_REQUEST_HEADERS, h);	
 		}
-		return updateDocumentRegistryPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
+		return requestPort.documentRegistryUpdateDocumentSet(submitObjectsRequest);
 	}
 }
