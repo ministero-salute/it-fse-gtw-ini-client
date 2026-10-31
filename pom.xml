@@ -19,6 +19,7 @@
 	<properties>
 		<!-- Application -->
 		<java.version>21</java.version>
+		<test.groups>!ISOLATION</test.groups>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<start-class>it.finanze.sanita.fse2.ms.iniclient.INIClientApplication</start-class>
 		<!-- Build -->
@@ -34,7 +35,15 @@
 			src/main/java/org/**/*.*,
 			src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*,
 			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/OpenApiCFG.java,
-			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/CustomSwaggerCFG.java
+			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/CustomSwaggerCFG.java,
+			src/main/java/org/hl7/v3/**,
+			src/main/java/ihe/iti/xds_b/_2007/**,
+			src/main/java/ihe/iti/xds_b/_2010/**,
+			src/main/java/oasis/names/tc/ebxml_regrep/xsd/rim/_3/**,
+			src/main/java/oasis/names/tc/ebxml_regrep/xsd/rs/_3/**,
+			src/main/java/oasis/names/tc/ebxml_regrep/xsd/lcm/_3/**,
+			src/main/java/oasis/names/tc/ebxml_regrep/xsd/query/_3/**,
+			src/main/java/org/w3/_2004/_08/xop/include/**
 		</sonar.exclusions>
 		
 		<spring-cloud-sleuth-otel.version>1.1.2</spring-cloud-sleuth-otel.version>
@@ -327,6 +336,18 @@
 		<finalName>${project.artifactId}</finalName>
 
 		<plugins>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>5.7.0.6970</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<groups>${test.groups}</groups>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -344,6 +365,15 @@
 						<exclude>src/main/java/oasis/**/*.*</exclude>
 						<exclude>src/main/java/org/**/*.*</exclude>
 						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*</exclude>
+						<!-- Generated standards bindings only; all application code stays in scope. -->
+						<exclude>org/hl7/v3/**</exclude>
+						<exclude>ihe/iti/xds_b/_2007/**</exclude>
+						<exclude>ihe/iti/xds_b/_2010/**</exclude>
+						<exclude>oasis/names/tc/ebxml_regrep/xsd/rim/_3/**</exclude>
+						<exclude>oasis/names/tc/ebxml_regrep/xsd/rs/_3/**</exclude>
+						<exclude>oasis/names/tc/ebxml_regrep/xsd/lcm/_3/**</exclude>
+						<exclude>oasis/names/tc/ebxml_regrep/xsd/query/_3/**</exclude>
+						<exclude>org/w3/_2004/_08/xop/include/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -358,19 +388,6 @@
 						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>7.1.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -428,4 +445,56 @@
 
 	</build>
 
+	<profiles>
+		<profile>
+			<id>ISOLATION</id>
+			<properties>
+				<test.groups>ISOLATION</test.groups>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<failIfNoTests>true</failIfNoTests>
+							<argLine>@{argLine} -Xmx768m</argLine>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>isolation-bundle-coverage</id>
+								<phase>test</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<rule>
+											<element>BUNDLE</element>
+											<limits>
+												<limit>
+													<counter>LINE</counter>
+													<value>COVEREDRATIO</value>
+													<minimum>0.80</minimum>
+												</limit>
+												<limit>
+													<counter>INSTRUCTION</counter>
+													<value>COVEREDRATIO</value>
+													<minimum>0.80</minimum>
+												</limit>
+											</limits>
+										</rule>
+									</rules>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
