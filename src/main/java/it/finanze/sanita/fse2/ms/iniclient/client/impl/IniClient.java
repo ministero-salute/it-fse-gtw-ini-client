@@ -232,7 +232,7 @@ public class IniClient implements IIniClient {
 
 	        @Override
 	        public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-	            ioe.printStackTrace();
+	            log.error("Proxy connection failed", ioe);
 	        }
 	    });
 	}
