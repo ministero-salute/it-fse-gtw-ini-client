@@ -56,7 +56,7 @@ class IssuerRepoTest {
     @AfterEach
     void remove(){
         Query query = new Query();
-        query.addCriteria(Criteria.where(IssuerETY.ISSUER).is(NAME));
+        query.addCriteria(Criteria.where(IssuerETY.ISSUER_FIELD).is(NAME));
         mongo.remove(query, IssuerETY.class);
     }
 

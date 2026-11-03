@@ -28,57 +28,57 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IssuerETY {
 
-    public static final String ISSUER = "issuer";
-    public static final String MOCK = "mock";
-    public static final String MAIL_RESPONSABILE = "mailResponsabile";
-    public static final String MIDDLEWARE = "middleware";
-    public static final String ETICHETTA_REGIONE = "etichettaRegione";
-    public static final String NOME_DOCUMENT_REPOSITORY = "nomeDocumentRepository";
-    public static final String PAZIENTE_CF = "pazienteCf";
-    public static final String EMAIL_SENT = "isEmailSent";
-    public static final String READY_TO_SCAN = "readyToScan";
-    public static final String MANDATORY_TESTS = "mandatoryTests";
-    public static final String ESONERATO = "esonerato";
-    public static final String MOCK_UAR = "mockUar";
+    public static final String ISSUER_FIELD = "issuer";
+    public static final String MOCK_FIELD = "mock";
+    public static final String MAIL_RESPONSABILE_FIELD = "mailResponsabile";
+    public static final String MIDDLEWARE_FIELD = "middleware";
+    public static final String ETICHETTA_REGIONE_FIELD = "etichettaRegione";
+    public static final String NOME_DOCUMENT_REPOSITORY_FIELD = "nomeDocumentRepository";
+    public static final String PAZIENTE_CF_FIELD = "pazienteCf";
+    public static final String EMAIL_SENT_FIELD = "isEmailSent";
+    public static final String READY_TO_SCAN_FIELD = "readyToScan";
+    public static final String MANDATORY_TESTS_FIELD = "mandatoryTests";
+    public static final String ESONERATO_FIELD = "esonerato";
+    public static final String MOCK_UAR_FIELD = "mockUar";
 
     @Id
     private String id;
 
-    @Field(name = ISSUER)
+    @Field(name = ISSUER_FIELD)
     private String issuer;
 
-    @Field(name = MOCK)
+    @Field(name = MOCK_FIELD)
     private Boolean mock;
 
-    @Field(name = MAIL_RESPONSABILE)
+    @Field(name = MAIL_RESPONSABILE_FIELD)
     private String mailResponsabile;
 
-    @Field(name = MIDDLEWARE)
+    @Field(name = MIDDLEWARE_FIELD)
     private Boolean middleware;
 
-    @Field(name = ETICHETTA_REGIONE)
+    @Field(name = ETICHETTA_REGIONE_FIELD)
     private String etichettaRegione;
 
-    @Field(name = NOME_DOCUMENT_REPOSITORY)
+    @Field(name = NOME_DOCUMENT_REPOSITORY_FIELD)
     @Nullable
     private String nomeDocumentRepository;
 
-    @Field(name = PAZIENTE_CF)
+    @Field(name = PAZIENTE_CF_FIELD)
     @Nullable
     private String pazienteCf;
 
-    @Field(name = READY_TO_SCAN)
+    @Field(name = READY_TO_SCAN_FIELD)
     private boolean readyToScan;
 
-    @Field(name = EMAIL_SENT)
+    @Field(name = EMAIL_SENT_FIELD)
     private boolean emailSent;
 
-    @Field(name = MANDATORY_TESTS)
+    @Field(name = MANDATORY_TESTS_FIELD)
     private List<TestTypeEnum> mandatoryTests;
 
-    @Field(name = ESONERATO)
+    @Field(name = ESONERATO_FIELD)
     private Boolean esonerato;
     
-    @Field(name = MOCK_UAR)
+    @Field(name = MOCK_UAR_FIELD)
     private Boolean mockUar;
 } 

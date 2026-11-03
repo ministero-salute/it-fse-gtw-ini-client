@@ -38,7 +38,7 @@ public class IssuerRepo implements IIssuerRepo {
         IssuerETY out = null;
         try{
             Query query = new Query();
-            query.addCriteria(Criteria.where(ISSUER).is(name));
+            query.addCriteria(Criteria.where(ISSUER_FIELD).is(name));
             out = mongo.findOne(query, IssuerETY.class);
         }catch (Exception ex){
             log.error("Error while perform findByName on issuer collection", ex);
@@ -65,7 +65,7 @@ public class IssuerRepo implements IIssuerRepo {
         Integer dCount = 0;
         try{
             Query query = new Query();
-            query.addCriteria(Criteria.where(ISSUER).is(name));
+            query.addCriteria(Criteria.where(ISSUER_FIELD).is(name));
             DeleteResult res = mongo.remove(query, IssuerETY.class);
             dCount = (int) res.getDeletedCount();
         }catch (Exception ex){
@@ -80,8 +80,8 @@ public class IssuerRepo implements IIssuerRepo {
         IssuerETY res = null;
         try {
             Query query = new Query();
-            query.addCriteria(Criteria.where(ETICHETTA_REGIONE).is(etichettaRegione));
-            query.addCriteria(Criteria.where(MIDDLEWARE).is(true));
+            query.addCriteria(Criteria.where(ETICHETTA_REGIONE_FIELD).is(etichettaRegione));
+            query.addCriteria(Criteria.where(MIDDLEWARE_FIELD).is(true));
             res = mongo.findOne(query, IssuerETY.class);
         } catch (Exception ex){
             log.error("Error while performing isMiddlewareByEtichettaRegione on issuer collection", ex);
@@ -99,21 +99,21 @@ public class IssuerRepo implements IIssuerRepo {
     @Override
     public List<IssuerETY> findIssuersCrashProgrm(){
         Query query = new Query();
-        query.addCriteria(Criteria.where(MOCK).is(false).and("etichettaRegione").ne(null).and("pazienteCf").ne(null));
+        query.addCriteria(Criteria.where(MOCK_FIELD).is(false).and("etichettaRegione").ne(null).and("pazienteCf").ne(null));
         return mongo.find(query, IssuerETY.class);
     }
 
     @Override
     public IssuerETY findByFiscalCode(String fiscalCode) {
         Query query = new Query();
-        query.addCriteria(Criteria.where(PAZIENTE_CF).is(fiscalCode));
+        query.addCriteria(Criteria.where(PAZIENTE_CF_FIELD).is(fiscalCode));
         return mongo.findOne(query, IssuerETY.class);
     }
 
     @Override
     public IssuerETY findByNomeDocumentRepository(String nomeDocumentRepository) {
         Query query = new Query();
-        query.addCriteria(Criteria.where(NOME_DOCUMENT_REPOSITORY).is(nomeDocumentRepository));
+        query.addCriteria(Criteria.where(NOME_DOCUMENT_REPOSITORY_FIELD).is(nomeDocumentRepository));
         return mongo.findOne(query, IssuerETY.class);
     }
 

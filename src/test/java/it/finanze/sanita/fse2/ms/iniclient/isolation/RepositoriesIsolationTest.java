@@ -31,21 +31,21 @@ class RepositoriesIsolationTest {
     @Autowired private IniInvocationRepo invocations;
     @MockitoBean private MongoTemplate mongo;
 
-    @ParameterizedTest @ValueSource(strings = {ISSUER, PAZIENTE_CF, NOME_DOCUMENT_REPOSITORY, ETICHETTA_REGIONE})
+    @ParameterizedTest @ValueSource(strings = {ISSUER_FIELD, PAZIENTE_CF_FIELD, NOME_DOCUMENT_REPOSITORY_FIELD, ETICHETTA_REGIONE_FIELD})
     void queriesTheCorrectIssuerField(String field) {
         IssuerETY entity = new IssuerETY();
         when(mongo.findOne(any(Query.class), eq(IssuerETY.class))).thenReturn(entity);
         IssuerETY actual = switch (field) {
-            case ISSUER -> issuers.findByName("value");
-            case PAZIENTE_CF -> issuers.findByFiscalCode("value");
-            case NOME_DOCUMENT_REPOSITORY -> issuers.findByNomeDocumentRepository("value");
+            case ISSUER_FIELD -> issuers.findByName("value");
+            case PAZIENTE_CF_FIELD -> issuers.findByFiscalCode("value");
+            case NOME_DOCUMENT_REPOSITORY_FIELD -> issuers.findByNomeDocumentRepository("value");
             default -> issuers.findRegioneMiddleware("value");
         };
         assertSame(entity, actual);
         ArgumentCaptor<Query> query = ArgumentCaptor.forClass(Query.class);
         verify(mongo).findOne(query.capture(), eq(IssuerETY.class));
         Document expected = new Document(field, "value");
-        if (field.equals(ETICHETTA_REGIONE)) expected.append(MIDDLEWARE, true);
+        if (field.equals(ETICHETTA_REGIONE_FIELD)) expected.append(MIDDLEWARE_FIELD, true);
         assertEquals(expected, query.getValue().getQueryObject());
     }
 
@@ -64,7 +64,7 @@ class RepositoriesIsolationTest {
         assertEquals((int) count, issuers.removeByName("issuer"));
         ArgumentCaptor<Query> query = ArgumentCaptor.forClass(Query.class);
         verify(mongo).remove(query.capture(), eq(IssuerETY.class));
-        assertEquals(new Document(ISSUER, "issuer"), query.getValue().getQueryObject());
+        assertEquals(new Document(ISSUER_FIELD, "issuer"), query.getValue().getQueryObject());
     }
 
     @Test void crashProgramSelectsOnlyNonMockedIssuersWithRegionAndPatient() {
@@ -73,8 +73,8 @@ class RepositoriesIsolationTest {
         assertSame(entities, issuers.findIssuersCrashProgrm());
         ArgumentCaptor<Query> query = ArgumentCaptor.forClass(Query.class);
         verify(mongo).find(query.capture(), eq(IssuerETY.class));
-        assertEquals(new Document(MOCK, false).append(ETICHETTA_REGIONE, new Document("$ne", null))
-                .append(PAZIENTE_CF, new Document("$ne", null)), query.getValue().getQueryObject());
+        assertEquals(new Document(MOCK_FIELD, false).append(ETICHETTA_REGIONE_FIELD, new Document("$ne", null))
+                .append(PAZIENTE_CF_FIELD, new Document("$ne", null)), query.getValue().getQueryObject());
     }
 
     @ParameterizedTest @ValueSource(strings = {"name", "region", "insert", "delete"})
