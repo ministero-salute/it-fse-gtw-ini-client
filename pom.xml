@@ -30,20 +30,13 @@
 		<sonar.organization>ministero-salute</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.exclusions>
-			src/main/java/ihe/**/*.*,
-			src/main/java/oasis/**/*.*,
-			src/main/java/org/**/*.*,
-			src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*,
-			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/OpenApiCFG.java,
-			src/main/java/it/finanze/sanita/fse2/ms/iniclient/config/CustomSwaggerCFG.java,
-			src/main/java/org/hl7/v3/**,
-			src/main/java/ihe/iti/xds_b/_2007/**,
-			src/main/java/ihe/iti/xds_b/_2010/**,
-			src/main/java/oasis/names/tc/ebxml_regrep/xsd/rim/_3/**,
-			src/main/java/oasis/names/tc/ebxml_regrep/xsd/rs/_3/**,
-			src/main/java/oasis/names/tc/ebxml_regrep/xsd/lcm/_3/**,
-			src/main/java/oasis/names/tc/ebxml_regrep/xsd/query/_3/**,
-			src/main/java/org/w3/_2004/_08/xop/include/**
+			**/iniclient/logging/**,
+			**/iniclient/config/OpenApiCFG.java,
+			**/iniclient/config/CustomSwaggerCFG.java,
+			**/ihe/iti/xds_b/**,
+			**/oasis/names/tc/**,
+			**/org/hl7/v3/**,
+			**/org/w3/_2004/**
 		</sonar.exclusions>
 		
 		<spring-cloud-sleuth-otel.version>1.1.2</spring-cloud-sleuth-otel.version>
@@ -361,19 +354,10 @@
 				<version>0.8.12</version>
 				<configuration>
 					<excludes>
-						<exclude>src/main/java/ihe/**/*.*</exclude>
-						<exclude>src/main/java/oasis/**/*.*</exclude>
-						<exclude>src/main/java/org/**/*.*</exclude>
-						<exclude>src/main/java/it/finanze/sanita/fse2/ms/iniclient/logging/**/*.*</exclude>
-						<!-- Generated standards bindings only; all application code stays in scope. -->
-						<exclude>org/hl7/v3/**</exclude>
-						<exclude>ihe/iti/xds_b/_2007/**</exclude>
-						<exclude>ihe/iti/xds_b/_2010/**</exclude>
-						<exclude>oasis/names/tc/ebxml_regrep/xsd/rim/_3/**</exclude>
-						<exclude>oasis/names/tc/ebxml_regrep/xsd/rs/_3/**</exclude>
-						<exclude>oasis/names/tc/ebxml_regrep/xsd/lcm/_3/**</exclude>
-						<exclude>oasis/names/tc/ebxml_regrep/xsd/query/_3/**</exclude>
-						<exclude>org/w3/_2004/_08/xop/include/**</exclude>
+						<exclude>ihe/iti/xds_b/**/*</exclude>
+						<exclude>oasis/names/tc/ebxml_regrep/xsd/**/*</exclude>
+						<exclude>org/hl7/v3/**/*</exclude>
+						<exclude>org/w3/_2004/_08/xop/include/**/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
