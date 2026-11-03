@@ -346,6 +346,30 @@ class RequestBuilderTest {
     }
 
     @Test
+    @DisplayName("READ - SAML NameID contains a single space when JWT sub is null")
+    void nullSubProducesSpaceNameIdTest() throws Exception {
+        IniEdsInvocationETY entity = iniInvocationRepo.findByWorkflowInstanceId(TestConstants.TEST_WII);
+        DocumentTreeDTO documentTreeDTO = RequestUtility.extractDocumentsFromMetadata(entity.getMetadata());
+        JWTPayloadDTO payload = samlHeaderBuilderUtility.extractTokenEntry(documentTreeDTO.getTokenEntry()).getPayload().toBuilder().build();
+        payload.setSub(null);
+
+        java.util.List<com.sun.xml.ws.api.message.Header> headers = samlHeaderBuilderUtility.buildHeader(
+                new JWTTokenDTO(payload), ActionEnumType.READ_METADATA);
+
+        java.io.StringWriter out = new java.io.StringWriter();
+        javax.xml.stream.XMLStreamWriter writer = javax.xml.stream.XMLOutputFactory.newFactory().createXMLStreamWriter(out);
+        for (com.sun.xml.ws.api.message.Header header : headers) {
+            header.writeTo(writer);
+        }
+        writer.flush();
+        String xml = out.toString();
+
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("<(?:\\w+:)?NameID[^>]*>([^<]*)</(?:\\w+:)?NameID>").matcher(xml);
+        assertTrue(m.find(), "NameID not found in: " + xml);
+        assertEquals(" ", m.group(1));
+    }
+
+    @Test
     @DisplayName("READ REF - Header builder success test")
     void readReferenceBuilderSuccessTest() {
         assertDoesNotThrow(() -> ReadBodyBuilderUtility.buildAdHocQueryRequest("searchId", SearchTypeEnum.LEAF_CLASS.getSearchKey(),false,""));

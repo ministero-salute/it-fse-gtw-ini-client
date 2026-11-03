@@ -90,6 +90,7 @@ public class SamlHeaderBuilderUtility {
 	
 	private static final String GTW_ROLE = "GTW";
     private static final String OSC_SUB_PLACEHOLDER = "-";
+    private static final String NULL_SUB_NAMEID_DEFAULT = " ";
 
 	@Autowired
 	private IniCFG iniCFG;
@@ -203,9 +204,20 @@ public class SamlHeaderBuilderUtility {
 			output.setVersion(SAMLVersion.VERSION_20);
 			output.setIssuer(buildIssuer(tokenDTO.getPayload().getSubject_organization_id()));
 
-            if (StringUtils.hasLength(tokenDTO.getPayload().getSub())
-                    && !OSC_SUB_PLACEHOLDER.equals(tokenDTO.getPayload().getSub())) {
-                output.setSubject(buildSubject(tokenDTO.getPayload().getSub().split("\\^")[0]));
+            boolean nullSubDefault = false;
+            if (!OSC_SUB_PLACEHOLDER.equals(tokenDTO.getPayload().getSub())) {
+                String nameIdValue;
+                if (tokenDTO.getPayload().getSub() == null) {
+                    log.debug("JWT sub is null: applying a single space as default NameID value");
+                    nameIdValue = NULL_SUB_NAMEID_DEFAULT;
+                    nullSubDefault = true;
+                } else {
+                    String rawSub = StringUtils.hasLength(tokenDTO.getPayload().getSub())
+                            ? tokenDTO.getPayload().getSub().split("\\^")[0]
+                            : "";
+                    nameIdValue = buildQualifiedSubject(rawSub);
+                }
+                output.setSubject(buildSubject(nameIdValue));
             }
 
 			output.setConditions(buildConditions());
@@ -216,6 +228,11 @@ public class SamlHeaderBuilderUtility {
 			output.setSignature(sign);
 
 			Configuration.getMarshallerFactory().getMarshaller(output).marshall(output);
+			if (nullSubDefault) {
+				// OpenSAML normalizes a whitespace-only value to null (empty <NameID/>): the space is set on the DOM,
+				// after marshalling and before signing, so that it is also covered by the signature digest.
+				output.getSubject().getNameID().getDOM().setTextContent(NULL_SUB_NAMEID_DEFAULT);
+			}
 			Signer.signObject(sign);
 
 		} catch (Exception ex) {
@@ -278,25 +295,26 @@ public class SamlHeaderBuilderUtility {
 
 	/**
 	 * Build subject
-	 * @param sub
+	 * @param nameIdValue final value of the NameID
 	 * @return
 	 */
-	private Subject buildSubject(final String sub) {
+	private Subject buildSubject(final String nameIdValue) {
 		SubjectBuilder subjectBuilder = new SubjectBuilder();
 		Subject subject = subjectBuilder.buildObject();
-		subject.setNameID(buildNameID(sub));
+		subject.setNameID(buildNameID(nameIdValue));
 		return subject;
 	}
 
+
 	/**
 	 * Build name id
-	 * @param sub
+	 * @param nameIdValue final value of the NameID
 	 * @return
 	 */
-	private NameID buildNameID(final String sub) {
+	private NameID buildNameID(final String nameIdValue) {
 		NameIDBuilder nameIdBuilder = new NameIDBuilder();
 		NameID nameId = nameIdBuilder.buildObject();
-		nameId.setValue(buildQualifiedSubject(sub));
+		nameId.setValue(nameIdValue);
 
 		return nameId;
 	}
@@ -406,8 +424,7 @@ public class SamlHeaderBuilderUtility {
 			} else {
 			    out.add(buildAttribute("urn:oasis:names:tc:xacml:2.0:subject:role", payloadTokenJwt.getSubject_role()));
 
-                if (StringUtils.hasLength(subjectId)
-                        && !OSC_SUB_PLACEHOLDER.equals(tokenDTO.getPayload().getSub())) {
+                if (!OSC_SUB_PLACEHOLDER.equals(tokenDTO.getPayload().getSub())) {
                     out.add(buildAttribute("urn:oasis:names:tc:xacml:1.0:subject:subject-id", subjectId));
                 }
 			}

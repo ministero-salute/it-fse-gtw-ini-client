@@ -66,9 +66,8 @@ public class SOAPLoggingHandler implements SOAPHandler<SOAPMessageContext> {
 	}
 
 	public boolean handleFault(SOAPMessageContext smc) {
-		if(configSRV.isAuditIniEnable()){
-			logToSystemOut(smc);	
-		}
+		// I Fault vengono loggati da SOAPFaultLoggingHandler: smc.getMessage() converte il messaggio in SAAJ
+		// e su alcuni Fault SOAP 1.2 di INI fallisce (SAAJ0416) lasciando lo stream illeggibile.
 		return true;
 	}
 

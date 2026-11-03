@@ -193,20 +193,25 @@ public class IniClient implements IIniClient {
 			}
 			
 			SOAPLoggingHandler loggingHandler = new SOAPLoggingHandler(auditIniSrv, configSRV);
+			SOAPFaultLoggingHandler faultLoggingHandler = new SOAPFaultLoggingHandler(auditIniSrv, configSRV);
 			List<Handler> handlerChainDocumentRegistry = ((BindingProvider) documentRegistryPort).getBinding().getHandlerChain();
 			handlerChainDocumentRegistry.add(loggingHandler);
+			handlerChainDocumentRegistry.add(faultLoggingHandler);
 			((BindingProvider) documentRegistryPort).getBinding().setHandlerChain(handlerChainDocumentRegistry);
 
 			List<Handler> handlerChainDelete = ((BindingProvider) deletePort).getBinding().getHandlerChain();
 			handlerChainDelete.add(loggingHandler);
+			handlerChainDelete.add(faultLoggingHandler);
 			((BindingProvider) deletePort).getBinding().setHandlerChain(handlerChainDelete);
 			
 			List<Handler> handlerChainUpdate = ((BindingProvider) updateDocumentRegistryPort).getBinding().getHandlerChain();
 			handlerChainUpdate.add(loggingHandler);
+			handlerChainUpdate.add(faultLoggingHandler);
 			((BindingProvider) updateDocumentRegistryPort).getBinding().setHandlerChain(handlerChainUpdate);
 
 			List<Handler> handlerChainRecuperoRiferimento = ((BindingProvider) recuperoRiferimentoPort).getBinding().getHandlerChain();
 			handlerChainRecuperoRiferimento.add(loggingHandler);
+			handlerChainRecuperoRiferimento.add(faultLoggingHandler);
 			((BindingProvider) recuperoRiferimentoPort).getBinding().setHandlerChain(handlerChainRecuperoRiferimento);
 		} catch(Exception ex) {
 			log.error("Error while initialiting INI context : " , ex);
