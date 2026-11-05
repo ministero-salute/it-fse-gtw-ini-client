@@ -53,6 +53,7 @@ import it.finanze.sanita.fse2.ms.iniclient.dto.response.GetMetadatiResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.IniTraceResponseDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.iniclient.enums.ProcessorOperationEnum;
+import it.finanze.sanita.fse2.ms.iniclient.exceptions.base.NotFoundException;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IniEdsInvocationETY;
 import it.finanze.sanita.fse2.ms.iniclient.repository.entity.IssuerETY;
 import it.finanze.sanita.fse2.ms.iniclient.service.IAuditIniSrv;
@@ -339,6 +340,9 @@ public class IniOperationCTL extends AbstractCTL implements IIniOperationCTL {
 							resolveEdsPublished(requestBody.getToken().getIss(), issuer));
 				}
 			}
+		} catch (NotFoundException ex) {
+			// Documento non trovato su INI: lasciata propagare al ControllerExceptionHandler (404), come per get-reference
+			throw ex;
 		} catch (Exception ex) {
 			log.error("Error in getDocumentMetadata for idDoc {}", idDoc, ex);
 			out = new GetDocumentMetadataResponseDTO();
