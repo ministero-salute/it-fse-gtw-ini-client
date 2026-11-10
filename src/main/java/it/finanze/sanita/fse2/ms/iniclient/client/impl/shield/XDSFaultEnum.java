@@ -161,482 +161,483 @@ public enum XDSFaultEnum {
             PFA8DocumentEntryPatientIdPoison.class,
             PFA8SubmissionSetPatientIdPoison.class
 		)
-	), 		
-	PIT1(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "Missing Issuer in assertion",
-	    PIT1Assertion.class,
-	    List.of(
-    		PIT1IssuerPoison.class
-	)),
-	PIT3(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "Patient consent cannot be false in case of purpose of use TREATMENT",
-	    PIT3Assertion.class,
-	    List.of(
-    		PIT3ConsentPoison.class
-	)),
-	PIT4(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "Missing Subject or NameID in assertion",
-	    PIT4Assertion.class,
-	    List.of(
-    		PIT4NameIDPoison.class,
-    		PIT4SubjectPoison.class
-    		)
-		),
-	R167(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of repositoryUniqueId: it is empty",
-	    R167Assertion.class,
-	    List.of(
-	    	R167Poison.class
-	)),
-	R175(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of authorPerson: it is empty",
-	    R175Assertion.class,
-	    List.of(
-    		R175Poison.class
-	)),
-	R185(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of classCode: it is empty",
-	    R185Assertion.class,
-	    List.of(
-    		R185Poison.class
-	)),	
-	R186(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of classCode: it is empty",
-	    R186Assertion.class,
-	    List.of(
-    		R186Poison.class
-	)),	
-	R187(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of confidentialityCode: it is empty",
-	    R187Assertion.class,
-	    List.of(
-    		R187Poison.class
-	)),	
-	R189(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of eventCodeList: it is empty",
-	    R189Assertion.class,
-	    List.of(
-    		R189Poison.class
-	)),
-	R191(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of formatCode: it is empty",
-	    R191Assertion.class,
-	    List.of(
-    		R191Poison.class
-	)),
-	R192(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of formatCode: it is empty",
-	    R192Assertion.class,
-	    List.of(
-    		R192Poison.class
-	)),	
-	R193(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of healthcareFacilityCode: it is empty",
-	    R193Assertion.class,
-	    List.of(
-    		R193Poison.class
-	)),
-	R194(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of healthcareFacilityCode: it is empty",
-		R194Assertion.class,
-	    List.of(
-    		R194Poison.class
-	)),
-	R195(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of practiceSettingCode: it is empty",
-	    R195Assertion.class,
-	    List.of(
-    		R195Poison.class
-	)),
-	R196(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of practiceSettingCode: it is empty",
-	    R196Assertion.class,
-	    List.of(
-    		R196Poison.class
-	)),	
-	R197(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of DocumentEntry.typeCode: it is empty",
-	    R197Assertion.class,
-	    List.of(
-    		R197Poison.class
-	)),
-	R200(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of uniqueId: it is empty",
-	    R200Assertion.class,
-	    List.of(
-    		R200Poison.class
-	)),
-	R205(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of contentTypeCode: it is empty",
-	    R205Assertion.class,
-	    List.of(
-    		R205Poison.class
-	)),	
-	R206(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of sourceId: it is empty",
-	    R206Assertion.class,
-	    List.of(
-    		R206Poison.class
-	)),	
-	R210(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of codeList: it is empty",
-	    R210Assertion.class,
-	    List.of(
-    		R210Poison.class
-	)),	
-	R204(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of the coding scheme of contentTypeCode: it is empty",
-	    R204Assertion.class,
-	    List.of(
-    		R204Poison.class
-	)),
-	R163(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of hash: it is empty, or length greater than 256 characters",
-	    R163Assertion.class,
-	    List.of(
-    		R163Poison.class
-	)),	
-	R170(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong value of size: it is empty",
-	    R170Assertion.class,
-	    List.of(
-	    	R170Poison.class
-	)),
-	PIT14(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $SUBJECTIDURN$ attribute values must be 1",
-	    PIT14Assertion.class,
-	    List.of(
-	    	PIT14Poison.class
-	)),
-	PIT17(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $ACTIONIDURN$ attribute values must be 1",
-	    PIT17Assertion.class,
-	    List.of(
-	    	PIT17Poison.class
-	)),
-	PIT19(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $LOCALITYURN$ attribute values must be 1",
-	    PIT19Assertion.class,
-	    List.of(
-	    	PIT19Poison.class
-	)),
-	PIT22(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $TYPEURN$ attribute values must be 1",
-	    PIT22Assertion.class,
-	    List.of(
-	    	PIT22Poison.class
-	)),
-	PIT25(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $PURPOSEOFUSEURN$ attribute values must be 1",
-	    PIT25Assertion.class,
-	    List.of(
-	    	PIT25Poison.class
-	)),
-	PIT27(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $ORGANIZATIONURN$ attribute values must be 1",
-	    PIT27Assertion.class,
-	    List.of(
-	    	PIT27Poison.class
-	)),
-	PIT30(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $RESOURCEIDURN$ attribute values must be 1",
-	    PIT30Assertion.class,
-	    List.of(
-	    	PIT30Poison.class
-	)),
-	PIT32(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $CONSENTURN$ attribute values must be 1",
-	    PIT32Assertion.class,
-	    List.of(
-	    	PIT32Poison.class
-	)),
-	PIT36(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $ROLEURN$ attribute values must be 1",
-	    PIT36Assertion.class,
-	    List.of(
-	    	PIT36Poison.class
-	)),
-	PIT38(
-	    XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-	    "The number of $ORGANIZATIONIDURN$ attribute values must be 1",
-	    PIT38Assertion.class,
-	    List.of(
-	    	PIT38Poison.class
-	)),
-	R51(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.practiceSettingCode",
-	    R51Assertion.class,
-	    List.of(
-	    	R51Poison.class
-	)),
-
-	R56(
-			XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-			"Wrong format data of display name for DocumentEntry.typeCode",
-			R56Assertion.class,
-		    List.of(
-	    		R56Poison.class
-		    )),
-	R69(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.patientId",
-	    R69Assertion.class,
-	    List.of(
-	    	R69Poison.class
-	)),
-	R99(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for SubmissionSet.patientId",
-	    R99Assertion.class,
-	    List.of(
-	    	R99Poison.class
-	)),
-	R31(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.confidentialityCode",
-	    R31Assertion.class,
-	    List.of(
-	    	R31Poison.class
-	)),
-	R26(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.classCode",
-	    R26Assertion.class,
-	    List.of(
-	    	R26Poison.class
-	)),
-	R36(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.eventCodeList",
-	    R36Assertion.class,
-	    List.of(
-	    	R36Poison.class
-	)),
-	R41(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.formatCode",
-	    R41Assertion.class,
-	    List.of(
-	    	R41Poison.class
-	)),
-	R46(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.healthcareFacilityCode",
-	    R46Assertion.class,
-	    List.of(
-	    	R46Poison.class
-	    		)),
-	R76(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for DocumentEntry.uniqueId",
-	    R76Assertion.class,
-	    List.of(
-	    	R76Poison.class
-	)),
-	R92(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for SubmissionSet.contentTypeCode",
-	    R92Assertion.class,
-	    List.of(
-	    	R92Poison.class
-	)),
-	R105(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for SubmissionSet.sourceId",
-	    R105Assertion.class,
-	    List.of(
-	    	R105Poison.class
-	)),
-	R111(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong format data of display name for SubmissionSet.uniqueId",
-	    R111Assertion.class,
-	    List.of(
-    		R111Poison.class
-	))
-	,
-	R49(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.healthcareFacilityCode",
-	    R49Assertion.class,
-	    List.of(
-    		R49Poison.class
-	))
-	,
-		R54(
-			    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-			    "Wrong object type of classification DocumentEntry.practiceSettingCode",
-			    R54Assertion.class,
-			    List.of(
-			    	R54Poison.class
-			)),
-	R59(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.typeCode",
-	    R59Assertion.class,
-	    List.of(
-	    	R59Poison.class
-	))	    ,
-	R79(
-		    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-		    "Wrong object type of classification DocumentEntry.uniqueId",
-		    R79Assertion.class,
-		    List.of(
-		    	R79Poison.class
-		)),
-	R86(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of submission set",
-	    R86Assertion.class,
-	    List.of(
-	    	R86Poison.class
-	)),
-	R95(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification SubmissionSet.contentTypeCode",
-	    R95Assertion.class,
-	    List.of(
-	    	R95Poison.class
-	)),
-	R34(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.confidentialityCode",
-	    R34Assertion.class,
-	    List.of(
-	    	R34Poison.class
-	)),
-	R29(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.classCode",
-	    R29Assertion.class,
-	    List.of(
-	    	R29Poison.class
-	)),
-	R8(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type value of the classification related to the association: $association_ID$",
-	    R8Assertion.class,
-	    List.of(
-	    	R8Poison.class
-	)),
-	R10(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of extrinsic object",
-	    R10Assertion.class,
-	    List.of(
-	    	R10Poison.class
-	)),
-	R23(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.author",
-	    R23Assertion.class,
-	    List.of(
-	    	R23Poison.class
-	)),
-	
-	R39(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.eventCodeList",
-	    R39Assertion.class,
-	    List.of(
-	    	R39Poison.class
-	)),
-	R44(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.formatCode",
-	    R44Assertion.class,
-	    List.of(
-	    	R44Poison.class
-	)),
-	R72(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification DocumentEntry.patientId",
-	    R72Assertion.class,
-	    List.of(
-	    	R72Poison.class
-		)),
-	R90(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification SubmissionSet.author",
-	    R90Assertion.class,
-	    List.of(
-	    	R90Poison.class
-	)),
-	R102(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification SubmissionSet.patientId",
-	    R102Assertion.class,
-	    List.of(
-	    	R102Poison.class
-	)),
-	R108(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification SubmissionSet.sourceId",
-	    R108Assertion.class,
-	    List.of(
-	    	R108Poison.class
-	)),
-	R114(
-	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-	    "Wrong object type of classification SubmissionSet.uniqueId",
-	    R114Assertion.class,
-	    List.of(
-	    	R114Poison.class
-	)),
-    R14(
-            XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
-            "Missing value for slot $SLOT_NAME$",
-    	    R14Assertion.class,
-    	    List.of(
-    	    	R14Poison.class
-    	)),
-    PIT7(
-            XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
-            "Missing AuthnStatement in assertion",
-    	    PIT7Assertion.class,
-    	    List.of(
-    	    	PIT7Poison.class
-    	)),
-    PFA15(
-            XDSFaultTypeEnum.FAILED_AUTHENTICATION,
-            "Missing RepositoryUniqueId element",
-    	    PFA15Assertion.class,
-    	    List.of(
-    	    	PFA15Poison.class
-    	))
+	)
+    // , 		
+	// PIT1(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "Missing Issuer in assertion",
+	//     PIT1Assertion.class,
+	//     List.of(
+	//    		PIT1IssuerPoison.class
+	// )),
+	// PIT3(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "Patient consent cannot be false in case of purpose of use TREATMENT",
+	//     PIT3Assertion.class,
+	//     List.of(
+	//    		PIT3ConsentPoison.class
+	// )),
+	// PIT4(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "Missing Subject or NameID in assertion",
+	//     PIT4Assertion.class,
+	//     List.of(
+	//    		PIT4NameIDPoison.class,
+	//    		PIT4SubjectPoison.class
+	//    		)
+	// 	),
+	// R167(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of repositoryUniqueId: it is empty",
+	//     R167Assertion.class,
+	//     List.of(
+	//     	R167Poison.class
+	// )),
+	// R175(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of authorPerson: it is empty",
+	//     R175Assertion.class,
+	//     List.of(
+	//    		R175Poison.class
+	// )),
+	// R185(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of classCode: it is empty",
+	//     R185Assertion.class,
+	//     List.of(
+	//    		R185Poison.class
+	// )),	
+	// R186(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of classCode: it is empty",
+	//     R186Assertion.class,
+	//     List.of(
+	//    		R186Poison.class
+	// )),	
+	// R187(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of confidentialityCode: it is empty",
+	//     R187Assertion.class,
+	//     List.of(
+	//    		R187Poison.class
+	// )),	
+	// R189(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of eventCodeList: it is empty",
+	//     R189Assertion.class,
+	//     List.of(
+	//    		R189Poison.class
+	// )),
+	// R191(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of formatCode: it is empty",
+	//     R191Assertion.class,
+	//     List.of(
+	//    		R191Poison.class
+	// )),
+	// R192(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of formatCode: it is empty",
+	//     R192Assertion.class,
+	//     List.of(
+	//    		R192Poison.class
+	// )),	
+	// R193(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of healthcareFacilityCode: it is empty",
+	//     R193Assertion.class,
+	//     List.of(
+	//    		R193Poison.class
+	// )),
+	// R194(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of healthcareFacilityCode: it is empty",
+	// 	R194Assertion.class,
+	//     List.of(
+	//    		R194Poison.class
+	// )),
+	// R195(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of practiceSettingCode: it is empty",
+	//     R195Assertion.class,
+	//     List.of(
+	//    		R195Poison.class
+	// )),
+	// R196(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of practiceSettingCode: it is empty",
+	//     R196Assertion.class,
+	//     List.of(
+	//    		R196Poison.class
+	// )),	
+	// R197(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of DocumentEntry.typeCode: it is empty",
+	//     R197Assertion.class,
+	//     List.of(
+	//    		R197Poison.class
+	// )),
+	// R200(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of uniqueId: it is empty",
+	//     R200Assertion.class,
+	//     List.of(
+	//    		R200Poison.class
+	// )),
+	// R205(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of contentTypeCode: it is empty",
+	//     R205Assertion.class,
+	//     List.of(
+	//    		R205Poison.class
+	// )),	
+	// R206(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of sourceId: it is empty",
+	//     R206Assertion.class,
+	//     List.of(
+	//    		R206Poison.class
+	// )),	
+	// R210(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of codeList: it is empty",
+	//     R210Assertion.class,
+	//     List.of(
+	//    		R210Poison.class
+	// )),	
+	// R204(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of the coding scheme of contentTypeCode: it is empty",
+	//     R204Assertion.class,
+	//     List.of(
+	//    		R204Poison.class
+	// )),
+	// R163(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of hash: it is empty, or length greater than 256 characters",
+	//     R163Assertion.class,
+	//     List.of(
+	//    		R163Poison.class
+	// )),	
+	// R170(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong value of size: it is empty",
+	//     R170Assertion.class,
+	//     List.of(
+	//     	R170Poison.class
+	// )),
+	// PIT14(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $SUBJECTIDURN$ attribute values must be 1",
+	//     PIT14Assertion.class,
+	//     List.of(
+	//     	PIT14Poison.class
+	// )),
+	// PIT17(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $ACTIONIDURN$ attribute values must be 1",
+	//     PIT17Assertion.class,
+	//     List.of(
+	//     	PIT17Poison.class
+	// )),
+	// PIT19(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $LOCALITYURN$ attribute values must be 1",
+	//     PIT19Assertion.class,
+	//     List.of(
+	//     	PIT19Poison.class
+	// )),
+	// PIT22(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $TYPEURN$ attribute values must be 1",
+	//     PIT22Assertion.class,
+	//     List.of(
+	//     	PIT22Poison.class
+	// )),
+	// PIT25(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $PURPOSEOFUSEURN$ attribute values must be 1",
+	//     PIT25Assertion.class,
+	//     List.of(
+	//     	PIT25Poison.class
+	// )),
+	// PIT27(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $ORGANIZATIONURN$ attribute values must be 1",
+	//     PIT27Assertion.class,
+	//     List.of(
+	//     	PIT27Poison.class
+	// )),
+	// PIT30(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $RESOURCEIDURN$ attribute values must be 1",
+	//     PIT30Assertion.class,
+	//     List.of(
+	//     	PIT30Poison.class
+	// )),
+	// PIT32(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $CONSENTURN$ attribute values must be 1",
+	//     PIT32Assertion.class,
+	//     List.of(
+	//     	PIT32Poison.class
+	// )),
+	// PIT36(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $ROLEURN$ attribute values must be 1",
+	//     PIT36Assertion.class,
+	//     List.of(
+	//     	PIT36Poison.class
+	// )),
+	// PIT38(
+	//     XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//     "The number of $ORGANIZATIONIDURN$ attribute values must be 1",
+	//     PIT38Assertion.class,
+	//     List.of(
+	//     	PIT38Poison.class
+	// )),
+	// R51(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.practiceSettingCode",
+	//     R51Assertion.class,
+	//     List.of(
+	//     	R51Poison.class
+	// )),
+	//
+	// R56(
+	// 		XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	// 		"Wrong format data of display name for DocumentEntry.typeCode",
+	// 		R56Assertion.class,
+	// 	    List.of(
+	//     		R56Poison.class
+	// 	    )),
+	// R69(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.patientId",
+	//     R69Assertion.class,
+	//     List.of(
+	//     	R69Poison.class
+	// )),
+	// R99(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for SubmissionSet.patientId",
+	//     R99Assertion.class,
+	//     List.of(
+	//     	R99Poison.class
+	// )),
+	// R31(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.confidentialityCode",
+	//     R31Assertion.class,
+	//     List.of(
+	//     	R31Poison.class
+	// )),
+	// R26(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.classCode",
+	//     R26Assertion.class,
+	//     List.of(
+	//     	R26Poison.class
+	// )),
+	// R36(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.eventCodeList",
+	//     R36Assertion.class,
+	//     List.of(
+	//     	R36Poison.class
+	// )),
+	// R41(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.formatCode",
+	//     R41Assertion.class,
+	//     List.of(
+	//     	R41Poison.class
+	// )),
+	// R46(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.healthcareFacilityCode",
+	//     R46Assertion.class,
+	//     List.of(
+	//     	R46Poison.class
+	//     		)),
+	// R76(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for DocumentEntry.uniqueId",
+	//     R76Assertion.class,
+	//     List.of(
+	//     	R76Poison.class
+	// )),
+	// R92(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for SubmissionSet.contentTypeCode",
+	//     R92Assertion.class,
+	//     List.of(
+	//     	R92Poison.class
+	// )),
+	// R105(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for SubmissionSet.sourceId",
+	//     R105Assertion.class,
+	//     List.of(
+	//     	R105Poison.class
+	// )),
+	// R111(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong format data of display name for SubmissionSet.uniqueId",
+	//     R111Assertion.class,
+	//     List.of(
+	//    		R111Poison.class
+	// ))
+	// ,
+	// R49(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.healthcareFacilityCode",
+	//     R49Assertion.class,
+	//     List.of(
+	//    		R49Poison.class
+	// ))
+	// ,
+	// 	R54(
+	// 		    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	// 		    "Wrong object type of classification DocumentEntry.practiceSettingCode",
+	// 		    R54Assertion.class,
+	// 		    List.of(
+	// 		    	R54Poison.class
+	// 		)),
+	// R59(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.typeCode",
+	//     R59Assertion.class,
+	//     List.of(
+	//     	R59Poison.class
+	// ))	    ,
+	// R79(
+	// 	    XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	// 	    "Wrong object type of classification DocumentEntry.uniqueId",
+	// 	    R79Assertion.class,
+	// 	    List.of(
+	// 	    	R79Poison.class
+	// 	)),
+	// R86(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of submission set",
+	//     R86Assertion.class,
+	//     List.of(
+	//     	R86Poison.class
+	// )),
+	// R95(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification SubmissionSet.contentTypeCode",
+	//     R95Assertion.class,
+	//     List.of(
+	//     	R95Poison.class
+	// )),
+	// R34(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.confidentialityCode",
+	//     R34Assertion.class,
+	//     List.of(
+	//     	R34Poison.class
+	// )),
+	// R29(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.classCode",
+	//     R29Assertion.class,
+	//     List.of(
+	//     	R29Poison.class
+	// )),
+	// R8(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type value of the classification related to the association: $association_ID$",
+	//     R8Assertion.class,
+	//     List.of(
+	//     	R8Poison.class
+	// )),
+	// R10(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of extrinsic object",
+	//     R10Assertion.class,
+	//     List.of(
+	//     	R10Poison.class
+	// )),
+	// R23(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.author",
+	//     R23Assertion.class,
+	//     List.of(
+	//     	R23Poison.class
+	// )),
+	//
+	// R39(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.eventCodeList",
+	//     R39Assertion.class,
+	//     List.of(
+	//     	R39Poison.class
+	// )),
+	// R44(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.formatCode",
+	//     R44Assertion.class,
+	//     List.of(
+	//     	R44Poison.class
+	// )),
+	// R72(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification DocumentEntry.patientId",
+	//     R72Assertion.class,
+	//     List.of(
+	//     	R72Poison.class
+	// 	)),
+	// R90(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification SubmissionSet.author",
+	//     R90Assertion.class,
+	//     List.of(
+	//     	R90Poison.class
+	// )),
+	// R102(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification SubmissionSet.patientId",
+	//     R102Assertion.class,
+	//     List.of(
+	//     	R102Poison.class
+	// )),
+	// R108(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification SubmissionSet.sourceId",
+	//     R108Assertion.class,
+	//     List.of(
+	//     	R108Poison.class
+	// )),
+	// R114(
+	//     XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//     "Wrong object type of classification SubmissionSet.uniqueId",
+	//     R114Assertion.class,
+	//     List.of(
+	//     	R114Poison.class
+	// )),
+	//    R14(
+	//            XDSFaultTypeEnum.XDS_REGISTRY_ERROR_REGISTER,
+	//            "Missing value for slot $SLOT_NAME$",
+	//    	    R14Assertion.class,
+	//    	    List.of(
+	//    	    	R14Poison.class
+	//    	)),
+	//    PIT7(
+	//            XDSFaultTypeEnum.INVALID_SECURITY_TOKEN,
+	//            "Missing AuthnStatement in assertion",
+	//    	    PIT7Assertion.class,
+	//    	    List.of(
+	//    	    	PIT7Poison.class
+	//    	)),
+	//    PFA15(
+	//            XDSFaultTypeEnum.FAILED_AUTHENTICATION,
+	//            "Missing RepositoryUniqueId element",
+	//    	    PFA15Assertion.class,
+	//    	    List.of(
+	//    	    	PFA15Poison.class
+	//    	))
     ;
 	
 
