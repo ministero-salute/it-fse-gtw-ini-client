@@ -35,7 +35,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedConstruction;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.developer.WSBindingProvider;
@@ -66,14 +65,11 @@ class IniClientPortIsolationTest {
     private IniClient client;
 
     @Test
-    @DisplayName("Each SOAP update uses a separate port for its headers and body, leaving the shared template untouched")
+    @DisplayName("Each SOAP update uses a separate port for its own headers and body")
     void eachRequestUsesItsOwnPortHeadersAndBody() {
         // Arrange: each newly created service returns its request's SOAP port.
         DocumentRegistryPortType portA = mockPort();
         DocumentRegistryPortType portB = mockPort();
-        DocumentRegistryPortType template = mockPort();
-        when(((WSBindingProvider) template).getBinding().getHandlerChain()).thenReturn(new ArrayList<>());
-        ReflectionTestUtils.setField(client, "documentRegistryPort", template);
 
         JWTTokenDTO tokenA = mock(JWTTokenDTO.class);
         JWTTokenDTO tokenB = mock(JWTTokenDTO.class);
@@ -108,8 +104,6 @@ class IniClientPortIsolationTest {
         verify((WSBindingProvider) portB, never()).setOutboundHeaders(headersA);
         verify(portA, never()).documentRegistryRegisterDocumentSetB(bodyB);
         verify(portB, never()).documentRegistryRegisterDocumentSetB(bodyA);
-        verify((WSBindingProvider) template, never()).setOutboundHeaders(headersA);
-        verify((WSBindingProvider) template, never()).setOutboundHeaders(headersB);
     }
 
     private DocumentRegistryPortType mockPort() {
@@ -119,6 +113,7 @@ class IniClientPortIsolationTest {
         Binding binding = mock(Binding.class);
         when(provider.getRequestContext()).thenReturn(new HashMap<>());
         when(provider.getBinding()).thenReturn(binding);
+        when(binding.getHandlerChain()).thenReturn(new ArrayList<>());
         return port;
     }
 }

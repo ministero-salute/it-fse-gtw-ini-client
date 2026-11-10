@@ -14,6 +14,8 @@ package it.finanze.sanita.fse2.ms.iniclient.client;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.soap.SOAPPart;
+
 import it.finanze.sanita.fse2.ms.iniclient.dto.DeleteRequestDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.DocumentEntryDTO;
 import it.finanze.sanita.fse2.ms.iniclient.dto.JWTPayloadDTO;
@@ -50,5 +52,7 @@ public interface IIniClient {
     
     RegistryResponseType sendOscuramentoData(DocumentEntryDTO documentEntryDTO, SubmissionSetEntryDTO submissionSetEntryDTO, final JWTTokenDTO jwtTokenDTO,
 			String workflowInstanceId, Date startingDate, String lid, String uniqueId);
+
+	RegistryResponseType sendRawData(SOAPPart document);
 
 }
